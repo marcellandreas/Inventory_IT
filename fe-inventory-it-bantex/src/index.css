@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.backdrop-blur-md {
+  backdrop-filter: blur(10px); /* Adjust the blur value as needed */
+  background-color: rgba(255, 255, 255, 0.1); /* Adjust the opacity as needed */
+  border-radius: 8px; /* Tambahkan border-radius sesuai kebutuhan Anda */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan jika diperlukan */
+}
+th,
+td {
+  white-space: nowrap;
+}
+
+.active {
+  @apply bg-white text-slate-800;
+}
+
+.modal-component {
+  @apply fixed inset-0 bg-slate-400 h-screen w-full bg-opacity-25 backdrop-blur-sm flex justify-center items-center;
+}
+
+label {
+  @apply font-semibold;
+}
