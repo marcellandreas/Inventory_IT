@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import SideBar from "../../components/Sidebar";
-import Widget from "../../components/molecules/Widget";
+import { Sidebar } from "../../components/templates";
+import { Widget } from "../../components/molecules";
 import { signOut } from "../../config/Auth";
+import Title from "../../components/atoms/Text/Title";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -10,14 +11,11 @@ const Dashboard = () => {
     navigate("/login");
   };
   return (
-    <SideBar>
+    <Sidebar>
       <section className="flex gap-4 flex-col flex-wrap w-full ">
         {/* Title */}
-        <div>
-          <h1 className="text-3xl text-slate-600 mb-2">Halaman Dashboard</h1>
-          <button onClick={handleLogout}>Logout</button>
-          <hr />
-        </div>
+        <Title>Halaman Dashboard</Title>
+        <button onClick={handleLogout}>Logout</button>
         <Widget />
         <section>
           <div>
@@ -26,7 +24,7 @@ const Dashboard = () => {
           </div>
         </section>
       </section>
-    </SideBar>
+    </Sidebar>
   );
 };
 

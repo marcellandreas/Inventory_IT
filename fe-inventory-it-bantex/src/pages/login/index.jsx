@@ -1,13 +1,11 @@
-import LoginComponent from "../../components/Login";
+import Login from "../../components/templates/Login";
 
-const Login = () => {
+const LoginPage = () => {
   return (
-    <article className="">
-      <section className="flex justify-center items-center h-screen w-full bg-slate-500">
-        <LoginComponent />
-      </section>
+    <article className="flex justify-center items-center h-screen w-full bg-slate-500">
+      <Login />
     </article>
   );
 };
 
-export default Login;
+export default LoginPage;

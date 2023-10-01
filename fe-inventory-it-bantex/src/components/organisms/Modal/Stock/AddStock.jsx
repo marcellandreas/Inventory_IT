@@ -1,4 +1,4 @@
-import FormAddModalStock from "../../../molecules/Form/FormAddModalStock";
+import { FormAddModalStock } from "../../../molecules";
 
 const AddStock = ({ isVisible, onClose }) => {
   const handleClose = (e) => {

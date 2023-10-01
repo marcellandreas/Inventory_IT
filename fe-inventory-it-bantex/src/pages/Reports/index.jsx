@@ -1,17 +1,12 @@
-import SideBar from "../../components/Sidebar";
+import Title from "../../components/atoms/Text/Title";
+import { Sidebar } from "../../components/templates";
 
-const Users = () => {
+const ReportPage = () => {
   return (
-    <SideBar>
-      <section>
-        <div>
-          <h1 className="text-3xl text-slate-600 mb-2">Halaman Laporan</h1>
-          <hr />
-        </div>
-        <div></div>
-      </section>
-    </SideBar>
+    <Sidebar>
+      <Title>Halaman Laporan</Title>
+    </Sidebar>
   );
 };
 
-export default Users;
+export default ReportPage;

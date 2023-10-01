@@ -1,4 +1,4 @@
-import FormDeleteModalStock from "../../../molecules/Form/FormDeleteModalStock";
+import { FormDeleteModalStock } from "../../../molecules";
 
 const DeleteStock = ({ isVisible, onClose }) => {
   const handleClose = (e) => {

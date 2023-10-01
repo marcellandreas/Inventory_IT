@@ -1,6 +1,4 @@
-import { FormEditModalStock } from "../../../molecules";
-
-const EditStock = ({ isVisible, onClose }) => {
+const EditAdmin = ({ isVisible, onClose }) => {
   const handleClose = (e) => {
     if (e.target.id === "wrapper") {
       onClose();
@@ -9,9 +7,9 @@ const EditStock = ({ isVisible, onClose }) => {
   if (!isVisible) return null;
   return (
     <section className="modal-component" id="wrapper" onClick={handleClose}>
-      <FormEditModalStock onClose={onClose} />
+      {/* <FormDeleteModalStock onClose={onClose} /> */}
     </section>
   );
 };
 
-export default EditStock;
+export default EditAdmin;

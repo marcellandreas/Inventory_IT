@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import Topbar from "../Topbar";
+import Topbar from "../../organisms/Topbar";
 import {
   MenuDropdown,
   menuSidebar,
@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-const SideBar = ({ children }) => {
+const Sidebar = ({ children }) => {
   const [isStockDropdownOpen, setStockDropdownOpen] = useState(false);
   const toggleStockDropdown = () => {
     setStockDropdownOpen(!isStockDropdownOpen);
@@ -59,7 +59,7 @@ const SideBar = ({ children }) => {
               ) : (
                 <NavLink
                   to={data.path}
-                  activeClassName="active"
+                  activestyle="active"
                   className={`flex items-center w-full gap-2 text-white py-3 text-base font-medium hover:bg-white hover:text-slate-800 rounded-s-full ${
                     isOpen ? "pl-9 justify-flex-start" : "pl-1 justify-center"
                   }`}
@@ -101,7 +101,7 @@ const SideBar = ({ children }) => {
                 <NavLink
                   to={data.path}
                   key={i}
-                  activeClassName="bg-white text-slate-800"
+                  activestyle="bg-white text-slate-800"
                   className={`flex items-center w-full gap-2 text-white py-3  text-base font-medium hover:bg-white hover:text-slate-800 rounded-s-full ${
                     isOpen ? "pl-9 justify-flex-start" : "pl-1 justify-center"
                   }`}
@@ -129,4 +129,4 @@ const SideBar = ({ children }) => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

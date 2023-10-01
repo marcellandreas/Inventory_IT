@@ -15,4 +15,20 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers };
+const createNewUser = async (req, res) => {
+  const { body } = req;
+  try {
+    await usersModel.createNewUser(body);
+    res.json({
+      message: "CREATE new users",
+      data: body,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+module.exports = { getAllUsers, createNewUser };

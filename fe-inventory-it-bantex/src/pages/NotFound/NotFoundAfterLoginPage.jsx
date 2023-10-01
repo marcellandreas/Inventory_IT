@@ -1,15 +1,15 @@
 // not found in dashboard after login
 
-import SideBar from "../../components/Sidebar";
+import { Sidebar } from "../../components/templates";
 
-const NotFoundAfterLogin = () => {
+const NotFoundAfterLoginPage = () => {
   return (
-    <SideBar>
+    <Sidebar>
       <section className="flex justify-center items-center h-full w-full">
         HALAMAN YANG KAMU TUJU BELUM TERSEDIA
       </section>
-    </SideBar>
+    </Sidebar>
   );
 };
 
-export default NotFoundAfterLogin;
+export default NotFoundAfterLoginPage;

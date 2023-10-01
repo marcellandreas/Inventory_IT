@@ -5,7 +5,6 @@ const setAuthToken = (token, role, username_) => {
   localStorage.setItem("token", token);
   localStorage.setItem("role", role);
   localStorage.setItem("username", username_);
-  console.log(token);
 
   // Mengatur token autentikasi dalam header permintaan
   if (token) {

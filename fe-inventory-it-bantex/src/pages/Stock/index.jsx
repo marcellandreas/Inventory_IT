@@ -1,25 +1,10 @@
 import { useState } from "react";
-import SideBar from "../../components/Sidebar";
 import { AddStock, EditStock, DeleteStock } from "../../components/organisms";
+import { Sidebar } from "../../components/templates";
+import { TableStocks } from "../../components/molecules";
+import Title from "../../components/atoms/Text/Title";
 
-const Stock = () => {
-  const data = [
-    {
-      id: 1,
-      kode_barang: "HDD001",
-      nama_barang: "HDD",
-      jumlah: 1,
-      satuan: "Unit",
-      kondisi: "Bekas",
-      keterangan_baru_bekas: {
-        rusak: "Tidak",
-        berfungsi: "Ya",
-      },
-      lokasi_penyimpanan: "Ruang IT",
-      keterangan: "Server",
-    },
-  ];
-
+const StockPage = () => {
   // state modals in stock
   const [addModalStock, setAddModalStock] = useState(false);
   const [editModalStock, setEditModalStock] = useState(false);
@@ -27,80 +12,27 @@ const Stock = () => {
 
   return (
     <>
-      <SideBar>
+      <Sidebar>
+        <Title>Halaman Barang</Title>
         <section className="container mx-auto mt-5 flex flex-col gap-5">
           <div className="flex justify-between">
-            <h1 className="text-2xl font-semibold mb-4">Tabel Barang</h1>
+            <h1 className="text-2xl font-semibold mb-4">Table Stock</h1>
             <button
               onClick={() => {
                 setAddModalStock(true);
               }}
-              className="bg-slate-800 p-3 rounded-lg text-white hover:bg-slate-700"
+              className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
             >
-              Tambah Stock
+              Add Stock
             </button>
           </div>
           <hr />
-          <table className="min-w-full backdrop-blur-md bg-opacity-50 overflow-x-auto  ">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">ID</th>
-                <th className="px-4 py-2">Kode Barang</th>
-                <th className="px-4 py-2">Nama Barang</th>
-                <th className="px-4 py-2">Jumlah</th>
-                <th className="px-4 py-2">Satuan</th>
-                <th className="px-4 py-2">Kondisi</th>
-                <th className="px-4 py-2">Rusak</th>
-                <th className="px-4 py-2">Berfungsi</th>
-                <th className="px-4 py-2">Lokasi Penyimpanan</th>
-                <th className="px-4 py-2">Keterangan</th>
-                <th className="px-4 py-2">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((barang) => (
-                <tr key={barang.id}>
-                  <td className="border px-4 py-2">{barang.id}</td>
-                  <td className="border px-4 py-2">{barang.kode_barang}</td>
-                  <td className="border px-4 py-2">{barang.nama_barang}</td>
-                  <td className="border px-4 py-2">{barang.jumlah}</td>
-                  <td className="border px-4 py-2">{barang.satuan}</td>
-                  <td className="border px-4 py-2">{barang.kondisi}</td>
-                  <td className="border px-4 py-2">
-                    {barang.keterangan_baru_bekas.rusak}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {barang.keterangan_baru_bekas.berfungsi}
-                  </td>
-
-                  <td className="border px-4 py-2">
-                    {barang.lokasi_penyimpanan}
-                  </td>
-                  <td className="border px-4 py-2">{barang.keterangan}</td>
-                  <aside className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        setEditModalStock(true);
-                      }}
-                      className="p-3 bg-blue-600 rounded-lg"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        setDeleteModalStock(true);
-                      }}
-                      className="p-3 bg-red-600 rounded-lg"
-                    >
-                      Delete
-                    </button>
-                  </aside>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <TableStocks
+            setEditModalStock={setEditModalStock}
+            setDeleteModalStock={setDeleteModalStock}
+          />
         </section>
-      </SideBar>
+      </Sidebar>
       {/* Modals Popup */}
       <AddStock
         isVisible={addModalStock}
@@ -118,4 +50,4 @@ const Stock = () => {
   );
 };
 
-export default Stock;
+export default StockPage;
