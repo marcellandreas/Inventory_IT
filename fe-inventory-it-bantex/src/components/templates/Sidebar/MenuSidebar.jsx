@@ -1,6 +1,7 @@
 import { MdDashboard, MdWarehouse, MdPeople } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
 import { HiDocument } from "react-icons/hi";
+import { ImBooks } from "react-icons/im";
 
 export const menuSidebar = [
   {
@@ -13,6 +14,11 @@ export const menuSidebar = [
     name_menu: "Stock",
     icon: <MdWarehouse />,
     // hasDropdown: true,
+  },
+  {
+    path: "/items",
+    name_menu: "Items",
+    icon: <ImBooks />,
   },
   { path: "/stock-in", name_menu: "Stock In", icon: <MdWarehouse /> },
   { path: "/stock-out", name_menu: "Stock Out", icon: <MdWarehouse /> },

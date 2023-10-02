@@ -4,6 +4,7 @@ import {
   Dashboard,
   LoginPage,
   StockPage,
+  ItemsPage,
   NotFoundAfter,
   NotFoundBefore,
   ReportsPage,
@@ -24,6 +25,9 @@ const Routers = () => {
           </Route>
           <Route path="/stock">
             <Route index element={<StockPage />}></Route>
+          </Route>
+          <Route path="/items">
+            <Route index element={<ItemsPage />}></Route>
           </Route>
           <Route path="/employess">
             <Route index element={<AccesPage />}></Route>
