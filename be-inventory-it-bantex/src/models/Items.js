@@ -6,12 +6,22 @@ const getAllItems = () => {
 };
 
 const getItemById = (id) => {
-  const SQLQuery = `SELECT * FROM items WHERE id = ${id}`
-  return pool.execute(SQLQuery)
-}
+  const SQLQuery = `SELECT * FROM items WHERE id = ${id}`;
+  return pool.execute(SQLQuery);
+};
 
 const createNewItem = (body) => {
-  const SQLQuery = `INSERT INTO items (item_no, item_description, unit, brand, status, item_location, note, date_registation, date_expired, item_specification) VALUES ('${body.item_no}', '${body.item_description}', '${body.unit}', '${body.brand}', '${body.status}', '${body.item_location}', '${body.note}', '${body.date_registation}', '${body.date_expired}', '${body.item_specification}')`;
+  const SQLQuery = `INSERT INTO items (
+    item_no, item_description, 
+    unit, brand, status, item_location, 
+    note, date_registation, date_expired, 
+    item_specification, post_user_id, post_username) 
+    VALUES ('${body.item_no}', '${body.item_description}', 
+    '${body.unit}', '${body.brand}', '${body.status}', 
+    '${body.item_location}', '${body.note}', 
+    '${body.date_registation}', '${body.date_expired}', 
+    '${body.item_specification}','${body.post_user_id}',
+    '${body.post_username})`;
   return pool.execute(SQLQuery);
 };
 
@@ -28,7 +38,7 @@ const updateItem = (body, id) => {
                     date_expired = '${body.date_expired}', 
                     item_specification = '${body.item_specification}', 
                     post_user_id = '${body.post_user_id}', 
-                    post_username='${body.psot_username}' 
+                    post_username='${body.psot_username}' ,
                     WHERE items.id = ${id};`;
   return pool.execute(SQLQuery);
 };
@@ -39,7 +49,8 @@ const deleteItem = (id) => {
 };
 
 module.exports = {
-  getAllItems, getItemById,
+  getAllItems,
+  getItemById,
   createNewItem,
   updateItem,
   deleteItem,
