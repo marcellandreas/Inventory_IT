@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddStock, EditStock, DeleteStock } from "../../components/organisms";
 import { Sidebar } from "../../components/templates";
 import { TableStocks } from "../../components/molecules";
 import Title from "../../components/atoms/Text/Title";
+import { AxiosInstance } from "../../apis/api";
 
 const StockPage = () => {
+  const [dataStocks, setDataStocks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [id, setId] = useState("");
+  useEffect(() => {
+    AxiosInstance.get("/stocks")
+      .then((res) => {
+        setDataStocks(res.data.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        alert("terjadi kesalahan dalam memproses data");
+      });
+  }, [isLoading]);
   // state modals in stock
   const [addModalStock, setAddModalStock] = useState(false);
   const [editModalStock, setEditModalStock] = useState(false);
@@ -27,24 +41,33 @@ const StockPage = () => {
             </button>
           </div>
           <hr />
-          <TableStocks
-            setEditModalStock={setEditModalStock}
-            setDeleteModalStock={setDeleteModalStock}
-          />
+          {isLoading ? (
+            <p>Halaman Sedang Memuat Data</p>
+          ) : (
+            <TableStocks
+              data={dataStocks}
+              setId={setId}
+              setEditModalStock={setEditModalStock}
+              setDeleteModalStock={setDeleteModalStock}
+            />
+          )}
         </section>
       </Sidebar>
       {/* Modals Popup */}
       <AddStock
         isVisible={addModalStock}
         onClose={() => setAddModalStock(false)}
+        setIsLoading={setIsLoading}
       />
       <EditStock
         isVisible={editModalStock}
         onClose={() => setEditModalStock(false)}
+        id={id}
       />
       <DeleteStock
         isVisible={deleteModalStock}
         onClose={() => setDeleteModalStock(false)}
+        id={id}
       />
     </>
   );

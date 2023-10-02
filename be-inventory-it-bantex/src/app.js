@@ -29,10 +29,15 @@ app.use(
 const AuthUsers = require("./routes/Auth");
 // Feature users shema
 const DataUsers = require("./routes/Users");
+// Feature Stocks
+const DataStocks = require("./routes/Stocks");
+const DataItems = require("./routes/Items");
 
 // Routes Sign Up
 app.use("/api", AuthUsers);
 app.use("/users", DataUsers);
+app.use("/stocks", DataStocks);
+app.use("/items", DataItems);
 
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";

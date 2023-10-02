@@ -1,10 +1,10 @@
-const usersModel = require("../models/Users");
+const stocksModel = require("../models/Stocks");
 
 const getAllUsers = async (req, res) => {
   try {
-    const [data] = await usersModel.getAllUsers();
+    const [data] = await stocksModel.getAllStock();
     res.json({
-      message: "Berhasil Mengambil Data User",
+      message: "Berhasil Mengambil Data Stock",
       data: data,
     });
   } catch (error) {
@@ -15,15 +15,23 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res) => {
+const getStockById = async (req, res) => {
   const { id } = req.params;
+  let isFound = false;
   try {
-    const [data] = await usersModel.getDataById(id);
+    const [data] = await stocksModel.getStockById(id);
+    isFound = true;
     res.json({
-      message: "Berhasil Mengambil Data User Berdasarkan ID",
+      message: "Berhasil Mengambil Data Stock Berdasarkan ID",
       data: data,
     });
   } catch (error) {
+    if (!isFound) {
+      res.status(404).json({
+        message: "Data tidak ada",
+      });
+      return;
+    }
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,
@@ -31,12 +39,12 @@ const getUserById = async (req, res) => {
   }
 };
 
-const createNewUser = async (req, res) => {
+const createNewStock = async (req, res) => {
   const { body } = req;
   try {
-    await usersModel.createNewUser(body);
+    await stocksModel.createNewStock(body);
     res.json({
-      message: "Berhasil Membuat User Baru",
+      message: "Berhasil Membuat Data Stock Baru",
       data: body,
     });
   } catch (error) {
@@ -47,15 +55,15 @@ const createNewUser = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+const updateStock = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
+  console.log(id);
   try {
-    await usersModel.updateUser(body, id);
+    await stocksModel.updateStock(body, id);
     res.json({
-      message: "Data User berhasil diubah",
+      message: "Data Stock berhasil diubah",
       data: {
-        id_user: id,
         ...body,
       },
     });
@@ -67,10 +75,10 @@ const updateUser = async (req, res) => {
   }
 };
 
-const delateUser = async (req, res) => {
+const delateStock = async (req, res) => {
   const { id } = req.params;
   try {
-    await usersModel.deleteuser(id);
+    await stocksModel.deleteStock(id);
     res.json({
       message: "Data Stock berhasil dihapus",
       data: null,
@@ -85,8 +93,8 @@ const delateUser = async (req, res) => {
 
 module.exports = {
   getAllUsers,
-  createNewUser,
-  updateUser,
-  getUserById,
-  delateUser,
+  getStockById,
+  createNewStock,
+  updateStock,
+  delateStock,
 };

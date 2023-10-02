@@ -1,6 +1,6 @@
 import { FormAddModalStock } from "../../../molecules";
 
-const AddStock = ({ isVisible, onClose }) => {
+const AddStock = ({ isVisible, onClose, setIsLoading }) => {
   const handleClose = (e) => {
     if (e.target.id === "wrapper") {
       onClose();
@@ -10,7 +10,7 @@ const AddStock = ({ isVisible, onClose }) => {
 
   return (
     <section className="modal-component" id="wrapper" onClick={handleClose}>
-      <FormAddModalStock onClose={onClose} />
+      <FormAddModalStock onClose={onClose} setIsLoading={setIsLoading} />
     </section>
   );
 };
