@@ -2,6 +2,7 @@ import { MdDashboard, MdWarehouse, MdPeople } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
 import { HiDocument } from "react-icons/hi";
 import { ImBooks } from "react-icons/im";
+import { FaComputer } from "react-icons/fa6";
 
 export const menuSidebar = [
   {
@@ -19,6 +20,11 @@ export const menuSidebar = [
     path: "/items",
     name_menu: "Items",
     icon: <ImBooks />,
+  },
+  {
+    path: "/pc-master",
+    name_menu: "PC Master",
+    icon: <FaComputer />,
   },
   { path: "/stock-in", name_menu: "Stock In", icon: <MdWarehouse /> },
   { path: "/stock-out", name_menu: "Stock Out", icon: <MdWarehouse /> },

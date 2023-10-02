@@ -9,8 +9,12 @@ export { default as FormDeleteModalStock } from "./Form/Stock/FormDeleteModalSto
 export { default as FormAddModalItem } from "./Form/Items/FormAddModalItem";
 export { default as FormEditModalItem } from "./Form/Items/FormEditModalItems";
 export { default as FormDeleteModalItem } from "./Form/Items/FormDeleteModalItem";
-// FORM USERS
 
-// TABLE STOCKS
+export { default as FormAddModalPcMaster } from "./Form/PcMaster/FormAddModalPcMaster";
+export { default as FormEditModalPcMaster } from "./Form/PcMaster/FormEditModalPcMaster";
+export { default as FormDeleteModalPcMaster } from "./Form/PcMaster/FormDeleteModalPcMaster";
+
+// TABLE
 export { default as TableStocks } from "./Table/TableStocks";
 export { default as TableItems } from "./Table/TableItems";
+export { default as TablePcMasters } from "./Table/TablePcMaster";

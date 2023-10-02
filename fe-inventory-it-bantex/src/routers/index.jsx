@@ -9,6 +9,7 @@ import {
   NotFoundBefore,
   ReportsPage,
   AccesPage,
+  PcMasterPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -28,6 +29,9 @@ const Routers = () => {
           </Route>
           <Route path="/items">
             <Route index element={<ItemsPage />}></Route>
+          </Route>
+          <Route path="/pc-master">
+            <Route index element={<PcMasterPage />}></Route>
           </Route>
           <Route path="/employess">
             <Route index element={<AccesPage />}></Route>

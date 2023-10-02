@@ -32,12 +32,14 @@ const DataUsers = require("./routes/Users");
 // Feature Stocks
 const DataStocks = require("./routes/Stocks");
 const DataItems = require("./routes/Items");
+const DataPcMaster = require("./routes/PcMaster");
 
 // Routes Sign Up
 app.use("/api", AuthUsers);
 app.use("/users", DataUsers);
 app.use("/stocks", DataStocks);
 app.use("/items", DataItems);
+app.use("/pcmaster", DataPcMaster);
 
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";

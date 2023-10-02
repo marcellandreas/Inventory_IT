@@ -7,3 +7,7 @@ export { default as DeleteStock } from "./Modal/Stock/DeleteStock";
 export { default as AddItem } from "./Modal/Items/AddItem";
 export { default as EditItem } from "./Modal/Items/EditItem";
 export { default as DeleteItem } from "./Modal/Items/DeleteItem";
+
+export { default as AddPcMaster } from "./Modal/PcMaster/AddPcMaster";
+export { default as EditPcMaster } from "./Modal/PcMaster/EditPcMaster";
+export { default as DeletePcMaster } from "./Modal/PcMaster/DeletePcMaster";
