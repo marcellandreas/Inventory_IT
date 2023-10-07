@@ -1,0 +1,15 @@
+.form_modal {
+  @apply w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3 items-center;
+}
+
+.delete_item_box {
+  @apply flex py-3 justify-center items-center gap-2 rounded border border-[#FF9D0B] bg-[#FFF5E7] w-full;
+}
+
+.content_input {
+  @apply flex flex-col gap-1 w-full;
+}
+
+.content_input2 {
+  @apply gap-2 flex flex-col w-60;
+}

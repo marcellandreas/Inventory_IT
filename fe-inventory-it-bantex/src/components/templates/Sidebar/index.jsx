@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Topbar from "../../organisms/Topbar";
 import {
   MenuDropdown,
@@ -6,7 +6,7 @@ import {
   menuSidebarOrganization,
 } from "./MenuSidebar";
 import { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { CgLogOut } from "react-icons/cg";
 
 const Sidebar = ({ children }) => {
   const [isStockDropdownOpen, setStockDropdownOpen] = useState(false);
@@ -18,8 +18,15 @@ const Sidebar = ({ children }) => {
   const toggle = () => setIsOpen(!isOpen);
   const role = localStorage.getItem("role");
 
+  // Logout menu
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    signOut();
+    navigate("/login");
+  };
+
   return (
-    <article className="flex w-full">
+    <article className="flex w-full min-h-screen bg-slate-100">
       {/* Masih tanda tanya */}
       {/* <button
         className={`flex items-center justify-center cursor-pointer absolute top-3 w-10 h-10 ${
@@ -32,8 +39,8 @@ const Sidebar = ({ children }) => {
         </span>
       </button> */}
       <section
-        className={`w-60 min-h-screen bg-slate-800 border-r-2 flex flex-col`}
-        style={{ width: isOpen ? "240px" : "60px" }}
+        className={` min-w-[180px] min-h-screen bg-slate-800 border-r-2 flex flex-col`}
+        // style={{ width: isOpen ? "240px" : "60px" }}
       >
         <div className="title h-16 border-b-2 text-white text-xl font-bold text-center flex justify-center items-center">
           Inventory IT
@@ -119,11 +126,22 @@ const Sidebar = ({ children }) => {
             </div>
           ) : null}
         </section>
+        <button
+          onClick={handleLogout}
+          className={`flex items-center w-full gap-2 text-white py-3  text-base font-medium hover:bg-white hover:text-slate-800 rounded-s-full ${
+            isOpen ? "pl-9 justify-flex-start" : "pl-1 justify-center"
+          }`}
+        >
+          <CgLogOut />
+          <p>Logout</p>
+        </button>
       </section>
 
-      <section className="flex flex-col w-full">
+      <section className="flex flex-col w-full   mt-5">
         <Topbar />
-        <div className="bg-slate-100 min-h-[91vh] p-5">{children}</div>
+        <div className=" min-h-[85vh] overflow-hidden py-5 overflow-y-auto ">
+          {children}
+        </div>
       </section>
     </article>
   );

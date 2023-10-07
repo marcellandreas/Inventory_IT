@@ -3,9 +3,14 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./assets/styles/index.css";
 import "./assets/styles/table.css";
+import "./assets/styles/modal.css";
+import { Provider } from "react-redux";
+import { store } from "./Redux/Store.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

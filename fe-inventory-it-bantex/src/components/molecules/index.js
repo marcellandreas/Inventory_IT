@@ -14,7 +14,14 @@ export { default as FormAddModalPcMaster } from "./Form/PcMaster/FormAddModalPcM
 export { default as FormEditModalPcMaster } from "./Form/PcMaster/FormEditModalPcMaster";
 export { default as FormDeleteModalPcMaster } from "./Form/PcMaster/FormDeleteModalPcMaster";
 
+export { default as FormAddModalUser } from "./Form/Users/FormAddModalUser";
+export { default as FormEditModalUser } from "./Form/Users/FormEditModalUser";
+export { default as FormDeleteModalUser } from "./Form/Users/FormDeleteModalUser";
+export { default as FormAddModalAdmin } from "./Form/Admin/FormAddModalAdmin";
+export { default as FormEditModalAdmin } from "./Form/Admin/FormEditModalAdmin";
+export { default as FormDeleteModalAdmin } from "./Form/Admin/FormDeleteModalAdmin";
 // TABLE
 export { default as TableStocks } from "./Table/TableStocks";
 export { default as TableItems } from "./Table/TableItems";
 export { default as TablePcMasters } from "./Table/TablePcMaster";
+export { default as TablePcLine } from "./Table/TablePcLine";

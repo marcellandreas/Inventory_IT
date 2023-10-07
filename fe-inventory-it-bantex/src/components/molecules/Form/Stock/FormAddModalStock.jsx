@@ -86,7 +86,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
     >
       <h1 className="text-2xl text-center">Tambah Stock Inventory IT</h1>
       <hr className="border border-slate-800 w-2/5 m-auto" />
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Kode Barang</label>
         <input
           type="text"
@@ -97,7 +97,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         />
         <p className="text-center text-error-40">{formErrors.code_stock}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Nama Barang</label>
         <input
           type="text"
@@ -108,7 +108,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         />
         <p className="text-center text-error-40">{formErrors.name}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Merek Barang</label>
         <input
           type="text"
@@ -119,7 +119,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         />
         <p className="text-center text-error-40">{formErrors.brand}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Tahun Barang</label>
         <input
           type="text"
@@ -130,7 +130,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         />
         <p className="text-center text-error-40">{formErrors.year}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Jumlah Barang</label>
         <input
           type="number"
@@ -141,7 +141,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         />
         <p className="text-center text-error-40">{formErrors.total}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Satuan Barang</label>
         <input
           type="text"
@@ -152,7 +152,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         />
         <p className="text-center text-error-40">{formErrors.unit}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Kondisi Barang</label>
         <div className="flex flex-wrap gap-1">
           <input
@@ -174,7 +174,7 @@ const FormAddModalStock = ({ onClose, setIsLoading }) => {
         </div>
         <p className="text-center text-error-40">{formErrors._condition}</p>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="content_input">
         <label>Berfungsi</label>
         <div className="flex flex-wrap gap-1">
           <input

@@ -24,3 +24,49 @@ td {
 label {
   @apply font-semibold;
 }
+
+input {
+  @apply p-1 rounded-md  outline-none min-h-["400px"];
+}
+
+textarea {
+  resize: none;
+  @apply outline-none p-1 rounded-md;
+}
+
+input[type="radio"] {
+  @apply border-2 border-slate-800 rounded-md p-2;
+}
+
+.button {
+  @apply bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700;
+}
+
+.button_2 {
+  @apply border-2 border-slate-800 bg-white rounded-md p-2 hover:bg-slate-800 hover:text-white;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
+.used {
+  background-color: #6fcaea;
+}
+
+.reused {
+  background-color: #d893a3;
+  color: #b30021;
+}
+
+.new {
+  background-color: #ebc474;
+}
+
+.status {
+  padding: 0.4rem 0;
+  border-radius: 2rem;
+  text-align: center;
+}

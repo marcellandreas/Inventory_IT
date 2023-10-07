@@ -33,6 +33,7 @@ const DataUsers = require("./routes/Users");
 const DataStocks = require("./routes/Stocks");
 const DataItems = require("./routes/Items");
 const DataPcMaster = require("./routes/PcMaster");
+const DataPcLine = require("./routes/PcLine");
 
 // Routes Sign Up
 app.use("/api", AuthUsers);
@@ -40,6 +41,7 @@ app.use("/users", DataUsers);
 app.use("/stocks", DataStocks);
 app.use("/items", DataItems);
 app.use("/pcmaster", DataPcMaster);
+app.use("/pcline", DataPcLine);
 
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";

@@ -13,12 +13,11 @@ const Topbar = () => {
   }, [location.pathname]);
 
   return (
-    <section className=" h-16 bg-slate-700 w-full border-b-2 flex justify-between px-16 text-white items-center">
-      <p className="text-lg uppercase">{currentPage}</p>
-      <aside className="flex gap-4 justify-center items-center">
-        <h2 className=" uppercase">{username}</h2>
-        {/* <img src="" alt="profile" className="h-10 w-10 rounded-full" /> */}
-      </aside>
+    <section className="h-[10vh] w-full   px-5  ">
+      <div className="h-[10vh] rounded-xl bg-slate-300 w-full border-b-2 flex justify-between border-l-4 border-slate-700  p-5 text-slate-700 font-bold items-center">
+        <p className="text-lg uppercase">{currentPage}</p>
+        <p className="text-lg">Hi {username}, Welcome to InventoryIT</p>
+      </div>
     </section>
   );
 };

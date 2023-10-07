@@ -50,6 +50,8 @@ const createNewItem = async (req, res) => {
       data: body,
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,
@@ -63,12 +65,14 @@ const updateItem = async (req, res) => {
   try {
     await itemsModal.updateItem(body, id);
     res.json({
-      message: "Data Barang berhasil diubah",
+      message: "Data User berhasil diubah",
       data: {
+        id_user: id,
         ...body,
       },
     });
   } catch (error) {
+    console.log(error, body);
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,
@@ -76,8 +80,35 @@ const updateItem = async (req, res) => {
   }
 };
 
+// const updateItem = async (req, res) => {
+//   const { id } = req.params;
+//   const { body } = req;
+
+//   try {
+//     const updatedItem = await itemsModal.updateItem(body, id);
+
+//     // Cek apakah barang telah diperbarui
+//     if (updatedItem) {
+//       res.json({
+//         message: "Data Barang berhasil diubah",
+//         data: updatedItem,
+//       });
+//     } else {
+//       res.status(404).json({
+//         message: "Data Barang tidak ditemukan",
+//       });
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Server Error",
+//       serverMessage: error,
+//     });
+//   }
+// };
+
 const delateItem = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   try {
     await itemsModal.deleteItem(id);
     res.json({

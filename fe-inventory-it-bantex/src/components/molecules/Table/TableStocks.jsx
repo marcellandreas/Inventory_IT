@@ -4,21 +4,27 @@ const TableStocks = ({
   data,
   setId,
 }) => {
+  const columnNames = [
+    "ID",
+    "Kode Barang",
+    "Nama Barang",
+    "Merek",
+    "Tahun",
+    "Jumlah",
+    "Satuan",
+    "Kondisi",
+    "Berfungsi",
+    "Action",
+  ];
+  const tableHeaders = columnNames.map((columnName, index) => (
+    <th key={index} className="px-4 py-2">
+      {columnName}
+    </th>
+  ));
   return (
     <table className="min-w-full backdrop-blur-md bg-opacity-50 overflow-x-auto">
       <thead>
-        <tr>
-          <th className="px-4 py-2">ID</th>
-          <th className="px-4 py-2">Kode Barang</th>
-          <th className="px-4 py-2">Nama Barang</th>
-          <th className="px-4 py-2">Merek</th>
-          <th className="px-4 py-2">Tahun</th>
-          <th className="px-4 py-2">Jumlah</th>
-          <th className="px-4 py-2">Satuan</th>
-          <th className="px-4 py-2">Kondisi</th>
-          <th className="px-4 py-2">Berfungsi</th>
-          <th className="px-4 py-2">Action</th>
-        </tr>
+        <tr>{tableHeaders}</tr>
       </thead>
       <tbody>
         {data.map((barang, i) => (

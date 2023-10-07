@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
-import { AddStock, EditStock, DeleteStock } from "../../components/organisms";
-import { Sidebar } from "../../components/templates";
-import { TableStocks } from "../../components/molecules";
+import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import {
+  FormAddModalStock,
+  FormDeleteModalStock,
+  FormEditModalStock,
+  TableStocks,
+} from "../../components/molecules";
 import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
+import ShowModal from "../../components/organisms/ShowModal";
 
 const StockPage = () => {
   const [dataStocks, setDataStocks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isIsLoading, setIsLoading] = useState(true);
   const [id, setId] = useState("");
   useEffect(() => {
     AxiosInstance.get("/stocks")
@@ -18,7 +23,7 @@ const StockPage = () => {
       .catch((err) => {
         alert("terjadi kesalahan dalam memproses data");
       });
-  }, [isLoading]);
+  }, [isIsLoading]);
   // state modals in stock
   const [addModalStock, setAddModalStock] = useState(false);
   const [editModalStock, setEditModalStock] = useState(false);
@@ -27,48 +32,70 @@ const StockPage = () => {
   return (
     <>
       <Sidebar>
-        <Title>Halaman Barang</Title>
-        <section className="container mx-auto mt-5 flex flex-col gap-5">
-          <div className="flex justify-between">
-            <h1 className="text-2xl font-semibold mb-4">Table Stock</h1>
-            <button
-              onClick={() => {
-                setAddModalStock(true);
-              }}
-              className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
-            >
-              Add Stock
-            </button>
-          </div>
-          <hr />
-          {isLoading ? (
-            <p>Halaman Sedang Memuat Data</p>
-          ) : (
-            <TableStocks
-              data={dataStocks}
-              setId={setId}
-              setEditModalStock={setEditModalStock}
-              setDeleteModalStock={setDeleteModalStock}
-            />
-          )}
-        </section>
+        <LayoutContentDashboard>
+          <Title>Halaman Barang</Title>
+          <section className="container mx-auto mt-5 flex flex-col gap-5">
+            {isIsLoading ? (
+              <p>Halaman Sedang Memuat Data</p>
+            ) : (
+              <section className="lg:w-[1100px] bg-slate-400 backdrop-blur-md">
+                <section className="table__header">
+                  <h1>Tabel Barang</h1>
+                  <div className="input-group">
+                    <input type="search" placeholder="Search Data..." />
+                  </div>
+                  <button
+                    className="button"
+                    onClick={() => {
+                      setAddModalStock(true);
+                    }}
+                  >
+                    Add Stock
+                  </button>
+                </section>
+                <section className="table__body">
+                  <TableStocks
+                    data={dataStocks}
+                    setId={setId}
+                    setEditModalStock={setEditModalStock}
+                    setDeleteModalStock={setDeleteModalStock}
+                  />
+                </section>
+              </section>
+            )}
+          </section>
+        </LayoutContentDashboard>
       </Sidebar>
       {/* Modals Popup */}
-      <AddStock
+      <ShowModal
         isVisible={addModalStock}
         onClose={() => setAddModalStock(false)}
-        setIsLoading={setIsLoading}
-      />
-      <EditStock
+      >
+        <FormAddModalStock
+          onClose={() => setAddModalStock(false)}
+          setIsLoading={setIsLoading}
+        />
+      </ShowModal>
+      <ShowModal
         isVisible={editModalStock}
         onClose={() => setEditModalStock(false)}
-        id={id}
-      />
-      <DeleteStock
+      >
+        <FormEditModalStock
+          isVisible={editModalStock}
+          onClose={() => setEditModalStock(false)}
+          id={id}
+        />
+      </ShowModal>
+      <ShowModal
         isVisible={deleteModalStock}
         onClose={() => setDeleteModalStock(false)}
-        id={id}
-      />
+      >
+        <FormDeleteModalStock
+          isVisible={deleteModalStock}
+          onClose={() => setDeleteModalStock(false)}
+          id={id}
+        />
+      </ShowModal>
     </>
   );
 };

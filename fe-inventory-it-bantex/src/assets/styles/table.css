@@ -1,4 +1,4 @@
-main.table {
+/* main.table {
   width: 82vw;
   height: 90vh;
   background-color: #fff5;
@@ -8,7 +8,7 @@ main.table {
   border-radius: 0.8rem;
 
   overflow: hidden;
-}
+} */
 
 .table__header {
   width: 100%;

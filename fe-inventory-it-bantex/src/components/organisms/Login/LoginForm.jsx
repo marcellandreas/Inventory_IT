@@ -22,10 +22,11 @@ const LoginForm = () => {
 
       const token = response.data.data.accessToken;
       const role = response.data.data.role;
+      const id_user = response.data.data.id_user;
       const username_ = response.data.data.username;
 
       // Set token autentikasi
-      setAuthToken(token, role, username_);
+      setAuthToken(token, role, id_user, username_);
 
       // Refresh Token
       if (token) {
