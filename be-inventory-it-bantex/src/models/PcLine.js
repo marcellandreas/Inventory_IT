@@ -41,8 +41,14 @@ const createPcLine = (values) => {
 //   return results.rows;
 // };
 
-const delettPcLine = (item_no) => {
-  const SQLQuery = `DELETE FROM pc_linee WHERE pc_linee.item_no = '${item_no}'`;
+// const delettPcLine = (item_no) => {
+//   const SQLQuery = `DELETE FROM pc_linee WHERE pc_linee.item_no = '${item_no}'`;
+//   return pool.execute(SQLQuery);
+// };
+
+const deletePcLines = (item_nos) => {
+  const itemNosString = item_nos.map((item_no) => `'${item_no}'`).join(",");
+  const SQLQuery = `DELETE FROM pc_linee WHERE pc_linee.item_no IN (${itemNosString})`;
   return pool.execute(SQLQuery);
 };
 
@@ -50,5 +56,5 @@ module.exports = {
   getAllPcLine,
   createPcLine,
   getDataPcLineByPcNo,
-  delettPcLine,
+  deletePcLines,
 };

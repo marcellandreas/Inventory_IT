@@ -68,12 +68,35 @@ const createPcLine = async (req, res) => {
   }
 };
 
-const delatePcLine = async (req, res) => {
-  const { item_no } = req.params;
+// const delatePcLine = async (req, res) => {
+//   const { item_no } = req.params;
+//   try {
+//     await PcLineModel.deletePcLines(item_no);
+//     res.json({
+//       message: "Data Berhasil Dipisah",
+//       data: null,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Server Error",
+//       serverMessage: error,
+//     });
+//   }
+// };
+
+const deleteMulti = async (req, res) => {
   try {
-    await PcLineModel.delettPcLine(item_no);
+    const { item_nos } = req.body; // Ambil data item_nos dari body permintaan
+
+    if (!item_nos || !Array.isArray(item_nos) || item_nos.length === 0) {
+      return res.status(400).json({ message: "Data item_nos tidak valid." });
+    }
+
+    // Panggil model Anda untuk menghapus item-item tersebut
+    await PcLineModel.deletePcLines(item_nos);
+
     res.json({
-      message: "Data Berhasil Dipisah",
+      message: "Data berhasil dihapus",
       data: null,
     });
   } catch (error) {
@@ -88,5 +111,6 @@ module.exports = {
   getAllPcLine,
   getDataPcLineByPcNo,
   createPcLine,
-  delatePcLine,
+  deleteMulti,
+  // delatePcLine,
 };

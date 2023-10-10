@@ -6,6 +6,6 @@ const PcLineController = require("../controllers/PcLine");
 router.get("/", PcLineController.getAllPcLine);
 router.post("/", PcLineController.createPcLine);
 router.get("/:pcno", PcLineController.getDataPcLineByPcNo);
-router.delete("/:item_no", PcLineController.delatePcLine);
+router.delete("/delete", PcLineController.deleteMulti);
 
 module.exports = router;
