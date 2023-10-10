@@ -42,9 +42,19 @@ const getDataPcLineByPcNo = async (req, res) => {
 const createPcLine = async (req, res) => {
   const { body } = req;
   try {
+    // Pastikan body adalah array objek yang berisi data yang akan dimasukkan
+    if (!Array.isArray(body)) {
+      return res.status(400).json({
+        message: "Bad Request",
+        serverMessage: "Body should be an array of objects",
+      });
+    }
+
+    // Panggil model untuk membuat semua data sekaligus
     await PcLineModel.createPcLine(body);
+
     res.json({
-      message: "Berhasil Menambahkan komponents",
+      message: `Berhasil Menambahkan ${body.length} komponen`,
       data: body,
     });
   } catch (error) {

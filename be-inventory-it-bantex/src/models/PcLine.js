@@ -13,9 +13,22 @@ const getDataPcLineByPcNo = (pcno) => {
   return pool.execute(SQLQuery);
 };
 
-const createPcLine = (body) => {
-  const SQLQuery = `INSERT INTO pc_linee (pc_no, item_no, post_user_id,post_username,post_date) VALUES ('${body.pc_no}', '${body.item_no}', '${body.post_id_user}', '${body.post_username}', current_timestamp());`;
-  return pool.execute(SQLQuery);
+const createPcLine = (values) => {
+  const placeholders = values
+    .map(() => "(?, ?, ?, ?, current_timestamp())")
+    .join(", ");
+  const SQLQuery = `INSERT INTO pc_linee (pc_no, item_no, post_user_id, post_username, post_date) VALUES ${placeholders};`;
+  const flattenedValues = values.reduce(
+    (acc, value) =>
+      acc.concat([
+        value.pc_no,
+        value.item_no,
+        value.post_id_user,
+        value.post_username,
+      ]),
+    []
+  );
+  return pool.execute(SQLQuery, flattenedValues);
 };
 
 const delettPcLine = (item_no) => {
