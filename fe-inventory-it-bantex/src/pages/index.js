@@ -5,6 +5,7 @@ export { default as ItemsPage } from "./Items";
 export { default as PcMasterPage } from "./PcMaster";
 export { default as GetAllPcMasterPage } from "./PcMaster/GetAllPcMaster";
 export { default as GetUnusedItemsPage } from "./PcMaster/GetUnusedItems";
+export { default as AddComponentsPcPage } from "./PcMaster/AddComponentsPc";
 export { default as PcLinePage } from "./PcLine";
 export { default as AccesPage } from "./Access";
 export { default as ReportsPage } from "./Reports";

@@ -42,3 +42,46 @@ const addInput = () => {
 // }));
 
 // console.log(data, "array data tampung");
+
+
+// <form onSubmit={handleCreateForm} className="flex justify-between">
+// <div>
+//   <div className="gap-2 flex flex-col w-60">
+//     <label>Pc Number</label>
+//     <input
+//       className=" bg-slate-200 uppercase"
+//       type="text"
+//       name="pc_no"
+//       value={pcInput}
+//       readOnly
+//     />
+//   </div>
+//   <div className="gap-2 flex flex-col w-60">
+//     <label>Items No</label>
+//     <select multiple value={selectedValues} onChange={handleChange}>
+//       {options}
+//     </select>
+//   </div>
+// </div>
+
+// <div className="flex flex-col gap-2">
+//   {selectedValues.map((value) => (
+//     <p className=" button">{value}</p>
+//   ))}
+//   <div className="flex flex-col gap-2">
+//     <div className="flex flex-wrap gap-2 pt-12">
+//       <button
+//         onClick={() => {
+//           onClose();
+//         }}
+//         className="flex-1 border-2 border-slate-800 bg-white rounded-md p-2 hover:bg-slate-800 hover:text-white"
+//       >
+//         Kembali
+//       </button>
+//       <button className="flex-1 rounded-md bg-slate-800 text-white p-2">
+//         Simpan
+//       </button>
+//     </div>
+//   </div>
+// </div>
+// </form>

@@ -53,21 +53,44 @@ const DataPc = () => {
     });
   }, [isLoading]);
 
-  const options = [
-    <option value={formValues.pc_no}>{formValues.pc_no}</option>,
-    ...dataPcMaster.map((stock, i) => (
-      <option key={i} value={stock.pc_no}>
-        {stock.pc_no}
-      </option>
-    )),
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // if (formValues.pc_no) {
+        const res = await AxiosInstance.get(`pcmaster/${formValues.pc_no}`);
+        const itemData = res.data.data;
+
+        if (itemData.length > 0) {
+          const mappedItemData = {
+            id_pc_master: itemData[0].id_pc_master,
+            pc_no: itemData[0].pc_no,
+            pc_description: itemData[0].pc_description,
+            unit: itemData[0].unit,
+            category: itemData[0].category,
+            status: itemData[0].status,
+            pc_location: itemData[0].pc_location,
+            note: itemData[0].note,
+            date_registration: itemData[0].date_registration,
+            date_expired: itemData[0].date_expired,
+            pc_spectification: itemData[0].pc_spectification,
+            post_username: itemData[0].post_username,
+            post_date: itemData[0].post_date,
+          };
+          setFormValues(mappedItemData);
+        }
+        // }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [formValues.pc_no]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
-  const id = formValues.id_pc_master;
-  const pcno = formValues.pc_no;
 
   useEffect(() => {
     AxiosInstance.get(`pcline/${formValues.pc_no}`).then((res) => {
@@ -75,31 +98,23 @@ const DataPc = () => {
     });
   }, [formValues.pc_no, isLoading]);
 
-  useEffect(() => {
-    AxiosInstance.get(`pcmaster/${formValues.pc_no}`).then((res) => {
-      const itemData = res.data.data;
-      const mappedItemData = itemData.map((pcMaster) => ({
-        id_pc_master: pcMaster.id_pc_master,
-        pc_no: pcMaster.pc_no,
-        pc_description: pcMaster.pc_description,
-        unit: pcMaster.unit,
-        category: pcMaster.category,
-        status: pcMaster.status,
-        pc_location: pcMaster.pc_location,
-        note: pcMaster.note,
-        date_registration: pcMaster.date_registration,
-        date_expired: pcMaster.date_expired,
-        pc_spectification: pcMaster.pc_spectification,
-        post_username: pcMaster.post_username,
-        post_date: pcMaster.post_date,
-      }));
-      setFormValues(mappedItemData[0]);
-    });
-  }, [formValues.pc_no]);
+  const id = formValues.id_pc_master;
+  const pcno = formValues.pc_no;
 
   const handleNavLinkClick = () => {
     localStorage.removeItem("GetIdFromTable");
   };
+
+  const options = [
+    <option value={formValues.pc_no || null}>
+      {formValues.pc_no || null}
+    </option>,
+    ...dataPcMaster.map((stock, i) => (
+      <option key={i} value={stock.pc_no}>
+        {stock.pc_no}
+      </option>
+    )),
+  ];
 
   return (
     <>
@@ -262,6 +277,7 @@ const DataPc = () => {
           </section>
           <DataComponentsPc
             dataPcComponent={dataPcComponent}
+            pcno={pcno}
             formValues={formValues}
             setIsLoading={setIsLoading}
           />

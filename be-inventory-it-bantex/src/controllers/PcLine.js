@@ -41,6 +41,7 @@ const getDataPcLineByPcNo = async (req, res) => {
 
 const createPcLine = async (req, res) => {
   const { body } = req;
+  console.log("dapatkan body  nya ", body);
   try {
     // Pastikan body adalah array objek yang berisi data yang akan dimasukkan
     if (!Array.isArray(body)) {
@@ -59,6 +60,7 @@ const createPcLine = async (req, res) => {
     });
   } catch (error) {
     console.log(error, "create pc line");
+    // console.log(body, "create ");
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,

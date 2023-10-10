@@ -11,8 +11,14 @@ import {
   MdDelete,
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
+import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
 
-const DataComponentsPc = ({ dataPcComponent, formValues, setIsLoading }) => {
+const DataComponentsPc = ({
+  dataPcComponent,
+  formValues,
+  setIsLoading,
+  pcno,
+}) => {
   // state modals in stock
   const [addModal, setAddModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -34,9 +40,9 @@ const DataComponentsPc = ({ dataPcComponent, formValues, setIsLoading }) => {
               <NavLink to={`unused`} className="button">
                 <BiDetail />
               </NavLink>
-              <button onClick={() => setAddModal(true)} className="button">
+              <NavLink to={`add-components?pc_no=${pcno}`} className="button">
                 <BsDatabaseFillAdd />
-              </button>
+              </NavLink>
               <button onClick={() => setDeleteModal(true)} className="button">
                 <MdDelete />
               </button>
@@ -48,7 +54,7 @@ const DataComponentsPc = ({ dataPcComponent, formValues, setIsLoading }) => {
         </section>
       )}
       <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
-        <FormAddModalComponentPc2
+        <FormAddModalComponentPc
           onClose={() => setAddModal(false)}
           setIsLoading={setIsLoading}
           pcInput={formValues.pc_no}

@@ -89,31 +89,29 @@ const GetUnusedItems = () => {
                 </button>
               </section>
               {toggleState === 1 ? (
-                <p>
-                  <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
-                    <section className="table__header">
-                      <Title>Tabel Komponen Terpakai</Title>
-                      <div className="input-group">
-                        <input
-                          onChange={(e) => {
-                            handleSearch(e);
-                          }}
-                          type="search"
-                          placeholder="Search Data..."
-                        />
-                      </div>
-                    </section>
-
-                    <section className="table__body">
-                      <TablePcLine
-                        data={data2}
-                        setId={setId}
-                        setEditModalItem={setEditModal}
-                        setDeleteModalItem={setDeleteModal}
+                <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
+                  <section className="table__header">
+                    <Title>Tabel Komponen Terpakai</Title>
+                    <div className="input-group">
+                      <input
+                        onChange={(e) => {
+                          handleSearch(e);
+                        }}
+                        type="search"
+                        placeholder="Search Data..."
                       />
-                    </section>
+                    </div>
                   </section>
-                </p>
+
+                  <section className="table__body">
+                    <TablePcLine
+                      data={data2}
+                      setId={setId}
+                      setEditModalItem={setEditModal}
+                      setDeleteModalItem={setDeleteModal}
+                    />
+                  </section>
+                </section>
               ) : (
                 <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
                   <section className="table__header">

@@ -15,6 +15,7 @@ import {
   BarcodePrinterPage,
   QrcodePrinterPage,
   GetUnusedItemsPage,
+  AddComponentsPcPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -39,6 +40,10 @@ const Routers = () => {
             <Route index element={<PcMasterPage />}></Route>
             <Route path="detail" element={<GetAllPcMasterPage />}></Route>
             <Route path="unused" element={<GetUnusedItemsPage />}></Route>
+            <Route
+              path="add-components"
+              element={<AddComponentsPcPage />}
+            ></Route>
           </Route>
 
           <Route path="/pc-line">

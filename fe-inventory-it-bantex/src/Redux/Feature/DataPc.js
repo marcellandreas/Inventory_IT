@@ -24,9 +24,6 @@ export const dataPc = createSlice({
     },
     setDataPcMasterById: (state, action) => {
       const PcMasterId = action.payload;
-      // state.dataPcMasterById = state.dataPcMaster.find(
-      //   (item) => item.id_pc_master === PcMasterId
-      // );
       state.dataPcMasterById = state.dataPcMaster.filter(
         (pc) => pc.id_pc_master === PcMasterId
       );

@@ -5,23 +5,41 @@ import {
   Sidebar,
   DataPc,
 } from "../../components/templates";
-import { setDataPcMaster, setLoadingPc } from "../../Redux/Feature/DataPc";
+import {
+  setDataItemsUnused,
+  setDataPcMaster,
+  setLoadingPc,
+} from "../../Redux/Feature/DataPc";
 import { useEffect } from "react";
 
 const PcMaster = () => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.dataPc.loadingPc);
+  const loading = useSelector((state) => state.dataPc.dataItemsUnused);
 
-  useEffect(() => {
-    AxiosInstance.get("/pcmaster")
+  const handleFetchError = (err) => {
+    console.error("Terjadi kesalahan dalam memproses data:", err);
+    alert("Terjadi kesalahan dalam memproses data");
+  };
+
+  const fetchData = (url, successAction) => {
+    AxiosInstance.get(url)
       .then((res) => {
-        dispatch(setDataPcMaster(res.data.data));
+        dispatch(successAction(res.data.data));
         dispatch(setLoadingPc(false));
       })
-      .catch((err) => {
-        console.error("Error fetching data:", err);
-      });
-  }, [dispatch, loading]);
+      .catch(handleFetchError);
+  };
+
+  useEffect(() => {
+    fetchData("/pcmaster", setDataPcMaster);
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchData("/items/unused", setDataItemsUnused);
+  }, [dispatch]);
+
+  console.log("ada", loading);
+
   return (
     <Sidebar>
       <LayoutContentDashboard>

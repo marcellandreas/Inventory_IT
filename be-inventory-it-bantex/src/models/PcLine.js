@@ -23,13 +23,23 @@ const createPcLine = (values) => {
       acc.concat([
         value.pc_no,
         value.item_no,
-        value.post_id_user,
+        value.post_user_id,
         value.post_username,
       ]),
     []
   );
   return pool.execute(SQLQuery, flattenedValues);
 };
+
+// const createPcLine = async (values) => {
+//   const SQLQuery = `INSERT INTO pc_linee (pc_no, item_no, post_user_id, post_username, post_date)
+//   VALUES
+//     ${values.map((value) => `(?, ?, ?, ?, current_timestamp())`).join(", ")};`;
+
+//   const results = await pool.execute(SQLQuery, values);
+
+//   return results.rows;
+// };
 
 const delettPcLine = (item_no) => {
   const SQLQuery = `DELETE FROM pc_linee WHERE pc_linee.item_no = '${item_no}'`;
