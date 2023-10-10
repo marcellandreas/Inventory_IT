@@ -1,23 +1,12 @@
+import { columnTablePcLine } from "../../../assets/data/ColumnTables";
+
 const TablePcLine = ({ setEditModal, setDeleteModal, data, setId }) => {
   const role = localStorage.getItem("role");
-  const columnNames = [
-    "id",
-    "item_no",
-    "item_description",
-    "unit",
-    "brand",
-    "note",
-    "date_registation",
-    "item_specification",
-    "post_user_id",
-    "post_username",
-    "post_date",
-  ];
 
   const tableHeaders =
     role == 1
-      ? columnNames
-      : columnNames.filter(
+      ? columnTablePcLine
+      : columnTablePcLine.filter(
           (columnName) =>
             !["post_user_id", "post_username", "post_date"].includes(columnName)
         );

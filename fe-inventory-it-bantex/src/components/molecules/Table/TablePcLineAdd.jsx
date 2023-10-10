@@ -3,30 +3,17 @@ import { BsDatabaseFillAdd } from "../../../assets/icons/icons";
 import ShowModal from "../../organisms/ShowModal";
 import FormAddModalItem from "../Form/Items/FormAddModalItem";
 import { NavLink } from "react-router-dom";
+import { columnTablePcLineAdd } from "../../../assets/data/ColumnTables";
 
 const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
   const role = localStorage.getItem("role");
   const [addModalItem, setAddModalItem] = useState(false);
   const [isIsLoading, setIsLoading] = useState(true);
 
-  const columnNames = [
-    "",
-    "id",
-    "item_no",
-    "item_description",
-    "unit",
-    "brand",
-    "note",
-    "date_registation",
-    "item_specification",
-    "post_user_id",
-    "post_username",
-    "post_date",
-  ];
   const tableHeaders =
     role == 1
-      ? columnNames
-      : columnNames.filter(
+      ? columnTablePcLineAdd
+      : columnTablePcLineAdd.filter(
           (columnName) =>
             !["post_user_id", "post_username", "post_date"].includes(columnName)
         );

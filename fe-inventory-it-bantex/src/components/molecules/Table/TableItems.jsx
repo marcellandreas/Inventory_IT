@@ -1,31 +1,12 @@
+import { columnTableItems } from "../../../assets/data/ColumnTables";
 import { MdEditNote, MdDelete } from "../../../assets/icons/icons";
 const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
   const role = localStorage.getItem("role");
 
-  const columnNames = [
-    "id",
-    "item_no",
-    "item_description",
-    "unit",
-    "category",
-    "brand",
-    "status",
-    "kondisi",
-    "item_location",
-    "note",
-    "date_registation",
-    "date_expired",
-    "item_specification",
-    "post_user_id",
-    "post_username",
-    "post_date",
-    "action",
-  ];
-
   const tableHeaders =
     role == 1
-      ? columnNames
-      : columnNames.filter(
+      ? columnTableItems
+      : columnTableItems.filter(
           (columnName) =>
             !["post_user_id", "post_username", "post_date"].includes(columnName)
         );

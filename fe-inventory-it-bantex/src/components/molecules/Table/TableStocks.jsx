@@ -1,22 +1,12 @@
+import { columnTableStock } from "../../../assets/data/ColumnTables";
+
 const TableStocks = ({
   setEditModalStock,
   setDeleteModalStock,
   data,
   setId,
 }) => {
-  const columnNames = [
-    "ID",
-    "Kode Barang",
-    "Nama Barang",
-    "Merek",
-    "Tahun",
-    "Jumlah",
-    "Satuan",
-    "Kondisi",
-    "Berfungsi",
-    "Action",
-  ];
-  const tableHeaders = columnNames.map((columnName, index) => (
+  const tableHeaders = columnTableStock.map((columnName, index) => (
     <th key={index} className="px-4 py-2">
       {columnName}
     </th>

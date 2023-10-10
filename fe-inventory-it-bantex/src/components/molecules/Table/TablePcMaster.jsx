@@ -1,24 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { columnTablePcMaster } from "../../../assets/data/ColumnTables";
 const TablePcMasters = ({ setEditModal, setDeleteModal, data, setId }) => {
   const role = localStorage.getItem("role");
-  const columnNames = [
-    "id",
-    "pc_no",
-    "pc_description",
-    "unit",
-    "category",
-    "status",
-    "pc_location",
-    "note",
-    "date_registation",
-    "date_expired",
-    "pc_spectification",
-    "post_user_id",
-    "post_username",
-    "post_date",
-    "action",
-  ];
 
   const navigate = useNavigate();
   const backToMenu = () => {
@@ -32,8 +16,8 @@ const TablePcMasters = ({ setEditModal, setDeleteModal, data, setId }) => {
 
   const tableHeaders =
     role == 1
-      ? columnNames
-      : columnNames.filter(
+      ? columnTablePcMaster
+      : columnTablePcMaster.filter(
           (columnName) =>
             !["post_user_id", "post_username", "post_date"].includes(columnName)
         );
