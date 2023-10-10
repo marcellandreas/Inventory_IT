@@ -38,8 +38,6 @@ const PcMaster = () => {
     fetchData("/items/unused", setDataItemsUnused);
   }, [dispatch]);
 
-  console.log("ada", loading);
-
   return (
     <Sidebar>
       <LayoutContentDashboard>

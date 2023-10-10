@@ -28,8 +28,12 @@ const DataComponentsPc = ({
         <section className="w-full min-h-[100px] bg-slate-400 backdrop-blur-md rounded-3xl flex justify-center items-center flex-col">
           <Title>Belum ada komponen</Title>
           <div className="flex gap-2">
-            <button className="button">Tambah Komponen</button>
-            <button className="button">Detail Komponen</button>
+            <NavLink to={`add-components?pc_no=${pcno}`} className="button">
+              Tambah Komponen
+            </NavLink>
+            <NavLink to={`unused`} className="button">
+              Detail Komponen
+            </NavLink>
           </div>
         </section>
       ) : (
