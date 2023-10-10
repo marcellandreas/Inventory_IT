@@ -39,6 +39,31 @@ const getPcMasterById = async (req, res) => {
   }
 };
 
+const getPcMasterByPcNo = async (req, res) => {
+  const { pcno } = req.params;
+  let isFound = false;
+  try {
+    const [data] = await PcMasterModel.getPcMasterByPcMaster(pcno);
+    isFound = true;
+    res.json({
+      message: `Berhasil Mengambil Data Barang pcno ${pcno} `,
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    if (!isFound) {
+      res.status(404).json({
+        message: "Data tidak ada, masukan PC Number yang bener",
+      });
+      return;
+    }
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const createPcMaster = async (req, res) => {
   const { body } = req;
   try {
@@ -57,8 +82,46 @@ const createPcMaster = async (req, res) => {
   }
 };
 
+const UpdatePcMaster = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+  try {
+    await PcMasterModel.UpdatePcMaster(body, id);
+    res.json({
+      message: "Data PC Master berhasil diubah",
+      data: {
+        ...body,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const deletePcMaster = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await PcMasterModel.deletePcMaster(id);
+    res.json({
+      message: "Data PC Master  berhasil dihapus",
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 module.exports = {
   getAllPcMaster,
   getPcMasterById,
+  getPcMasterByPcNo,
   createPcMaster,
+  UpdatePcMaster,
+  deletePcMaster,
 };

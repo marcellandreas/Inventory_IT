@@ -3,7 +3,8 @@ import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
 import Title from "../../../atoms/Text/Title";
 
-const FormEditModalPcMaster = ({ onClose, id, setIsLoading }) => {
+const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
+  console.log("di form edit", id);
   const [formValues, setFormValues] = useState({
     pc_no: "",
     pc_description: "",
@@ -17,8 +18,10 @@ const FormEditModalPcMaster = ({ onClose, id, setIsLoading }) => {
     pc_spectification: "",
   });
 
+  console.log(formValues);
+
   useEffect(() => {
-    AxiosInstance.get(`pcmaster/${id}`).then((res) => {
+    AxiosInstance.get(`pcmaster/${pcno}`).then((res) => {
       const itemData = res.data.data;
       const mappedItemData = itemData.map((item) => ({
         pc_no: item.pc_no,
@@ -40,18 +43,18 @@ const FormEditModalPcMaster = ({ onClose, id, setIsLoading }) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
-  const data = {
-    pc_no: formValues.pc_no,
-    pc_description: formValues.pc_description,
-    unit: formValues.unit,
-    category: formValues.category,
-    status: formValues.status,
-    pc_location: formValues.pc_location,
-    note: formValues.note,
-    date_registation: formValues.date_registation,
-    date_expired: formValues.date_expired,
-    pc_spectification: formValues.pc_spectification,
-  };
+  // const data = {
+  //   pc_no: formValues.pc_no,
+  //   pc_description: formValues.pc_description,
+  //   unit: formValues.unit,
+  //   category: formValues.category,
+  //   status: formValues.status,
+  //   pc_location: formValues.pc_location,
+  //   note: formValues.note,
+  //   date_registation: formValues.date_registation,
+  //   date_expired: formValues.date_expired,
+  //   pc_spectification: formValues.pc_spectification,
+  // };
 
   const handleUpdateForm = (e) => {
     e.preventDefault();
@@ -62,13 +65,14 @@ const FormEditModalPcMaster = ({ onClose, id, setIsLoading }) => {
       return;
     }
 
-    AxiosInstance.patch(`/pcmaster/${id}`, data)
+    AxiosInstance.patch(`/pcmaster/${id}`, formValues)
       .then((res) => {
-        onClose();
+        alert("berhasil Edit Pc Master");
         setIsLoading(true);
-        alert("berhasil");
+        onClose();
       })
       .catch((err) => {
+        alert("Gagal Edit Pc Master");
         console.log(err);
       });
   };
@@ -186,7 +190,7 @@ const FormEditModalPcMaster = ({ onClose, id, setIsLoading }) => {
               type="text"
               name="date_registration"
               onChange={handleChangeValue}
-              value={formValues.date_registation.slice(0, 10)}
+              value={formValues.date_registation}
             />
           </div>
           <div className="gap-2 flex flex-col w-60">

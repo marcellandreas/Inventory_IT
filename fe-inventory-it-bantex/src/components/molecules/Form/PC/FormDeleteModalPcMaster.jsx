@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 
-const FormDeleteModalPcMaster = ({ onClose, id, setIsLoading }) => {
+const FormDeleteModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -26,8 +26,7 @@ const FormDeleteModalPcMaster = ({ onClose, id, setIsLoading }) => {
       <hr className="border border-slate-800 w-2/5 m-auto" />
       <section className="flex flex-col items-center gap-2 w-full justify-center">
         <p>Anda yakin ingin menghapus Pc Master</p>
-
-        <div className="delete_item_box">{data}</div>
+        <div className="delete_item_box">{pcno}</div>
       </section>
       <div className="flex flex-wrap gap-2 w-full">
         <button onClick={handleDelete} className="button flex-1">

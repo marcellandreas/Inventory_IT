@@ -4,3 +4,4 @@ export { default as Sidebar } from "./Sidebar";
 export { default as FormLogin } from "./Login";
 
 export { default as LayoutContentDashboard } from "./LayoutContentDashboard";
+export { default as DataPc } from "./Manage/DataPc";

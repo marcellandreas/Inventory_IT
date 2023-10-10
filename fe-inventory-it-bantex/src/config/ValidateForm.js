@@ -1,4 +1,4 @@
-export function validateFormDataItems(formValues) {
+export const validateFormDataItems = (formValues) => {
   const errors = [];
 
   if (formValues.item_no === "") {
@@ -29,8 +29,7 @@ export function validateFormDataItems(formValues) {
     errors.push("Spesifikasi item harus diisi");
   }
   return errors;
-}
-
+};
 export const validateFormDataPcMaster = (formValues) => {
   const errors = [];
 
@@ -64,7 +63,6 @@ export const validateFormDataPcMaster = (formValues) => {
 
   return errors;
 };
-
 export const validateFormDataAuth = (formValues) => {
   const errors = [];
 

@@ -6,9 +6,7 @@ import {
   FormEditModalItem,
   TablePcLine,
 } from "../../components/molecules";
-import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
-import { NavLink } from "react-router-dom";
 import ShowModal from "../../components/organisms/ShowModal";
 
 const PcLine = () => {
@@ -62,12 +60,12 @@ const PcLine = () => {
                 </section>
 
                 <section className="table__body">
-                  {/* <TablePcLine
-                  // data={data}
-                  setId={setId}
-                  setEditModalItem={setEditModal}
-                  setDeleteModalItem={setDeleteModal}
-                /> */}
+                  <TablePcLine
+                    data={data}
+                    setId={setId}
+                    setEditModalItem={setEditModal}
+                    setDeleteModalItem={setDeleteModal}
+                  />
                 </section>
               </section>
             )}

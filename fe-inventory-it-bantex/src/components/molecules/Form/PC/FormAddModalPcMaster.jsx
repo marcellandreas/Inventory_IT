@@ -38,6 +38,8 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
     post_username: username,
   };
 
+  console.table(formValues, "dah");
+
   const handleCreateForm = async (e) => {
     e.preventDefault();
 
@@ -45,7 +47,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
 
     // Jika ada error, tampilkan error
     if (errors.length > 0) {
-      setValidation(errors);
+      alert(errors);
       return;
     }
 
@@ -101,6 +103,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
             <input
               className=" bg-slate-200 uppercase"
               placeholder="e.g: PC or LAPTOP"
+              name="category"
               type="text"
               onChange={handleChangeValue}
             />
@@ -163,7 +166,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
               className=" bg-slate-200 "
               placeholder=""
               type="date"
-              name="date_registration"
+              name="date_registation"
               onChange={handleChangeValue}
             />
           </div>
@@ -174,6 +177,16 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
               placeholder=""
               type="date"
               name="date_expired"
+              onChange={handleChangeValue}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>PC Spec</label>
+            <input
+              className=" bg-slate-200 "
+              placeholder=""
+              type="text"
+              name="pc_spectification"
               onChange={handleChangeValue}
             />
           </div>

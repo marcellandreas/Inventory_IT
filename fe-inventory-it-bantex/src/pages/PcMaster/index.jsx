@@ -1,59 +1,33 @@
-import { useEffect, useState } from "react";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import {
-  FormAddModalPcMaster,
-  FormDeleteModalPcMaster,
-  FormEditModalPcMaster,
-  TablePcMasters,
-} from "../../components/molecules";
+import { useDispatch, useSelector } from "react-redux";
 import { AxiosInstance } from "../../apis/api";
-import ShowModal from "../../components/organisms/ShowModal";
-import PcLine from "../../components/molecules/doc/PcLine";
-import DataPc from "../../components/templates/Manage/DataPc";
+import {
+  LayoutContentDashboard,
+  Sidebar,
+  DataPc,
+} from "../../components/templates";
+import { setDataPcMaster, setLoadingPc } from "../../Redux/Feature/DataPc";
+import { useEffect } from "react";
 
 const PcMaster = () => {
-  const [dataPcMaster, setDataPcMaster] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [id, setId] = useState("");
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.dataPc.loadingPc);
+
   useEffect(() => {
     AxiosInstance.get("/pcmaster")
       .then((res) => {
-        setDataPcMaster(res.data.data);
-        setIsLoading(false);
+        dispatch(setDataPcMaster(res.data.data));
+        dispatch(setLoadingPc(false));
       })
       .catch((err) => {
-        alert("terjadi kesalahan dalam memproses data");
+        console.error("Error fetching data:", err);
       });
-  }, [isLoading]);
-
-  // state modals in stock
-  const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [components, setComponents] = useState(false);
-
+  }, [dispatch, loading]);
   return (
-    <>
-      <Sidebar>
-        <LayoutContentDashboard>
-          <DataPc
-            setAddModal={setAddModal}
-            setEditModal={setEditModal}
-            setDeleteModal={setDeleteModal}
-          />
-        </LayoutContentDashboard>
-      </Sidebar>
-      {/* Modals Popup */}
-      <ShowModal isVisible={components} onClose={() => setComponents(false)}>
-        <PcLine />
-      </ShowModal>
-      <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
-        <FormAddModalPcMaster
-          onClose={() => setAddModal(false)}
-          setIsLoading={setIsLoading}
-        />
-      </ShowModal>
-    </>
+    <Sidebar>
+      <LayoutContentDashboard>
+        <DataPc />
+      </LayoutContentDashboard>
+    </Sidebar>
   );
 };
 

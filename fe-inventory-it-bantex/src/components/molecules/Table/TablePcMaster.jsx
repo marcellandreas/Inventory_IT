@@ -1,11 +1,6 @@
-import { GrCloudComputer } from "react-icons/gr";
-const TablePcMasters = ({
-  setEditModal,
-  setDeleteModal,
-  setComponents,
-  data,
-  setId,
-}) => {
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+const TablePcMasters = ({ setEditModal, setDeleteModal, data, setId }) => {
   const role = localStorage.getItem("role");
   const columnNames = [
     "id",
@@ -24,6 +19,16 @@ const TablePcMasters = ({
     "post_date",
     "action",
   ];
+
+  const navigate = useNavigate();
+  const backToMenu = () => {
+    navigate(-1);
+  };
+
+  // const [idFromPcComponent, setIdFromPcComponent] = useState("");
+  const [idMarcell, setIdMarcell] = useState("");
+
+  localStorage.setItem("GetIdFromTable", idMarcell);
 
   const tableHeaders =
     role == 1
@@ -49,7 +54,8 @@ const TablePcMasters = ({
             <tr
               key={i}
               onClick={() => {
-                alert(`${barang.id_pc_master}`);
+                backToMenu();
+                setIdMarcell(barang.pc_no);
               }}
             >
               <td className="border px-4 py-2">{i++}</td>

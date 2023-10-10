@@ -12,11 +12,11 @@ import {
   PcMasterPage,
   PcLinePage,
   GetAllPcMasterPage,
+  BarcodePrinterPage,
+  QrcodePrinterPage,
+  GetUnusedItemsPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
-import BarcodePrinter from "../pages/Barcode";
-import QrcodePrinter from "../pages/QrCode";
-import PcLine from "../components/molecules/doc/PcLine";
 const Routers = () => {
   return (
     <BrowserRouter>
@@ -38,7 +38,9 @@ const Routers = () => {
           <Route path="/pc-master">
             <Route index element={<PcMasterPage />}></Route>
             <Route path="detail" element={<GetAllPcMasterPage />}></Route>
+            <Route path="unused" element={<GetUnusedItemsPage />}></Route>
           </Route>
+
           <Route path="/pc-line">
             <Route index element={<PcLinePage />}></Route>
           </Route>
@@ -46,10 +48,10 @@ const Routers = () => {
             <Route index element={<AccesPage />}></Route>
           </Route>
           <Route path="/barcode">
-            <Route index element={<BarcodePrinter />}></Route>
+            <Route index element={<BarcodePrinterPage />}></Route>
           </Route>
           <Route path="/qrcode">
-            <Route index element={<QrcodePrinter />}></Route>
+            <Route index element={<QrcodePrinterPage />}></Route>
           </Route>
           <Route path="/reports">
             <Route index element={<ReportsPage />}></Route>

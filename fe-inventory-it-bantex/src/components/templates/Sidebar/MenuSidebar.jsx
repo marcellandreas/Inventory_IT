@@ -26,13 +26,13 @@ export const menuSidebar = [
     name_menu: "PC Master",
     icon: <FaComputer />,
   },
-  {
-    path: "/pc-line",
-    name_menu: "PC line",
-    icon: <FaComputer />,
-  },
+  // {
+  //   path: "/pc-line",
+  //   name_menu: "PC line",
+  //   icon: <FaComputer />,
+  // },
   // { path: "/stock-in", name_menu: "Stock In", icon: <MdWarehouse /> },
-  { path: "/stock-out", name_menu: "Stock Out", icon: <MdWarehouse /> },
+  // { path: "/stock-out", name_menu: "Stock Out", icon: <MdWarehouse /> },
 ];
 
 export const LogoutMenu = [

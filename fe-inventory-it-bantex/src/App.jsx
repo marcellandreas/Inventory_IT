@@ -1,21 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Routers from "./routers";
-import { setDataItem, setLoadingItem } from "./Redux/Feature/DataState";
 import { useEffect } from "react";
 import { AxiosInstance } from "./apis/api";
+import { setDataPcMaster } from "./Redux/Feature/DataPc";
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    AxiosInstance.get("/items")
-      .then((res) => {
-        dispatch(setDataItem(res.data.data));
-        dispatch(setLoadingItem(false));
-      })
-      .catch((err) => {
-        alert("terjadi kesalahan dalam memproses data");
-      });
-  }, []);
   return <Routers />;
 }
 

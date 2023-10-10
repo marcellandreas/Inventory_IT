@@ -10,9 +10,9 @@ export { default as FormAddModalItem } from "./Form/Items/FormAddModalItem";
 export { default as FormEditModalItem } from "./Form/Items/FormEditModalItems";
 export { default as FormDeleteModalItem } from "./Form/Items/FormDeleteModalItem";
 
-export { default as FormAddModalPcMaster } from "./Form/PcMaster/FormAddModalPcMaster";
-export { default as FormEditModalPcMaster } from "./Form/PcMaster/FormEditModalPcMaster";
-export { default as FormDeleteModalPcMaster } from "./Form/PcMaster/FormDeleteModalPcMaster";
+export { default as FormAddModalPcMaster } from "./Form/PC/FormAddModalPcMaster";
+export { default as FormEditModalPcMaster } from "./Form/PC/FormEditModalPcMaster";
+export { default as FormDeleteModalPcMaster } from "./Form/PC/FormDeleteModalPcMaster";
 
 export { default as FormAddModalUser } from "./Form/Users/FormAddModalUser";
 export { default as FormEditModalUser } from "./Form/Users/FormEditModalUser";

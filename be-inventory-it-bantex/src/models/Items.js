@@ -11,6 +11,11 @@ const getItemById = (id) => {
   return pool.execute(SQLQuery);
 };
 
+const getUnusedItemNo = () => {
+  const SQLQuery = `SELECT * FROM items WHERE item_no NOT IN (SELECT item_no FROM pc_linee);`;
+  return pool.execute(SQLQuery);
+};
+
 const createNewItem = (body) => {
   // const id = nanoid(10);
 
@@ -41,4 +46,5 @@ module.exports = {
   createNewItem,
   updateItem,
   deleteItem,
+  getUnusedItemNo,
 };

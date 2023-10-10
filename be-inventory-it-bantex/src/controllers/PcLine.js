@@ -39,7 +39,43 @@ const getDataPcLineByPcNo = async (req, res) => {
   }
 };
 
+const createPcLine = async (req, res) => {
+  const { body } = req;
+  try {
+    await PcLineModel.createPcLine(body);
+    res.json({
+      message: "Berhasil Menambahkan komponents",
+      data: body,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const delatePcLine = async (req, res) => {
+  const { item_no } = req.params;
+  try {
+    await PcLineModel.delettPcLine(item_no);
+    res.json({
+      message: "Data Berhasil Dipisah",
+      data: null,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 module.exports = {
   getAllPcLine,
   getDataPcLineByPcNo,
+  createPcLine,
+  delatePcLine,
 };

@@ -6,6 +6,7 @@ import {
   FormEditModalItem,
   TableItems,
 } from "../../components/molecules";
+import { BsDatabaseFillAdd } from "../../assets/icons/icons";
 import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
 import { NavLink } from "react-router-dom";
@@ -65,12 +66,12 @@ const ItemsPage = () => {
                     />
                   </div>
                   <button
-                    className="button"
+                    className="button flex gap-2 items-center"
                     onClick={() => {
                       setAddModalItem(true);
                     }}
                   >
-                    Add Item
+                    <BsDatabaseFillAdd /> <span>Tambah Barang</span>
                   </button>
                 </section>
                 <section className="table__body">

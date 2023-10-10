@@ -13,7 +13,19 @@ const getDataPcLineByPcNo = (pcno) => {
   return pool.execute(SQLQuery);
 };
 
+const createPcLine = (body) => {
+  const SQLQuery = `INSERT INTO pc_linee (pc_no, item_no, post_user_id,post_username,post_date) VALUES ('${body.pc_no}', '${body.item_no}', '${body.post_id_user}', '${body.post_username}', current_timestamp());`;
+  return pool.execute(SQLQuery);
+};
+
+const delettPcLine = (item_no) => {
+  const SQLQuery = `DELETE FROM pc_linee WHERE pc_linee.item_no = '${item_no}'`;
+  return pool.execute(SQLQuery);
+};
+
 module.exports = {
   getAllPcLine,
+  createPcLine,
   getDataPcLineByPcNo,
+  delettPcLine,
 };

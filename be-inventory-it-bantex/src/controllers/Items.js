@@ -16,6 +16,21 @@ const getAllItems = async (req, res) => {
   }
 };
 
+const getUnusedItemNo = async (req, res) => {
+  try {
+    const [data] = await itemsModal.getUnusedItemNo();
+    res.json({
+      message: "Berhasil Mengambil items yang belum terhubung",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 // function get data by id in table items
 const getItemById = async (req, res) => {
   const { id } = req.params;
@@ -126,6 +141,7 @@ const delateItem = async (req, res) => {
 module.exports = {
   getAllItems,
   getItemById,
+  getUnusedItemNo,
   delateItem,
   updateItem,
   createNewItem,

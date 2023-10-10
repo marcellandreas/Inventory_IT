@@ -1,0 +1,44 @@
+// add input
+const [inputCount, setInputCount] = useState(1);
+const addInput = () => {
+  setInputCount(inputCount + 1);
+};
+
+<div>
+  <button onClick={addInput}>Tambah Input</button>
+</div>;
+
+{
+  /* <div className="gap-2 flex flex-col w-60">
+            <label>Pc Description</label>
+
+            {[...Array(inputCount)].map((_, i) => (
+              <input
+                key={i}
+                type="text"
+                className=" bg-slate-200 "
+                placeholder="e.g: "
+                name="pc_description"
+                onChange={handleChangeValue}
+              />
+            ))}
+          </div> */
+}
+
+// const data = {
+//   selectedValues: selectedValues.map((value) => ({
+//     pc_no: formValues.pc_no,
+//     item_no: value,
+//     post_user_id: idUser,
+//     post_username: username,
+//   })),
+// };
+
+// const data = selectedValues.map((item) => ({
+//   pc_no: formValues.pc_no,
+//   item_no: item,
+//   post_user_id: idUser,
+//   post_username: username,
+// }));
+
+// console.log(data, "array data tampung");
