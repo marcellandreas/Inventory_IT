@@ -51,7 +51,7 @@ const DataPc = () => {
       setPcMaster(res.data.data);
       setIsLoading(false);
     });
-  }, [formValues.pc_no, isLoading]);
+  }, [isLoading]);
 
   const options = [
     <option value={formValues.pc_no}>{formValues.pc_no}</option>,
@@ -73,7 +73,7 @@ const DataPc = () => {
     AxiosInstance.get(`pcline/${formValues.pc_no}`).then((res) => {
       setDataPcComponent(res.data.data);
     });
-  }, [formValues.pc_no]);
+  }, [formValues.pc_no, isLoading]);
 
   useEffect(() => {
     AxiosInstance.get(`pcmaster/${formValues.pc_no}`).then((res) => {

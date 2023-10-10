@@ -48,7 +48,7 @@ const createPcLine = async (req, res) => {
       data: body,
     });
   } catch (error) {
-    console.log(error);
+    console.log(error, "create pc line");
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,
@@ -65,7 +65,6 @@ const delatePcLine = async (req, res) => {
       data: null,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,

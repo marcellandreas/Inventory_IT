@@ -2,7 +2,7 @@ import { useState } from "react";
 import Title from "../../atoms/Text/Title";
 import { TablePcLine } from "../../molecules";
 import ShowModal from "../../organisms/ShowModal";
-import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
+// import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
 import FormAddModalComponentPc2 from "../../molecules/Form/PC/FormAddModalComponentPc2";
 import FormLostConnection from "../../molecules/Form/PC/FormLostConnection";
 import {
@@ -51,7 +51,7 @@ const DataComponentsPc = ({ dataPcComponent, formValues, setIsLoading }) => {
         <FormAddModalComponentPc2
           onClose={() => setAddModal(false)}
           setIsLoading={setIsLoading}
-          pcInput={formValues.pc_description}
+          pcInput={formValues.pc_no}
         />
       </ShowModal>
       <ShowModal isVisible={deleteModal} onClose={() => setDeleteModal(false)}>
