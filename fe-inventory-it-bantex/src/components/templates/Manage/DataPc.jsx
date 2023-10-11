@@ -95,6 +95,7 @@ const DataPc = () => {
   useEffect(() => {
     AxiosInstance.get(`pcline/${formValues.pc_no}`).then((res) => {
       setDataPcComponent(res.data.data);
+      setIsLoading(false);
     });
   }, [formValues.pc_no, isLoading]);
 
