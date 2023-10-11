@@ -7,6 +7,7 @@ import {
 } from "./MenuSidebar";
 import { useState } from "react";
 import { CgLogOut } from "react-icons/cg";
+import { signOut } from "../../../config/Auth";
 
 const Sidebar = ({ children }) => {
   const [isStockDropdownOpen, setStockDropdownOpen] = useState(false);
