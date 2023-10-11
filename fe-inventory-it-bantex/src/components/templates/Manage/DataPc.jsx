@@ -14,6 +14,7 @@ import {
   BsDatabaseFillAdd,
   MdDelete,
 } from "../../../assets/icons/icons";
+import Loading from "../../molecules/Loading";
 
 const DataPc = () => {
   const [formValues, setFormValues] = useState({
@@ -120,7 +121,7 @@ const DataPc = () => {
   return (
     <>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <section className="w-full flex-col flex gap-9 ">
           {/* <Title>Halaman PC Master</Title> */}
