@@ -16,6 +16,8 @@ import {
   QrcodePrinterPage,
   GetUnusedItemsPage,
   AddComponentsPcPage,
+  ApplicationsPage,
+  MakeAGoodReqPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -46,6 +48,10 @@ const Routers = () => {
             ></Route>
           </Route>
 
+          <Route path="/form-pengajuan">
+            <Route index element={<ApplicationsPage />}></Route>
+            <Route path="buat" element={<MakeAGoodReqPage />} />
+          </Route>
           <Route path="/pc-line">
             <Route index element={<PcLinePage />}></Route>
           </Route>

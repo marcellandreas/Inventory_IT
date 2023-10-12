@@ -41,8 +41,8 @@ const FormLostConnection = ({ onClose, setIsLoading, pcInput }) => {
   );
 
   const options = [
-    <option value="" disabled selected>
-      Pilih item no
+    <option className=" capitalize" value="" disabled selected>
+      Pilih Nomor Item
     </option>,
     ...filteredOptions.map((stock) => (
       <option key={stock.item_no} value={stock.item_no}>
@@ -86,13 +86,13 @@ const FormLostConnection = ({ onClose, setIsLoading, pcInput }) => {
           </div>
         )}
         <div className="gap-2 flex flex-col w-60">
-          <label>Items No</label>
-          <input
+          <label className=" capitalize">Nomor Item</label>
+          {/* <input
             type="text"
             placeholder="Cari item no..."
             value={searchTerm}
             onChange={handleSearch}
-          />
+          /> */}
           <select value={selectedValues} onChange={handleChange}>
             {options}
           </select>

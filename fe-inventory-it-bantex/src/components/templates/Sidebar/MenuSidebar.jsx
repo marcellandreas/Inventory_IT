@@ -3,6 +3,7 @@ import { BiSolidReport } from "react-icons/bi";
 import { HiDocument } from "react-icons/hi";
 import { ImBooks } from "react-icons/im";
 import { FaComputer } from "react-icons/fa6";
+import { CiGrid42 } from "react-icons/ci";
 
 export const menuSidebar = [
   {
@@ -25,6 +26,11 @@ export const menuSidebar = [
     path: "/pc-master",
     name_menu: "PC Master",
     icon: <FaComputer />,
+  },
+  {
+    path: "/form-pengajuan",
+    name_menu: "Pengajuan",
+    icon: <CiGrid42 />,
   },
   // {
   //   path: "/pc-line",

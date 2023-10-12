@@ -11,6 +11,9 @@ export { default as AccesPage } from "./Access";
 export { default as ReportsPage } from "./Reports";
 export { default as BarcodePrinterPage } from "./PrintPage/Barcode";
 export { default as QrcodePrinterPage } from "./PrintPage/QrCode";
+// APPLICATIONS GOOD REQ
+export { default as ApplicationsPage } from "./Applications";
+export { default as MakeAGoodReqPage } from "./Applications/MakeAGoodsRequest";
 
 // Not Found Pages
 export { default as NotFoundAfter } from "./NotFound/NotFoundAfterLoginPage";
