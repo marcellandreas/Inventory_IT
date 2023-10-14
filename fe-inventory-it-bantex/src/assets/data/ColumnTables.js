@@ -77,3 +77,16 @@ export const columnTableStock = [
   "Berfungsi",
   "Action",
 ];
+
+export const columnTableItemsReq = [
+  "id",
+  "no_pengajuan",
+  "name_pt",
+  "name_division",
+  "item_req_date",
+  "approved_1",
+  "approved_2",
+  "post_user_id",
+  "post_username",
+  "post_date",
+];

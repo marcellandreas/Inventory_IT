@@ -18,6 +18,7 @@ import {
   AddComponentsPcPage,
   ApplicationsPage,
   MakeAGoodReqPage,
+  DetailFormItemsReqPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -49,8 +50,9 @@ const Routers = () => {
           </Route>
 
           <Route path="/form-pengajuan">
-            <Route index element={<ApplicationsPage />}></Route>
+            <Route index element={<ApplicationsPage />} />
             <Route path="buat" element={<MakeAGoodReqPage />} />
+            <Route path="detail" element={<DetailFormItemsReqPage />} />
           </Route>
           <Route path="/pc-line">
             <Route index element={<PcLinePage />}></Route>

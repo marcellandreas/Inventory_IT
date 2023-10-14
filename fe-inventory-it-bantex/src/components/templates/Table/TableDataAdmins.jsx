@@ -5,6 +5,8 @@ import {
   FormDeleteModalAdmin,
   FormEditModalAdmin,
 } from "../../molecules";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { TitleTable } from "../../atoms";
 
 const TableDataAdmin = ({ admin, setIsLoading }) => {
   const [addModal, setAddModal] = useState(false);
@@ -15,7 +17,7 @@ const TableDataAdmin = ({ admin, setIsLoading }) => {
     <>
       <section className="lg:w-[1100px] bg-slate-400 backdrop-blur-md">
         <section className="table__header">
-          <h1>Tabel User</h1>
+          <TitleTable>Tabel Data Admin</TitleTable>
           <div className="input-group">
             <input
               // onChange={(e) => {
@@ -95,7 +97,7 @@ const Table = ({ data, setEditModal, setDeleteModal, setId }) => {
                   }}
                   className="p-2 bg-blue-600 rounded-lg"
                 >
-                  Edit
+                  <MdEdit />
                 </button>
                 <button
                   onClick={() => {
@@ -104,7 +106,7 @@ const Table = ({ data, setEditModal, setDeleteModal, setId }) => {
                   }}
                   className="p-2 bg-red-600 rounded-lg"
                 >
-                  Delete
+                  <MdDelete />
                 </button>
               </td>
             </tr>

@@ -14,6 +14,7 @@ export { default as QrcodePrinterPage } from "./PrintPage/QrCode";
 // APPLICATIONS GOOD REQ
 export { default as ApplicationsPage } from "./Applications";
 export { default as MakeAGoodReqPage } from "./Applications/MakeAGoodsRequest";
+export { default as DetailFormItemsReqPage } from "./Applications/DetailFormItemsRequest";
 
 // Not Found Pages
 export { default as NotFoundAfter } from "./NotFound/NotFoundAfterLoginPage";

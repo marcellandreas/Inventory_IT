@@ -27,7 +27,7 @@ const Sidebar = ({ children }) => {
   };
 
   return (
-    <article className="flex w-full min-h-screen bg-slate-100">
+    <article className="flex w-full h-screen bg-slate-100">
       {/* Masih tanda tanya */}
       {/* <button
         className={`flex items-center justify-center cursor-pointer absolute top-3 w-10 h-10 ${
@@ -40,8 +40,8 @@ const Sidebar = ({ children }) => {
         </span>
       </button> */}
       <section
-        className={` min-w-[180px] min-h-screen bg-slate-800 border-r-2 flex flex-col`}
-        // style={{ width: isOpen ? "240px" : "60px" }}
+        className={`  min-h-screen bg-slate-800 border-r-2 flex flex-col`}
+        style={{ minWidth: isOpen ? "180px" : "60px" }}
       >
         <div className="title h-16 border-b-2 text-white text-xl font-bold text-center flex justify-center items-center">
           Inventory IT

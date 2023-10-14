@@ -1,155 +1,270 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
-import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
 import Title from "../../../atoms/Text/Title";
+import { useSelector } from "react-redux";
+import { MdDelete } from "react-icons/md";
+import { Axios } from "axios";
 
-const FormAddApplications = ({ onClose, setIsLoading }) => {
+const FormAddApplications = () => {
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
   const [formValues, setFormValues] = useState({
     name_pt: "",
     name_division: "",
-    goods_req_date: "",
-    qty: "",
-    note: "",
-    items_description: "",
-    items_no: "",
+    item_req_date: "",
     approved_1: "",
     approved_2: "",
-    post_username: "",
-    post_user_id: "",
+    post_user_id: idUser,
+    post_username: username,
+    no_pengajuan: "",
   });
 
+  const dataPt = useSelector((state) => state.dataDivisionAndPT.dataPt);
+  const optionsPt = [
+    <option value="" disabled selected>
+      Pilih Bagian Pt
+    </option>,
+    ...dataPt.map((stock, i) => (
+      <option key={stock.name_pt} defaultValue={stock.name_pt}>
+        {stock.name_pt}
+      </option>
+    )),
+  ];
+  const [dataDivision, setDataDivision] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (formValues.name_pt) {
+        try {
+          const res = await AxiosInstance.get(
+            `/app/division/${formValues.name_pt}`
+          );
+          setDataDivision(res.data.data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    };
+
+    fetchData();
+  }, [formValues]);
+  const optionsDiv = [
+    <option value="" disabled selected>
+      Pilih Divisi
+    </option>,
+    ...dataDivision.map((stock, i) => (
+      <option key={stock.name_division} defaultValue={stock.name_division}>
+        {stock.name_division}
+      </option>
+    )),
+  ];
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
-  const data = {
-    pc_no: formValues.pc_no,
-    pc_description: formValues.pc_description,
-    unit: formValues.unit,
-    category: formValues.category,
-    status: formValues.status,
-    pc_location: formValues.pc_location,
-    note: formValues.note,
-    date_registation: formValues.date_registation,
-    date_expired: formValues.date_expired,
-    pc_spectification: formValues.pc_spectification,
-    post_user_id: idUser,
-    post_username: username,
+
+  const [inputList, setinputList] = useState([
+    { sub_no: "", stock_no: "", stock_description: "", qty: "", note: "" },
+  ]);
+
+  const handleinputchange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setinputList(list);
   };
 
-  console.table(formValues, "dah");
+  const handleremove = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setinputList(list);
+  };
 
-  const handleCreateForm = async (e) => {
-    e.preventDefault();
+  const handleaddclick = () => {
+    setinputList([
+      ...inputList,
+      { sub_no: "", stock_no: "", stock_description: "", qty: "", note: "" },
+    ]);
+  };
 
-    const errors = validateFormDataPcMaster(formValues);
+  const dataPost = inputList.map((item) => ({
+    no_pengajuan: formValues.no_pengajuan,
+    sub_no: item.sub_no,
+  }));
 
-    // Jika ada error, tampilkan error
-    if (errors.length > 0) {
-      alert(errors);
-      return;
+  const handleSubmit = async () => {
+    try {
+      const request1 = AxiosInstance.post("/pengajuan/req", formValues);
+      const request2 = AxiosInstance.post("/pengajuan/sub", inputList);
+      await Promise.all([request1, request2]);
+      await AxiosInstance.post("/pengajuan/surat", dataPost);
+      alert("Form Pengajuan Berhasil Dibuat");
+    } catch (error) {
+      console.error(
+        "Terjadi kesalahan saat mengirim permintaan:",
+        error.config.data
+      );
     }
-
-    await AxiosInstance.post("/pcmaster", data)
-      .then((res) => {
-        console.log(res);
-        onClose();
-        setIsLoading(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
-    <section className="w-[550px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3  max-h-[600px]  overflow-y-auto">
-      <Title className="text-2xl text-center">Tambahkan Data Pengajuan</Title>
-      <hr className="border border-slate-800  w-2/5 m-0" />
-      <form onSubmit={handleCreateForm} className="flex justify-between">
-        <div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Nama PT.</label>
-            <input
-              className=" bg-slate-200 uppercase"
-              placeholder="e.g: IT-PC-0001"
-              type="text"
-              name="name_pt"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Nama Bagian / Divisi</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g: "
-              name="name_division"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>QTY</label>
+    <section className="w-full bg-slate-300 p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
+      <Title>Tambah Data Pengajuan</Title>
+      <hr className="border border-slate-800  w-1/5 m-0" />
+      <section
+        // onSubmit={handleCreateForm}
+        className="flex flex-col gap-2 justify-between"
+      >
+        <div className="flex flex-wrap gap-2">
+          <div className="gap-2 flex flex-col w-full md:w-60">
+            <label className="min-w-[140px]">No Pengajuan</label>
             <input
               className=" bg-slate-200 "
               placeholder="e.g:"
-              name="qty"
+              name="no_pengajuan"
               type="text"
-              //   onChange={handleChangeValue}
+              onChange={handleChangeValue}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label className="min-w-[140px]">Nama PT</label>
+            <div className="flex justify-end items-end gap-2">
+              <select
+                className="w-full bg-gray-200 rounded-md shadow-sm h-8"
+                onChange={handleChangeValue}
+                name="name_pt"
+              >
+                {optionsPt}
+              </select>
+            </div>
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label className="min-w-[140px]">Nama Divisi / Bagian</label>
+            <div className="flex justify-end items-end gap-2">
+              <select
+                className="w-full bg-gray-200 rounded-md shadow-sm h-8"
+                onChange={handleChangeValue}
+                name="name_division"
+              >
+                {optionsDiv}
+              </select>
+            </div>
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>Date </label>
+            <input
+              className=" bg-slate-200 "
+              placeholder="e.g:"
+              name="item_req_date"
+              type="date"
+              onChange={handleChangeValue}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>Approved 1 </label>
+            <input
+              className=" bg-slate-200 "
+              placeholder="e.g:"
+              name="approved_1"
+              type="text"
+              onChange={handleChangeValue}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>Approved 2</label>
+            <input
+              className=" bg-slate-200 "
+              placeholder="e.g:"
+              name="approved_2"
+              type="text"
+              onChange={handleChangeValue}
             />
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="gap-2 flex flex-col w-60">
-            <label>Note (if any)</label>
-            <textarea
-              className="bg-slate-200 h-[98px]"
-              placeholder=""
-              name="note"
-              //   onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Date Registration</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder=""
-              type="date"
-              name="date_registation"
-              //   onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Date Expired</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder=""
-              type="date"
-              name="date_expired"
-              //   onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>PC Spec</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder=""
-              type="text"
-              name="pc_spectification"
-              //   onChange={handleChangeValue}
-            />
-          </div>
-          <div className="flex flex-wrap gap-2 pt-12">
-            <button className="flex-1 border-2 border-slate-800 bg-white rounded-md p-2 hover:bg-slate-800 hover:text-white">
-              Kembali
-            </button>
-            <button className="flex-1 rounded-md bg-slate-800 text-white p-2">
-              Simpan
+          <div className="flex justify-between items-end ">
+            <h3 className=" text-lg font-semibold">Barang Pengajuan:</h3>
+            <button className="button" onClick={handleaddclick}>
+              Tambah Barang
             </button>
           </div>
+          <hr />
+          {inputList.map((x, i) => {
+            return (
+              <>
+                <div className="flex flex-wrap gap-2">
+                  <div className="gap-2 flex flex-col w-60">
+                    <label>Submission no</label>
+                    <input
+                      className="bg-slate-200"
+                      placeholder="e.g:"
+                      name="sub_no"
+                      type="text"
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+                  </div>
+                  <div className="gap-2 flex flex-col w-60">
+                    <label>Stock Number</label>
+                    <input
+                      className="bg-slate-200"
+                      placeholder="e.g:"
+                      name="stock_no"
+                      type="text"
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+                  </div>
+
+                  <div className="gap-2 flex flex-col w-60">
+                    <label>Stock Desc</label>
+                    <input
+                      className="bg-slate-200"
+                      placeholder="e.g:"
+                      name="stock_description"
+                      type="text"
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+                  </div>
+                  <div className="gap-2 flex flex-col w-[60px]">
+                    <label>Qty</label>
+                    <input
+                      className="bg-slate-200"
+                      placeholder="e.g:"
+                      name="qty"
+                      onChange={(e) => handleinputchange(e, i)}
+                      type="number"
+                    />
+                  </div>
+                  <div className="gap-2 flex flex-col w-60">
+                    <label>Note (if any)</label>
+                    <textarea
+                      className="bg-slate-200 h-[32px]"
+                      placeholder=""
+                      name="note"
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+                  </div>
+
+                  {inputList.length !== 1 && (
+                    <button
+                      className=" bg-slate-800 text-white w-8 h-8 flex justify-center items-center rounded-md  self-end"
+                      onClick={() => handleremove(i)}
+                    >
+                      <MdDelete />
+                    </button>
+                  )}
+                </div>
+              </>
+            );
+          })}
         </div>
-      </form>
+      </section>
+      <section>
+        <button
+          onClick={handleSubmit}
+          className="button absolute right-5 bottom-2"
+        >
+          Tambah Pengajuan
+        </button>
+      </section>
     </section>
   );
 };

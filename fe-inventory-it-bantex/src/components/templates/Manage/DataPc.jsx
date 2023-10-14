@@ -15,6 +15,7 @@ import {
   MdDelete,
 } from "../../../assets/icons/icons";
 import Loading from "../../molecules/Loading";
+import { TitleTable } from "../../atoms";
 
 const DataPc = () => {
   const [formValues, setFormValues] = useState({
@@ -124,11 +125,10 @@ const DataPc = () => {
         <Loading />
       ) : (
         <section className="w-full flex-col flex gap-9 ">
-          {/* <Title>Halaman PC Master</Title> */}
           <section className="bg-slate-300 rounded-3xl w-full shadow-md  mt-4 ">
             {/* Menu */}
             <section className="table__header ">
-              <Title>Data PC Master</Title>
+              <TitleTable>Data PC Master</TitleTable>
               <div className="flex gap-2">
                 <button className="button" onClick={() => setAddModal(true)}>
                   <BsDatabaseFillAdd />

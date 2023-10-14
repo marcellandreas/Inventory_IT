@@ -9,6 +9,7 @@ import {
 import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
 import ShowModal from "../../components/organisms/ShowModal";
+import { TitleTable } from "../../components/atoms";
 
 const StockPage = () => {
   const [dataStocks, setDataStocks] = useState([]);
@@ -33,14 +34,13 @@ const StockPage = () => {
     <>
       <Sidebar>
         <LayoutContentDashboard>
-          <Title>Halaman Barang</Title>
           <section className="container mx-auto mt-5 flex flex-col gap-5">
             {isIsLoading ? (
               <p>Halaman Sedang Memuat Data</p>
             ) : (
               <section className="lg:w-[1100px] bg-slate-400 backdrop-blur-md">
                 <section className="table__header">
-                  <h1>Tabel Barang</h1>
+                  <TitleTable>Data Tabel Barang</TitleTable>
                   <div className="input-group">
                     <input type="search" placeholder="Search Data..." />
                   </div>

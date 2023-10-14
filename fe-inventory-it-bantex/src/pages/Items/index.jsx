@@ -53,7 +53,7 @@ const ItemsPage = () => {
             {isLoading ? (
               <p>Halaman Sedang Memuat Data</p>
             ) : (
-              <section className="lg:w-[1100px] bg-slate-400 backdrop-blur-md">
+              <section className="lg:w-[82vw] bg-slate-400 backdrop-blur-md">
                 <section className="table__header">
                   <Title>Tabel Barang</Title>
                   <div className="input-group">

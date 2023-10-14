@@ -12,6 +12,7 @@ import {
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
+import { TitleTable } from "../../atoms";
 
 const DataComponentsPc = ({
   dataPcComponent,
@@ -26,7 +27,7 @@ const DataComponentsPc = ({
     <>
       {dataPcComponent.length === 0 ? (
         <section className="w-full min-h-[100px] bg-slate-400 backdrop-blur-md rounded-3xl flex justify-center items-center flex-col">
-          <Title>Belum ada komponen</Title>
+          <TitleTable>Belum ada komponen</TitleTable>
           <div className="flex gap-2">
             <NavLink to={`add-components?pc_no=${pcno}`} className="button">
               Tambah Komponen
@@ -37,8 +38,8 @@ const DataComponentsPc = ({
           </div>
         </section>
       ) : (
-        <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
-          <section className="table__header">
+        <section className="w-[84vw] bg-slate-300 backdrop-blur-md rounded-3xl">
+          <section className="table__header rounded-3xl">
             <Title>komponen {formValues.pc_description}</Title>
             <div className="flex gap-2">
               <NavLink to={`unused`} className="button">
@@ -58,7 +59,7 @@ const DataComponentsPc = ({
         </section>
       )}
       <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
-        <FormAddModalComponentPc
+        <FormAddModalComponentPc2
           onClose={() => setAddModal(false)}
           setIsLoading={setIsLoading}
           pcInput={formValues.pc_no}

@@ -34,6 +34,8 @@ const DataStocks = require("./routes/Stocks");
 const DataItems = require("./routes/Items");
 const DataPcMaster = require("./routes/PcMaster");
 const DataPcLine = require("./routes/PcLine");
+const DataDivisionAndPT = require("./routes/DivisionAndPT");
+const DataFormPengajuan = require("./routes/FormPengajuan");
 
 // Routes Sign Up
 app.use("/api", AuthUsers);
@@ -42,6 +44,8 @@ app.use("/stocks", DataStocks);
 app.use("/items", DataItems);
 app.use("/pcmaster", DataPcMaster);
 app.use("/pcline", DataPcLine);
+app.use("/app", DataDivisionAndPT);
+app.use("/pengajuan", DataFormPengajuan);
 
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";

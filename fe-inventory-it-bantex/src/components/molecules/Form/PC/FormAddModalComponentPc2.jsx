@@ -35,7 +35,7 @@ const FormAddModalComponentPc2 = ({ onClose, setIsLoading, pcInput }) => {
   // select option
 
   const options = [
-    <option key={0} value="" disabled selected>
+    <option value="" disabled selected>
       Pilih item no
     </option>,
     ...dataUnused.map((stock, i) => (

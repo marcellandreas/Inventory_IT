@@ -8,6 +8,7 @@ import {
 } from "../../components/molecules";
 import { AxiosInstance } from "../../apis/api";
 import ShowModal from "../../components/organisms/ShowModal";
+import { TitleTable } from "../../components/atoms";
 
 const PcLine = () => {
   const [data, setData] = useState([]);
@@ -38,7 +39,7 @@ const PcLine = () => {
             ) : (
               <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
                 <section className="table__header">
-                  <h1>Tabel Barang</h1>
+                  <TitleTable>Data Tabel Komponen</TitleTable>
                   <p>Kode saat ini: </p>
                   <div className="input-group">
                     <input
