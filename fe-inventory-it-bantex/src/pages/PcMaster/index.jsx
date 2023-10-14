@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AxiosInstance } from "../../apis/api";
 import {
   LayoutContentDashboard,
@@ -14,7 +14,6 @@ import { useEffect } from "react";
 
 const PcMaster = () => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.dataPc.dataItemsUnused);
 
   const handleFetchError = (err) => {
     console.error("Terjadi kesalahan dalam memproses data:", err);

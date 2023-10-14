@@ -44,7 +44,7 @@ const Applications = () => {
   return (
     <Sidebar>
       <LayoutContentDashboard>
-        <section className="container mx-auto mt-5 flex flex-col gap-5  w-full">
+        <section className="container mx-auto mt-5 flex flex-col justify-center items-center gap-5  w-full">
           {dataReq.length == 0 ? (
             <>
               <p>data belum ada</p>
@@ -53,20 +53,39 @@ const Applications = () => {
               </NavLink>
             </>
           ) : (
-            <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
-              <section className="table__header">
-                <Title>Tabel `Form Pengajuan Barang`</Title>
-                <div className="input-group">
-                  <input type="search" placeholder="Search Data..." />
-                </div>
-                <NavLink to={`buat`} className="button flex gap-2 items-center">
-                  <AiFillFileAdd /> <span>Buat Pengajuan</span>
+            <>
+              <div className="flex gap-2 self-start">
+                <NavLink
+                  to={`/barcode`}
+                  className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
+                >
+                  Cetak Pengajuan
                 </NavLink>
+                <NavLink
+                  to={`/qrcode`}
+                  className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
+                >
+                  Cetak qrcode
+                </NavLink>
+              </div>
+              <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
+                <section className="table__header">
+                  <Title>Tabel `Form Pengajuan Barang`</Title>
+                  <div className="input-group">
+                    <input type="search" placeholder="Search Data..." />
+                  </div>
+                  <NavLink
+                    to={`buat`}
+                    className="button flex gap-2 items-center"
+                  >
+                    <AiFillFileAdd /> <span>Buat Pengajuan</span>
+                  </NavLink>
+                </section>
+                <section className="table__body">
+                  <TableApplicationsForm />
+                </section>
               </section>
-              <section className="table__body">
-                <TableApplicationsForm />
-              </section>
-            </section>
+            </>
           )}
         </section>
       </LayoutContentDashboard>

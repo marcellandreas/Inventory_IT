@@ -10,7 +10,7 @@ import { BsDatabaseFillAdd } from "../../assets/icons/icons";
 import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
 import { NavLink } from "react-router-dom";
-import ShowModal from "../../components/organisms/ShowModal";
+import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
 
 const ItemsPage = () => {
   const [data, setData] = useState([]);
@@ -35,8 +35,8 @@ const ItemsPage = () => {
     <>
       <Sidebar>
         <LayoutContentDashboard>
-          <section className="container mx-auto mt-5 flex flex-col gap-5  w-full">
-            <div className="flex gap-2">
+          <section className="container mx-auto flex flex-col gap-5 items-center">
+            <div className="flex gap-2 self-start">
               <NavLink
                 to={`/barcode`}
                 className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
@@ -54,7 +54,7 @@ const ItemsPage = () => {
               <p>Halaman Sedang Memuat Data</p>
             ) : (
               <section className="lg:w-[82vw] bg-slate-400 backdrop-blur-md">
-                <section className="table__header">
+                <TableHeader>
                   <Title>Tabel Barang</Title>
                   <div className="input-group">
                     <input
@@ -73,15 +73,15 @@ const ItemsPage = () => {
                   >
                     <BsDatabaseFillAdd /> <span>Tambah Barang</span>
                   </button>
-                </section>
-                <section className="table__body">
+                </TableHeader>
+                <TableBody>
                   <TableItems
                     data={data}
                     setId={setId}
                     setEditModalItem={setEditModalItem}
                     setDeleteModalItem={setDeleteModalItem}
                   />
-                </section>
+                </TableBody>
               </section>
             )}
           </section>

@@ -32,7 +32,7 @@ const Widget = () => {
     },
   ];
   return (
-    <section className="flex gap-2 justify-between flex-wrap">
+    <section className="flex gap-2  justify-between flex-wrap">
       {menuWidget.map((data, i) => {
         return (
           <div

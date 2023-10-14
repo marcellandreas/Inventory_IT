@@ -19,6 +19,7 @@ import {
   ApplicationsPage,
   MakeAGoodReqPage,
   DetailFormItemsReqPage,
+  PrintPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -59,6 +60,9 @@ const Routers = () => {
           </Route>
           <Route path="/employess">
             <Route index element={<AccesPage />}></Route>
+          </Route>
+          <Route path="/printPage">
+            <Route index element={<PrintPage />}></Route>
           </Route>
           <Route path="/barcode">
             <Route index element={<BarcodePrinterPage />}></Route>

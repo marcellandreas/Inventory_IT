@@ -3,7 +3,6 @@ import { AxiosInstance } from "../../../../apis/api";
 import Title from "../../../atoms/Text/Title";
 import { useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
-import { Axios } from "axios";
 
 const FormAddApplications = () => {
   const idUser = localStorage.getItem("id_user");

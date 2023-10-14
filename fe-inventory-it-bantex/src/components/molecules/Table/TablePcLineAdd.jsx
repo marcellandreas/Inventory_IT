@@ -4,6 +4,7 @@ import ShowModal from "../../organisms/ShowModal";
 import FormAddModalItem from "../Form/Items/FormAddModalItem";
 import { NavLink } from "react-router-dom";
 import { columnTablePcLineAdd } from "../../../assets/data/ColumnTables";
+import { TableContent, Tbody, Thead } from "../../atoms";
 
 const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
   const role = localStorage.getItem("role");
@@ -24,19 +25,13 @@ const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
     <>
       {data.length === 0 ? (
         <div className="h-10 flex items-center justify-center">
-          <NavLink
-            to={`/items`}
-            // onClick={() => {
-            //   setAddModalItem(true);
-            // }}
-            className="button"
-          >
+          <NavLink to={`/items`} className="button">
             Tambah Barang
           </NavLink>
         </div>
       ) : (
-        <table className=" backdrop-blur-md bg-opacity-50 overflow-x-auto rounded-3xl">
-          <thead>
+        <TableContent>
+          <Thead>
             <tr>
               {tableHeaders.map((columnName, index) => (
                 <th key={index} className="px-4 py-2">
@@ -44,8 +39,8 @@ const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
                 </th>
               ))}
             </tr>
-          </thead>
-          <tbody>
+          </Thead>
+          <Tbody>
             {data.map((barang, i) => (
               <tr key={i} className="h-5">
                 <td className="border px-4 py-2">
@@ -79,8 +74,8 @@ const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
                 ) : role == 2 ? null : null}
               </tr>
             ))}
-          </tbody>
-        </table>
+          </Tbody>
+        </TableContent>
       )}
       <ShowModal
         isVisible={addModalItem}

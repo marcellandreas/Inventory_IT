@@ -138,7 +138,7 @@ const Sidebar = ({ children }) => {
         </button>
       </section>
 
-      <section className="flex flex-col w-full   mt-5">
+      <section className="flex flex-col w-full mt-5">
         <Topbar />
         <div className=" min-h-[85vh] overflow-hidden py-5 overflow-y-auto ">
           {children}

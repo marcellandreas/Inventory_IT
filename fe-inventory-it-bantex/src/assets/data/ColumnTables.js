@@ -80,6 +80,7 @@ export const columnTableStock = [
 
 export const columnTableItemsReq = [
   "id",
+  "",
   "no_pengajuan",
   "name_pt",
   "name_division",

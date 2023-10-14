@@ -1,5 +1,6 @@
 import { columnTableItems } from "../../../assets/data/ColumnTables";
 import { MdEditNote, MdDelete } from "../../../assets/icons/icons";
+import { TableContent, Tbody, Thead } from "../../atoms";
 const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
   const role = localStorage.getItem("role");
 
@@ -12,8 +13,8 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
         );
 
   return (
-    <table className=" backdrop-blur-md bg-opacity-50 overflow-x-auto">
-      <thead>
+    <TableContent>
+      <Thead>
         <tr>
           {tableHeaders.map((columnName, index) => (
             <th key={index} className="px-4 py-2">
@@ -21,8 +22,8 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
             </th>
           ))}
         </tr>
-      </thead>
-      <tbody>
+      </Thead>
+      <Tbody>
         {data.map((barang, i) => (
           <tr key={i}>
             <td className="border px-4 py-2">{i++}</td>
@@ -71,8 +72,8 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
             </td>
           </tr>
         ))}
-      </tbody>
-    </table>
+      </Tbody>
+    </TableContent>
   );
 };
 

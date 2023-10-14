@@ -5,9 +5,7 @@ const MakeAGoodRequest = () => {
   return (
     <Sidebar>
       <LayoutContentDashboard>
-        <section className="flex ">
-          <FormAddApplications />
-        </section>
+        <FormAddApplications />
       </LayoutContentDashboard>
     </Sidebar>
   );

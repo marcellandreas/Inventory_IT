@@ -12,6 +12,17 @@ th,
 td {
   white-space: nowrap;
 }
+@media print {
+  @page {
+    margin: 0.5cm; /* Sesuaikan margin sesuai kebutuhan Anda */
+  }
+  section {
+    /* page-break-before: auto; */
+    page-break-before: calc(2);
+    page-break-after: auto;
+    margin-bottom: 0.3cm;
+  }
+}
 
 .active {
   @apply bg-white text-slate-800;

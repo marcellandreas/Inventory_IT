@@ -1,4 +1,5 @@
 import { columnTableStock } from "../../../assets/data/ColumnTables";
+import { TableContent, Tbody, Thead } from "../../atoms";
 
 const TableStocks = ({
   setEditModalStock,
@@ -12,11 +13,11 @@ const TableStocks = ({
     </th>
   ));
   return (
-    <table className="min-w-full backdrop-blur-md bg-opacity-50 overflow-x-auto">
-      <thead>
+    <TableContent>
+      <Thead>
         <tr>{tableHeaders}</tr>
-      </thead>
-      <tbody>
+      </Thead>
+      <Tbody>
         {data.map((barang, i) => (
           <tr key={barang.id_stock}>
             <td className="border px-4 py-2">{i++}</td>
@@ -50,8 +51,8 @@ const TableStocks = ({
             </td>
           </tr>
         ))}
-      </tbody>
-    </table>
+      </Tbody>
+    </TableContent>
   );
 };
 

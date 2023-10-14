@@ -1,10 +1,12 @@
 import Title from "../../components/atoms/Text/Title";
-import { Sidebar } from "../../components/templates";
+import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 
 const ReportPage = () => {
   return (
     <Sidebar>
-      <Title>Halaman Laporan</Title>
+      <LayoutContentDashboard>
+        <Title>Halaman Laporan</Title>
+      </LayoutContentDashboard>
     </Sidebar>
   );
 };

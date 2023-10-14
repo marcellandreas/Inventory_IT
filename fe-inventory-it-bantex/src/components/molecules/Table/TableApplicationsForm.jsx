@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { columnTableItemsReq } from "../../../assets/data/ColumnTables";
 import { NavLink } from "react-router-dom";
+import { TableContent, Tbody, Thead } from "../../atoms";
 const TableApplicationsForm = () => {
   const role = localStorage.getItem("role");
   const dataReq = useSelector(
@@ -16,8 +17,8 @@ const TableApplicationsForm = () => {
         );
 
   return (
-    <table className=" backdrop-blur-md bg-opacity-50 overflow-x-auto">
-      <thead>
+    <TableContent>
+      <Thead>
         <tr>
           {tableHeaders.map((columnName, index) => (
             <th key={index} className="px-4 py-2">
@@ -25,8 +26,8 @@ const TableApplicationsForm = () => {
             </th>
           ))}
         </tr>
-      </thead>
-      <tbody>
+      </Thead>
+      <Tbody>
         {dataReq.map((data, i) => (
           <tr key={i}>
             <td className="border px-4 py-2">{i + 1}</td>
@@ -35,8 +36,8 @@ const TableApplicationsForm = () => {
                 <span>Detail</span>
               </NavLink>
             </td>
-            <td className="border px-4 py-2">{data.name_pt}</td>
             <td className="border px-4 py-2">{data.no_pengajuan}</td>
+            <td className="border px-4 py-2">{data.name_pt}</td>
             <td className="border px-4 py-2">{data.name_division}</td>
             <td className="border px-4 py-2">{data.item_req_date}</td>
             <td className="border px-4 py-2">{data.approved_1}</td>
@@ -72,8 +73,8 @@ const TableApplicationsForm = () => {
             </td> */}
           </tr>
         ))}
-      </tbody>
-    </table>
+      </Tbody>
+    </TableContent>
   );
 };
 

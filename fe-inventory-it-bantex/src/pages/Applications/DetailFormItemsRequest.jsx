@@ -9,28 +9,24 @@ const DetailFormItemsRequest = () => {
             <h3 className=" text-xl">Form Pengajuan Barang IT </h3>
             <p className=" font-normal">Atas beban PT BMS </p>
           </div>
-          <div className=" font-semibold bg-amber-200">
+          <div className=" font-semibold ">
             <p>No: </p>
             <p>Tgl: </p>
             <p>Bagian: </p>
           </div>
           <table className=" bg-transparent border">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Nama Barang</th>
-                <th>QTY</th>
-                <th>Keterangan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-            </tbody>
+            <tr className="border py-0 m-0">
+              <th className="border p-0 m-0 border-black">No</th>
+              <th className="border p-0 m-0 border-black">Nama Barang</th>
+              <th className="border p-0 m-0 border-black">QTY</th>
+              <th className="border p-0 m-0 border-black">Keterangan</th>
+            </tr>
+            <tr className="border">
+              <td className="border p-0 m-0 border-black">1</td>
+              <td className="border p-0 m-0 border-black">1</td>
+              <td className="border p-0 m-0 border-black">1</td>
+              <td className="border p-0 m-0 border-black">1</td>
+            </tr>
           </table>
           <div className="flex justify-around">
             <div className="h-44 bg-slate-200 flex flex-col items-center justify-between">

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Title from "../../atoms/Text/Title";
 import { AxiosInstance } from "../../../apis/api";
 import {
   FormAddModalPcMaster,
@@ -16,6 +15,7 @@ import {
 } from "../../../assets/icons/icons";
 import Loading from "../../molecules/Loading";
 import { TitleTable } from "../../atoms";
+import { TableHeader } from "../../organisms";
 
 const DataPc = () => {
   const [formValues, setFormValues] = useState({
@@ -124,10 +124,10 @@ const DataPc = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <section className="w-full flex-col flex gap-9 ">
-          <section className="bg-slate-300 rounded-3xl w-full shadow-md  mt-4 ">
+        <section className="w-full flex-col flex gap-9  ">
+          <section className="bg-slate-300 rounded-3xl shadow-md  mt-4 ">
             {/* Menu */}
-            <section className="table__header ">
+            <TableHeader>
               <TitleTable>Data PC Master</TitleTable>
               <div className="flex gap-2">
                 <button className="button" onClick={() => setAddModal(true)}>
@@ -140,9 +140,9 @@ const DataPc = () => {
                   <MdDelete />
                 </button>
               </div>
-            </section>
+            </TableHeader>
             {/* Data */}
-            <section className="gap-2 max-h-[216px] p-4 w-full justify-between   flex  flex-wrap  overflow-hidden overflow-y-auto">
+            <section className="gap-2 max-h-[216px] p-4 justify-between   flex  flex-wrap  overflow-hidden overflow-y-auto">
               <div className="gap-2 flex flex-col w-60">
                 <label className="min-w-[140px]">Pc Number</label>
                 <div className="flex justify-end items-end gap-2">

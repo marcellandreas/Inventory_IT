@@ -38,7 +38,7 @@ const DataComponentsPc = ({
           </div>
         </section>
       ) : (
-        <section className="w-[84vw] bg-slate-300 backdrop-blur-md rounded-3xl">
+        <section className="w-[82vw] bg-slate-300 backdrop-blur-md rounded-3xl">
           <section className="table__header rounded-3xl">
             <Title>komponen {formValues.pc_description}</Title>
             <div className="flex gap-2">

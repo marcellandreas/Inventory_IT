@@ -10,6 +10,8 @@ import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
 import ShowModal from "../../components/organisms/ShowModal";
 import { TitleTable } from "../../components/atoms";
+import { TableBody, TableHeader } from "../../components/organisms";
+import Loading from "../../components/molecules/Loading";
 
 const StockPage = () => {
   const [dataStocks, setDataStocks] = useState([]);
@@ -34,12 +36,12 @@ const StockPage = () => {
     <>
       <Sidebar>
         <LayoutContentDashboard>
-          <section className="container mx-auto mt-5 flex flex-col gap-5">
+          <section className="container  mx-auto mt-5 flex flex-col gap-5 items-center">
             {isIsLoading ? (
-              <p>Halaman Sedang Memuat Data</p>
+              <Loading />
             ) : (
-              <section className="lg:w-[1100px] bg-slate-400 backdrop-blur-md">
-                <section className="table__header">
+              <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
+                <TableHeader>
                   <TitleTable>Data Tabel Barang</TitleTable>
                   <div className="input-group">
                     <input type="search" placeholder="Search Data..." />
@@ -50,17 +52,17 @@ const StockPage = () => {
                       setAddModalStock(true);
                     }}
                   >
-                    Add Stock
+                    Tambah Stock
                   </button>
-                </section>
-                <section className="table__body">
+                </TableHeader>
+                <TableBody>
                   <TableStocks
                     data={dataStocks}
                     setId={setId}
                     setEditModalStock={setEditModalStock}
                     setDeleteModalStock={setDeleteModalStock}
                   />
-                </section>
+                </TableBody>
               </section>
             )}
           </section>
