@@ -6,6 +6,8 @@ import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const FormAddApplications = () => {
+  const [customNameDivision, setCustomNameDivision] = useState(false);
+
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
   const [formValues, setFormValues] = useState({
@@ -88,27 +90,7 @@ const FormAddApplications = () => {
       { sub_no: "", stock_no: "", stock_description: "", qty: "", note: "" },
     ]);
   };
-
-  // const dataPost = inputList.map((item) => ({
-  //   no_pengajuan: formValues.no_pengajuan,
-  //   sub_no: item.sub_no,
-  // }));
-
-  // const handleSubmit = async () => {
-  //   try {
-  //     const request1 = AxiosInstance.post("/pengajuan/req", formValues);
-  //     const request2 = AxiosInstance.post("/pengajuan/sub", inputList);
-  //     await Promise.all([request1, request2]);
-  //     await AxiosInstance.post("/pengajuan/surat", dataPost);
-  //     alert("Form Pengajuan Berhasil Dibuat");
-  //   } catch (error) {
-  //     console.error(
-  //       "Terjadi kesalahan saat mengirim permintaan:",
-  //       error.config.data
-  //     );
-  //   }
-  // };
-
+  console.log(formValues);
   const handleSubmit = async () => {
     try {
       // Lakukan operasi POST ke tabel pengajuan
@@ -171,18 +153,41 @@ const FormAddApplications = () => {
               </select>
             </div>
           </div>
-          <div className="gap-2 flex flex-col w-60">
+          <div className="gap-2 flex flex-col w-60  ">
             <label className="min-w-[140px]">Nama Divisi / Bagian</label>
-            <div className="flex justify-end items-end gap-2">
+            <div className="flex items-end bg-gray-200 rounded-md ">
               <select
                 className="w-full bg-gray-200 rounded-md shadow-sm h-8"
-                onChange={handleChangeValue}
+                onChange={(e) => {
+                  handleChangeValue(e);
+                  setCustomNameDivision(false); // Reset customNameDivision when selecting from options.
+                }}
                 name="name_division"
               >
                 {optionsDiv}
               </select>
+              <label className="flex text-[10px] flex-col pr-1">
+                <input
+                  type="checkbox"
+                  onChange={() => setCustomNameDivision(!customNameDivision)}
+                />
+                Custom
+              </label>
             </div>
           </div>
+          {customNameDivision && (
+            <div className="gap-2 flex flex-col w-60">
+              <label>Masukan Name Divisi</label>
+              <input
+                className="bg-slate-200"
+                placeholder="Type your custom name division"
+                name="name_division"
+                type="text"
+                onChange={handleChangeValue}
+              />
+            </div>
+          )}
+
           <div className="gap-2 flex flex-col w-60">
             <label>Date </label>
             <input
