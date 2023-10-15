@@ -3,6 +3,7 @@ import { AxiosInstance } from "../../../../apis/api";
 import Title from "../../../atoms/Text/Title";
 import { useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const FormAddApplications = () => {
   const idUser = localStorage.getItem("id_user");
@@ -15,9 +16,12 @@ const FormAddApplications = () => {
     approved_2: "",
     post_user_id: idUser,
     post_username: username,
-    no_pengajuan: "",
+    // no_pengajuan: "",
   });
-
+  const navigate = useNavigate();
+  const backToMenu = () => {
+    navigate(-1);
+  };
   const dataPt = useSelector((state) => state.dataDivisionAndPT.dataPt);
   const optionsPt = [
     <option value="" disabled selected>
@@ -85,23 +89,54 @@ const FormAddApplications = () => {
     ]);
   };
 
-  const dataPost = inputList.map((item) => ({
-    no_pengajuan: formValues.no_pengajuan,
-    sub_no: item.sub_no,
-  }));
+  // const dataPost = inputList.map((item) => ({
+  //   no_pengajuan: formValues.no_pengajuan,
+  //   sub_no: item.sub_no,
+  // }));
+
+  // const handleSubmit = async () => {
+  //   try {
+  //     const request1 = AxiosInstance.post("/pengajuan/req", formValues);
+  //     const request2 = AxiosInstance.post("/pengajuan/sub", inputList);
+  //     await Promise.all([request1, request2]);
+  //     await AxiosInstance.post("/pengajuan/surat", dataPost);
+  //     alert("Form Pengajuan Berhasil Dibuat");
+  //   } catch (error) {
+  //     console.error(
+  //       "Terjadi kesalahan saat mengirim permintaan:",
+  //       error.config.data
+  //     );
+  //   }
+  // };
 
   const handleSubmit = async () => {
     try {
-      const request1 = AxiosInstance.post("/pengajuan/req", formValues);
-      const request2 = AxiosInstance.post("/pengajuan/sub", inputList);
-      await Promise.all([request1, request2]);
-      await AxiosInstance.post("/pengajuan/surat", dataPost);
-      alert("Form Pengajuan Berhasil Dibuat");
+      // Lakukan operasi POST ke tabel pengajuan
+      const response1 = await AxiosInstance.post("/pengajuan/req", formValues);
+
+      if (response1.data.data && response1.data.data.no_pengajuan) {
+        // Dapatkan nomor_pengajuan dari respons pertama
+        const no_pengajuan = response1.data.data.no_pengajuan;
+
+        // Lakukan operasi POST ke tabel submission
+        const request2 = await AxiosInstance.post("/pengajuan/sub", inputList);
+        await Promise.all([response1, request2]);
+        // Lakukan operasi POST ke tabel form_request
+        const dataPost = inputList.map((item) => ({
+          no_pengajuan: no_pengajuan,
+          sub_no: item.sub_no,
+        }));
+        await AxiosInstance.post("/pengajuan/surat", dataPost);
+
+        alert("Form Pengajuan Berhasil Dibuat");
+        backToMenu();
+      } else {
+        console.error(
+          "Respons pertama tidak memiliki properti 'data' atau 'no_pengajuan'"
+        );
+      }
     } catch (error) {
-      console.error(
-        "Terjadi kesalahan saat mengirim permintaan:",
-        error.config.data
-      );
+      console.error("Terjadi kesalahan saat mengirim permintaan:", error);
     }
   };
 
@@ -114,7 +149,7 @@ const FormAddApplications = () => {
         className="flex flex-col gap-2 justify-between"
       >
         <div className="flex flex-wrap gap-2">
-          <div className="gap-2 flex flex-col w-full md:w-60">
+          {/* <div className="gap-2 flex flex-col w-full md:w-60">
             <label className="min-w-[140px]">No Pengajuan</label>
             <input
               className=" bg-slate-200 "
@@ -123,7 +158,7 @@ const FormAddApplications = () => {
               type="text"
               onChange={handleChangeValue}
             />
-          </div>
+          </div> */}
           <div className="gap-2 flex flex-col w-60">
             <label className="min-w-[140px]">Nama PT</label>
             <div className="flex justify-end items-end gap-2">
