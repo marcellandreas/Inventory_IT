@@ -54,22 +54,52 @@ const getAllDataPengajuan = async (req, res) => {
   }
 };
 
-// const createFormPengajuan = async (req, res) => {
-//   const { body } = req;
-//   try {
-//     await FormPengajuanModal.postItemReq(body);
-//     res.json({
-//       message: "Berhasil Membuat Form Pengajuan",
-//       data: body,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       message: "Server Error",
-//       serverMessage: error,
-//     });
-//   }
-// };
+const getDataAllPengajuanByIdForm = async (req, res) => {
+  const { id_item_req } = req.params;
+  let isFound = false;
+  try {
+    const [data] = await FormPengajuanModal.getDataAllPengajuanByIdForm(
+      id_item_req
+    );
+    const transformedData = data.map((item) => ({
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      item_req_date: item.item_req_date,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      submissionData:
+        item.sub_no &&
+        item.sub_no.split(",").map((subNo, index) => ({
+          sub_no: subNo,
+          sub_description:
+            item.sub_description && item.sub_description.split(",")[index],
+          qty: item.qty && item.qty.split(",")[index],
+          note: item.note && item.note.split(",")[index],
+          stock_no: item.stock_no && item.stock_no.split(",")[index],
+        })),
+    }));
+    isFound = true;
+    res.json({
+      message: `Berhasil Mengambil Data Barang id_item_req ${id_item_req} `,
+      data: transformedData,
+    });
+  } catch (error) {
+    if (!isFound) {
+      res.status(404).json({
+        message: "Data tidak ada",
+      });
+      return;
+    }
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
 
 const getFormattedDate = () => {
   const currentDate = new Date();
@@ -194,4 +224,5 @@ module.exports = {
   PostsubmissionItems,
   postSuratPengajuan,
   getAllDataPengajuan,
+  getDataAllPengajuanByIdForm,
 };

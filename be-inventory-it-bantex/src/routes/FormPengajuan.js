@@ -5,6 +5,10 @@ const formPengajuanController = require("../controllers/FormPengajuan");
 
 router.get("/", formPengajuanController.getAllDataItemReq);
 router.get("/form", formPengajuanController.getAllDataPengajuan);
+router.get(
+  "/form/:id_item_req",
+  formPengajuanController.getDataAllPengajuanByIdForm
+);
 router.post("/req", formPengajuanController.createFormPengajuan);
 router.post("/sub", formPengajuanController.PostsubmissionItems);
 router.post("/surat", formPengajuanController.postSuratPengajuan);
