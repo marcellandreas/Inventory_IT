@@ -1,8 +1,40 @@
 const pool = require("../config/database");
-const { nanoid } = require("nanoid");
 
 const getAllDataItemReq = () => {
   const SQLQuery = `SELECT * FROM items_request`;
+  return pool.execute(SQLQuery);
+};
+
+const getAllDataPengajuan = () => {
+  const SQLQuery = `SELECT 
+    items_request.no_pengajuan, 
+    items_request.name_pt, 
+    items_request.name_division, 
+    items_request.item_req_date, 
+    items_request.approved_1, 
+    items_request.approved_2, 
+    items_request.post_user_id, 
+    items_request.post_username, 
+    items_request.post_date, 
+    GROUP_CONCAT(submission_items.sub_no) AS sub_no, 
+    GROUP_CONCAT(submission_items.stock_description) AS sub_description, 
+    GROUP_CONCAT(submission_items.qty) AS qty, 
+    GROUP_CONCAT(submission_items.note) AS note, 
+    GROUP_CONCAT(submission_items.stock_no) AS stock_no 
+  FROM items_request 
+  LEFT JOIN form_request_items ON items_request.no_pengajuan = form_request_items.no_pengajuan LEFT JOIN submission_items ON form_request_items.sub_no = submission_items.sub_no 
+  GROUP BY items_request.no_pengajuan;`;
+  return pool.execute(SQLQuery);
+};
+
+const getDataAllPengajuanByNoPengajuan = (no_pengajuan) => {
+  const SQLQuery = `SELECT items_request.no_pengajuan, items_request.name_pt, items_request.name_division, items_request.item_req_date, items_request.approved_1, items_request.approved_2, items_request.post_user_id, items_request.post_username, items_request.post_date, GROUP_CONCAT(submission_items.sub_no), 
+  GROUP_CONCAT(submission_items.stock_description) , 
+  GROUP_CONCAT(submission_items.qty) , 
+  GROUP_CONCAT(submission_items.note) , 
+  GROUP_CONCAT(submission_items.stock_no) FROM items_request 
+  LEFT JOIN form_request_items ON items_request.no_pengajuan = form_request_items.no_pengajuan LEFT JOIN submission_items ON form_request_items.sub_no = submission_items.sub_no 
+  WHERE items_request.no_pengajuan = "${no_pengajuan}" GROUP BY items_request.no_pengajuan;`;
   return pool.execute(SQLQuery);
 };
 
@@ -51,6 +83,7 @@ const deleteSuratPengajuan = (id_surat) => {
 
 module.exports = {
   postItemReq,
+  getAllDataPengajuan,
   getAllDataItemReq,
   PostsubmissionItems,
   postSuratPengajuan,

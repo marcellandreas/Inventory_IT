@@ -4,6 +4,7 @@ const router = express.Router();
 const formPengajuanController = require("../controllers/FormPengajuan");
 
 router.get("/", formPengajuanController.getAllDataItemReq);
+router.get("/form", formPengajuanController.getAllDataPengajuan);
 router.post("/req", formPengajuanController.createFormPengajuan);
 router.post("/sub", formPengajuanController.PostsubmissionItems);
 router.post("/surat", formPengajuanController.postSuratPengajuan);
