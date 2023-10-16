@@ -13,18 +13,21 @@ const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
   const [users, setUsers] = useState([]);
   const [admin, setAdmins] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState("");
 
   useEffect(() => {
     AxiosInstance.get("/users")
       .then((res) => {
+        setIsLoading(false);
         const data = res.data.data;
+
         const admins = data.filter((user) => user.role === "1");
         const users = data.filter((user) => user.role === "2");
-
         setAdmins(admins);
         setUsers(users);
+        setAllData(data);
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +37,7 @@ const AccesPage = () => {
   return (
     <Sidebar>
       <LayoutContentDashboard>
-        <section className="flex gap-2 py-5">
+        <section className="flex gap-2 p-2 bg-slate-200 w-[330px] mb-5 rounded-lg">
           <button
             onClick={() => {
               setToggleState(1);
@@ -43,9 +46,9 @@ const AccesPage = () => {
               toggleState === 1
                 ? "bg-slate-500 hover:bg-slate-700"
                 : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-            } rounded-md p-3 min-w-[100px]`}
+            } rounded-md p-1 min-w-[100px]`}
           >
-            Users
+            All
           </button>
           <button
             onClick={() => {
@@ -55,12 +58,24 @@ const AccesPage = () => {
               toggleState === 2
                 ? "bg-slate-500 hover:bg-slate-700"
                 : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-            } rounded-md p-3 min-w-[100px]`}
+            } rounded-md p-1 min-w-[100px]`}
+          >
+            Users
+          </button>
+          <button
+            onClick={() => {
+              setToggleState(3);
+            }}
+            className={`${
+              toggleState === 3
+                ? "bg-slate-500 hover:bg-slate-700"
+                : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
+            } rounded-md p-1 min-w-[100px]`}
           >
             Admins
           </button>
         </section>
-        {toggleState === 1 ? (
+        {toggleState === 1 ? null : toggleState === 2 ? (
           <section>
             <TableDataUsers users={users} setIsLoading={setIsLoading} />
           </section>

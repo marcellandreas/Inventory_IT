@@ -27,7 +27,7 @@ const GetUnusedItems = () => {
       .catch((err) => {
         alert("terjadi kesalahan dalam memproses data");
       });
-  }, [isLoading, data]);
+  }, [isLoading]);
   useEffect(() => {
     AxiosInstance.get("/pcline")
       .then((res) => {
@@ -37,7 +37,7 @@ const GetUnusedItems = () => {
       .catch((err) => {
         alert("terjadi kesalahan dalam memproses data");
       });
-  }, [isLoading, data2]);
+  }, [isLoading]);
   // state modals in stock
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);

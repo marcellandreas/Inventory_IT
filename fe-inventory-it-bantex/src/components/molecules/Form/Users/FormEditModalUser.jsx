@@ -7,7 +7,7 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
     code_user: "",
     username: "",
     password: "",
-    role: 2,
+    role: "",
   });
 
   const [validation, setValidation] = useState([]);
@@ -30,6 +30,7 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
         code_user: item.code_user,
         username: item.username,
         password: item.password,
+        role: item.role,
       }));
       setFormValues(mappedItemData[0]);
     });

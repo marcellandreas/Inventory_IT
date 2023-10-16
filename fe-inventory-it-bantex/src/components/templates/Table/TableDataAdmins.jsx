@@ -15,7 +15,7 @@ const TableDataAdmin = ({ admin, setIsLoading }) => {
   const [id, setId] = useState("");
   return (
     <>
-      <section className="lg:w-[1100px] bg-slate-400 backdrop-blur-md">
+      <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
         <section className="table__header">
           <TitleTable>Tabel Data Admin</TitleTable>
           <div className="input-group">

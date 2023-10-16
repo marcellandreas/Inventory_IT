@@ -7,7 +7,7 @@ const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
     code_user: "",
     username: "",
     password: "",
-    role: 1,
+    role: "",
   });
   console.log(id, "form modal");
 
@@ -31,6 +31,7 @@ const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
         code_user: item.code_user,
         username: item.username,
         password: item.password,
+        role: item.role,
       }));
       setFormValues(mappedItemData[0]);
     });

@@ -95,15 +95,15 @@ const DetailFormItemsRequest = () => {
                 <div className="flex justify-around justify-self-end ">
                   <div className="h-32 flex flex-col items-center justify-between">
                     <p>Pemohon</p>
-                    <p className=" font-semibold">Nama Jelas</p>
+                    <p className=" font-semibold">{data.applicant}</p>
                   </div>
                   <div className="h-32 flex flex-col items-center justify-between">
                     <p>Diketahui</p>
-                    <p className=" font-semibold">Nama Jelas</p>
+                    <p className=" font-semibold">{data.approved_1}</p>
                   </div>
                   <div className="h-32  flex flex-col items-center justify-between">
                     <p>DiSetujui</p>
-                    <p className=" font-semibold">Nama Jelas</p>
+                    <p className=" font-semibold">{data.approved_2}</p>
                   </div>
                 </div>
               </div>
