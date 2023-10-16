@@ -19,6 +19,8 @@ const getAllItems = async (req, res) => {
 const getUnusedItemNo = async (req, res) => {
   try {
     const [data] = await itemsModal.getUnusedItemNo();
+    console.log("cek", data);
+
     res.json({
       message: "Berhasil Mengambil items yang belum terhubung",
       data: data,

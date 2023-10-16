@@ -15,16 +15,40 @@ const getAllDataItemReq = async (req, res) => {
   }
 };
 
+const getDataItemReqByUsername = async (req, res) => {
+  const { username } = req.params;
+  let isFound = false;
+  try {
+    const [data] = await FormPengajuanModal.getDataItemReqByUsername(username);
+    isFound = true;
+    res.json({
+      message: `Berhasil Mengambil Data Form Pengajuan `,
+      data: data,
+    });
+  } catch (error) {
+    if (!isFound) {
+      res.status(404).json({
+        message: "Data tidak ada",
+      });
+      return;
+    }
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const getAllDataPengajuan = async (req, res) => {
   try {
     const [data] = await FormPengajuanModal.getAllDataPengajuan();
-
     // Map the data and process GROUP_CONCAT results into arrays of objects
     const transformedData = data.map((item) => ({
       no_pengajuan: item.no_pengajuan,
       name_pt: item.name_pt,
       name_division: item.name_division,
       item_req_date: item.item_req_date,
+      applicant: item.applicant,
       approved_1: item.approved_1,
       approved_2: item.approved_2,
       post_user_id: item.post_user_id,
@@ -34,8 +58,8 @@ const getAllDataPengajuan = async (req, res) => {
         item.sub_no &&
         item.sub_no.split(",").map((subNo, index) => ({
           sub_no: subNo,
-          sub_description:
-            item.sub_description && item.sub_description.split(",")[index],
+          stock_description:
+            item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
           stock_no: item.stock_no && item.stock_no.split(",")[index],
@@ -54,7 +78,7 @@ const getAllDataPengajuan = async (req, res) => {
   }
 };
 
-const getDataAllPengajuanByIdForm = async (req, res) => {
+const getDataPengajuanByIdForm = async (req, res) => {
   const { id_item_req } = req.params;
   let isFound = false;
   try {
@@ -66,6 +90,7 @@ const getDataAllPengajuanByIdForm = async (req, res) => {
       name_pt: item.name_pt,
       name_division: item.name_division,
       item_req_date: item.item_req_date,
+      applicant: item.applicant,
       approved_1: item.approved_1,
       approved_2: item.approved_2,
       post_user_id: item.post_user_id,
@@ -75,8 +100,8 @@ const getDataAllPengajuanByIdForm = async (req, res) => {
         item.sub_no &&
         item.sub_no.split(",").map((subNo, index) => ({
           sub_no: subNo,
-          sub_description:
-            item.sub_description && item.sub_description.split(",")[index],
+          stock_description:
+            item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
           stock_no: item.stock_no && item.stock_no.split(",")[index],
@@ -149,10 +174,6 @@ const createFormPengajuan = async (req, res) => {
   }
 };
 
-module.exports = {
-  createFormPengajuan,
-};
-
 const PostsubmissionItems = async (req, res) => {
   const { body } = req;
   try {
@@ -218,11 +239,30 @@ const postSuratPengajuan = async (req, res) => {
 //   }
 // };
 
+const deleteFormReqItems = async (req, res) => {
+  const { no_pengajuan } = req.body;
+  console.log(no_pengajuan);
+  try {
+    await FormPengajuanModal.deleteFormRequestItems(no_pengajuan);
+    res.json({
+      message: "Form Pengajuan Barang IT berhasil dihapus",
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 module.exports = {
   createFormPengajuan,
+  deleteFormReqItems,
   getAllDataItemReq,
   PostsubmissionItems,
   postSuratPengajuan,
   getAllDataPengajuan,
-  getDataAllPengajuanByIdForm,
+  getDataPengajuanByIdForm,
+  getDataItemReqByUsername,
 };
