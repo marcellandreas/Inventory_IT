@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import Title from "../../../atoms/Text/Title";
 import { useSelector } from "react-redux";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const FormAddApplications = () => {
@@ -14,6 +14,7 @@ const FormAddApplications = () => {
     name_pt: "",
     name_division: "",
     item_req_date: "",
+    applicant: "",
     approved_1: "",
     approved_2: "",
     post_user_id: idUser,
@@ -90,7 +91,6 @@ const FormAddApplications = () => {
       { sub_no: "", stock_no: "", stock_description: "", qty: "", note: "" },
     ]);
   };
-  console.log(formValues);
   const handleSubmit = async () => {
     try {
       // Lakukan operasi POST ke tabel pengajuan
@@ -123,24 +123,14 @@ const FormAddApplications = () => {
   };
 
   return (
-    <section className="w-full bg-slate-300 p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
-      <Title>Tambah Data Pengajuan</Title>
-      <hr className="border border-slate-800  w-1/5 m-0" />
+    <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
+      <Title>Completely fill the Form Below!</Title>
+      <hr className="border border-slate-800  w-1/5 mb-5" />
       <section
         // onSubmit={handleCreateForm}
-        className="flex flex-col gap-2 justify-between"
+        className="flex flex-col gap-5 justify-between"
       >
-        <div className="flex flex-wrap gap-2">
-          {/* <div className="gap-2 flex flex-col w-full md:w-60">
-            <label className="min-w-[140px]">No Pengajuan</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g:"
-              name="no_pengajuan"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div> */}
+        <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
           <div className="gap-2 flex flex-col w-60">
             <label className="min-w-[140px]">Nama PT</label>
             <div className="flex justify-end items-end gap-2">
@@ -198,6 +188,16 @@ const FormAddApplications = () => {
               onChange={handleChangeValue}
             />
           </div>
+          <div className="gap-2 flex flex-col w-full md:w-60">
+            <label className="min-w-[140px]">Applicant</label>
+            <input
+              className=" bg-slate-200 "
+              placeholder="e.g:"
+              name="applicant"
+              type="text"
+              onChange={handleChangeValue}
+            />
+          </div>
           <div className="gap-2 flex flex-col w-60">
             <label>Approved 1 </label>
             <input
@@ -230,7 +230,7 @@ const FormAddApplications = () => {
           {inputList.map((x, i) => {
             return (
               <>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
                   <div className="gap-2 flex flex-col w-60">
                     <label>Submission no</label>
                     <input
@@ -301,7 +301,7 @@ const FormAddApplications = () => {
           onClick={handleSubmit}
           className="button absolute right-5 bottom-2"
         >
-          Tambah Pengajuan
+          <MdAddCircleOutline /> <span>Tambah Pengajuan</span>
         </button>
       </section>
     </section>

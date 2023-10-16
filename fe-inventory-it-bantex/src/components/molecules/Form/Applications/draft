@@ -1,0 +1,94 @@
+const [additionalContent, setAdditionalContent] = useState([]);
+  const [formValuesAppliItem, setFormValuesAppliItem] = useState({
+    stock_no: "",
+    stock_description: "",
+    qty: "",
+    note: "",
+  });
+  const handleChangeValueAppliItem = (e) => {
+    const { name, value } = e.target;
+    setFormValuesAppliItem({ ...formValuesAppliItem, [name]: value });
+  };
+
+  const [allData, setAllData] = useState([]);
+  const addAdditionalContent = () => {
+    const newContent = (
+      <div key={additionalContent.length} className="flex flex-col p-4">
+        <hr />
+        <div className="flex flex-wrap gap-2">
+          <div className="gap-2 flex flex-col w-60">
+            <label>Stock Number</label>
+            <input
+              className="bg-slate-200"
+              placeholder="e.g:"
+              name="stock_no"
+              type="text"
+              onChange={handleChangeValueAppliItem}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>Stock Desc</label>
+            <input
+              className="bg-slate-200"
+              placeholder="e.g:"
+              name="stock_description"
+              type="text"
+              onChange={handleChangeValueAppliItem}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>Note (if any)</label>
+            <textarea
+              className="bg-slate-200 h-[32px]"
+              placeholder=""
+              name="note"
+              onChange={handleChangeValueAppliItem}
+            />
+          </div>
+          <div className="gap-2 flex flex-col w-60">
+            <label>Qty</label>
+            <input
+              className="bg-slate-200"
+              placeholder="e.g:"
+              name="qty"
+              type="number"
+              onChange={handleChangeValueAppliItem}
+            />
+          </div>
+        </div>
+      </div>
+    );
+
+    setAdditionalContent([...additionalContent, newContent]);
+    setAllData([...allData, formValuesAppliItem]);
+
+    // Reset input values
+    setFormValuesAppliItem({
+      stock_no: "",
+      stock_description: "",
+      note: "",
+      qty: "",
+    });
+  };
+  console.log(allData);
+
+
+  <div className="flex flex-col">
+            {additionalContent.map((content, index) => (
+              <div key={index}>{content}</div>
+            ))}
+          </div>
+
+
+
+<button className="button" onClick={addAdditionalContent}>
+Tambah Barang Pengajuan
+</button>
+
+
+ // const dataPerPage = 2;
+
+  // const groupedData = [];
+  // for (let i = 0; i < dataDetailPengajuan.length; i += dataPerPage) {
+  //   groupedData.push(dataDetailPengajuan.slice(i, i + dataPerPage));
+  // }

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import LayoutContentDashboard from "../../components/templates/LayoutContentDashboard/index";
-import Sidebar from "../../components/templates/Sidebar";
-import { Title } from "../../components/atoms";
+import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { TitleTable } from "../../components/atoms";
 import { AiFillFileAdd } from "react-icons/ai";
 import TableApplicationsForm from "../../components/molecules/Table/TableApplicationsForm";
 import { AxiosInstance } from "../../apis/api";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { MdLocalPrintshop } from "react-icons/md";
 import {
   setDataPt,
   setLoadingDivPt,
@@ -15,6 +15,7 @@ import {
   setDataItemsReq,
   setLoadingPengajuan,
 } from "../../Redux/Feature/DataPengajuanBarang";
+import { TableBody, TableHeader } from "../../components/organisms";
 
 const Applications = () => {
   const dispatch = useDispatch();
@@ -41,10 +42,21 @@ const Applications = () => {
     fetchData("/app", setDataPt, setLoadingDivPt);
   }, [dispatch]);
 
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredData = dataReq.filter((item) => {
+    // Gabungkan nilai dari beberapa properti menjadi satu string
+    const searchableField = (item.name_pt || "") + (item.name_division || "");
+    return searchableField.toLowerCase().includes(search.toLowerCase());
+  });
+
   return (
     <Sidebar>
       <LayoutContentDashboard>
-        <section className="container mx-auto mt-5 flex flex-col justify-center items-center gap-5  w-full">
+        <section className="container mx-auto   flex flex-col justify-center items-center gap-5 ">
           {dataReq.length == 0 ? (
             <>
               <p>data belum ada</p>
@@ -54,25 +66,33 @@ const Applications = () => {
             </>
           ) : (
             <>
-              <div className="flex gap-2 self-start">
+              <div className="flex pl-2 gap-2 self-start  w-full">
+                {/* <button> */}
                 <NavLink
-                  to={`/barcode`}
-                  className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
+                  to={`/printPage`}
+                  className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
                 >
+                  <MdLocalPrintshop />
                   Cetak Pengajuan
                 </NavLink>
-                <NavLink
-                  to={`/qrcode`}
-                  className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
-                >
-                  Cetak qrcode
+                {/* </button> */}
+                {/* <button className="button">
+                  <Link>a</Link>
+                </button> */}
+                <NavLink to={`set-up`} className="button">
+                  Set Up
                 </NavLink>
               </div>
-              <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
-                <section className="table__header">
-                  <Title>Tabel `Form Pengajuan Barang`</Title>
+              <section className="w-[82vw] bg-slate-200 backdrop-blur-md">
+                <TableHeader>
+                  <TitleTable>Tabel Pengajuan Barang</TitleTable>
                   <div className="input-group">
-                    <input type="search" placeholder="Search Data..." />
+                    <input
+                      type="search"
+                      placeholder="Search Data..."
+                      value={search}
+                      onChange={handleSearchChange}
+                    />
                   </div>
                   <NavLink
                     to={`buat`}
@@ -80,10 +100,10 @@ const Applications = () => {
                   >
                     <AiFillFileAdd /> <span>Buat Pengajuan</span>
                   </NavLink>
-                </section>
-                <section className="table__body">
-                  <TableApplicationsForm />
-                </section>
+                </TableHeader>
+                <TableBody>
+                  <TableApplicationsForm data={filteredData} />
+                </TableBody>
               </section>
             </>
           )}

@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 const navigate = useNavigate();
-const backToMenu = () => {
+export const backToMenu = () => {
   navigate(-1);
 };
-
-export { backToMenu };

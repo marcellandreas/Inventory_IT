@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Title from "../../atoms/Text/Title";
 import { TablePcLine } from "../../molecules";
 import ShowModal from "../../organisms/ShowModal";
 // import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
@@ -11,7 +10,6 @@ import {
   MdDelete,
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
-import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
 import { TitleTable } from "../../atoms";
 
 const DataComponentsPc = ({
@@ -40,7 +38,7 @@ const DataComponentsPc = ({
       ) : (
         <section className="w-[82vw] bg-slate-300 backdrop-blur-md rounded-3xl">
           <section className="table__header rounded-3xl">
-            <Title>komponen {formValues.pc_description}</Title>
+            <TitleTable>komponen {formValues.pc_description}</TitleTable>
             <div className="flex gap-2">
               <NavLink to={`unused`} className="button">
                 <BiDetail />

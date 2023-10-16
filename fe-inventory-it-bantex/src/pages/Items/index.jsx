@@ -7,10 +7,10 @@ import {
   TableItems,
 } from "../../components/molecules";
 import { BsDatabaseFillAdd } from "../../assets/icons/icons";
-import Title from "../../components/atoms/Text/Title";
 import { AxiosInstance } from "../../apis/api";
 import { NavLink } from "react-router-dom";
 import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
+import { TitleTable } from "../../components/atoms";
 
 const ItemsPage = () => {
   const [data, setData] = useState([]);
@@ -55,7 +55,7 @@ const ItemsPage = () => {
             ) : (
               <section className="lg:w-[82vw] bg-slate-400 backdrop-blur-md">
                 <TableHeader>
-                  <Title>Tabel Barang</Title>
+                  <TitleTable>Tabel Barang</TitleTable>
                   <div className="input-group">
                     <input
                       onChange={(e) => {

@@ -80,14 +80,13 @@ export const columnTableStock = [
 
 export const columnTableItemsReq = [
   "id",
-  "",
-  "no_pengajuan",
-  "name_pt",
-  "name_division",
-  "item_req_date",
-  "approved_1",
-  "approved_2",
-  "post_user_id",
-  "post_username",
-  "post_date",
+  "Detail",
+  "No. Pengajuan",
+  "Name PT.",
+  "Nama Divisi",
+  "Tanggal Pengajuan",
+  "Approved 1",
+  "Approved 2",
+  "Post Username",
+  "Post Date",
 ];

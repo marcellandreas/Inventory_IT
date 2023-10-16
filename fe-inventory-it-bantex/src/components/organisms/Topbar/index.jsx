@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import getCurrentPage from "./CurrentPages";
 
 const Topbar = () => {
   const [currentPage, setCurrentPage] = useState("");
   const location = useLocation();
   const username = localStorage.getItem("username");
+  const { id_item_req } = useParams();
 
   useEffect(() => {
-    const current = getCurrentPage(location.pathname);
+    const current = getCurrentPage(location.pathname, id_item_req);
     setCurrentPage(current);
-  }, [location.pathname]);
+  }, [location.pathname, id_item_req]);
 
   return (
     <section className="h-[10vh] w-full   px-5  ">
