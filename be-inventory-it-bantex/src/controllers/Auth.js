@@ -11,10 +11,9 @@ const AuthenticationError = require("../exceptions/AuthenticationError");
 
 /* eslint-disable no-unused-vars */
 
-exports.loginUserHandler = async (req, res, next) => {
+exports.loginUserHandler = async (req, res) => {
   try {
     const user = await userModels.verifyUsers(req.body[0]);
-
     const token = jwt.sign(
       { id: user.id_user, username: user.username },
       process.env.TOKEN_SECRET,
@@ -27,10 +26,9 @@ exports.loginUserHandler = async (req, res, next) => {
       status: "success",
       message: "Anda berhasil Login",
       data: {
-        role: user.role,
-        id_user: user.id_user,
-        username: user.username,
+        role: user.roles,
         accessToken: token,
+        username: user.username,
       },
     });
   } catch (error) {

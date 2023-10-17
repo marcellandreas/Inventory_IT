@@ -9,7 +9,6 @@ router.get("/by/:id", itemsController.getItemById);
 router.get("/unused", itemsController.getUnusedItemNo);
 router.post("/", itemsController.createNewItem);
 router.patch("/:id", itemsController.updateItem);
-// router.patch("/:id", itemsController.updateUser2);
 router.delete("/:id", itemsController.delateItem);
 
 module.exports = router;

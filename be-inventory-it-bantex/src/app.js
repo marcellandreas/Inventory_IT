@@ -24,7 +24,12 @@ app.use(
     ], // Allow only these headers
   })
 );
+const bodyParser = require("body-parser");
+const authRouter = require("./routes/authRouter");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+app.use("/auth", authRouter);
 // Feature Sing Up Users Auth
 const AuthUsers = require("./routes/Auth");
 // Feature users shema
@@ -36,34 +41,6 @@ const DataPcMaster = require("./routes/PcMaster");
 const DataPcLine = require("./routes/PcLine");
 const DataDivisionAndPT = require("./routes/DivisionAndPT");
 const DataFormPengajuan = require("./routes/FormPengajuan");
-
-let currentMonth = new Date().getMonth() + 1; // Bulan saat ini (dalam angka)
-let currentYear = new Date().getFullYear(); // Tahun saat ini
-let currentCounter = 1; // Nomor urut awal
-
-// Mengatasi perubahan bulan
-const handleMonthChange = () => {
-  const now = new Date();
-  const newMonth = now.getMonth() + 1;
-  if (newMonth !== currentMonth) {
-    currentMonth = newMonth;
-    currentCounter = 1; // Reset nomor urut
-  }
-};
-
-app.post("/submit", (req, res) => {
-  handleMonthChange(); // Memeriksa perubahan bulan
-
-  // Membuat no_pengajuan dengan format IT/bulan sekarang/tahun sekarang/nomor urut
-  const no_pengajuan = `IT/${currentMonth}/${currentYear}/${currentCounter
-    .toString()
-    .padStart(3, "0")}`;
-  currentCounter++; // Tingkatkan nomor urut
-
-  // Di sini Anda dapat menyimpan data no_pengajuan dan data lain yang diterima dari body permintaan POST ke database atau tempat penyimpanan yang sesuai
-
-  res.json({ no_pengajuan });
-});
 
 // Routes Sign Up
 app.use("/api", AuthUsers);
