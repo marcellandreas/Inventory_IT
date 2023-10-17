@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { AxiosInstance } from "../../../apis/api";
 import { setAuthToken } from "../../../config/Auth";
 import Form from "../../molecules/Form";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../../Redux/Feature/UserSlice";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,19 +18,23 @@ const LoginForm = () => {
         throw new Error("Username dan password harus diisi");
       }
 
-      const response = await AxiosInstance.post("/api/users/login", {
+      const response = await AxiosInstance.post("/auth/login", {
         username,
         password,
       });
 
-      const token = response.data.data.accessToken;
+      const token = response.data.data.token;
       const role = response.data.data.role;
       const id_user = response.data.data.id_user;
       const username_ = response.data.data.username;
 
       // Set token autentikasi
-      setAuthToken(token, role, id_user, username_);
+      setAuthToken(token);
 
+      localStorage.setItem("role", role);
+      localStorage.setItem("id_user", id_user);
+      localStorage.setItem("username", username_);
+      console.log(response);
       // Refresh Token
       if (token) {
         window.location.href = "/";

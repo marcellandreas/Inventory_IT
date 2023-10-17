@@ -38,7 +38,11 @@ const Applications = () => {
   };
 
   useEffect(() => {
-    fetchData("/pengajuan", setDataItemsReq, setLoadingPengajuan);
+    fetchData(
+      `/pengajuan/req/${username}`,
+      setDataItemsReq,
+      setLoadingPengajuan
+    );
     fetchData("/app", setDataPt, setLoadingDivPt);
   }, [dispatch]);
 

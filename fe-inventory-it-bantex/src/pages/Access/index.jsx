@@ -8,6 +8,7 @@ import {
 } from "../../components/templates";
 import { AxiosInstance } from "../../apis/api";
 import Title from "../../components/atoms/Text/Title";
+import { useSelector } from "react-redux";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
@@ -16,6 +17,13 @@ const AccesPage = () => {
   const [allData, setAllData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState("");
+
+  const userData = useSelector((state) => state.user);
+  const username = userData.username;
+  const role = userData.role;
+  const id_user = userData.id_user;
+
+  console.log(username, role, id_user);
 
   useEffect(() => {
     AxiosInstance.get("/users")

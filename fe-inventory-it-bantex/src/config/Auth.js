@@ -1,11 +1,8 @@
 import { AxiosInstance } from "../apis/api";
 
 // token autentikasi dan role pengguna
-const setAuthToken = (token, role, id_user, username_) => {
+const setAuthToken = (token) => {
   localStorage.setItem("token", token);
-  localStorage.setItem("role", role);
-  localStorage.setItem("id_user", id_user);
-  localStorage.setItem("username", username_);
 
   // Mengatur token autentikasi dalam header permintaan
   if (token) {
