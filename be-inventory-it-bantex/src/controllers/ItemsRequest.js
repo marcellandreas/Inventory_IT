@@ -165,8 +165,9 @@ exports.getDataByPostUsername = (req, res) => {
 
 // Mendapatkan data items request berdasarkan kriteria tertentu
 exports.getDataByCriteria = (req, res) => {
-  const { post_username, approved_1, approved_2 } = req.query;
+  const { status, post_username, approved_1, approved_2 } = req.query;
   itemsRequest.getDataByCriteria(
+    status,
     post_username,
     approved_1,
     approved_2,
@@ -191,7 +192,7 @@ exports.approveFormRequest1 = (req, res) => {
   const status = "Disetujui1";
   const tglApproved1 = new Date();
 
-  formRequestModel.approveFormRequest(
+  itemsRequest.approveFormRequest(
     idItemReq,
     status,
     tglApproved1,
@@ -215,7 +216,7 @@ exports.approveFormRequest2 = (req, res) => {
   const status = "Disetujui2";
   const tglApproved2 = new Date();
 
-  formRequestModel.approveFormRequest2(
+  itemsRequest.approveFormRequest2(
     idItemReq,
     status,
     tglApproved2,
@@ -235,7 +236,7 @@ exports.approveFormRequest2 = (req, res) => {
 exports.rejectFormRequest = (req, res) => {
   const { idItemReq } = req.params;
 
-  formRequestModel.rejectFormRequest(idItemReq, (error, result) => {
+  itemsRequest.rejectFormRequest(idItemReq, (error, result) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -244,4 +245,28 @@ exports.rejectFormRequest = (req, res) => {
         .json({ message: "Tanggal approved dihapus", data: result });
     }
   });
+};
+
+// Mengubah status dan tanggal approved saat disetujui oleh post_usernam (selesai)
+exports.finishFormRequest = (req, res) => {
+  const { idItemReq } = req.params;
+
+  // Set status dan tanggal yang sesuai
+  const status = "Selesai";
+  const tglDone = new Date();
+
+  itemsRequest.finishFormRequest(
+    idItemReq,
+    status,
+    tglDone,
+    (error, result) => {
+      if (error) {
+        res.status(500).json({ message: "Server Error", serverMessage: error });
+      } else {
+        res
+          .status(200)
+          .json({ message: "Status berhasil diubah", data: result });
+      }
+    }
+  );
 };

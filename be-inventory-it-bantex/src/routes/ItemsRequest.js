@@ -58,6 +58,9 @@ router.put("/approve1/:idItemReq", formRequestController.approveFormRequest1);
 // Rute untuk mengubah status saat disetujui oleh approved_2
 router.put("/approve2/:idItemReq", formRequestController.approveFormRequest2);
 
+// Rute untuk mengubah status saat disetujui oleh post_username (selesai)
+router.put("/finish/:idItemReq", formRequestController.finishFormRequest);
+
 // Rute untuk menghapus tanggal approved saat status ditolak
 router.put("/reject/:idItemReq", formRequestController.rejectFormRequest);
 

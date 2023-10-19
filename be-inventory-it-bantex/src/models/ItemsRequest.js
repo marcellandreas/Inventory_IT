@@ -139,12 +139,12 @@ class FormRequest {
   }
 
   // Metode untuk mengambil data items request berdasarkan kriteria tertentu
-  getDataByCriteria(post_username, approved_1, approved_2, callback) {
+  getDataByCriteria(status, post_username, approved_1, approved_2, callback) {
     const query =
-      "SELECT * FROM items_request WHERE post_username = ? OR approved_1 = ? OR approved_2 = ?";
+      "SELECT * FROM items_request WHERE status = ? OR post_username = ? OR approved_1 = ? OR approved_2 = ?";
     this.connection.query(
       query,
-      [post_username, approved_1, approved_2],
+      [status, post_username, approved_1, approved_2],
       (error, results) => {
         callback(error, results);
       }
@@ -154,7 +154,7 @@ class FormRequest {
   // Membuat metode untuk mengubah status dan tanggal approved saat disetujui oleh approved_1
   approveFormRequest(idItemReq, status, tglApproved1, callback) {
     const query =
-      "UPDATE form_request SET status = ?, tgl_approved_1 = ? WHERE id_item_req = ?";
+      "UPDATE items_request SET status = ?, date_approved_1 = ? WHERE id_item_req = ?";
     this.connection.query(
       query,
       [status, tglApproved1, idItemReq],
@@ -167,7 +167,7 @@ class FormRequest {
   // Membuat metode untuk mengubah status dan tanggal approved saat disetujui oleh approved_2
   approveFormRequest2(idItemReq, status, tglApproved2, callback) {
     const query =
-      "UPDATE form_request SET status = ?, tgl_approved_2 = ? WHERE id_item_req = ?";
+      "UPDATE items_request SET status = ?, date_approved_2 = ? WHERE id_item_req = ?";
     this.connection.query(
       query,
       [status, tglApproved2, idItemReq],
@@ -177,12 +177,42 @@ class FormRequest {
     );
   }
 
+  // Membuat metode untuk mengubah status dan tanggal approved saat disetujui oleh approved_1
+  finishFormRequest(idItemReq, status, tglDone, callback) {
+    const query =
+      "UPDATE items_request SET status = ?, date_done = ? WHERE id_item_req = ?";
+    this.connection.query(
+      query,
+      [status, tglDone, idItemReq],
+      (error, result) => {
+        callback(error, result);
+      }
+    );
+  }
+
   // Membuat metode untuk menghapus tanggal approved saat ditolak
   rejectFormRequest(idItemReq, callback) {
     const query =
-      "UPDATE form_request SET status = ?, tgl_approved_1 = NULL, tgl_approved_2 = NULL WHERE id_item_req = ?";
+      "UPDATE items_request SET status = ?, date_approved_1 = NULL, date_approved_2 = NULL WHERE id_item_req = ?";
     this.connection.query(query, ["Ditolak", idItemReq], (error, result) => {
       callback(error, result);
+    });
+  }
+  // Membuat metode untuk mengambil data yang membutuhkan persetujuan approved_1
+  getFormRequestRequiringApproval1(approved1, callback) {
+    const query =
+      "SELECT * FROM form_request WHERE approved_1 = ? AND approved_2 IS NULL";
+    this.connection.query(query, [approved1], (error, results) => {
+      callback(error, results);
+    });
+  }
+
+  // Membuat metode untuk mengambil data yang membutuhkan persetujuan approved_2
+  getFormRequestRequiringApproval2(approved2, callback) {
+    const query =
+      "SELECT * FROM form_request WHERE approved_1 IS NOT NULL AND approved_2 = ?";
+    this.connection.query(query, [approved2], (error, results) => {
+      callback(error, results);
     });
   }
 }
