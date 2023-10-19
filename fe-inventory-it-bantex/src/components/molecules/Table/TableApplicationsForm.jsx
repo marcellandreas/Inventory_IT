@@ -13,8 +13,7 @@ const TableApplicationsForm = ({ data }) => {
     role == 1
       ? columnTableItemsReq
       : columnTableItemsReq.filter(
-          (columnName) =>
-            !["post_user_id", "post_username", "post_date"].includes(columnName)
+          (columnName) => !["action"].includes(columnName)
         );
 
   return (
@@ -32,6 +31,7 @@ const TableApplicationsForm = ({ data }) => {
         {data.map((data, i) => (
           <tr key={i}>
             <td className="border px-4 py-2 font-semibold text-xl">{i + 1}</td>
+
             <td>
               <NavLink
                 to={`/form-pengajuan/detail/${data.id_item_req}`}
@@ -45,19 +45,15 @@ const TableApplicationsForm = ({ data }) => {
             <td className="border px-4 py-2">{data.no_pengajuan}</td>
             <td className="border px-4 py-2">{data.name_pt}</td>
             <td className="border px-4 py-2">{data.name_division}</td>
-            <td className="border px-4 py-2">
-              {data.item_req_date.slice(0, 10)}
-            </td>
+            <td className="border px-4 py-2">{data.status}</td>
             <td className="border px-4 py-2">{data.approved_1}</td>
             <td className="border px-4 py-2">{data.approved_2}</td>
-            {role == 1 ? (
-              <>
-                <td className="border px-4 py-2">{data.post_username}</td>
-                <td className="border px-4 py-2">
-                  {data.post_date.slice(0, 10)}
-                </td>
-              </>
-            ) : role == 2 ? null : null}
+            {/* {role == 1 ? (
+              <> */}
+            <td className="border px-4 py-2">{data.post_username}</td>
+            <td className="border px-4 py-2">{data.post_date.slice(0, 10)}</td>
+            {/* </> */}
+            {/* ) : null} */}
             {/* <td className="flex gap-2">
               <button
                 onClick={() => {

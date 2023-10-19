@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import getCurrentPage from "./CurrentPages";
+import { useSelector } from "react-redux";
 
 const Topbar = () => {
   const [currentPage, setCurrentPage] = useState("");

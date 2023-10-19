@@ -97,7 +97,7 @@ const Sidebar = ({ children }) => {
         </section>
 
         <section className="flex flex-col items-center gap-1 pt-2 ">
-          {role == 1 ? (
+          {role == 1 || role == 3 ? (
             <>
               <h2
                 style={{ display: isOpen ? "flex" : "none" }}

@@ -25,3 +25,4 @@ export { default as TableStocks } from "./Table/TableStocks";
 export { default as TableItems } from "./Table/TableItems";
 export { default as TablePcMasters } from "./Table/TablePcMaster";
 export { default as TablePcLine } from "./Table/TablePcLine";
+export { default as TableUsers } from "./Table/TableUsers";

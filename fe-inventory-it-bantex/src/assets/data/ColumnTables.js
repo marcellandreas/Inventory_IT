@@ -84,9 +84,18 @@ export const columnTableItemsReq = [
   "No. Pengajuan",
   "Name PT.",
   "Nama Divisi",
-  "Tanggal Pengajuan",
+  "status",
   "Approved 1",
   "Approved 2",
   "Post Username",
   "Post Date",
+  "Action",
+];
+
+export const columnTableUsers = [
+  "ID",
+  "CODE",
+  "USERNAME",
+  "PASSWORD",
+  "Action",
 ];

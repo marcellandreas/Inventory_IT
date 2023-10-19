@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataAuth } from "../../../../config/ValidateForm";
 
 const FormAddModalUser = ({ onClose, setIsLoading }) => {
+  const [loading, setLoading] = useState(true);
+  const [roles, setRoles] = useState([]);
+  useEffect(() => {
+    // Mengambil daftar peran unik melalui API
+    AxiosInstance.get("/auth/unique")
+      .then((response) => {
+        setRoles(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false);
+      });
+  }, []);
   const [formValues, setFormValues] = useState({
-    code_user: "",
     username: "",
     password: "",
+    role: "",
   });
 
   const [validation, setValidation] = useState([]);
@@ -16,10 +30,15 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
     setFormValues({ ...formValues, [name]: value });
   };
   const data = {
-    code_user: formValues.code_user,
     username: formValues.username,
     password: formValues.password,
-    role: 2,
+    role: formValues.role,
+  };
+
+  const roleLabels = {
+    1: "Admin",
+    2: "User",
+    3: "Manager",
   };
 
   const handleCreateForm = async (e) => {
@@ -33,7 +52,7 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
       return;
     }
 
-    await AxiosInstance.post("/users", data)
+    await AxiosInstance.post("/auth/register", data)
       .then((res) => {
         console.log(res);
         onClose();
@@ -51,16 +70,24 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
     >
       <h1 className="text-2xl text-center">Tambah User </h1>
       <hr className="border border-slate-800 w-2/5 m-auto" />
-      <div className="content_input">
-        <label>Code User</label>
-        <input
-          type="text"
-          name="code_user"
-          placeholder="Enter Your New Code User"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
+      <div className="gap-2 flex flex-col w-60">
+        <label className="min-w-[140px]">Peran User</label>
+        <div className="flex justify-end items-end gap-2">
+          <select
+            className="content_input"
+            onChange={handleChangeValue}
+            name="role"
+          >
+            <option value="">Pilih peran</option>
+            {roles.map((role, index) => (
+              <option key={index} value={role}>
+                {roleLabels[role]}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
+
       <div className="content_input">
         <label>Username</label>
         <input

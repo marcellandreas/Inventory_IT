@@ -4,6 +4,9 @@ import Title from "../../../atoms/Text/Title";
 import { useSelector } from "react-redux";
 import { MdDelete, MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { CustomSelect, CustomInput, CustomTextArea } from "../../../atoms";
+import { BiChevronDown } from "react-icons/bi";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const FormAddApplications = () => {
   const [customNameDivision, setCustomNameDivision] = useState(false);
@@ -13,14 +16,29 @@ const FormAddApplications = () => {
   const [formValues, setFormValues] = useState({
     name_pt: "",
     name_division: "",
-    item_req_date: "",
-    applicant: "",
     approved_1: "",
     approved_2: "",
     post_user_id: idUser,
     post_username: username,
-    // no_pengajuan: "",
   });
+  console.log(formValues);
+  const [approved1, setApproved1] = useState([]);
+  const [approved2, setApproved2] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response1 = await AxiosInstance.get("/auth/user/role/1");
+        const response2 = await AxiosInstance.get("/auth/user/role/3");
+
+        setApproved1(response1.data.data);
+        setApproved2(response2.data.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   const navigate = useNavigate();
   const backToMenu = () => {
     navigate(-1);
@@ -122,6 +140,26 @@ const FormAddApplications = () => {
     }
   };
 
+  const [countries, setCountries] = useState([
+    { name: "marcell" },
+    { name: "bsi" },
+    { name: "ui" },
+    { name: "gunadarma" },
+  ]);
+  const [inputValue, setInputValue] = useState("");
+  const [selected, setSelected] = useState("");
+  const [open, setOpen] = useState(false);
+
+  // console.log(countries);
+
+  // useEffect(() => {
+  //   fetch("https://restcountries.com/v2/all?fields=name")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setCountries(data);
+  //     });
+  // }, []);
+
   return (
     <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
       <Title>Completely fill the Form Below!</Title>
@@ -131,93 +169,64 @@ const FormAddApplications = () => {
         className="flex flex-col gap-5 justify-between"
       >
         <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
-          <div className="gap-2 flex flex-col w-60">
-            <label className="min-w-[140px]">Nama PT</label>
-            <div className="flex justify-end items-end gap-2">
-              <select
-                className="w-full bg-gray-200 rounded-md shadow-sm h-8"
-                onChange={handleChangeValue}
-                name="name_pt"
-              >
-                {optionsPt}
-              </select>
-            </div>
-          </div>
-          <div className="gap-2 flex flex-col w-60  ">
-            <label className="min-w-[140px]">Nama Divisi / Bagian</label>
-            <div className="flex items-end bg-gray-200 rounded-md ">
-              <select
-                className="w-full bg-gray-200 rounded-md shadow-sm h-8"
-                onChange={(e) => {
-                  handleChangeValue(e);
-                  setCustomNameDivision(false); // Reset customNameDivision when selecting from options.
-                }}
-                name="name_division"
-              >
-                {optionsDiv}
-              </select>
-              <label className="flex text-[10px] flex-col pr-1">
-                <input
-                  type="checkbox"
-                  onChange={() => setCustomNameDivision(!customNameDivision)}
-                />
-                Custom
-              </label>
-            </div>
-          </div>
+          <CustomSelect
+            label="Nama PT"
+            options={optionsPt}
+            name="name_pt"
+            value={formValues.name_pt}
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Nama Divisi / Bagian"
+            options={optionsDiv}
+            name="name_division"
+            value={formValues.name_division}
+            onChange={handleChangeValue}
+            disabled={formValues.name_pt === ""}
+          />
           {customNameDivision && (
-            <div className="gap-2 flex flex-col w-60">
-              <label>Masukan Name Divisi</label>
-              <input
-                className="bg-slate-200"
-                placeholder="Type your custom name division"
-                name="name_division"
-                type="text"
-                onChange={handleChangeValue}
-              />
-            </div>
+            <CustomInput
+              label="Masukan Name Divisi"
+              placeholder="Type your custom name division"
+              name="name_division"
+              type="text"
+              value={formValues.name_division}
+              onChange={handleChangeValue}
+            />
           )}
 
-          <div className="gap-2 flex flex-col w-60">
-            <label>Date </label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g:"
-              name="item_req_date"
-              type="date"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-full md:w-60">
-            <label className="min-w-[140px]">Applicant</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g:"
-              name="applicant"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Approved 1 </label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g:"
-              name="approved_1"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Approved 2</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g:"
-              name="approved_2"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
+          <CustomSelect
+            label="Approved 1"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Approved 1
+              </option>,
+              ...approved1.map((approved1, index) => (
+                <option key={index} value={approved1.username}>
+                  {approved1.username}
+                </option>
+              )),
+            ]}
+            name="approved_1"
+            value={formValues.approved_1}
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Approved 2"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Approved 2
+              </option>,
+              ...approved2.map((approved1, index) => (
+                <option key={index} value={approved1.username}>
+                  {approved1.username}
+                </option>
+              )),
+            ]}
+            name="approved_2"
+            value={formValues.approved_2}
+            onChange={handleChangeValue}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-end ">
@@ -231,37 +240,32 @@ const FormAddApplications = () => {
             return (
               <>
                 <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
-                  <div className="gap-2 flex flex-col w-60">
-                    <label>Submission no</label>
-                    <input
-                      className="bg-slate-200"
-                      placeholder="e.g:"
-                      name="sub_no"
-                      type="text"
-                      onChange={(e) => handleinputchange(e, i)}
-                    />
-                  </div>
-                  <div className="gap-2 flex flex-col w-60">
-                    <label>Stock Number</label>
-                    <input
-                      className="bg-slate-200"
-                      placeholder="e.g:"
-                      name="stock_no"
-                      type="text"
-                      onChange={(e) => handleinputchange(e, i)}
-                    />
-                  </div>
+                  <CustomInput
+                    label="Submission no"
+                    placeholder="e.g:"
+                    name="sub_no"
+                    type="text"
+                    value={x.sub_no}
+                    onChange={(e) => handleinputchange(e, i)}
+                  />
+                  <CustomInput
+                    label="Stock Number"
+                    placeholder="e.g:"
+                    name="stock_no"
+                    type="text"
+                    value={x.stock_no}
+                    onChange={(e) => handleinputchange(e, i)}
+                  />
 
-                  <div className="gap-2 flex flex-col w-60">
-                    <label>Stock Desc</label>
-                    <input
-                      className="bg-slate-200"
-                      placeholder="e.g:"
-                      name="stock_description"
-                      type="text"
-                      onChange={(e) => handleinputchange(e, i)}
-                    />
-                  </div>
+                  <CustomInput
+                    label="Stock Desc"
+                    placeholder="e.g:"
+                    name="stock_description"
+                    type="text"
+                    value={x.stock_description}
+                    onChange={(e) => handleinputchange(e, i)}
+                  />
+
                   <div className="gap-2 flex flex-col w-[60px]">
                     <label>Qty</label>
                     <input
@@ -272,15 +276,13 @@ const FormAddApplications = () => {
                       type="number"
                     />
                   </div>
-                  <div className="gap-2 flex flex-col w-60">
-                    <label>Note (if any)</label>
-                    <textarea
-                      className="bg-slate-200 h-[32px]"
-                      placeholder=""
-                      name="note"
-                      onChange={(e) => handleinputchange(e, i)}
-                    />
-                  </div>
+                  <CustomTextArea
+                    label="Note (if any)"
+                    placeholder=""
+                    name="note"
+                    value={x.note}
+                    onChange={(e) => handleinputchange(e, i)}
+                  />
 
                   {inputList.length !== 1 && (
                     <button
@@ -296,14 +298,12 @@ const FormAddApplications = () => {
           })}
         </div>
       </section>
-      <section>
-        <button
-          onClick={handleSubmit}
-          className="button absolute right-5 bottom-2"
-        >
-          <MdAddCircleOutline /> <span>Tambah Pengajuan</span>
-        </button>
-      </section>
+      <button
+        onClick={handleSubmit}
+        className="button absolute right-5 bottom-2"
+      >
+        <MdAddCircleOutline /> <span>Tambah Pengajuan</span>
+      </button>
     </section>
   );
 };

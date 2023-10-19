@@ -28,6 +28,8 @@ const LoginForm = () => {
       const id_user = response.data.data.id_user;
       const username_ = response.data.data.username;
 
+      dispatch(setUserData({ username: username_, role, id_user }));
+
       // Set token autentikasi
       setAuthToken(token);
 

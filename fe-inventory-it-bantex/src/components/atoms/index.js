@@ -4,3 +4,7 @@ export { default as TitleTable } from "./Text/TitleTable";
 export * from "./Table/Tbody";
 export * from "./Table/Thead";
 export * from "./Table/TableContent";
+
+export * from "./FormConponents/CustomSelect";
+export * from "./FormConponents/CustomInput";
+export * from "./FormConponents/CustomTextArea";

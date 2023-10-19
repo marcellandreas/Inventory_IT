@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
 import Title from "../../../atoms/Text/Title";
+import { CustomInput, CustomSelect } from "../../../atoms";
 
 const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");
@@ -38,8 +39,6 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
     post_username: username,
   };
 
-  console.table(formValues, "dah");
-
   const handleCreateForm = async (e) => {
     e.preventDefault();
 
@@ -62,52 +61,59 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
       });
   };
 
+  const Unit = ["PCS", "DUS", "PAC", "Meter", "Ml", "Liter", "DLL"];
+  const category = ["PC", "LAPTOP"];
+
   return (
     <section className="w-[550px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3  max-h-[600px]  overflow-y-auto">
       <Title className="text-2xl text-center">Tambah PC Master</Title>
       <hr className="border border-slate-800  w-2/5 m-0" />
       <form onSubmit={handleCreateForm} className="flex justify-between">
         <div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Pc Number</label>
-            <input
-              className=" bg-slate-200 uppercase"
-              placeholder="e.g: IT-PC-0001"
-              type="text"
-              name="pc_no"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Pc Description</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g: "
-              name="pc_description"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Unit</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g: Pcs, Liter, Meter"
-              name="unit"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Category</label>
-            <input
-              className=" bg-slate-200 uppercase"
-              placeholder="e.g: PC or LAPTOP"
-              name="category"
-              type="text"
-              onChange={handleChangeValue}
-            />
-          </div>
+          <CustomInput
+            label="Pc Number"
+            placeholder="e.g: IT-PC-0001"
+            name="pc_no"
+            type="text"
+            onChange={handleChangeValue}
+          />
+          <CustomInput
+            label="Pc Description"
+            placeholder="e.g:"
+            name="pc_description"
+            type="text"
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Unit"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Unit Satuan
+              </option>,
+              ...Unit.map((unit, index) => (
+                <option key={index} value={unit}>
+                  {unit}
+                </option>
+              )),
+            ]}
+            name="unit"
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Unit"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Category
+              </option>,
+              ...category.map((unit, index) => (
+                <option key={index} value={unit}>
+                  {unit}
+                </option>
+              )),
+            ]}
+            name="category"
+            onChange={handleChangeValue}
+          />
 
           <div className="gap-2 flex flex-col w-60">
             <label>Status Barang</label>

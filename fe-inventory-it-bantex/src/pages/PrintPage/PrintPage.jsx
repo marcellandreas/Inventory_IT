@@ -108,7 +108,7 @@ function PrintPage() {
               </div>
               <div className=" font-semibold ">
                 <p>No: {item.no_pengajuan} </p>
-                <p>Tgl: {item.item_req_date.slice(0, 10)} </p>
+                <p>Tgl: {item.item_req_date} </p>
                 <p>Bagian: {item.name_division} </p>
               </div>
               <div className="flex flex-col justify-between gap-2 h-[320px]  ">

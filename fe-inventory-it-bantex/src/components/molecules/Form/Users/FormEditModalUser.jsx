@@ -24,10 +24,9 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
   };
 
   useEffect(() => {
-    AxiosInstance.get(`users/${id}`).then((res) => {
+    AxiosInstance.get(`/auth/user/${id}`).then((res) => {
       const itemData = res.data.data;
       const mappedItemData = itemData.map((item) => ({
-        code_user: item.code_user,
         username: item.username,
         password: item.password,
         role: item.role,
@@ -72,6 +71,7 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
           value={formValues.code_user}
           className="p-1 rounded-md"
           onChange={handleChangeValue}
+          readOnly
         />
       </div>
       <div className="content_input">
