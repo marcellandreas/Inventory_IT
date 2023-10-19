@@ -14,5 +14,6 @@ export const store = configureStore({
     dataPengajuanBarang: dataPengajuanBarang,
     user: userReducer,
     dataSliceItemReq: dataSliceItemReq,
+    // contoh biar ada perubahan unutk comit
   },
 });
