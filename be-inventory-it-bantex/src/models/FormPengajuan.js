@@ -15,8 +15,7 @@ const getAllDataPengajuan = () => {
     items_request.no_pengajuan, 
     items_request.name_pt, 
     items_request.name_division, 
-    items_request.item_req_date, 
-    items_request.applicant, 
+    items_request.status,
     items_request.approved_1, 
     items_request.approved_2, 
     items_request.post_user_id, 
@@ -37,9 +36,8 @@ const getDataAllPengajuanByIdForm = (id_item_req) => {
   const SQLQuery = `SELECT 
   items_request.no_pengajuan, 
   items_request.name_pt, 
-  items_request.name_division, 
-  items_request.item_req_date, 
-  items_request.applicant, 
+  items_request.name_division,
+  items_request.status,
   items_request.approved_1, 
   items_request.approved_2, 
   items_request.post_user_id,  
@@ -58,7 +56,7 @@ const getDataAllPengajuanByIdForm = (id_item_req) => {
 };
 
 const postItemReq = (body) => {
-  const SQLQuery = `INSERT INTO items_request (id_item_req, name_pt, name_division, item_req_date, applicant, approved_1, approved_2, post_user_id, post_username, post_date, no_pengajuan) VALUES (NULL, '${body.name_pt}', '${body.name_division}', '${body.item_req_date}', '${body.applicant}', '${body.approved_1}', '${body.approved_2}', '${body.post_user_id}', '${body.post_username}', current_timestamp(), '${body.no_pengajuan}');`;
+  const SQLQuery = `INSERT INTO items_request (id_item_req, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, post_date, no_pengajuan) VALUES (NULL, '${body.name_pt}', '${body.name_division}','${body.approved_1}', '${body.approved_2}', '${body.post_user_id}', '${body.post_username}', current_timestamp(), '${body.no_pengajuan}');`;
   return pool.execute(SQLQuery);
 };
 

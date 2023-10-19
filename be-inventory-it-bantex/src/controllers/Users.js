@@ -15,6 +15,21 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getRoleUsers = async (req, res) => {
+  try {
+    const [data] = await usersModel.getRoleUsers();
+    res.json({
+      message: "Daftar Peran Pengguna Tanpa Duplikasi",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const getUserById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -89,4 +104,5 @@ module.exports = {
   updateUser,
   getUserById,
   delateUser,
+  getRoleUsers,
 };

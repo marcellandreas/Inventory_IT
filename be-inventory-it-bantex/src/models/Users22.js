@@ -29,7 +29,14 @@ class User {
   }
 
   generateUserCode(role, callback) {
-    const rolePrefix = role === 1 ? "ADMIN" : "USER";
+    const rolePrefix =
+      role === 1
+        ? "ADMIN"
+        : role === 2
+        ? "USER"
+        : role === 3
+        ? "MANAGER"
+        : "TAMU";
     const query = `SELECT MAX(code_user) AS max_code FROM user WHERE role = ${role}`;
     this.connection.query(query, (error, results) => {
       if (error) {
@@ -51,6 +58,7 @@ class User {
     });
   }
 
+  // Metode untuk mendapatkan
   getUserByUsername(username, callback) {
     const query = "SELECT * FROM user WHERE username = ?";
     this.connection.query(query, [username], (error, results) => {
@@ -125,12 +133,41 @@ class User {
 
   // Metode untuk mengambil pengguna berdasarkan ID
   getUserByID(id_user, callback) {
-    const query = "SELECT id_user, username, role FROM user WHERE id_user = ?";
+    const query =
+      "SELECT id_user, username, password, role FROM user WHERE id_user = ?";
     this.connection.query(query, [id_user], (error, results) => {
       if (results.length > 0) {
         callback(error, results[0]);
       } else {
         callback(error, null);
+      }
+    });
+  }
+
+  // Metode untuk mengambil data pengguna berdasarkan role
+  getUserByRole(role, callback) {
+    const query = "SELECT * FROM user WHERE role = ?";
+    this.connection.query(query, [role], (error, results) => {
+      callback(error, results);
+    });
+  }
+
+  getUserByRole1(callback) {
+    const query = "SELECT * FROM user WHERE role = 1";
+    this.connection.query(query, (error, results) => {
+      callback(error, results);
+    });
+  }
+
+  // Mengambil daftar peran pengguna tanpa duplikasi
+  getUniqueRoles(callback) {
+    const query = "SELECT DISTINCT role FROM user";
+    this.connection.query(query, (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        const roles = results.map((result) => result.role);
+        callback(null, roles);
       }
     });
   }

@@ -224,18 +224,63 @@ exports.getAllLogins = (req, res) => {
   });
 };
 
-// Metode untuk mengambil pengguna berdasarkan ID
-// exports.getUserByID = (req, res) => {
-//   const { id_user } = req.params;
-//   user.getUserByID(id_user, (error, userByID) => {
-//     if (error) {
-//       return res.status(500).json({ error: error.message });
-//     }
+// Mendapatkan data pengguna berdasarkan role
+exports.getUserByRole = (req, res) => {
+  const { role } = req.params;
+  user.getUserByRole(role, (error, results) => {
+    if (error) {
+      res.status(500).json({ message: "Server Error", serverMessage: error });
+    } else {
+      res.status(200).json({
+        message: "Berhasil Mengambil Data Pengguna Berdasarkan Role",
+        data: results,
+      });
+    }
+  });
+};
 
-//     if (userByID) {
-//       res.status(200).json(userByID);
-//     } else {
-//       res.status(404).json({ message: "User not found" });
-//     }
-//   });
-// };
+// Metode untuk mengambil pengguna berdasarkan ID
+exports.getUserByID = (req, res) => {
+  const { id_user } = req.params;
+  user.getUserByID(id_user, (error, userByID) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (userByID) {
+      res.status(200).json(userByID);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  });
+};
+
+// Mendapatkan data pengguna dengan role 1 dan menampilkan kata sandi tanpa bcrypt
+exports.getUserByRole1 = (req, res) => {
+  user.getUserByRole1((error, results) => {
+    if (error) {
+      res.status(500).json({ message: "Server Error", serverMessage: error });
+    } else {
+      res.status(200).json({
+        message: "Berhasil Mengambil Data Pengguna Berdasarkan Role 1",
+        data: results,
+      });
+    }
+  });
+};
+
+// Mengambil daftar peran pengguna tanpa duplikasi
+exports.getUniqueRoles = (req, res) => {
+  user.getUniqueRoles((error, roles) => {
+    if (error) {
+      res.status(500).json({ message: "Server Error", serverMessage: error });
+    } else {
+      res
+        .status(200)
+        .json({
+          message: "Daftar Peran Pengguna Tanpa Duplikasi",
+          data: roles,
+        });
+    }
+  });
+};

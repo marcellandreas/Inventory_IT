@@ -17,21 +17,20 @@ const getAllDataItemReq = async (req, res) => {
 
 const getDataItemReqByUsername = async (req, res) => {
   const { username } = req.params;
-  let isFound = false;
   try {
     const [data] = await FormPengajuanModal.getDataItemReqByUsername(username);
-    isFound = true;
+
+    if (!data) {
+      return res.status(404).json({
+        message: `Username "${username}" tidak ditemukan`,
+      });
+    }
+
     res.json({
-      message: `Berhasil Mengambil Data Form Pengajuan `,
+      message: `Berhasil Mengambil Data Form Pengajuan`,
       data: data,
     });
   } catch (error) {
-    if (!isFound) {
-      res.status(404).json({
-        message: "Data tidak ada",
-      });
-      return;
-    }
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,
@@ -47,8 +46,7 @@ const getAllDataPengajuan = async (req, res) => {
       no_pengajuan: item.no_pengajuan,
       name_pt: item.name_pt,
       name_division: item.name_division,
-      item_req_date: item.item_req_date,
-      applicant: item.applicant,
+      status: item.status,
       approved_1: item.approved_1,
       approved_2: item.approved_2,
       post_user_id: item.post_user_id,
@@ -89,7 +87,7 @@ const getDataPengajuanByIdForm = async (req, res) => {
       no_pengajuan: item.no_pengajuan,
       name_pt: item.name_pt,
       name_division: item.name_division,
-      item_req_date: item.item_req_date,
+      status: item.status,
       applicant: item.applicant,
       approved_1: item.approved_1,
       approved_2: item.approved_2,
@@ -174,6 +172,58 @@ const createFormPengajuan = async (req, res) => {
   }
 };
 
+const getFormattedDateSub = () => {
+  const currentDateSub = new Date();
+  const month = currentDateSub.getMonth() + 1; // Membuat bulan dimulai dari 1
+  const year = currentDateSub.getFullYear();
+  return `${year}/${String(month).padStart(2, "0")}`;
+};
+
+let currentMonthSub = "";
+let currentCounterSub = 0;
+const createFormSubmission = async (req, res) => {
+  const { body } = req;
+
+  try {
+    // Periksa apakah bulan saat ini berbeda dengan yang sebelumnya
+    const currentDateSub = getFormattedDateSub();
+    if (currentDateSub !== currentMonthSub) {
+      // Jika bulan berbeda, reset nomor urut ke 001
+      currentMonthSub = currentDateSub;
+      currentCounterSub = 1;
+    } else {
+      // Jika masih di bulan yang sama, tingkatkan nomor urut
+      currentCounterSub += 1;
+    }
+
+    // Format nomor urut dengan 3 digit (001, 002, dst.)
+    const formattedCounter = String(currentCounterSub).padStart(3, "0");
+    const noSub = `IT/SUB/${currentDateSub}/${formattedCounter}`;
+
+    if (!Array.isArray(body)) {
+      return res.status(400).json({
+        message: "Bad Request",
+        serverMessage: "Body should be an array of objects",
+      });
+    }
+    // Simpan nomor pengajuan ke dalam data pengajuan
+    body.no_sub = noSub;
+
+    await FormPengajuanModal.PostsubmissionItems(body);
+
+    res.json({
+      message: "Berhasil Membuat Data Barang Baru",
+      data: body,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
 const PostsubmissionItems = async (req, res) => {
   const { body } = req;
   try {
@@ -265,4 +315,5 @@ module.exports = {
   getAllDataPengajuan,
   getDataPengajuanByIdForm,
   getDataItemReqByUsername,
+  createFormSubmission,
 };

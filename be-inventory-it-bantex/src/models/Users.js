@@ -6,6 +6,10 @@ const getAllUsers = () => {
   return pool.execute(SQLQuery);
 };
 
+const getRoleUsers = () => {
+  const SQLQuery = "SELECT DISTINCT role FROM user";
+  return pool.execute(SQLQuery);
+};
 const getDataById = (id) => {
   const SQLQuery = `SELECT * FROM user WHERE id_user = ${id}`;
   return pool.execute(SQLQuery);
@@ -25,11 +29,11 @@ const deleteuser = async (id) => {
   const SQLQuery = `DELETE FROM user WHERE user.id_user=${id}`;
   return pool.execute(SQLQuery);
 };
-
 module.exports = {
   getAllUsers,
   getDataById,
   createNewUser,
   updateUser,
   deleteuser,
+  getRoleUsers,
 };
