@@ -16,7 +16,7 @@ app.use(express.static("public"));
 app.use(
   cors({
     origin: "*", // Allow requests from this domain
-    methods: "GET,PUT,POST,DELETE", // Allow these HTTP methods
+    methods: "GET,PUT,POST,DELETE,PATCH", // Allow these HTTP methods
     allowedHeaders: [
       "Content-Type",
       "Access-Control-Allow-Headers",
@@ -25,32 +25,45 @@ app.use(
   })
 );
 const bodyParser = require("body-parser");
-const authRouter = require("./routes/authRouter");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const FormRequestRouter = require("./routes/ItemsRequest");
+
+// auth / login
+const authRouter = require("./routes/authRouter");
 app.use("/auth", authRouter);
+
+// form Request (pengajuan barang)
+const FormRequestRouter = require("./routes/ItemsRequest");
 app.use("/form", FormRequestRouter);
+
+// category router
+const categoriesRouter = require("./routes/categories");
+app.use("/categories", categoriesRouter);
+
 // Feature Sing Up Users Auth
 const AuthUsers = require("./routes/Auth");
-// Feature users shema
-const DataUsers = require("./routes/Users");
-// Feature Stocks
-const DataStocks = require("./routes/Stocks");
-const DataItems = require("./routes/Items");
-const DataPcMaster = require("./routes/PcMaster");
-const DataPcLine = require("./routes/PcLine");
-const DataDivisionAndPT = require("./routes/DivisionAndPT");
-const DataFormPengajuan = require("./routes/FormPengajuan");
-
-// Routes Sign Up
 app.use("/api", AuthUsers);
+
+// data users router
+const DataUsers = require("./routes/Users");
 app.use("/users", DataUsers);
+
+const DataStocks = require("./routes/Stocks");
 app.use("/stocks", DataStocks);
+
+const DataItems = require("./routes/Items");
 app.use("/items", DataItems);
+
+const DataPcMaster = require("./routes/PcMaster");
 app.use("/pcmaster", DataPcMaster);
+
+const DataPcLine = require("./routes/PcLine");
 app.use("/pcline", DataPcLine);
+
+const DataDivisionAndPT = require("./routes/DivisionAndPT");
 app.use("/app", DataDivisionAndPT);
+
+const DataFormPengajuan = require("./routes/FormPengajuan");
 app.use("/pengajuan", DataFormPengajuan);
 
 const PORT = process.env.PORT || 4000;
