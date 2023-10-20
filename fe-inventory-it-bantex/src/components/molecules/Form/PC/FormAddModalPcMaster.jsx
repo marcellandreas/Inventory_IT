@@ -100,7 +100,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
             onChange={handleChangeValue}
           />
           <CustomSelect
-            label="Unit"
+            label="Kategory"
             options={[
               <option key="default" value="" disabled selected>
                 Pilih Category

@@ -4,8 +4,9 @@ export const CustomTextArea = ({
   name,
   value,
   onChange,
+  className, // Tambahkan className sebagai prop
 }) => (
-  <div className="gap-2 flex flex-col w-60">
+  <div className={`gap-2 flex flex-col w-60 ${className || ""}`}>
     <label>{label}</label>
     <textarea
       className="bg-slate-200 h-[32px]"

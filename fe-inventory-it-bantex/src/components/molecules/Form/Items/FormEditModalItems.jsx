@@ -1,10 +1,40 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataItems } from "../../../../config/ValidateForm";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchItemById,
+  updateItem,
+} from "../../../../Redux/Feature/ItemsSlice";
 
 const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
+  const formValuesId = useSelector((state) => state.itemsSlice.dataById);
+
+  useEffect(() => {
+    if (formValuesId.length > 0) {
+      const mappedItemData = {
+        item_no: formValuesId[0].item_no,
+        item_description: formValuesId[0].item_description,
+        unit: formValuesId[0].unit,
+        category: formValuesId[0].category,
+        brand: formValuesId[0].brand,
+        status: formValuesId[0].status,
+        kondisi: formValuesId[0].kondisi,
+        item_location: formValuesId[0].item_location,
+        note: formValuesId[0].note,
+        date_registration: formValuesId[0].date_registration,
+        date_expired: formValuesId[0].date_expired,
+        item_specification: formValuesId[0].item_specification,
+      };
+      setFormValues(mappedItemData);
+    }
+  }, [formValuesId]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchItemById(id));
+  }, [id, dispatch]);
   const [formValues, setFormValues] = useState({
     item_no: "",
     item_description: "",
@@ -19,27 +49,6 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
     date_expired: "",
     item_specification: "",
   });
-
-  useEffect(() => {
-    AxiosInstance.get(`items/${id}`).then((res) => {
-      const itemData = res.data.data;
-      const mappedItemData = itemData.map((item) => ({
-        item_no: item.item_no,
-        item_description: item.item_description,
-        unit: item.unit,
-        category: item.category,
-        brand: item.brand,
-        status: item.status,
-        kondisi: item.kondisi,
-        item_location: item.item_location,
-        note: item.note,
-        date_registration: item.date_registration,
-        date_expired: item.date_expired,
-        item_specification: item.item_specification,
-      }));
-      setFormValues(mappedItemData[0]);
-    });
-  }, []);
 
   const [validation, setValidation] = useState([]);
 
@@ -65,23 +74,19 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
     post_username: username,
   };
 
-  const handleUpdateForm = (e) => {
-    e.preventDefault();
+  const handleUpdateForm = () => {
     const errors = validateFormDataItems(formValues);
-    // Jika ada error, tampilkan error
+
     if (errors.length > 0) {
       setValidation(errors);
       return;
     }
 
-    AxiosInstance.patch(`/items/${id}`, data)
-      .then((res) => {
+    dispatch(updateItem({ id, data: data }))
+      .unwrap()
+      .then(() => {
         onClose();
-        setIsLoading(true);
-        alert("berhasil");
-      })
-      .catch((err) => {
-        console.log(err);
+        alert("berhasil Edit Data");
       });
   };
 

@@ -7,25 +7,25 @@ import {
   TableItems,
 } from "../../components/molecules";
 import { BsDatabaseFillAdd } from "../../assets/icons/icons";
-import { AxiosInstance } from "../../apis/api";
 import { NavLink } from "react-router-dom";
 import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
 import { TitleTable } from "../../components/atoms";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItemById, fetchItems } from "../../Redux/Feature/ItemsSlice";
 
 const ItemsPage = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState("");
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.itemsSlice.data);
+  const isLoading = useSelector((state) => state.itemsSlice.isLoading);
+  const error = useSelector((state) => state.itemsSlice.error);
+
   useEffect(() => {
-    AxiosInstance.get("/items")
-      .then((res) => {
-        setData(res.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        alert("terjadi kesalahan dalam memproses data");
-      });
-  }, [isLoading, data]);
+    dispatch(fetchItems());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchItemById(id));
+  }, [id, dispatch]);
   // state modals in stock
   const [addModalItem, setAddModalItem] = useState(false);
   const [editModalItem, setEditModalItem] = useState(false);
@@ -94,7 +94,7 @@ const ItemsPage = () => {
       >
         <FormAddModalItem
           onClose={() => setAddModalItem(false)}
-          setIsLoading={setIsLoading}
+          // setIsLoading={setIsLoading}
         />
       </ShowModal>
       <ShowModal
@@ -104,7 +104,7 @@ const ItemsPage = () => {
         <FormEditModalItem
           // isVisible={editModalItem}
           onClose={() => setEditModalItem(false)}
-          setIsLoading={setIsLoading}
+          // setIsLoading={setIsLoading}
           id={id}
         />
       </ShowModal>
@@ -115,7 +115,7 @@ const ItemsPage = () => {
         <FormDeleteModalItem
           // isVisible={deleteModalItem}
           onClose={() => setDeleteModalItem(false)}
-          setIsLoading={setIsLoading}
+          // setIsLoading={setIsLoading}
           id={id}
         />
       </ShowModal>

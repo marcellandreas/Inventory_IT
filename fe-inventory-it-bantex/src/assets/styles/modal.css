@@ -1,5 +1,5 @@
 .form_modal {
-  @apply w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3 items-center;
+  @apply w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-7 items-center;
 }
 
 .delete_item_box {
