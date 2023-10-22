@@ -190,9 +190,9 @@ thead th:hover span.icon-arrow {
   border: 1.4px solid #6c00bd;
 }
 
-thead th:hover {
+/* thead th:hover {
   color: #6c00bd;
-}
+} */
 
 thead th.active span.icon-arrow {
   background-color: #6c00bd;

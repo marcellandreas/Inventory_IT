@@ -1,212 +1,151 @@
 import { useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
+import { validateFormDataStock } from "../../../../config/ValidateForm";
+import { CustomInput, CustomSelect } from "../../../atoms";
+import { useDispatch } from "react-redux";
+import { createStock } from "../../../../Redux/Feature/StockSlice";
 
-const FormAddModalStock = ({ onClose, setIsLoading }) => {
+const FormAddModalStock = ({ onClose, setIsLoading, category }) => {
+  const idUser = localStorage.getItem("id_user");
+  const username = localStorage.getItem("username");
   const [formValues, setFormValues] = useState({
-    name: "",
-    brand: "",
-    year: "",
-    total: "",
+    stock_description: "",
+    stock_qty: "",
+    category: "",
     unit: "",
-    _condition: "",
-    _function: "",
-    code_stock: "",
+    type: "",
+    note: "",
+    post_user_id: idUser,
+    post_username: username,
   });
 
-  const [isSubmit, setIsSubmit] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
-  const data = {
-    name: formValues.name,
-    brand: formValues.brand,
-    year: formValues.year,
-    total: formValues.total,
-    unit: formValues.unit,
-    _condition: formValues._condition,
-    _function: formValues._function,
-    code_stock: formValues.code_stock,
-  };
+  const dispatch = useDispatch();
 
-  console.log(data);
   const handleCreateForm = (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
-    const errors = validate(formValues);
-    setIsSubmit(true);
+    const errors = validateFormDataStock(formValues);
 
-    if (Object.keys(errors).length === 0 && isSubmit) {
-      AxiosInstance.post("/stocks", data)
-        .then((res) => {
-          console.log(res);
-          onClose();
-          setIsLoading(true);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (errors.length > 0) {
+      setFormErrors(errors);
+      return;
     }
+    dispatch(createStock(formValues))
+      .then(() => {
+        alert("Stock berhasil dibuat");
+        onClose();
+        setIsLoading(true);
+      })
+      .catch((error) => {
+        alert("Error creating stock:", error);
+      });
   };
 
-  const validate = (values) => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = "Name is required!";
-    }
-    if (!values.code_stock) {
-      errors.code_stock = "code_stock is required!";
-    }
-    if (!values.brand) {
-      errors.brand = "brand is required!";
-    }
-    if (!values.year) {
-      errors.year = "Year is required!";
-    }
-    if (!values.total) {
-      errors.total = "total is required!";
-    }
-    if (!values.unit) {
-      errors.unit = "Unit is required!";
-    }
-    if (!values._condition) {
-      errors._condition = "Condition is required!";
-    }
-    if (!values._function) {
-      errors._function = "Berfungsi is required!";
-    }
+  const Unit = ["PCS", "DUS", "PAC", "Meter", "Ml", "Liter", "DLL"];
+  const Type = ["Hardware", "Software"];
 
-    return errors;
-  };
+  console.log(category);
+
   return (
     <form
       onSubmit={handleCreateForm}
-      className="w-[450px] max-h-[600px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3 overflow-y-auto"
+      className=" max-h-[600px] bg-amber-300 grid grid-flow-dense grid-cols-3  p-4 rounded-xl  gap-3 overflow-y-auto"
     >
-      <h1 className="text-2xl text-center">Tambah Stock Inventory IT</h1>
-      <hr className="border border-slate-800 w-2/5 m-auto" />
-      <div className="content_input">
-        <label>Kode Barang</label>
-        <input
-          type="text"
-          name="code_stock"
-          placeholder="Enter Your New Stock Code"
-          className="p-1 rounded-md"
+      <h1 className="text-2xl text-center col-span-3">Tambah Stock</h1>
+      <hr className="border border-slate-800 w-2/5 m-auto col-span-3" />
+      <CustomInput
+        label="Nama Barang"
+        type="text"
+        name="stock_description"
+        placeholder="Masukan Nama Barang"
+        onChange={handleChangeValue}
+      />
+      <CustomInput
+        label="Jumlah Barang"
+        type="number"
+        name="stock_qty"
+        placeholder="Masukan Jumlah Barang"
+        onChange={handleChangeValue}
+      />
+      <CustomSelect
+        label="Kategory"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Category
+          </option>,
+          ...category.map((unit, index) => (
+            <option key={index} value={unit}>
+              {unit}
+            </option>
+          )),
+        ]}
+        name="category"
+        onChange={handleChangeValue}
+      />
+      <div className="gap-2 flex flex-col w-60 row-span-2">
+        <label>Note (if any)</label>
+        <textarea
+          className="bg-slate-200 h-[120px]"
+          placeholder=""
+          name="note"
           onChange={handleChangeValue}
         />
-        <p className="text-center text-error-40">{formErrors.code_stock}</p>
       </div>
-      <div className="content_input">
-        <label>Nama Barang</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Your New Stock Name"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-        <p className="text-center text-error-40">{formErrors.name}</p>
-      </div>
-      <div className="content_input">
-        <label>Merek Barang</label>
-        <input
-          type="text"
-          name="brand"
-          placeholder="Enter Your New Stock Brand"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-        <p className="text-center text-error-40">{formErrors.brand}</p>
-      </div>
-      <div className="content_input">
-        <label>Tahun Barang</label>
-        <input
-          type="text"
-          name="year"
-          placeholder="Enter Your New Stock Code"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-        <p className="text-center text-error-40">{formErrors.year}</p>
-      </div>
-      <div className="content_input">
-        <label>Jumlah Barang</label>
-        <input
-          type="number"
-          name="total"
-          placeholder="Enter Your New "
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-        <p className="text-center text-error-40">{formErrors.total}</p>
-      </div>
-      <div className="content_input">
-        <label>Satuan Barang</label>
-        <input
-          type="text"
-          name="unit"
-          placeholder="Enter Your New Stock Code"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-        <p className="text-center text-error-40">{formErrors.unit}</p>
-      </div>
-      <div className="content_input">
-        <label>Kondisi Barang</label>
-        <div className="flex flex-wrap gap-1">
-          <input
-            type="radio"
-            name="_condition"
-            value="Baru"
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Baru</label>
-          <input
-            type="radio"
-            name="_condition"
-            value="Bekas"
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Bekas</label>
+
+      <CustomSelect
+        label="Unit"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Unit Satuan
+          </option>,
+          ...Unit.map((unit, index) => (
+            <option key={index} value={unit}>
+              {unit}
+            </option>
+          )),
+        ]}
+        name="unit"
+        onChange={handleChangeValue}
+      />
+      <CustomSelect
+        label="type Barang"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Type Barang
+          </option>,
+          ...Type.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          )),
+        ]}
+        name="type"
+        onChange={handleChangeValue}
+      />
+
+      {formErrors.length > 0 && (
+        <div>
+          {formErrors.map((error) => (
+            <div key={error}>{error}</div>
+          ))}
         </div>
-        <p className="text-center text-error-40">{formErrors._condition}</p>
-      </div>
-      <div className="content_input">
-        <label>Berfungsi</label>
-        <div className="flex flex-wrap gap-1">
-          <input
-            type="radio"
-            name="_function"
-            value="Iya"
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Iya</label>
-          <input
-            type="radio"
-            name="_function"
-            value="Tidak"
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Tidak</label>
-        </div>
-        <p className="text-center text-error-40">{formErrors._function}</p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <button className="flex-1 rounded-md bg-slate-800 text-white p-2">
-          Add Stock
-        </button>
+      )}
+
+      <div className="flex flex-wrap gap-2 self-end col-span-2 ">
         <button
           onClick={() => {
             onClose();
           }}
           className="flex-1 border-2 border-slate-800 bg-white rounded-md p-2 hover:bg-slate-800 hover:text-white"
         >
-          Back
+          Kembali
+        </button>
+        <button className="flex-1 rounded-md bg-slate-800 text-white p-2">
+          Tambah
         </button>
       </div>
     </form>

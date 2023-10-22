@@ -53,7 +53,7 @@ const AdminsFormReq = () => {
     return searchableField.toLowerCase().includes(search.toLowerCase());
   });
   return (
-    <section className="container mx-auto   flex flex-col justify-center items-center gap-5 ">
+    <section className="grid grid-cols-6  gap-4 grid-flow-dense  ">
       {/* {dataReq.length == 0 ? (
         <div className="min-h-[70vh] flex justify-center gap-10 items-center flex-col">
           <Title>Tidak Ditemukan Surat Pengajuan </Title>
@@ -62,60 +62,60 @@ const AdminsFormReq = () => {
           </NavLink>
         </div>
       ) : ( */}
-      <>
-        <div className=" self-start flex justify-between w-full">
-          <div className="flex pl-2 gap-2 self-start   order-2">
-            <NavLink
-              to={`/printPage`}
-              className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
-            >
-              <MdLocalPrintshop />
-              Cetak Pengajuan A
-            </NavLink>
-            {/* </button> */}
-            <NavLink to={`set-up`} className="button">
-              Set Up
-            </NavLink>
-          </div>
-          <section className="flex gap-2 p-2 bg-slate-200  h-12 mb-5 rounded-lg order-1">
-            <button
-              onClick={() => {
-                setToggleState(1);
-              }}
-              className={`${
-                toggleState === 1
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[100px]`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => {
-                setToggleState(2);
-              }}
-              className={`${
-                toggleState === 2
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[160px]`}
-            >
-              Need Approved
-            </button>
-            <button
-              onClick={() => {
-                setToggleState(3);
-              }}
-              className={`${
-                toggleState === 3
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[160px]`}
-            >
-              Approved
-            </button>
-          </section>
+      <div className=" self-start flex justify-between w-full col-span-6">
+        <div className="flex pl-2 gap-2 self-start   order-2">
+          <NavLink
+            to={`/printPage`}
+            className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
+          >
+            <MdLocalPrintshop />
+            Cetak Pengajuan A
+          </NavLink>
+          {/* </button> */}
+          <NavLink to={`set-up`} className="button">
+            Set Up
+          </NavLink>
         </div>
+        <section className="flex gap-2 p-2 bg-slate-200  h-12 mb-5 rounded-lg order-1">
+          <button
+            onClick={() => {
+              setToggleState(1);
+            }}
+            className={`${
+              toggleState === 1
+                ? "bg-slate-500 hover:bg-slate-700"
+                : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
+            } rounded-md p-1 min-w-[100px]`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => {
+              setToggleState(2);
+            }}
+            className={`${
+              toggleState === 2
+                ? "bg-slate-500 hover:bg-slate-700"
+                : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
+            } rounded-md p-1 min-w-[160px]`}
+          >
+            Need Approved
+          </button>
+          <button
+            onClick={() => {
+              setToggleState(3);
+            }}
+            className={`${
+              toggleState === 3
+                ? "bg-slate-500 hover:bg-slate-700"
+                : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
+            } rounded-md p-1 min-w-[160px]`}
+          >
+            Approved
+          </button>
+        </section>
+      </div>
+      <div className="col-span-6">
         {(toggleState == 3 && allApproved.length == 0) ||
         (toggleState == 2 && needApproved.length == 0) ||
         (toggleState == 1 && allData.length == 0) ? (
@@ -147,7 +147,8 @@ const AdminsFormReq = () => {
             </TableBody>
           </section>
         )}
-      </>
+      </div>
+
       {/* )} */}
     </section>
   );

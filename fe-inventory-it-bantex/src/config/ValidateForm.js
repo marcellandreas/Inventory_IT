@@ -30,6 +30,27 @@ export const validateFormDataItems = (formValues) => {
   }
   return errors;
 };
+export const validateFormDataStock = (formValues) => {
+  const errors = [];
+
+  if (formValues.stock_description === "") {
+    errors.push("Nama Barang. harus diisi");
+  }
+  if (formValues.stock_qty === "") {
+    errors.push("Jumlah harus diisi");
+  }
+  if (formValues.unit === "") {
+    errors.push("Satuan harus diisi");
+  }
+  if (formValues.category === "") {
+    errors.push("Kategory item harus diisi");
+  }
+  if (formValues.type === "") {
+    errors.push("Tipe harus diisi");
+  }
+
+  return errors;
+};
 export const validateFormDataPcMaster = (formValues) => {
   const errors = [];
 

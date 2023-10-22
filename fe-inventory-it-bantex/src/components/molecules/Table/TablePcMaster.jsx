@@ -42,7 +42,7 @@ const TablePcMasters = ({ setEditModal, setDeleteModal, data, setId }) => {
               setIdMarcell(barang.pc_no);
             }}
           >
-            <td className="border px-4 py-2">{i++}</td>
+            <td className="border px-4 py-2">{i + 1}</td>
             <td className="border px-4 py-2">{barang.pc_no}</td>
             <td className="border px-4 py-2">{barang.pc_description}</td>
             <td className="border px-4 py-2">{barang.unit}</td>
@@ -50,39 +50,22 @@ const TablePcMasters = ({ setEditModal, setDeleteModal, data, setId }) => {
             <td className="border px-4 py-2">{barang.status}</td>
             <td className="border px-4 py-2">{barang.pc_location}</td>
             <td className="border px-4 py-2">{barang.note}</td>
-            <td className="border px-4 py-2">{barang.date_registation}</td>
+            <td className="border px-4 py-2">
+              {barang.date_registation.slice(0, 10)}
+            </td>
             <td className="border px-4 py-2">{barang.date_expired}</td>
             <td className="border px-4 py-2">{barang.pc_specification}</td>
 
             {role == 1 ? (
               <>
-                <td className="border px-4 py-2">{barang.post_user_id}</td>
-                <td className="border px-4 py-2">{barang.post_username}</td>
+                <td className="border px-4 py-2">
+                  {barang.post_user_id}: {barang.post_username}
+                </td>
                 <td className="border px-4 py-2">
                   {barang.post_date.slice(0, 10)}
                 </td>
               </>
             ) : role == 2 ? null : null}
-            <td className="flex gap-2">
-              <button
-                onClick={() => {
-                  setEditModal(true);
-                  setId(barang.id_pc_master);
-                }}
-                className="p-3 bg-blue-600 rounded-lg"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  setDeleteModal(true);
-                  setId(barang.id_pc_master);
-                }}
-                className="p-3 bg-red-600 rounded-lg"
-              >
-                Delete
-              </button>
-            </td>
           </tr>
         ))}
       </Tbody>

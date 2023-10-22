@@ -21,6 +21,8 @@ import {
   DetailFormItemsReqPage,
   PrintPage,
   SetUpReqPage,
+  AddComponentsStocksPage,
+  EditDelComponentsStocksPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -28,29 +30,39 @@ const Routers = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectRoute />}>
-          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/login" element={<LoginPage />} />
         </Route>
+        {/* Private Route */}
         <Route element={<PrivateRoute />}>
-          <Route path="/*" element={<NotFoundAfter />}></Route>
+          <Route path="/*" element={<NotFoundAfter />} />
           <Route path="/">
-            <Route index element={<Dashboard />}></Route>
+            <Route index element={<Dashboard />} />
           </Route>
+
+          {/* Menambahkan path Stocks */}
           <Route path="/stock">
-            <Route index element={<StockPage />}></Route>
+            <Route index element={<StockPage />} />
+            <Route path="buat" element={<AddComponentsStocksPage />} />
+            <Route
+              path="ubah/:stock_no"
+              element={<EditDelComponentsStocksPage />}
+            />
           </Route>
+
+          {/* Menambahkan path items */}
           <Route path="/items">
             <Route index element={<ItemsPage />}></Route>
           </Route>
+
+          {/* Menambahkan path pc master */}
           <Route path="/pc-master">
-            <Route index element={<PcMasterPage />}></Route>
-            <Route path="detail" element={<GetAllPcMasterPage />}></Route>
-            <Route path="unused" element={<GetUnusedItemsPage />}></Route>
-            <Route
-              path="add-components"
-              element={<AddComponentsPcPage />}
-            ></Route>
+            <Route index element={<PcMasterPage />} />
+            <Route path="detail" element={<GetAllPcMasterPage />} />
+            <Route path="unused" element={<GetUnusedItemsPage />} />
+            <Route path="add-components" element={<AddComponentsPcPage />} />
           </Route>
 
+          {/* Menambahkan path form pengajuan */}
           <Route path="/form-pengajuan">
             <Route index element={<ApplicationsPage />} />
             <Route path="buat" element={<MakeAGoodReqPage />} />
@@ -60,6 +72,7 @@ const Routers = () => {
               element={<DetailFormItemsReqPage />}
             />
           </Route>
+
           <Route path="/pc-line">
             <Route index element={<PcLinePage />}></Route>
           </Route>

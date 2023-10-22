@@ -6,6 +6,8 @@ import dataPengajuanBarang from "./Feature/DataPengajuanBarang";
 import userReducer from "./Feature/UserSlice";
 import dataSliceItemReq from "./Feature/ItemsRequest";
 import itemsSlice from "./Feature/ItemsSlice";
+import stockReducer from "./Feature/StockSlice";
+import detailReducer from "./Feature/DetailStockslice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ export const store = configureStore({
     user: userReducer,
     dataSliceItemReq: dataSliceItemReq,
     itemsSlice: itemsSlice,
+    stocks: stockReducer,
+    detailStock: detailReducer,
     // contoh biar ada perubahan unutk comit
   },
 });

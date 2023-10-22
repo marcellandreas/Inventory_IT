@@ -10,6 +10,8 @@ import { AxiosInstance } from "../../apis/api";
 import ShowModal from "../../components/organisms/ShowModal";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import { TableBody, TableHeader } from "../../components/organisms";
+import { TitleTable } from "../../components/atoms";
 // import { backToMenu } from "../../config/BackToMenu";
 
 const GetAllPcMaster = () => {
@@ -54,8 +56,8 @@ const GetAllPcMaster = () => {
             </section>
 
             <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
-              <section className="table__header">
-                <h1 className=" font-semibold text-md">Tabel Pc Master</h1>
+              <TableHeader>
+                <TitleTable>Tabel Pc Master</TitleTable>
                 <div className="input-group">
                   <input
                     onChange={(e) => {
@@ -65,23 +67,15 @@ const GetAllPcMaster = () => {
                     placeholder="Search Data..."
                   />
                 </div>
-                <button
-                  className="button"
-                  onClick={() => {
-                    setAddModal(true);
-                  }}
-                >
-                  Tambah PC Master
-                </button>
-              </section>
-              <section className="table__body">
+              </TableHeader>
+              <TableBody>
                 <TablePcMasters
                   data={dataPcMaster}
                   setId={setId}
                   setEditModalItem={setEditModal}
                   setDeleteModalItem={setDeleteModal}
                 />
-              </section>
+              </TableBody>
             </section>
           </section>
         </LayoutContentDashboard>

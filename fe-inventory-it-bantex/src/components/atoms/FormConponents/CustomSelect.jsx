@@ -5,8 +5,9 @@ export const CustomSelect = ({
   value,
   onChange,
   disabled,
+  className,
 }) => (
-  <div className="gap-2 flex flex-col w-60">
+  <div className={`gap-2 flex flex-col w-60 ${className || ""}`}>
     <label>{label}</label>
     <div className="flex justify-end items-end gap-2">
       <select

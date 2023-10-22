@@ -8,9 +8,15 @@
   border-radius: 8px; /* Tambahkan border-radius sesuai kebutuhan Anda */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan jika diperlukan */
 }
-th,
-td {
+th {
   white-space: nowrap;
+}
+
+td {
+  white-space: nowrap; /* Menghindari pemutusan kata di dalam sel */
+  overflow: hidden; /* Menghindari tampilan horizontal scroll */
+  text-overflow: ellipsis; /* Menggantikan teks yang terpotong dengan elipsis (titik-titik) */
+  word-wrap: break-word; /* Memungkinkan pemutusan kata saat teks terlalu panjang */
 }
 @media print {
   @page {
@@ -55,6 +61,13 @@ input[type="radio"] {
 
 .button_2 {
   @apply border-2 border-slate-800 bg-white rounded-md p-2 hover:bg-slate-800 hover:text-white flex justify-center items-center gap-2;
+}
+.button_delete {
+  @apply bg-red-700 text-white w-8 h-8 flex justify-center items-center rounded-md  self-end;
+}
+
+.button_edit {
+  @apply bg-blue-700 text-white w-8 h-8 flex justify-center items-center rounded-md  self-end;
 }
 
 @media print {

@@ -59,23 +59,22 @@ export const columnTablePcMaster = [
   "date_registation",
   "date_expired",
   "pc_spectification",
-  "post_user_id",
   "post_username",
   "post_date",
-  "action",
 ];
 
 export const columnTableStock = [
   "ID",
-  "Kode Barang",
-  "Nama Barang",
-  "Merek",
-  "Tahun",
-  "Jumlah",
+  "Kode Stock",
+  "Nama Stock",
+  "qty",
+  "Kategory",
   "Satuan",
-  "Kondisi",
-  "Berfungsi",
-  "Action",
+  "Tipe",
+  "note",
+  "user",
+  "Terakhir Unggah",
+  "Aksi",
 ];
 
 export const columnTableItemsReq = [
@@ -98,4 +97,13 @@ export const columnTableUsers = [
   "USERNAME",
   "PASSWORD",
   "Action",
+];
+
+export const columnTableStockDetail = [
+  "Id",
+  "Nama detail Stock",
+  "Qty",
+  "Merek",
+  "Info",
+  "note",
 ];
