@@ -48,8 +48,11 @@ app.use("/api", AuthUsers);
 const DataUsers = require("./routes/Users");
 app.use("/users", DataUsers);
 
-const DataStocks = require("./routes/Stocks");
-app.use("/stocks", DataStocks);
+const stockRouter = require("./routes/Stocks");
+app.use("/stocks", stockRouter);
+
+const detailStockRouter = require("./routes/StocksDetail");
+app.use("/det-stock", detailStockRouter);
 
 const DataItems = require("./routes/Items");
 app.use("/items", DataItems);

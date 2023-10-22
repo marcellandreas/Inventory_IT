@@ -1,36 +1,198 @@
-const pool = require("../config/database");
+const mysql = require("mysql2");
 
-const getAllStock = () => {
-  const SQLQuery = `SELECT * FROM stocks`;
-  return pool.execute(SQLQuery);
-};
+class Stock {
+  constructor(dbConfig) {
+    this.connection = mysql.createConnection(dbConfig);
+  }
 
-const getStockById = (id) => {
-  const SQLQuery = `SELECT * FROM stocks WHERE id_stock = ${id}`;
-  return pool.execute(SQLQuery);
-};
+  getAllStocks(callback) {
+    this.connection.query("SELECT * FROM stocks", (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+      callback(null, results);
+    });
+  }
 
-const createNewStock = async (body) => {
-  const SQLQuery = `INSERT INTO stocks ( name, brand, year, total, unit, _condition, _function, code_stock) VALUES ('${body.name}', '${body.brand}', '${body.year}', '${body.total}', '${body.unit}', '${body._condition}','${body._function}', '${body.code_stock}');`;
+  createStock(
+    stock_description,
+    stock_qty,
+    category,
+    unit,
+    type,
+    note,
+    post_user_id,
+    post_username,
+    callback
+  ) {
+    this.generateUserCode((generateCodeError, code) => {
+      if (generateCodeError) {
+        callback(generateCodeError, null);
+      } else {
+        this.connection.query(
+          "INSERT INTO stocks (stock_no, stock_description, stock_qty, category, unit, type, note, post_user_id, post_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            code,
+            stock_description,
+            stock_qty,
+            category,
+            unit,
+            type,
+            note,
+            post_user_id,
+            post_username,
+          ],
+          (error, result) => {
+            if (error) {
+              callback(error, null);
+            } else {
+              callback(null, code);
+            }
+          }
+        );
+      }
+    });
+  }
 
-  return pool.execute(SQLQuery);
-};
+  generateUserCode(callback) {
+    const rolePrefix = "IT-ST-";
+    const query = "SELECT MAX(stock_no) AS max_stock FROM stocks";
+    this.connection.query(query, (error, results) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
 
-const updateStock = async (body, id) => {
-  const SQLQuery = `UPDATE stocks SET name = '${body.name}', brand = '${body.brand}', year = '${body.year}', total = '${body.total}', unit = '${body.unit}', _condition = '${body._condition}', code_stock = '${body.code_stock}' WHERE id_stock = ${id}`;
+      let code = "001";
 
-  return pool.execute(SQLQuery);
-};
+      if (results[0].max_stock) {
+        const maxCode = results[0].max_stock;
+        const maxNumber = parseInt(maxCode.substr(6), 10);
+        const nextNumber = maxNumber + 1;
+        code = nextNumber.toString().padStart(3, "0");
+      }
 
-const deleteStock = async (id) => {
-  const SQLQuery = `DELETE FROM stocks WHERE stocks.id_stock = ${id}`;
-  return pool.execute(SQLQuery);
-};
+      const stockCode = `${rolePrefix}${code}`;
+      callback(null, stockCode);
+    });
+  }
 
-module.exports = {
-  getAllStock,
-  getStockById,
-  createNewStock,
-  updateStock,
-  deleteStock,
-};
+  updateStock(
+    stock_no,
+    stock_description,
+    stockQty,
+    category,
+    unit,
+    type,
+    note,
+    post_user_id,
+    post_username,
+    callback
+  ) {
+    this.connection.query(
+      "UPDATE stocks SET stock_description = ?, stock_qty = ?, category = ?, unit = ?, type = ?, note = ?, post_user_id = ?, post_username = ? WHERE stock_no = ?",
+      [
+        stock_description,
+        stockQty,
+        category,
+        unit,
+        type,
+        note,
+        post_user_id,
+        post_username,
+        stock_no,
+      ],
+      (error, result) => {
+        if (error) {
+          return callback(error, null);
+        }
+        callback(null, result);
+      }
+    );
+  }
+
+  deleteStock(id, callback) {
+    this.connection.query(
+      "DELETE FROM stocks WHERE id_stock = ?",
+      [id],
+      (error, result) => {
+        if (error) {
+          return callback(error, null);
+        }
+        callback(null, result);
+      }
+    );
+  }
+
+  getStockById(id, callback) {
+    this.connection.query(
+      "SELECT * FROM stocks WHERE id_stock = ?",
+      [id],
+      (error, results) => {
+        if (error) {
+          return callback(error, null);
+        }
+        if (results.length > 0) {
+          callback(null, results[0]);
+        } else {
+          callback(null, null);
+        }
+      }
+    );
+  }
+
+  getStockByStockNo(stockNo, callback) {
+    this.connection.query(
+      "SELECT * FROM stocks WHERE stock_no = ?",
+      [stockNo],
+      (error, results) => {
+        if (error) {
+          return callback(error, null);
+        }
+        if (results.length > 0) {
+          callback(null, results[0]);
+        } else {
+          callback(null, null);
+        }
+      }
+    );
+  }
+
+  // Metode untuk menghitung total qty dari detail stok berdasarkan stock_no
+  calculateStockQty(stockNo, callback) {
+    const query =
+      "SELECT SUM(qty) AS total_qty FROM detail_stock WHERE stock_no = ?";
+    this.connection.query(query, [stockNo], (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results[0].total_qty);
+      }
+    });
+  }
+
+  // Metode untuk mengupdate stock_qty dalam tabel stocks
+  updateStockQty(stockNo, callback) {
+    const query = `UPDATE stocks
+    SET stock_qty = (SELECT SUM(qty) FROM detail_stock WHERE stock_no = '${stockNo}')
+    WHERE stock_no = '${stockNo}'`;
+    this.connection.query(query, [stockNo], (error) => {
+      callback(error);
+    });
+  }
+
+  getUniqueStockNo(callback) {
+    const query = "SELECT DISTINCT stock_no FROM stocks";
+
+    this.connection.query(query, (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        const stock_no = results.map((result) => result.stock_no);
+        callback(null, stock_no);
+      }
+    });
+  }
+}
+
+module.exports = Stock;

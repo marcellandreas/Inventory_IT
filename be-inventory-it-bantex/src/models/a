@@ -1,0 +1,31 @@
+class Stock {
+  constructor(dbConfig) {
+    this.connection = mysql.createConnection(dbConfig);
+    this.currentMonth = new Date().getMonth() + 1;
+    this.currentYear = new Date().getFullYear();
+    this.currentSerial = 0;
+  }
+
+  generateStockNo() {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+
+    if (month !== this.currentMonth || year !== this.currentYear) {
+      // If it's a new month or year, reset the serial number.
+      this.currentMonth = month;
+      this.currentYear = year;
+      this.currentSerial = 0;
+    }
+
+    this.currentSerial += 1;
+
+    const formattedMonth = month.toString().padStart(2, "0");
+    const formattedYear = year.toString();
+    const formattedSerial = this.currentSerial.toString().padStart(3, "0");
+
+    return `IT-ST-${formattedMonth}/${formattedYear}-${formattedSerial}`;
+  }
+
+  // Rest of your methods
+}

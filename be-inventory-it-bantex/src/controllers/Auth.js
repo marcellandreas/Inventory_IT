@@ -9,8 +9,6 @@ const {
 } = require("../exceptions/handler/responseHandler");
 const AuthenticationError = require("../exceptions/AuthenticationError");
 
-/* eslint-disable no-unused-vars */
-
 exports.loginUserHandler = async (req, res) => {
   try {
     const user = await userModels.verifyUsers(req.body[0]);
