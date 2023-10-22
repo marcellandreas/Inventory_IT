@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { MdDelete, MdAddCircleOutline } from "react-icons/md";
+import { MdDelete, MdAddCircleOutline, MdEditNote } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   CustomInput,
@@ -237,7 +237,7 @@ const EditDelCompontentsStocks = () => {
                 label="Kategory"
                 options={[
                   <option key="default" value="" disabled selected>
-                    Pilih Category
+                    Pilih Kategory
                   </option>,
                   ...categories.map((unit, index) => (
                     <option key={index} value={unit}>
@@ -281,10 +281,10 @@ const EditDelCompontentsStocks = () => {
               />
 
               <CustomSelect
-                label="type Barang"
+                label="Tipe Barang"
                 options={[
                   <option key="default" value="" disabled selected>
-                    Pilih Type Barang
+                    Pilih Tipe Barang
                   </option>,
                   ...Type.map((type, index) => (
                     <option key={index} value={type}>
@@ -438,6 +438,7 @@ const EditDelCompontentsStocks = () => {
             onClick={handleSubmit}
             className="button absolute right-5 bottom-2"
           >
+            <MdEditNote />
             <span>Mengubah Stock</span>
           </button>
         </section>

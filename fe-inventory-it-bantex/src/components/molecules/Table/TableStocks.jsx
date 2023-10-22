@@ -10,12 +10,11 @@ import { fetchStockDetails } from "../../../Redux/Feature/DetailStockslice";
 import { MdDelete, MdEditNote } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-const TableStocks = ({
-  setEditModalStock,
-  setDeleteModalStock,
-  data,
-  setId,
-}) => {
+const TableStocks = ({ setDeleteModalStock, data, setId }) => {
+  const [selectedStockNo, setSelectedStockNo] = useState("");
+  const dispatch = useDispatch();
+
+  // Get Headers Table
   const tableHeaders = columnTableStock.map((columnName, index) => (
     <th key={index} className="px-4 py-2">
       {columnName}
@@ -26,9 +25,6 @@ const TableStocks = ({
       {columnName}
     </th>
   ));
-  const [selectedStockNo, setSelectedStockNo] = useState("");
-
-  const dispatch = useDispatch();
 
   const dataDetailStockNo = useSelector(
     (state) => state.detailStock.dataDetailStockNo
@@ -60,7 +56,7 @@ const TableStocks = ({
           <>
             <tr key={barang.id_stock}>
               <td className="border px-4 py-2">{i + 1}</td>
-              <td className=" px-4 py-2 flex gap-2 justify-center items-center">
+              <td className="border">
                 <div
                   className="flex gap-2 justify-center items-center"
                   onClick={() => handleStockNoClick(barang.stock_no)}
@@ -74,22 +70,15 @@ const TableStocks = ({
               <td className="border px-4 py-2">{barang.category}</td>
               <td className="border px-4 py-2">{barang.unit}</td>
               <td className="border px-4 py-2">{barang.type}</td>
-              <td className="border px-4 py-2">{barang.note}</td>
+              <td className="border px-4 ">{barang.note}</td>
               <td className="border px-4 py-2">{barang.post_username}</td>
-              <td className="border px-4 py-2">{barang.post_date}</td>
+              <td className="border px-4 py-2">
+                {barang?.post_date?.slice(0, 10)}
+              </td>
               <td className="flex gap-2">
                 <NavLink to={`ubah/${barang.stock_no}`} className="button_edit">
                   <MdEditNote />
                 </NavLink>
-                {/* <button
-                  onClick={() => {
-                    setEditModalStock(true);
-                    setId(barang.id_stock);
-                  }}
-                  className="p-2 bg-blue-700 rounded-lg"
-                >
-                  <MdEditNote />
-                </button> */}
                 <button
                   onClick={() => {
                     setDeleteModalStock(true);

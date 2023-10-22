@@ -154,7 +154,7 @@ const AddComponentsStocks = () => {
                 label="Kategory"
                 options={[
                   <option key="default" value="" disabled selected>
-                    Pilih Category
+                    Pilih Kategory
                   </option>,
                   ...categories.map((unit, index) => (
                     <option key={index} value={unit}>
@@ -167,7 +167,7 @@ const AddComponentsStocks = () => {
                 onChange={handleChangeValue}
               />
               <div className="gap-2 flex flex-col w-60 row-span-2">
-                <label>Note (if any)</label>
+                <label>Catattan (jika ada)</label>
                 <textarea
                   className="bg-slate-200 h-[120px] col-span-1 row-span-2"
                   placeholder=""
@@ -194,10 +194,10 @@ const AddComponentsStocks = () => {
               />
 
               <CustomSelect
-                label="type Barang"
+                label="tipe Barang"
                 options={[
                   <option key="default" value="" disabled selected>
-                    Pilih Type Barang
+                    Pilih Tipe Barang
                   </option>,
                   ...Type.map((type, index) => (
                     <option key={index} value={type}>
@@ -211,7 +211,7 @@ const AddComponentsStocks = () => {
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-end ">
-                <h3 className=" text-lg font-semibold">Barang Pengajuan:</h3>
+                <h3 className=" text-lg font-semibold">Tambahkan Stok</h3>
                 <button className="button" onClick={handleaddclick}>
                   <MdAddCircleOutline /> Tambah Stok
                 </button>
@@ -222,7 +222,7 @@ const AddComponentsStocks = () => {
                   <>
                     <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
                       <CustomInput
-                        label="stock_detail_description"
+                        label="Nama Stok"
                         placeholder="e.g:"
                         name="stock_detail_description"
                         type="text"
@@ -258,7 +258,7 @@ const AddComponentsStocks = () => {
                         />
                       </div>
                       <CustomTextArea
-                        label="Note (if any)"
+                        label="Catatan (jika ada)"
                         placeholder=""
                         name="note"
                         value={x.note}
