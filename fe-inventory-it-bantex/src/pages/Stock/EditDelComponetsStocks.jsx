@@ -376,60 +376,61 @@ const EditDelCompontentsStocks = () => {
               <hr />
               {inputListPost.map((x, i) => {
                 return (
-                  <>
-                    <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
-                      <CustomInput
-                        label="Nama Stok"
+                  <div
+                    key={i}
+                    className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl"
+                  >
+                    <CustomInput
+                      label="Nama Stok"
+                      placeholder="e.g: HDD-1000GB"
+                      name="stock_detail_description"
+                      type="text"
+                      value={x.stock_detail_description}
+                      onChange={(e) => handleinputchangePost(e, i)}
+                    />
+                    <CustomInput
+                      label="Merek"
+                      placeholder="e.g: Seagate"
+                      name="brand"
+                      type="text"
+                      value={x.brand}
+                      onChange={(e) => handleinputchangePost(e, i)}
+                    />
+                    <CustomInput
+                      label="Info Tambahan"
+                      placeholder="e.g:"
+                      name="additional_info"
+                      type="text"
+                      value={x.additional_info}
+                      onChange={(e) => handleinputchangePost(e, i)}
+                    />
+                    <div className="gap-2 flex flex-col w-[60px]">
+                      <label>Qty</label>
+                      <input
+                        className="bg-slate-200"
                         placeholder="e.g:"
-                        name="stock_detail_description"
-                        type="text"
-                        value={x.stock_detail_description}
+                        name="qty"
+                        value={x.qty}
                         onChange={(e) => handleinputchangePost(e, i)}
+                        type="number"
                       />
-                      <CustomInput
-                        label="Merek"
-                        placeholder="e.g:"
-                        name="brand"
-                        type="text"
-                        value={x.brand}
-                        onChange={(e) => handleinputchangePost(e, i)}
-                      />
-                      <CustomInput
-                        label="Info Tambahan"
-                        placeholder="e.g:"
-                        name="additional_info"
-                        type="text"
-                        value={x.additional_info}
-                        onChange={(e) => handleinputchangePost(e, i)}
-                      />
-                      <div className="gap-2 flex flex-col w-[60px]">
-                        <label>Qty</label>
-                        <input
-                          className="bg-slate-200"
-                          placeholder="e.g:"
-                          name="qty"
-                          value={x.qty}
-                          onChange={(e) => handleinputchangePost(e, i)}
-                          type="number"
-                        />
-                      </div>
-                      <CustomTextArea
-                        label="Catatan (jika ada)"
-                        placeholder=""
-                        name="note"
-                        value={x.note}
-                        onChange={(e) => handleinputchangePost(e, i)}
-                      />
-                      {inputListPost.length !== 1 && (
-                        <button
-                          className=" button_delete"
-                          onClick={() => handleremovePost(i)}
-                        >
-                          <MdDelete />
-                        </button>
-                      )}
                     </div>
-                  </>
+                    <CustomTextArea
+                      label="Catatan (jika ada)"
+                      placeholder=""
+                      name="note"
+                      value={x.note}
+                      onChange={(e) => handleinputchangePost(e, i)}
+                    />
+                    {inputListPost.length !== 1 && (
+                      <button
+                        className=" button_delete"
+                        onClick={() => handleremovePost(i)}
+                      >
+                        <MdDelete />
+                      </button>
+                    )}
+                  </div>
                 );
               })}
             </div>
