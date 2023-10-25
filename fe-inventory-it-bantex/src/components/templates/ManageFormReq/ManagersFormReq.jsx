@@ -16,7 +16,7 @@ import { TableBody, TableHeader } from "../../organisms";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
 import { useEffect, useState } from "react";
 
-const ManagersFormReq = () => {
+const ManagersFormReq = ({ setId, setDeleteModal }) => {
   const username = localStorage.getItem("username");
   const [toggleState, setToggleState] = useState(1);
   const allData = useSelector((state) => state.dataSliceItemReq.allData);
@@ -121,7 +121,7 @@ const ManagersFormReq = () => {
 
           <section className="w-[82vw] bg-slate-200 backdrop-blur-md">
             <TableHeader>
-              <TitleTable>Tabel Pengajuan Barang</TitleTable>
+              <TitleTable>Data Pengajuan Barang</TitleTable>
               <div className="input-group">
                 <input
                   type="search"
@@ -136,9 +136,17 @@ const ManagersFormReq = () => {
             </TableHeader>
             <TableBody>
               {toggleState === 1 ? (
-                <TableApplicationsForm data={filteredData} />
+                <TableApplicationsForm
+                  data={filteredData}
+                  setId={setId}
+                  setDeleteModal={setDeleteModal}
+                />
               ) : toggleState === 2 ? (
-                <TableApplicationsForm data={filteredDataStatus} />
+                <TableApplicationsForm
+                  data={filteredDataStatus}
+                  setId={setId}
+                  setDeleteModal={setDeleteModal}
+                />
               ) : null}
             </TableBody>
           </section>

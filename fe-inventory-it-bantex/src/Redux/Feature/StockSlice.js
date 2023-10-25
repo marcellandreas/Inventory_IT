@@ -42,6 +42,7 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+// Post Method
 export const createStock = createAsyncThunk(
   "stock/createStock",
   async (formValues, { dispatch }) => {
@@ -126,6 +127,7 @@ const stockSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
+      // Get data by Stock No
       .addCase(fetchStockByNo.pending, (state) => {
         state.isLoading = true;
         state.error = null;

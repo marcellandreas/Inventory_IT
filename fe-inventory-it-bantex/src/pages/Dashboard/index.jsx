@@ -1,9 +1,18 @@
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import { Widget } from "../../components/molecules";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { AxiosInstance } from "../../apis/api";
 
 const Dashboard = () => {
   const userData = useSelector((state) => state.user);
+  const [databy, setDataby] = useState({});
+
+  useEffect(() => {
+    AxiosInstance.get(`/det-stock/id/3`).then((res) => {
+      console.log(res.data);
+    });
+  });
 
   // Gunakan data pengguna
   const username = userData.username;

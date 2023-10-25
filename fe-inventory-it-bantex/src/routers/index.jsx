@@ -23,6 +23,7 @@ import {
   SetUpReqPage,
   AddComponentsStocksPage,
   EditDelComponentsStocksPage,
+  RegisterPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 const Routers = () => {
@@ -31,6 +32,7 @@ const Routers = () => {
       <Routes>
         <Route element={<ProtectRoute />}>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Route>
         {/* Private Route */}
         <Route element={<PrivateRoute />}>
