@@ -36,6 +36,10 @@ app.use("/auth", authRouter);
 const FormRequestRouter = require("./routes/ItemsRequest");
 app.use("/form", FormRequestRouter);
 
+// submission items (pengajuan barang)
+const SubmissionItemRouter = require("./routes/submissionItems");
+app.use("/sub-form", SubmissionItemRouter);
+
 // category router
 const categoriesRouter = require("./routes/categories");
 app.use("/categories", categoriesRouter);

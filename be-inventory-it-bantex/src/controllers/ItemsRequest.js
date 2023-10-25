@@ -24,17 +24,65 @@ exports.getAllData = (req, res) => {
 };
 
 // Membuat form request baru
-exports.createFormRequest = (req, res) => {
-  const formData = req.body; // Ambil data dari permintaan HTTP
-  itemsRequest.createFormRequest(formData, (error, results) => {
-    if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+// exports.createFormRequest = (req, res) => {
+//   const formData = req.body; // Ambil data dari permintaan HTTP
+//   itemsRequest.createFormRequest(formData, (error, results) => {
+//     if (error) {
+//       res.status(500).json({ message: "Server Error", serverMessage: error });
+//     } else {
+//       res
+//         .status(201)
+//         .json({ message: "Form Request berhasil dibuat", data: results });
+//     }
+//   });
+// };
+
+const getFormattedDate = (req, res) => {
+  const currentDate = new Date();
+  const month = currentDate.getMonth() + 1; // Membuat bulan dimulai dari 1
+  const year = currentDate.getFullYear();
+  return `${year}-${String(month).padStart(2, "0")}`;
+};
+
+let currentMonth = "";
+let currentCounter = 0;
+
+exports.createFormRequest = async (req, res) => {
+  const { body } = req;
+
+  try {
+    // Periksa apakah bulan saat ini berbeda dengan yang sebelumnya
+    const currentDate = getFormattedDate();
+    if (currentDate !== currentMonth) {
+      // Jika bulan berbeda, reset nomor urut ke 001
+      currentMonth = currentDate;
+      currentCounter = 1;
     } else {
-      res
-        .status(201)
-        .json({ message: "Form Request berhasil dibuat", data: results });
+      // Jika masih di bulan yang sama, tingkatkan nomor urut
+      currentCounter += 1;
     }
-  });
+
+    // Format nomor urut dengan 3 digit (001, 002, dst.)
+    const formattedCounter = String(currentCounter).padStart(3, "0");
+    const noPengajuan = `IT-${currentDate}-${formattedCounter}`;
+
+    // Simpan nomor pengajuan ke dalam data pengajuan
+    body.no_pengajuan = noPengajuan;
+
+    await itemsRequest.createFormRequest(body);
+
+    res.json({
+      message: "Berhasil Membuat Data Barang Baru",
+      data: body,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
 };
 
 // Mengupdate form request

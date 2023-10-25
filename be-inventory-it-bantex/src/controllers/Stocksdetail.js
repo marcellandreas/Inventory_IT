@@ -30,7 +30,7 @@ exports.getDetailStockById = (req, res) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
-      res.status(200).json(detailStock);
+      res.status(200).json({ message: "Berhasil", data: detailStock });
     }
   });
 };

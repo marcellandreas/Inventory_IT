@@ -53,9 +53,11 @@ const getAllDataPengajuan = async (req, res) => {
       post_username: item.post_username,
       post_date: item.post_date,
       submissionData:
-        item.sub_no &&
-        item.sub_no.split(",").map((subNo, index) => ({
-          sub_no: subNo,
+        item.Id_submission_item &&
+        item.Id_submission_item.split(",").map((idSub, index) => ({
+          Id_submission_items: idSub,
+          no_pengajuan:
+            item.no_pengajuan && item.no_pengajuan.split(",")[index],
           stock_description:
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
@@ -95,9 +97,9 @@ const getDataPengajuanByIdForm = async (req, res) => {
       post_username: item.post_username,
       post_date: item.post_date,
       submissionData:
-        item.sub_no &&
-        item.sub_no.split(",").map((subNo, index) => ({
-          sub_no: subNo,
+        item.Id_submission_item &&
+        item.Id_submission_item.split(",").map((idSub, index) => ({
+          Id_submission_items: idSub,
           stock_description:
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
@@ -128,7 +130,7 @@ const getFormattedDate = () => {
   const currentDate = new Date();
   const month = currentDate.getMonth() + 1; // Membuat bulan dimulai dari 1
   const year = currentDate.getFullYear();
-  return `${year}/${String(month).padStart(2, "0")}`;
+  return `${year}-${String(month).padStart(2, "0")}`;
 };
 
 let currentMonth = "";
@@ -151,7 +153,7 @@ const createFormPengajuan = async (req, res) => {
 
     // Format nomor urut dengan 3 digit (001, 002, dst.)
     const formattedCounter = String(currentCounter).padStart(3, "0");
-    const noPengajuan = `IT/${currentDate}/${formattedCounter}`;
+    const noPengajuan = `IT-${currentDate}-${formattedCounter}`;
 
     // Simpan nomor pengajuan ke dalam data pengajuan
     body.no_pengajuan = noPengajuan;
@@ -176,7 +178,7 @@ const getFormattedDateSub = () => {
   const currentDateSub = new Date();
   const month = currentDateSub.getMonth() + 1; // Membuat bulan dimulai dari 1
   const year = currentDateSub.getFullYear();
-  return `${year}/${String(month).padStart(2, "0")}`;
+  return `${year}-${String(month).padStart(2, "0")}`;
 };
 
 let currentMonthSub = "";
@@ -198,7 +200,7 @@ const createFormSubmission = async (req, res) => {
 
     // Format nomor urut dengan 3 digit (001, 002, dst.)
     const formattedCounter = String(currentCounterSub).padStart(3, "0");
-    const noSub = `IT/SUB/${currentDateSub}/${formattedCounter}`;
+    const noSub = `IT-SUB-${currentDateSub}-${formattedCounter}`;
 
     if (!Array.isArray(body)) {
       return res.status(400).json({

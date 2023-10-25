@@ -11,24 +11,29 @@ const getDataItemReqByUsername = (username) => {
 };
 
 const getAllDataPengajuan = () => {
-  const SQLQuery = `SELECT 
-    items_request.no_pengajuan, 
-    items_request.name_pt, 
-    items_request.name_division, 
-    items_request.status,
-    items_request.approved_1, 
-    items_request.approved_2, 
-    items_request.post_user_id, 
-    items_request.post_username, 
-    items_request.post_date, 
-    GROUP_CONCAT(submission_items.sub_no) AS sub_no, 
-    GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
-    GROUP_CONCAT(submission_items.qty) AS qty, 
-    GROUP_CONCAT(submission_items.note) AS note, 
-    GROUP_CONCAT(submission_items.stock_no) AS stock_no 
-  FROM items_request 
-  LEFT JOIN form_request_items ON items_request.no_pengajuan = form_request_items.no_pengajuan LEFT JOIN submission_items ON form_request_items.sub_no = submission_items.sub_no 
-  GROUP BY items_request.no_pengajuan;`;
+  const SQLQuery = `
+  SELECT 
+  items_request.no_pengajuan, 
+  items_request.name_pt, 
+  items_request.name_division, 
+  items_request.status,
+  items_request.approved_1, 
+  items_request.approved_2, 
+  items_request.post_user_id, 
+  items_request.post_username, 
+  items_request.post_date, 
+  GROUP_CONCAT(submission_items.Id_submission_item) AS Id_submission_item, 
+  GROUP_CONCAT(submission_items.sub_no) AS sub_no, 
+  GROUP_CONCAT(submission_items.no_pengajuan) AS no_pengajuan, 
+  GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
+  GROUP_CONCAT(submission_items.qty) AS qty, 
+  GROUP_CONCAT(submission_items.note) AS note, 
+  GROUP_CONCAT(submission_items.stock_no) AS stock_no 
+FROM items_request 
+LEFT JOIN submission_items ON items_request.no_pengajuan = submission_items.no_pengajuan 
+GROUP BY items_request.no_pengajuan;
+
+  `;
   return pool.execute(SQLQuery);
 };
 
@@ -36,20 +41,21 @@ const getDataAllPengajuanByIdForm = (id_item_req) => {
   const SQLQuery = `SELECT 
   items_request.no_pengajuan, 
   items_request.name_pt, 
-  items_request.name_division,
-  items_request.status,
+  items_request.name_division, 
+  items_request.status, 
   items_request.approved_1, 
   items_request.approved_2, 
-  items_request.post_user_id,  
+  items_request.post_user_id, 
   items_request.post_username, 
   items_request.post_date, 
+  GROUP_CONCAT(submission_items.Id_submission_item) AS Id_submission_item, 
   GROUP_CONCAT(submission_items.sub_no) AS sub_no, 
   GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
-  GROUP_CONCAT(submission_items.qty) AS qty , 
+  GROUP_CONCAT(submission_items.qty) AS qty, 
   GROUP_CONCAT(submission_items.note) AS note, 
   GROUP_CONCAT(submission_items.stock_no) AS stock_no 
   FROM items_request 
-  LEFT JOIN form_request_items ON items_request.no_pengajuan = form_request_items.no_pengajuan LEFT JOIN submission_items ON form_request_items.sub_no = submission_items.sub_no 
+  LEFT JOIN submission_items ON items_request.no_pengajuan = submission_items.no_pengajuan 
   WHERE items_request.id_item_req = ${id_item_req} 
   GROUP BY items_request.no_pengajuan;`;
   return pool.execute(SQLQuery);
@@ -62,13 +68,13 @@ const postItemReq = (body) => {
 
 const PostsubmissionItems = (values) => {
   const placeholders = values.map(() => "(?, ?, ?, ?, ?)").join(", ");
-  const SQLQuery = `INSERT INTO submission_items (sub_no, stock_no, stock_description, qty, note) VALUES ${placeholders};`;
+  const SQLQuery = `INSERT INTO submission_items (no_pengajuan, stock_no, stock_description, qty, note) VALUES ${placeholders};`;
 
   // Flattened values should include all values in the same order as the columns in the SQL statement
   const flattenedValues = values.reduce(
     (acc, value) =>
       acc.concat([
-        value.sub_no,
+        value.no_pengajuan,
         value.stock_no,
         value.stock_description,
         value.qty,

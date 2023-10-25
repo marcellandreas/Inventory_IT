@@ -13,7 +13,7 @@ const dbConfig = {
 const user = new User(dbConfig);
 
 exports.register = (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password, full_name, email, role } = req.body;
 
   // Hash the password before storing it
   bcrypt.hash(password, 10, (err, hash) => {
@@ -21,12 +21,15 @@ exports.register = (req, res) => {
       return res.status(500).json({ error: err.message });
     }
 
-    user.registerUser({ username, password: hash, role }, (error, results) => {
-      if (error) {
-        return res.status(500).json({ error: error.message });
+    user.registerUser(
+      { username, password: hash, full_name, email, role },
+      (error, results) => {
+        if (error) {
+          return res.status(500).json({ error: error.message });
+        }
+        res.status(201).json({ message: "User registered successfully" });
       }
-      res.status(201).json({ message: "User registered successfully" });
-    });
+    );
   });
 };
 
@@ -275,12 +278,10 @@ exports.getUniqueRoles = (req, res) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
-      res
-        .status(200)
-        .json({
-          message: "Daftar Peran Pengguna Tanpa Duplikasi",
-          data: roles,
-        });
+      res.status(200).json({
+        message: "Daftar Peran Pengguna Tanpa Duplikasi",
+        data: roles,
+      });
     }
   });
 };

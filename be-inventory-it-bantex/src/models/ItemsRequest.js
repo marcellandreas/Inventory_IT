@@ -17,21 +17,20 @@ class FormRequest {
   // Metode untuk membuat form request baru
   createFormRequest(data, callback) {
     const query =
-      "INSERT INTO items_request (no_pengajuan, name_pt, name_division, item_req_date, applicant, approved_1, approved_2, status, post_username, post_user_id, post_created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO items_request (no_pengajuan, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, date_approved_1, date_approved_2, date_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     this.connection.query(
       query,
       [
         data.no_pengajuan,
         data.name_pt,
         data.name_division,
-        data.item_req_date,
-        data.applicant,
         data.approved_1,
         data.approved_2,
-        data.status,
-        data.post_username,
         data.post_user_id,
-        data.post_created_at,
+        data.post_username,
+        null, // date_approved_1
+        null, // date_approved_2
+        null, // date_done
       ],
       (error, results) => {
         callback(error, results);

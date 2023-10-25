@@ -7,7 +7,7 @@ class User {
   }
 
   registerUser(userData, callback) {
-    const { username, password, role } = userData;
+    const { username, password, full_name, email, role } = userData;
 
     // Generate user code based on role
     this.generateUserCode(role, (generateCodeError, code) => {
@@ -17,10 +17,10 @@ class User {
       }
 
       const query =
-        "INSERT INTO user (username, password, role, code_user) VALUES (?, ?, ?, ?)";
+        "INSERT INTO user (username, password, full_name, email, role, code_user) VALUES (?, ?, ?, ?, ?, ?)";
       this.connection.query(
         query,
-        [username, password, role, code],
+        [username, password, full_name, email, role, code],
         (error, results) => {
           callback(error, results);
         }
