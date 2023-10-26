@@ -40,6 +40,10 @@ app.use("/form", FormRequestRouter);
 const SubmissionItemRouter = require("./routes/submissionItems");
 app.use("/sub-form", SubmissionItemRouter);
 
+// requset items (pengajuan barang)
+const requestItemRouter = require("./routes/requestItems");
+app.use("/req-form", requestItemRouter);
+
 // category router
 const categoriesRouter = require("./routes/categories");
 app.use("/categories", categoriesRouter);

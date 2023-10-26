@@ -46,8 +46,10 @@ exports.getSubmissionItemsById = (req, res) => {
     (error, results) => {
       if (error) {
         res.status(500).json({ message: "Server Error", serverMessage: error });
+      } else if (results && results.length === 0) {
+        res.status(404).json({ message: "Data Not Found" });
       } else {
-        res.status(200).json({ data: results });
+        res.status(201).json({ data: results });
       }
     }
   );
