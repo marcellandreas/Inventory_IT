@@ -1,7 +1,7 @@
 // models/formRequest.js
 const mysql = require("mysql2");
 
-class FormRequest {
+class requestSubmission {
   constructor(dbConfig) {
     this.connection = mysql.createConnection(dbConfig);
   }
@@ -125,7 +125,7 @@ class FormRequest {
 
   // Metode untuk mengambil data form request berdasarkan approved_1
   getDatabyApproved1(approved_1, callback) {
-    const query = "SELECT * FROM form_request WHERE approved_1=?";
+    const query = "SELECT * FROM request_submission WHERE approved_1=?";
     this.connection.query(query, [approved_1], (error, results) => {
       callback(error, results);
     });
@@ -133,7 +133,7 @@ class FormRequest {
 
   // Metode untuk mengambil data form request berdasarkan approved_2
   getDatabyApproved2(approved_2, callback) {
-    const query = "SELECT * FROM form_request WHERE approved_2=?";
+    const query = "SELECT * FROM request_submission WHERE approved_2=?";
     this.connection.query(query, [approved_2], (error, results) => {
       callback(error, results);
     });
@@ -202,7 +202,7 @@ class FormRequest {
   // Membuat metode untuk mengambil data yang membutuhkan persetujuan approved_1
   getFormRequestRequiringApproval1(approved1, callback) {
     const query =
-      "SELECT * FROM form_request WHERE approved_1 = ? AND approved_2 IS NULL";
+      "SELECT * FROM request_submission WHERE approved_1 = ? AND approved_2 IS NULL";
     this.connection.query(query, [approved1], (error, results) => {
       callback(error, results);
     });
@@ -211,11 +211,11 @@ class FormRequest {
   // Membuat metode untuk mengambil data yang membutuhkan persetujuan approved_2
   getFormRequestRequiringApproval2(approved2, callback) {
     const query =
-      "SELECT * FROM form_request WHERE approved_1 IS NOT NULL AND approved_2 = ?";
+      "SELECT * FROM request_submission WHERE approved_1 IS NOT NULL AND approved_2 = ?";
     this.connection.query(query, [approved2], (error, results) => {
       callback(error, results);
     });
   }
 }
 
-module.exports = FormRequest;
+module.exports = requestSubmission;

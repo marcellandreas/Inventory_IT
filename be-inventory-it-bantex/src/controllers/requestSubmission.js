@@ -1,17 +1,17 @@
 // controllers/formRequestController.js
-const ItemsRequest = require("../models/ItemsRequest");
+const requestSubmissionModels = require("../models/requestSubmission");
 const dbConfig = {
   host: "localhost",
   user: "root",
   password: "",
   database: "inventory_it",
 };
-// Buat instance ItemsRequest
-const itemsRequest = new ItemsRequest(dbConfig);
+// Buat instance requestSubmissionModels
+const requestSubmission = new requestSubmissionModels(dbConfig);
 
 // Mendapatkan semua data form request
 exports.getAllData = (req, res) => {
-  itemsRequest.getAllData((error, results) => {
+  requestSubmission.getAllData((error, results) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -26,7 +26,7 @@ exports.getAllData = (req, res) => {
 // Membuat form request baru
 // exports.createFormRequest = (req, res) => {
 //   const formData = req.body; // Ambil data dari permintaan HTTP
-//   itemsRequest.createFormRequest(formData, (error, results) => {
+//   requestSubmission.createFormRequest(formData, (error, results) => {
 //     if (error) {
 //       res.status(500).json({ message: "Server Error", serverMessage: error });
 //     } else {
@@ -69,7 +69,7 @@ exports.createFormRequest = async (req, res) => {
     // Simpan nomor pengajuan ke dalam data pengajuan
     body.no_pengajuan = noPengajuan;
 
-    await itemsRequest.createFormRequest(body);
+    await requestSubmission.createFormRequest(body);
 
     res.json({
       message: "Berhasil Membuat Data Barang Baru",
@@ -89,21 +89,25 @@ exports.createFormRequest = async (req, res) => {
 exports.updateFormRequest = (req, res) => {
   const id_item_req = req.params.id_item_req;
   const formData = req.body;
-  itemsRequest.updateFormRequest(id_item_req, formData, (error, results) => {
-    if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
-      res
-        .status(200)
-        .json({ message: "Form Request berhasil diupdate", data: results });
+  requestSubmission.updateFormRequest(
+    id_item_req,
+    formData,
+    (error, results) => {
+      if (error) {
+        res.status(500).json({ message: "Server Error", serverMessage: error });
+      } else {
+        res
+          .status(200)
+          .json({ message: "Form Request berhasil diupdate", data: results });
+      }
     }
-  });
+  );
 };
 
 // Menghapus form request
 exports.deleteFormRequest = (req, res) => {
   const id_item_req = req.params.id_item_req;
-  itemsRequest.deleteFormRequest(id_item_req, (error, results) => {
+  requestSubmission.deleteFormRequest(id_item_req, (error, results) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -117,7 +121,7 @@ exports.deleteFormRequest = (req, res) => {
 // Mendapatkan data form request berdasarkan no_pengajuan
 exports.getByNoPengajuan = (req, res) => {
   const no_pengajuan = req.params.no_pengajuan;
-  itemsRequest.getByNoPengajuan(no_pengajuan, (error, results) => {
+  requestSubmission.getByNoPengajuan(no_pengajuan, (error, results) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -133,7 +137,7 @@ exports.getByNoPengajuan = (req, res) => {
 exports.updateStatus = (req, res) => {
   const id_item_req = req.params.id_item_req;
   const status = req.body.status;
-  itemsRequest.updateStatus(id_item_req, status, (error, results) => {
+  requestSubmission.updateStatus(id_item_req, status, (error, results) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -149,7 +153,7 @@ exports.updateStatus = (req, res) => {
 exports.getByStatusAndUsername = (req, res) => {
   const status = req.params.status;
   const post_username = req.params.post_username;
-  itemsRequest.getByStatusAndUsername(
+  requestSubmission.getByStatusAndUsername(
     status,
     post_username,
     (error, results) => {
@@ -168,38 +172,46 @@ exports.getByStatusAndUsername = (req, res) => {
 exports.getByStatusAndApproved1 = (req, res) => {
   const status = req.params.status;
   const approved_1 = req.params.approved_1;
-  itemsRequest.getByStatusAndApproved1(status, approved_1, (error, results) => {
-    if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Form Request",
-        data: results,
-      });
+  requestSubmission.getByStatusAndApproved1(
+    status,
+    approved_1,
+    (error, results) => {
+      if (error) {
+        res.status(500).json({ message: "Server Error", serverMessage: error });
+      } else {
+        res.status(200).json({
+          message: "Berhasil Mengambil Data Form Request",
+          data: results,
+        });
+      }
     }
-  });
+  );
 };
 
 // Mendapatkan data form request berdasarkan status dan approved_2
 exports.getByStatusAndApproved2 = (req, res) => {
   const status = req.params.status;
   const approved_2 = req.params.approved_2;
-  itemsRequest.getByStatusAndApproved2(status, approved_2, (error, results) => {
-    if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Form Request",
-        data: results,
-      });
+  requestSubmission.getByStatusAndApproved2(
+    status,
+    approved_2,
+    (error, results) => {
+      if (error) {
+        res.status(500).json({ message: "Server Error", serverMessage: error });
+      } else {
+        res.status(200).json({
+          message: "Berhasil Mengambil Data Form Request",
+          data: results,
+        });
+      }
     }
-  });
+  );
 };
 
 // Mendapatkan data form request berdasarkan post_username
 exports.getDataByPostUsername = (req, res) => {
   const post_username = req.params.post_username;
-  itemsRequest.getDatabyPostUsername(post_username, (error, results) => {
+  requestSubmission.getDatabyPostUsername(post_username, (error, results) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -214,7 +226,7 @@ exports.getDataByPostUsername = (req, res) => {
 // Mendapatkan data items request berdasarkan kriteria tertentu
 exports.getDataByCriteria = (req, res) => {
   const { status, post_username, approved_1, approved_2 } = req.query;
-  itemsRequest.getDataByCriteria(
+  requestSubmission.getDataByCriteria(
     status,
     post_username,
     approved_1,
@@ -240,7 +252,7 @@ exports.approveFormRequest1 = (req, res) => {
   const status = "Disetujui1";
   const tglApproved1 = new Date();
 
-  itemsRequest.approveFormRequest(
+  requestSubmission.approveFormRequest(
     idItemReq,
     status,
     tglApproved1,
@@ -264,7 +276,7 @@ exports.approveFormRequest2 = (req, res) => {
   const status = "Disetujui2";
   const tglApproved2 = new Date();
 
-  itemsRequest.approveFormRequest2(
+  requestSubmission.approveFormRequest2(
     idItemReq,
     status,
     tglApproved2,
@@ -284,7 +296,7 @@ exports.approveFormRequest2 = (req, res) => {
 exports.rejectFormRequest = (req, res) => {
   const { idItemReq } = req.params;
 
-  itemsRequest.rejectFormRequest(idItemReq, (error, result) => {
+  requestSubmission.rejectFormRequest(idItemReq, (error, result) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
@@ -303,7 +315,7 @@ exports.finishFormRequest = (req, res) => {
   const status = "Selesai";
   const tglDone = new Date();
 
-  itemsRequest.finishFormRequest(
+  requestSubmission.finishFormRequest(
     idItemReq,
     status,
     tglDone,

@@ -33,7 +33,7 @@ const authRouter = require("./routes/authRouter");
 app.use("/auth", authRouter);
 
 // form Request (pengajuan barang)
-const FormRequestRouter = require("./routes/ItemsRequest");
+const FormRequestRouter = require("./routes/requestSubmission");
 app.use("/form", FormRequestRouter);
 
 // submission items (pengajuan barang)
