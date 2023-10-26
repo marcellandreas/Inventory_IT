@@ -23,6 +23,17 @@ const FormRequest = ({ handleChangeValue, formValues }) => {
     }
   };
 
+  const type = [
+    {
+      value: "SUBMISSION",
+      name: "Pengajuan",
+    },
+    {
+      value: "REQUEST",
+      name: "Permintaan",
+    },
+  ];
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -112,6 +123,22 @@ const FormRequest = ({ handleChangeValue, formValues }) => {
         ]}
         name="approved_2"
         value={formValues.approved_2}
+        onChange={handleChangeValue}
+      />
+      <CustomSelect
+        label="Tipe Surat"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih tipe surat
+          </option>,
+          ...type.map((type, index) => (
+            <option key={index} value={type.value}>
+              {type.name}
+            </option>
+          )),
+        ]}
+        name="request_type"
+        value={formValues.request_type}
         onChange={handleChangeValue}
       />
     </div>

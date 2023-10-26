@@ -136,7 +136,7 @@ const getFormattedDate = () => {
 let currentMonth = "";
 let currentCounter = 0;
 
-const createFormPengajuan = async (req, res) => {
+const createItemRequest = async (req, res) => {
   const { body } = req;
 
   try {
@@ -158,7 +158,7 @@ const createFormPengajuan = async (req, res) => {
     // Simpan nomor pengajuan ke dalam data pengajuan
     body.no_pengajuan = noPengajuan;
 
-    await FormPengajuanModal.postItemReq(body);
+    await FormPengajuanModal.createItemRequest(body);
 
     res.json({
       message: "Berhasil Membuat Data Barang Baru",
@@ -252,68 +252,10 @@ const PostsubmissionItems = async (req, res) => {
   }
 };
 
-const postSuratPengajuan = async (req, res) => {
-  const { body } = req;
-  try {
-    await FormPengajuanModal.postSuratPengajuan(body);
-    res.json({
-      message: "Berhasil Menambah Surat Pengajuan",
-      data: body,
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
-};
-
-// const deleteDataPengajuan = async (req, res) => {
-//   const { no_pengajuan } = req.params;
-
-//   try {
-//     const result = await FormPengajuanModel.deleteDataPengajuan(no_pengajuan);
-
-//     if (result.affectedRows === 0) {
-//       // Data tidak ditemukan
-//       res.status(404).json({ message: 'Data tidak ditemukan' });
-//     } else {
-//       // Data berhasil dihapus
-//       res.json({ message: 'Data berhasil dihapus' });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Server Error",
-//       serverMessage: error,
-//     });
-//   }
-// };
-
-const deleteFormReqItems = async (req, res) => {
-  const { no_pengajuan } = req.body;
-  console.log(no_pengajuan);
-  try {
-    await FormPengajuanModal.deleteFormRequestItems(no_pengajuan);
-    res.json({
-      message: "Form Pengajuan Barang IT berhasil dihapus",
-      data: null,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
-};
-
 module.exports = {
-  createFormPengajuan,
-  deleteFormReqItems,
+  createItemRequest,
   getAllDataItemReq,
   PostsubmissionItems,
-  postSuratPengajuan,
   getAllDataPengajuan,
   getDataPengajuanByIdForm,
   getDataItemReqByUsername,

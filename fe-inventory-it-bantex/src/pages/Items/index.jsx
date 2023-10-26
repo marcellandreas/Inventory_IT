@@ -53,35 +53,37 @@ const ItemsPage = () => {
             {isLoading ? (
               <p>Halaman Sedang Memuat Data</p>
             ) : (
-              <section className="lg:w-[82vw] bg-slate-400 backdrop-blur-md">
-                <TableHeader>
-                  <TitleTable>Tabel Barang</TitleTable>
-                  <div className="input-group">
-                    <input
-                      onChange={(e) => {
-                        handleSearch(e);
+              <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense">
+                <div className="bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6">
+                  <TableHeader>
+                    <TitleTable>Tabel Barang</TitleTable>
+                    <div className="input-group">
+                      <input
+                        onChange={(e) => {
+                          handleSearch(e);
+                        }}
+                        type="search"
+                        placeholder="Search Data..."
+                      />
+                    </div>
+                    <button
+                      className="button flex gap-2 items-center"
+                      onClick={() => {
+                        setAddModalItem(true);
                       }}
-                      type="search"
-                      placeholder="Search Data..."
+                    >
+                      <BsDatabaseFillAdd /> <span>Tambah Barang</span>
+                    </button>
+                  </TableHeader>
+                  <TableBody>
+                    <TableItems
+                      data={data}
+                      setId={setId}
+                      setEditModalItem={setEditModalItem}
+                      setDeleteModalItem={setDeleteModalItem}
                     />
-                  </div>
-                  <button
-                    className="button flex gap-2 items-center"
-                    onClick={() => {
-                      setAddModalItem(true);
-                    }}
-                  >
-                    <BsDatabaseFillAdd /> <span>Tambah Barang</span>
-                  </button>
-                </TableHeader>
-                <TableBody>
-                  <TableItems
-                    data={data}
-                    setId={setId}
-                    setEditModalItem={setEditModalItem}
-                    setDeleteModalItem={setDeleteModalItem}
-                  />
-                </TableBody>
+                  </TableBody>
+                </div>
               </section>
             )}
           </section>

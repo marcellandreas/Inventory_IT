@@ -14,6 +14,7 @@ const MakeAGoodsRequest = React.memo(() => {
     name_division: "",
     approved_1: "",
     approved_2: "",
+    request_type: "",
     post_user_id: idUser,
     post_username: username,
   });
@@ -179,39 +180,62 @@ const MakeAGoodsRequest = React.memo(() => {
     fetchQtyForStockDetails();
   }, [...inputList.map((item, index) => item.id_det_stock)]);
 
+  // const handleinputchange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   const updatedInputList = [...inputList];
+  //   const maxQty = updatedInputList.maxQty;
+
+  //   if (name === "qty") {
+  //     const qtyValue = parseInt(value, 10);
+  //     // const maxQty = detStockQtyData[index].maxQty;
+
+  //     if (!isNaN(qtyValue)) {
+  //       if (qtyValue > maxQty) {
+  //         window.alert("Qty melebihi jumlah yang tersedia.");
+  //         // Set nilai qty menjadi kosong jika alert muncul
+  //         updatedInputList[index] = { ...updatedInputList[index], [name]: "" }; // Menyimpan nilai qty kosong
+  //         setinputList(updatedInputList); // Perbarui state inputList
+  //       } else {
+  //         updatedInputList[index] = {
+  //           ...updatedInputList[index],
+  //           [name]: qtyValue,
+  //         };
+  //         setinputList(updatedInputList); // Perbarui state inputList
+  //       }
+  //     } else {
+  //       // Jika nilai qty tidak dapat di-parse sebagai angka, kosongkan nilainya
+  //       updatedInputList[index] = { ...updatedInputList[index], [name]: "" };
+  //       setinputList(updatedInputList); // Perbarui state inputList
+  //     }
+  //   } else {
+  //     updatedInputList[index] = {
+  //       ...updatedInputList[index],
+  //       [name]: value,
+  //     };
+  //     setinputList(updatedInputList); // Perbarui state inputList
+  //   }
+  // };
+
+  console.log(formValues);
+
   const handleinputchange = (e, index) => {
     const { name, value } = e.target;
     const updatedInputList = [...inputList];
+    const maxQty = updatedInputList[index].maxQty;
 
     if (name === "qty") {
       const qtyValue = parseInt(value, 10);
-      const maxQty = detStockQtyData[index].maxQty;
 
-      if (!isNaN(qtyValue)) {
-        if (qtyValue > maxQty) {
-          window.alert("Qty melebihi jumlah yang tersedia.");
-          // Set nilai qty menjadi kosong jika alert muncul
-          updatedInputList[index] = { ...updatedInputList[index], [name]: "" }; // Menyimpan nilai qty kosong
-          setinputList(updatedInputList); // Perbarui state inputList
-        } else {
-          updatedInputList[index] = {
-            ...updatedInputList[index],
-            [name]: qtyValue,
-          };
-          setinputList(updatedInputList); // Perbarui state inputList
-        }
+      if (!isNaN(qtyValue) && qtyValue > maxQty) {
+        alert("Qty melebihi jumlah yang tersedia.");
       } else {
-        // Jika nilai qty tidak dapat di-parse sebagai angka, kosongkan nilainya
-        updatedInputList[index] = { ...updatedInputList[index], [name]: "" };
-        setinputList(updatedInputList); // Perbarui state inputList
+        updatedInputList[index][name] = qtyValue;
       }
     } else {
-      updatedInputList[index] = {
-        ...updatedInputList[index],
-        [name]: value,
-      };
-      setinputList(updatedInputList); // Perbarui state inputList
+      updatedInputList[index][name] = value;
     }
+
+    setinputList(updatedInputList);
   };
 
   console.log(inputList);
@@ -249,7 +273,7 @@ const MakeAGoodsRequest = React.memo(() => {
     try {
       // Validasi qty sebelum melakukan operasi POST
       const isQtyValid = inputList.every(
-        (item, index) => item.qty <= detStockQtyData[index].maxQty
+        (item, index) => item.qty <= inputList[index].maxQty
       );
 
       if (!isQtyValid) {
@@ -268,7 +292,7 @@ const MakeAGoodsRequest = React.memo(() => {
           note: item.note,
         }));
         // Lakukan operasi POST ke tabel submission
-        const request2 = await AxiosInstance.post("/pengajuan/sub", dataPost);
+        const request2 = await AxiosInstance.post("/sub-form", dataPost);
         await Promise.all([response1, request2]);
         alert("Form Pengajuan Berhasil Dibuat");
         backToMenu();
@@ -286,7 +310,7 @@ const MakeAGoodsRequest = React.memo(() => {
     <Sidebar>
       <LayoutContentDashboard>
         <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
-          <Title>Buat Pengajuan Barang!</Title>
+          <Title>Buat Entri Permintaan atau Pengajuan</Title>
           <hr className="border border-slate-800 mb-5" />
           <section className="flex flex-col gap-5 justify-between">
             <FormRequest
@@ -340,7 +364,7 @@ const MakeAGoodsRequest = React.memo(() => {
                       onChange={(e) => handleinputchange(e, i)}
                     />
 
-                    <div className="gap-2 flex flex-col w-60">
+                    {/* <div className="gap-2 flex flex-col w-60">
                       <label>Nama Barang</label>
                       <input
                         className="bg-slate-200"
@@ -361,7 +385,7 @@ const MakeAGoodsRequest = React.memo(() => {
                         }}
                         onChange={(e) => handleinputchange(e, i)}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="gap-2 flex flex-col w-60">
                       <label>Qty</label>

@@ -1,37 +1,40 @@
 const pool = require("../config/database");
 
 const getAllDataItemReq = () => {
-  const SQLQuery = `SELECT * FROM items_request`;
+  const SQLQuery = `SELECT * FROM request_submission`;
   return pool.execute(SQLQuery);
 };
 
 const getDataItemReqByUsername = (username) => {
-  const SQLQuery = `SELECT items_request.* FROM items_request JOIN user ON items_request.post_username = user.username WHERE user.username = '${username}';`;
+  const SQLQuery = `SELECT request_submission.* FROM request_submission JOIN user ON request_submission.post_username = user.username WHERE user.username = '${username}';`;
   return pool.execute(SQLQuery);
 };
 
 const getAllDataPengajuan = () => {
   const SQLQuery = `
   SELECT 
-  items_request.no_pengajuan, 
-  items_request.name_pt, 
-  items_request.name_division, 
-  items_request.status,
-  items_request.approved_1, 
-  items_request.approved_2, 
-  items_request.post_user_id, 
-  items_request.post_username, 
-  items_request.post_date, 
+  request_submission.no_pengajuan, 
+  request_submission.name_pt, 
+  request_submission.name_division, 
+  request_submission.status,
+  request_submission.approved_1, 
+  request_submission.approved_2, 
+  request_submission.post_user_id, 
+  request_submission.post_username, 
+  request_submission.post_date, 
+  request_submission.date_approved_1,
+  request_submission.date_approved_2,
+  request_submission.date_done,
+  request_submission.request_type,
   GROUP_CONCAT(submission_items.Id_submission_item) AS Id_submission_item, 
-  GROUP_CONCAT(submission_items.sub_no) AS sub_no, 
   GROUP_CONCAT(submission_items.no_pengajuan) AS no_pengajuan, 
   GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
   GROUP_CONCAT(submission_items.qty) AS qty, 
   GROUP_CONCAT(submission_items.note) AS note, 
   GROUP_CONCAT(submission_items.stock_no) AS stock_no 
-FROM items_request 
-LEFT JOIN submission_items ON items_request.no_pengajuan = submission_items.no_pengajuan 
-GROUP BY items_request.no_pengajuan;
+FROM request_submission 
+LEFT JOIN submission_items ON request_submission.no_pengajuan = submission_items.no_pengajuan 
+GROUP BY request_submission.no_pengajuan;
 
   `;
   return pool.execute(SQLQuery);
@@ -39,30 +42,33 @@ GROUP BY items_request.no_pengajuan;
 
 const getDataAllPengajuanByIdForm = (id_item_req) => {
   const SQLQuery = `SELECT 
-  items_request.no_pengajuan, 
-  items_request.name_pt, 
-  items_request.name_division, 
-  items_request.status, 
-  items_request.approved_1, 
-  items_request.approved_2, 
-  items_request.post_user_id, 
-  items_request.post_username, 
-  items_request.post_date, 
+  request_submission.no_pengajuan, 
+  request_submission.name_pt, 
+  request_submission.name_division, 
+  request_submission.status, 
+  request_submission.approved_1, 
+  request_submission.approved_2, 
+  request_submission.post_user_id, 
+  request_submission.post_username, 
+  request_submission.post_date, 
+  request_submission.date_approved_1,
+  request_submission.date_approved_2,
+  request_submission.date_done,
+  request_submission.request_type,
   GROUP_CONCAT(submission_items.Id_submission_item) AS Id_submission_item, 
-  GROUP_CONCAT(submission_items.sub_no) AS sub_no, 
   GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
   GROUP_CONCAT(submission_items.qty) AS qty, 
   GROUP_CONCAT(submission_items.note) AS note, 
   GROUP_CONCAT(submission_items.stock_no) AS stock_no 
-  FROM items_request 
-  LEFT JOIN submission_items ON items_request.no_pengajuan = submission_items.no_pengajuan 
-  WHERE items_request.id_item_req = ${id_item_req} 
-  GROUP BY items_request.no_pengajuan;`;
+  FROM request_submission 
+  LEFT JOIN submission_items ON request_submission.no_pengajuan = submission_items.no_pengajuan 
+  WHERE request_submission.id_item_req = ${id_item_req} 
+  GROUP BY request_submission.no_pengajuan;`;
   return pool.execute(SQLQuery);
 };
 
-const postItemReq = (body) => {
-  const SQLQuery = `INSERT INTO items_request (id_item_req, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, post_date, no_pengajuan) VALUES (NULL, '${body.name_pt}', '${body.name_division}','${body.approved_1}', '${body.approved_2}', '${body.post_user_id}', '${body.post_username}', current_timestamp(), '${body.no_pengajuan}');`;
+const createItemRequest = (body) => {
+  const SQLQuery = `INSERT INTO request_submission (id_item_req, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, post_date, no_pengajuan, request_type) VALUES (NULL, '${body.name_pt}', '${body.name_division}','${body.approved_1}', '${body.approved_2}', '${body.post_user_id}', '${body.post_username}', current_timestamp(), '${body.no_pengajuan}', '${body.request_type}');`;
   return pool.execute(SQLQuery);
 };
 
@@ -86,37 +92,11 @@ const PostsubmissionItems = (values) => {
   return pool.execute(SQLQuery, flattenedValues);
 };
 
-// Surat Pengajuan atau Form Request Items
-
-const postSuratPengajuan = (values) => {
-  const placeholders = values.map(() => "(?, ?, ?)").join(", ");
-
-  const SQLQuery = `INSERT INTO form_request_items (id, no_pengajuan, sub_no) VALUES ${placeholders};`;
-  const flattenedValues = values.reduce(
-    (acc, value) => acc.concat([null, value.no_pengajuan, value.sub_no]),
-    []
-  );
-  return pool.execute(SQLQuery, flattenedValues);
-};
-
-const deleteSuratPengajuan = (id_surat) => {
-  const SQLQuery = `DELETE FROM form_request_items WHERE form_request_items.id = ${id_surat}`;
-  return pool.execute(SQLQuery);
-};
-
-const deleteFormRequestItems = (no_pengajuan) => {
-  const SQLQuery = `DELETE FROM form_request_items WHERE no_pengajuan = '${no_pengajuan}';`;
-  return pool.execute(SQLQuery);
-};
-
 module.exports = {
   getAllDataItemReq,
   getAllDataPengajuan,
   getDataItemReqByUsername,
   getDataAllPengajuanByIdForm,
-  postItemReq,
+  createItemRequest,
   PostsubmissionItems,
-  postSuratPengajuan,
-  deleteSuratPengajuan,
-  deleteFormRequestItems,
 };

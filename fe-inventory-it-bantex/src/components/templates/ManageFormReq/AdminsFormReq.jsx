@@ -56,7 +56,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
   };
 
   return (
-    <section className="grid grid-cols-6 gap-4 grid-flow-dense">
+    <section className="grid grid-cols-6 gap-4 grid-flow-dense ">
       <div className="self-start flex justify-between w-full col-span-6">
         <div className="flex pl-2 gap-2 self-start order-2">
           <NavLink
@@ -87,22 +87,25 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
         </section>
       </div>
       <div className="col-span-6">
-        <section className="w-[82vw] bg-slate-200 backdrop-blur-md">
-          <TableHeader>
-            <TitleTable>Data Pengajuan Barang</TitleTable>
-            <div className="input-group">
-              <input
-                type="search"
-                placeholder="Search Data..."
-                value={search}
-                onChange={handleSearchChange}
-              />
-            </div>
-            <NavLink to={`buat`} className="button flex gap-2 items-center">
-              <AiFillFileAdd /> <span>Buat Pengajuan</span>
-            </NavLink>
-          </TableHeader>
-          <TableBody>{renderTableData()}</TableBody>
+        {/* <section className="w-[82vw] bg-slate-200 backdrop-blur-md"> */}
+        <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
+          <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
+            <TableHeader>
+              <TitleTable>Data Pengajuan Barang</TitleTable>
+              <div className="input-group">
+                <input
+                  type="search"
+                  placeholder="Search Data..."
+                  value={search}
+                  onChange={handleSearchChange}
+                />
+              </div>
+              <NavLink to={`buat`} className="button flex gap-2 items-center">
+                <AiFillFileAdd /> <span>Buat Pengajuan</span>
+              </NavLink>
+            </TableHeader>
+            <TableBody>{renderTableData()}</TableBody>
+          </div>
         </section>
       </div>
     </section>

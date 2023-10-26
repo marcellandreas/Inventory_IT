@@ -183,18 +183,24 @@ const EditDelCompontentsStocks = () => {
         const requests2 = inputList.map(async (item) => {
           const { id_detail_stock, ...rest } = item;
           rest.stockNo = stockNo; // Sertakan stockNo di dalam objek rest
-          return AxiosInstance.put(`/det-stock/${id_detail_stock}`, {
+          return AxiosInstance.put(`/det-stock/id/${id_detail_stock}`, {
             stock_no: stockNo,
             ...rest,
           });
         });
 
-        const dataDetailPost = inputListPost.map((item) => ({
-          stock_no: stockNo,
-          ...item,
-        }));
-        const request3 = await AxiosInstance.post("/det-stock", dataDetailPost);
-        await Promise.all([response1, ...requests2, request3]);
+        if (inputListPost.length > 0) {
+          const dataDetailPost = inputListPost.map((item) => ({
+            stock_no: stockNo,
+            ...item,
+          }));
+          const request3 = await AxiosInstance.post(
+            "/det-stock",
+            dataDetailPost
+          );
+        }
+
+        await Promise.all([response1, ...requests2]);
         await AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
         alert("Stock berhasil dibuat");
         backToMenu();

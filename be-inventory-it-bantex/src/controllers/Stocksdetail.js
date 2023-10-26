@@ -116,3 +116,20 @@ exports.deleteDetailStock = (req, res) => {
     }
   });
 };
+
+// Controllers - stocksDetailController.js
+// Untuk mengupdate beberapa detail stok sekaligus
+exports.updateMultipleDetailStocks = (req, res) => {
+  const { updatedData } = req.body;
+  detailStockModel.updateMultipleDetailStocks(updatedData, (error) => {
+    if (error) {
+      if (error.message.includes("tidak ditemukan")) {
+        res.status(404).json({ message: "Detail stok tidak ditemukan" });
+      } else {
+        res.status(400).json({ message: error.message });
+      }
+    } else {
+      res.status(200).json({ message: "Detail stok berhasil diperbarui" });
+    }
+  });
+};

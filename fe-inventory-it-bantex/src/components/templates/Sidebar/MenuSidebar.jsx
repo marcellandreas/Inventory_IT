@@ -9,28 +9,28 @@ export const menuSidebar = [
   {
     path: "/",
     name_menu: "Dashboard",
-    icon: <MdDashboard />,
+    icon: MdDashboard,
   },
   {
     path: "/stock",
     name_menu: "Stock",
-    icon: <MdWarehouse />,
+    icon: MdWarehouse,
     // hasDropdown: true,
   },
   {
     path: "/items",
     name_menu: "Items",
-    icon: <ImBooks />,
+    icon: ImBooks,
   },
   {
     path: "/pc-master",
     name_menu: "PC Master",
-    icon: <FaComputer />,
+    icon: FaComputer,
   },
   {
     path: "/form-pengajuan",
     name_menu: "Pengajuan",
-    icon: <CiGrid42 />,
+    icon: CiGrid42,
   },
   // {
   //   path: "/pc-line",
@@ -43,9 +43,9 @@ export const menuSidebar = [
 
 export const LogoutMenu = [
   {
-    path: "/employess",
+    path: "/",
     name_menu: "Logout",
-    icon: <MdPeople />,
+    icon: MdPeople,
   },
 ];
 
@@ -53,17 +53,17 @@ export const menuSidebarOrganization = [
   {
     path: "/employess",
     name_menu: "Employees",
-    icon: <MdPeople />,
+    icon: MdPeople,
   },
   {
     path: "/documents",
     name_menu: "Documents",
-    icon: <HiDocument />,
+    icon: HiDocument,
   },
   {
     path: "/reports",
     name_menu: "Reports",
-    icon: <BiSolidReport />,
+    icon: BiSolidReport,
   },
 ];
 

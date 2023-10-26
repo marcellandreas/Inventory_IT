@@ -8,12 +8,15 @@ import { fetchDataDetailPengajuan } from "../../Redux/Feature/ItemsRequest";
 
 const DetailFormItemsRequest = () => {
   const { id_item_req } = useParams();
+  console.log(id_item_req);
   const role = localStorage.getItem("role");
   const [status, setStatus] = useState("");
   const dispatch = useDispatch();
   const dataDetailPengajuan = useSelector(
     (state) => state.dataSliceItemReq.dataDetailPengajuan
   );
+
+  console.log(dataDetailPengajuan);
   const loading = useSelector((state) => state.dataSliceItemReq.loading);
   const error = useSelector((state) => state.dataSliceItemReq.error);
 
@@ -28,6 +31,28 @@ const DetailFormItemsRequest = () => {
         alert("Berhasil");
       })
       .catch((err) => console.log(err));
+  };
+
+  // console.log(dataDetailPengajuan[0].submissionData);
+
+  // const dataToPut = dataDetailPengajuan[0]?.submissionData.map((item) => {
+  //   return {
+  //     id_detail_stock: item.Id_submission_items,
+  //     qty: item.qty,
+  //   };
+  // });
+
+  // console.log(dataToPut);
+
+  const handleQtyMinus = () => {
+    AxiosInstance.put(`/det-stock/update-multiple`, { updatedData: dataToPut })
+      .then((res) => {
+        alert("berhasil update qty");
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -102,7 +127,10 @@ const DetailFormItemsRequest = () => {
 
               <div className="flex gap-3">
                 <button
-                  onClick={() => handleAction("approve1")}
+                  onClick={() => {
+                    handleAction("approve1");
+                    handleQtyMinus();
+                  }}
                   disabled={
                     status === "Disetujui1" ||
                     status === "Disetujui2" ||

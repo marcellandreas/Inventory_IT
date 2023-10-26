@@ -55,8 +55,10 @@ const StockPage = () => {
             <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
               <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                 <TableHeader>
-                  <TitleTable>Data Stok</TitleTable>
-                  <div className="input-group">
+                  <div className="order-1 ">
+                    <TitleTable>Data Stok</TitleTable>
+                  </div>
+                  <div className="input-group order-3 md:order-2">
                     <input
                       type="search"
                       placeholder="Search Data..."
@@ -66,7 +68,7 @@ const StockPage = () => {
                   </div>
                   <NavLink
                     to={`buat`}
-                    className="button flex gap-2 items-center"
+                    className="button flex gap-2 items-center order-2 md:order-3"
                   >
                     <AiFillFileAdd /> <span>Tambah Stok</span>
                   </NavLink>

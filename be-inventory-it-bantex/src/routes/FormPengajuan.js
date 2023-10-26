@@ -10,9 +10,9 @@ router.get(
   formPengajuanController.getDataPengajuanByIdForm
 );
 
-router.post("/req", formPengajuanController.createFormPengajuan);
+// Post Items Request
+router.post("/req", formPengajuanController.createItemRequest);
+
 router.get("/req/:username", formPengajuanController.getDataItemReqByUsername);
 router.post("/sub", formPengajuanController.PostsubmissionItems);
-router.post("/surat", formPengajuanController.postSuratPengajuan);
-router.delete("/surat", formPengajuanController.deleteFormReqItems);
 module.exports = router;
