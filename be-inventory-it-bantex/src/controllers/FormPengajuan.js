@@ -38,11 +38,12 @@ const getDataItemReqByUsername = async (req, res) => {
   }
 };
 
-const getAllDataPengajuan = async (req, res) => {
+const getAllDataReqSubandStockRequest = async (req, res) => {
   try {
-    const [data] = await FormPengajuanModal.getAllDataPengajuan();
+    const [data] = await FormPengajuanModal.getAllDataReqSubandStockRequest();
     // Map the data and process GROUP_CONCAT results into arrays of objects
     const transformedData = data.map((item) => ({
+      id_item_req: item.id_item_req,
       no_pengajuan: item.no_pengajuan,
       name_pt: item.name_pt,
       name_division: item.name_division,
@@ -52,22 +53,23 @@ const getAllDataPengajuan = async (req, res) => {
       post_user_id: item.post_user_id,
       post_username: item.post_username,
       post_date: item.post_date,
-      submissionData:
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
+      date_done: item.date_done,
+      request_type: item.request_type,
+      request_data:
         item.Id_submission_item &&
         item.Id_submission_item.split(",").map((idSub, index) => ({
-          Id_submission_items: idSub,
-          no_pengajuan:
-            item.no_pengajuan && item.no_pengajuan.split(",")[index],
+          id_submission_item: idSub,
           stock_description:
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
-          stock_no: item.stock_no && item.stock_no.split(",")[index],
         })),
     }));
 
     res.json({
-      message: "Berhasil Mengambil Data Pengajuan",
+      message: "berhasil mengambil Data penerimaan barang",
       data: transformedData,
     });
   } catch (error) {
@@ -78,11 +80,11 @@ const getAllDataPengajuan = async (req, res) => {
   }
 };
 
-const getDataPengajuanByIdForm = async (req, res) => {
+const getAllDataReqSubandStockRequestById = async (req, res) => {
   const { id_item_req } = req.params;
   let isFound = false;
   try {
-    const [data] = await FormPengajuanModal.getDataAllPengajuanByIdForm(
+    const [data] = await FormPengajuanModal.getAllDataReqSubandStockRequestById(
       id_item_req
     );
     const transformedData = data.map((item) => ({
@@ -109,7 +111,100 @@ const getDataPengajuanByIdForm = async (req, res) => {
     }));
     isFound = true;
     res.json({
-      message: `Berhasil Mengambil Data Barang id_item_req ${id_item_req} `,
+      message: `berhasil mengambil data pengajuan barang dari id ${id_item_req} `,
+      data: transformedData,
+    });
+  } catch (error) {
+    if (!isFound) {
+      res.status(404).json({
+        message: "Data tidak ada",
+      });
+      return;
+    }
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+// Stock Submission
+
+const getAllDataReqSubandStockSubmission = async (req, res) => {
+  try {
+    const [data] =
+      await FormPengajuanModal.getAllDataReqSubandStockSubmission();
+    // Map the data and process GROUP_CONCAT results into arrays of objects
+    console.log(data);
+    const transformedData = data.map((item) => ({
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      status: item.status,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
+      date_done: item.date_done,
+      request_type: item.request_type,
+      submissionData:
+        item.id_stock_sub &&
+        item.id_stock_sub.split(",").map((idSub, index) => ({
+          id_stock_sub: idSub,
+          stock_description:
+            item.stock_description && item.stock_description.split(",")[index],
+          qty: item.qty && item.qty.split(",")[index],
+          note: item.note && item.note.split(",")[index],
+        })),
+    }));
+
+    res.json({
+      message: "berhasil mengambil Data pengajuan barang",
+      data: transformedData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getAllDataReqSubandStockSubmissionById = async (req, res) => {
+  const { id_stock_sub } = req.params;
+  let isFound = false;
+  try {
+    const [data] =
+      await FormPengajuanModal.getAllDataReqSubandStockSubmissionById(
+        id_stock_sub
+      );
+    const transformedData = data.map((item) => ({
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      status: item.status,
+      applicant: item.applicant,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      submissionData:
+        item.id_stock_sub &&
+        item.id_stock_sub.split(",").map((idSub, index) => ({
+          id_stock_sub: idSub,
+          stock_description:
+            item.stock_description && item.stock_description.split(",")[index],
+          qty: item.qty && item.qty.split(",")[index],
+          note: item.note && item.note.split(",")[index],
+        })),
+    }));
+    isFound = true;
+    res.json({
+      message: `berhasil mengambil data penerimaan barang dari id ${id_stock_sub} `,
       data: transformedData,
     });
   } catch (error) {
@@ -256,8 +351,12 @@ module.exports = {
   createItemRequest,
   getAllDataItemReq,
   PostsubmissionItems,
-  getAllDataPengajuan,
-  getDataPengajuanByIdForm,
   getDataItemReqByUsername,
   createFormSubmission,
+  // stock request
+  getAllDataReqSubandStockRequest,
+  getAllDataReqSubandStockRequestById,
+  // stock submission
+  getAllDataReqSubandStockSubmission,
+  getAllDataReqSubandStockSubmissionById,
 };

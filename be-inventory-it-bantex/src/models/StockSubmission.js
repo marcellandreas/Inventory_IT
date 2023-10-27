@@ -1,15 +1,15 @@
 const mysql = require("mysql2");
 
-class RequestItems {
+class StockSubmission {
   constructor(dbConfig) {
     this.connection = mysql.createConnection(dbConfig);
   }
 
   // Metode untuk membuat entri baru request items
-  createRequestItems(requestItems, callback) {
+  createStockSubmission(stockSubmission, callback) {
     const query =
-      "INSERT INTO request_items (no_pengajuan, stock_description, qty, note) VALUES ?";
-    const values = requestItems.map((item) => [
+      "INSERT INTO stock_submission (no_pengajuan, stock_description, qty, note) VALUES ?";
+    const values = stockSubmission.map((item) => [
       item.no_pengajuan,
       item.stock_description,
       item.qty,
@@ -22,24 +22,24 @@ class RequestItems {
   }
 
   // Metode untuk mengambil semua data request items
-  getAllRequestItems(callback) {
-    const query = "SELECT * FROM request_items";
+  getAllStockSubmission(callback) {
+    const query = "SELECT * FROM stock_submission";
     this.connection.query(query, (error, results) => {
       callback(error, results);
     });
   }
 
   // Metode untuk mengambil data request items berdasarkan ID
-  getRequestItemsById(id_request_items, callback) {
-    const query = "SELECT * FROM request_items WHERE id_request_items = ?";
+  getStockSubmissionById(id_request_items, callback) {
+    const query = "SELECT * FROM stock_submission WHERE id_request_items = ?";
     this.connection.query(query, [id_request_items], (error, results) => {
       callback(error, results[0]);
     });
   }
 
   // Metode untuk memperbarui data request items berdasarkan ID
-  updateRequestItemsById(id_request_items, updatedData, callback) {
-    const query = "UPDATE request_items SET ? WHERE id_request_items = ?";
+  updateStockSubmissionById(id_request_items, updatedData, callback) {
+    const query = "UPDATE stock_submission SET ? WHERE id_request_items = ?";
     this.connection.query(
       query,
       [updatedData, id_request_items],
@@ -50,12 +50,12 @@ class RequestItems {
   }
 
   // Metode untuk menghapus data request items berdasarkan ID
-  deleteRequestItemsById(id_request_items, callback) {
-    const query = "DELETE FROM request_items WHERE id_request_items = ?";
+  deleteStockSubmissionById(id_request_items, callback) {
+    const query = "DELETE FROM stock_submission WHERE id_request_items = ?";
     this.connection.query(query, [id_request_items], (error, results) => {
       callback(error, results);
     });
   }
 }
 
-module.exports = RequestItems;
+module.exports = StockSubmission;

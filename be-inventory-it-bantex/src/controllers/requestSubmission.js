@@ -23,6 +23,19 @@ exports.getAllData = (req, res) => {
   });
 };
 
+exports.getReqSubById = (req, res) => {
+  const { id } = req.params;
+  requestSubmission.getReqSubById(id, (error, stock) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else if (!stock) {
+      res.status(404).json({ message: "Stock not found" });
+    } else {
+      res.status(200).json({ stock });
+    }
+  });
+};
+
 // Membuat form request baru
 // exports.createFormRequest = (req, res) => {
 //   const formData = req.body; // Ambil data dari permintaan HTTP

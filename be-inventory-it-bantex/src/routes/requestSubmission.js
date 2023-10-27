@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Rute untuk mengambil semua data form request
 router.get("/", requestSubmissionController.getAllData);
+router.get("/id/:id", requestSubmissionController.getReqSubById);
 
 // Rute untuk membuat form request baru
 router.post("/", requestSubmissionController.createFormRequest);
@@ -52,13 +53,13 @@ router.get(
 // Rute untuk mengambil data items request berdasarkan kriteria tertentu
 router.get("/data", requestSubmissionController.getDataByCriteria);
 
-// Rute untuk mengubah status saat disetujui oleh approved_1
+// Rute untuk mengubah status saat disetujui oleh approved_1 (admins)
 router.put(
   "/approve1/:idItemReq",
   requestSubmissionController.approveFormRequest1
 );
 
-// Rute untuk mengubah status saat disetujui oleh approved_2
+// Rute untuk mengubah status saat disetujui oleh approved_2 (managers)
 router.put(
   "/approve2/:idItemReq",
   requestSubmissionController.approveFormRequest2

@@ -36,13 +36,13 @@ app.use("/auth", authRouter);
 const FormRequestRouter = require("./routes/requestSubmission");
 app.use("/form", FormRequestRouter);
 
-// submission items (pengajuan barang)
-const SubmissionItemRouter = require("./routes/submissionItems");
-app.use("/sub-form", SubmissionItemRouter);
-
 // requset items (pengajuan barang)
-const requestItemRouter = require("./routes/requestItems");
-app.use("/req-form", requestItemRouter);
+const StockRequestRouter = require("./routes/StockRequest");
+app.use("/req-form", StockRequestRouter);
+
+// submission items (pengajuan barang)
+const StockSubmission = require("./routes/StockSubmission");
+app.use("/sub-form", StockSubmission);
 
 // category router
 const categoriesRouter = require("./routes/categories");
@@ -60,7 +60,7 @@ const stockRouter = require("./routes/Stocks");
 app.use("/stocks", stockRouter);
 
 const detailStockRouter = require("./routes/StocksDetail");
-app.use("/det-stock", detailStockRouter);
+app.use("/detail-stock", detailStockRouter);
 
 const DataItems = require("./routes/Items");
 app.use("/items", DataItems);

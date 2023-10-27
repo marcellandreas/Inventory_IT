@@ -14,6 +14,23 @@ class requestSubmission {
     });
   }
 
+  getReqSubById(id, callback) {
+    this.connection.query(
+      "SELECT * FROM request_submission WHERE id_item_req = ?",
+      [id],
+      (error, results) => {
+        if (error) {
+          return callback(error, null);
+        }
+        if (results.length > 0) {
+          callback(null, results[0]);
+        } else {
+          callback(null, null);
+        }
+      }
+    );
+  }
+
   // Metode untuk membuat form request baru
   createFormRequest(data, callback) {
     const query =

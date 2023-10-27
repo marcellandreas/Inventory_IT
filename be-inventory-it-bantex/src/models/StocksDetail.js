@@ -90,43 +90,21 @@ class StocksModel {
   //     });
   // }
 
-  // Metode untuk mengurangkan jumlah stok untuk beberapa detail berdasarkan id_detail_stock
-  updateMultipleDetailStocks(updatedData, callback) {
+  updateMultipleDetailStock(data, callback) {
     const query =
       "UPDATE detail_stock SET qty = qty - ? WHERE id_detail_stock = ?";
-    const updatePromises = updatedData.map(({ id_detail_stock, qty }) => {
+    const updatePromises = data.map(({ id_detail_stock, qty }) => {
       return new Promise((resolve, reject) => {
-        // Pastikan qty yang diminta tidak melebihi stok yang tersedia
-        this.checkStockAvailability(
-          id_detail_stock,
-          qty,
-          (error, isAvailable) => {
-            if (error) {
-              reject(error);
-            } else {
-              if (isAvailable) {
-                this.connection.query(
-                  query,
-                  [qty, id_detail_stock],
-                  (error) => {
-                    if (error) {
-                      reject(error);
-                    } else {
-                      resolve();
-                    }
-                  }
-                );
-              } else {
-                const errorMessage = `Stok tidak mencukupi untuk id_detail_stock ${id_detail_stock}`;
-                reject(new Error(errorMessage));
-              }
-            }
+        this.connection.query(query, [qty, id_detail_stock], (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
           }
-        );
+        });
       });
     });
 
-    // Eksekusi semua promise pembaruan
     Promise.all(updatePromises)
       .then(() => {
         callback(null);
@@ -134,26 +112,6 @@ class StocksModel {
       .catch((error) => {
         callback(error);
       });
-  }
-
-  // Metode untuk memeriksa ketersediaan stok sebelum pembaruan
-  checkStockAvailability(id_detail_stock, requestedQty, callback) {
-    const query = "SELECT qty FROM detail_stock WHERE id_detail_stock = ?";
-    this.connection.query(query, [id_detail_stock], (error, results) => {
-      if (error) {
-        callback(error, false);
-      } else {
-        if (results.length > 0) {
-          const currentQty = results[0].qty;
-          // Periksa apakah qty yang diminta tidak melebihi stok yang tersedia
-          const isAvailable = currentQty >= requestedQty;
-          callback(null, isAvailable);
-        } else {
-          const errorMessage = `Detail stok dengan id_detail_stock ${id_detail_stock} tidak ditemukan`;
-          callback(new Error(errorMessage), false);
-        }
-      }
-    });
   }
 
   // Mengupdate data detail stock berdasarkan id_detail_stock

@@ -10,37 +10,37 @@ const getDataItemReqByUsername = (username) => {
   return pool.execute(SQLQuery);
 };
 
-const getAllDataPengajuan = () => {
+const getAllDataReqSubandStockRequest = () => {
   const SQLQuery = `
   SELECT 
-  request_submission.no_pengajuan, 
-  request_submission.name_pt, 
-  request_submission.name_division, 
-  request_submission.status,
-  request_submission.approved_1, 
-  request_submission.approved_2, 
-  request_submission.post_user_id, 
-  request_submission.post_username, 
-  request_submission.post_date, 
-  request_submission.date_approved_1,
-  request_submission.date_approved_2,
-  request_submission.date_done,
-  request_submission.request_type,
-  GROUP_CONCAT(submission_items.Id_submission_item) AS Id_submission_item, 
-  GROUP_CONCAT(submission_items.no_pengajuan) AS no_pengajuan, 
-  GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
-  GROUP_CONCAT(submission_items.qty) AS qty, 
-  GROUP_CONCAT(submission_items.note) AS note, 
-  GROUP_CONCAT(submission_items.stock_no) AS stock_no 
-FROM request_submission 
-LEFT JOIN submission_items ON request_submission.no_pengajuan = submission_items.no_pengajuan 
-GROUP BY request_submission.no_pengajuan;
+  rs.id_item_req,
+  rs.no_pengajuan, 
+  rs.name_pt, 
+  rs.name_division, 
+  rs.status,
+  rs.approved_1, 
+  rs.approved_2, 
+  rs.post_user_id, 
+  rs.post_username, 
+  rs.post_date, 
+  rs.date_approved_1,
+  rs.date_approved_2,
+  rs.date_done,
+  rs.request_type,
+  GROUP_CONCAT(sr.Id_submission_item) AS Id_submission_item,
+  GROUP_CONCAT(sr.stock_description) AS stock_description, 
+  GROUP_CONCAT(sr.qty) AS qty, 
+  GROUP_CONCAT(sr.note) AS note
+FROM request_submission rs
+LEFT JOIN stock_request sr ON rs.no_pengajuan = sr.no_pengajuan 
+WHERE rs.request_type = "REQUEST"
+GROUP BY rs.no_pengajuan;
 
   `;
   return pool.execute(SQLQuery);
 };
 
-const getDataAllPengajuanByIdForm = (id_item_req) => {
+const getAllDataReqSubandStockRequestById = (id_item_req) => {
   const SQLQuery = `SELECT 
   request_submission.no_pengajuan, 
   request_submission.name_pt, 
@@ -55,15 +55,73 @@ const getDataAllPengajuanByIdForm = (id_item_req) => {
   request_submission.date_approved_2,
   request_submission.date_done,
   request_submission.request_type,
-  GROUP_CONCAT(submission_items.Id_submission_item) AS Id_submission_item, 
-  GROUP_CONCAT(submission_items.stock_description) AS stock_description, 
-  GROUP_CONCAT(submission_items.qty) AS qty, 
-  GROUP_CONCAT(submission_items.note) AS note, 
-  GROUP_CONCAT(submission_items.stock_no) AS stock_no 
+  GROUP_CONCAT(stock_request.Id_submission_item) AS Id_submission_item, 
+  GROUP_CONCAT(stock_request.stock_description) AS stock_description, 
+  GROUP_CONCAT(stock_request.qty) AS qty, 
+  GROUP_CONCAT(stock_request.note) AS note, 
+  GROUP_CONCAT(stock_request.stock_no) AS stock_no 
   FROM request_submission 
-  LEFT JOIN submission_items ON request_submission.no_pengajuan = submission_items.no_pengajuan 
+  LEFT JOIN stock_request ON request_submission.no_pengajuan = stock_request.no_pengajuan 
   WHERE request_submission.id_item_req = ${id_item_req} 
   GROUP BY request_submission.no_pengajuan;`;
+  return pool.execute(SQLQuery);
+};
+
+const getAllDataReqSubandStockSubmission = () => {
+  const SQLQuery = `
+  SELECT
+  rs.id_item_req,
+  rs.no_pengajuan,
+  rs.name_pt,
+  rs.name_division,
+  rs.status,
+  rs.approved_1,
+  rs.approved_2,
+  rs.post_user_id,
+  rs.post_username,
+  rs.post_date,
+  rs.date_approved_1,
+  rs.date_approved_2,
+  rs.date_done,
+  rs.request_type,
+  GROUP_CONCAT(ss.id_stock_sub) AS id_stock_sub,
+  GROUP_CONCAT(ss.stock_description) AS description,
+  GROUP_CONCAT(ss.qty) AS qty,
+  GROUP_CONCAT(ss.note) AS note
+FROM request_submission rs
+LEFT JOIN stock_submission ss ON rs.no_pengajuan = ss.no_pengajuan
+WHERE rs.request_type = "SUBMISSION"
+GROUP BY rs.no_pengajuan;
+
+
+  `;
+  return pool.execute(SQLQuery);
+};
+
+const getAllDataReqSubandStockSubmissionById = (id_stock_sub) => {
+  const SQLQuery = `SELECT 
+  request_submission.no_pengajuan, 
+  request_submission.name_pt, 
+  request_submission.name_division, 
+  request_submission.status, 
+  request_submission.approved_1, 
+  request_submission.approved_2, 
+  request_submission.post_user_id, 
+  request_submission.post_username, 
+  request_submission.post_date, 
+  request_submission.date_approved_1,
+  request_submission.date_approved_2,
+  request_submission.date_done,
+  request_submission.request_type,
+  GROUP_CONCAT(stock_submission.id_stock_sub) AS id_stock_sub, 
+  GROUP_CONCAT(stock_submission.stock_description) AS stock_description, 
+  GROUP_CONCAT(stock_submission.qty) AS qty, 
+  GROUP_CONCAT(stock_submission.note) AS note
+  FROM request_submission 
+  LEFT JOIN stock_submission ON request_submission.no_pengajuan = stock_submission.no_pengajuan 
+  WHERE request_submission.id_item_req = ${id_stock_sub} 
+  GROUP BY request_submission.no_pengajuan;`;
+
   return pool.execute(SQLQuery);
 };
 
@@ -74,7 +132,7 @@ const createItemRequest = (body) => {
 
 const PostsubmissionItems = (values) => {
   const placeholders = values.map(() => "(?, ?, ?, ?, ?)").join(", ");
-  const SQLQuery = `INSERT INTO submission_items (no_pengajuan, stock_no, stock_description, qty, note) VALUES ${placeholders};`;
+  const SQLQuery = `INSERT INTO stock_request (no_pengajuan, stock_no, stock_description, qty, note) VALUES ${placeholders};`;
 
   // Flattened values should include all values in the same order as the columns in the SQL statement
   const flattenedValues = values.reduce(
@@ -94,9 +152,13 @@ const PostsubmissionItems = (values) => {
 
 module.exports = {
   getAllDataItemReq,
-  getAllDataPengajuan,
   getDataItemReqByUsername,
-  getDataAllPengajuanByIdForm,
   createItemRequest,
   PostsubmissionItems,
+  // request stock
+  getAllDataReqSubandStockRequest,
+  getAllDataReqSubandStockRequestById,
+  // submission stock
+  getAllDataReqSubandStockSubmission,
+  getAllDataReqSubandStockSubmissionById,
 };

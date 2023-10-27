@@ -11,9 +11,7 @@ router.put("/id/:id", detailStockController.updateDetailStockById);
 router.delete("/:id", detailStockController.deleteDetailStock);
 
 // Rute untuk pembaruan multi data detail stok
-router.put(
-  "/update-multiple",
-  detailStockController.updateMultipleDetailStocks
-);
+// Rute untuk mengupdate lebih dari satu data
+router.put("/update-multiple", detailStockController.updateMultipleDetailStock);
 
 module.exports = router;
