@@ -14,6 +14,8 @@ export default function getCurrentPage(pathname, id_item_req) {
     // pengajuan
     case "/form-pengajuan":
       return "Pengajuan Barang";
+    case "/form-pengajuan/buat":
+      return "Tambah Permintaan / Pengajuan ";
     case `/form-pengajuan/detail/${id_item_req}`:
       return "Detail Pengajuan Barang";
     case "/employess":

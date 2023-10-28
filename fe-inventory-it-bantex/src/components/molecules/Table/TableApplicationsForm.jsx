@@ -36,7 +36,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
               <td>
                 <NavLink
                   to={`/form-pengajuan/detail/${data.id_item_req}`}
-                  className="button flex gap-2 items-center"
+                  className="button flex gap-2 items-center w-9 h-9"
                 >
                   <span className=" text-amber-500 font-bold">
                     <PiWarningOctagonLight />

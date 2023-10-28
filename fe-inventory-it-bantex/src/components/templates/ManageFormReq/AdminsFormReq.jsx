@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { AiFillFileAdd } from "react-icons/ai";
 import { MdLocalPrintshop } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import { TitleTable } from "../../atoms";
+import { SearchInput, TitleTable } from "../../atoms";
 import { TableHeader, TableBody } from "../../organisms";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
 
@@ -30,11 +30,23 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
     });
 
     if (toggleState === 3 && allApproved.length === 0) {
-      return <p>kosong</p>;
+      return (
+        <div className=" min-h-[60vh] flex justify-center items-center">
+          <div>Belum ada Pengajuan / Penerimaan Barang</div>
+        </div>
+      );
     } else if (toggleState === 2 && needApproved.length === 0) {
-      return <p>kosong</p>;
+      return (
+        <div className=" min-h-[60vh] flex justify-center items-center">
+          <div>Belum ada Pengajuan / Penerimaan Barang</div>
+        </div>
+      );
     } else if (toggleState === 1 && allData.length === 0) {
-      return <p>kosong</p>;
+      return (
+        <div className=" min-h-[60vh] flex justify-center items-center">
+          <div>Belum ada Pengajuan / Penerimaan Barang</div>
+        </div>
+      );
     } else {
       const tableData =
         toggleState === 1
@@ -71,7 +83,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
           </NavLink>
         </div>
         <section className="flex gap-2 p-2 bg-slate-200 h-12 mb-5 rounded-lg order-1">
-          {["All", "Need Approved", "Approved"].map((label, index) => (
+          {["Semua", "Butuh Approved", ""].map((label, index) => (
             <button
               key={index}
               onClick={() => setToggleState(index + 1)}
@@ -92,14 +104,10 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
           <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
             <TableHeader>
               <TitleTable>Data Pengajuan Barang</TitleTable>
-              <div className="input-group">
-                <input
-                  type="search"
-                  placeholder="Search Data..."
-                  value={search}
-                  onChange={handleSearchChange}
-                />
-              </div>
+              <SearchInput
+                search={search}
+                handleSearchChange={handleSearchChange}
+              />
               <NavLink to={`buat`} className="button flex gap-2 items-center">
                 <AiFillFileAdd /> <span>Buat Pengajuan</span>
               </NavLink>

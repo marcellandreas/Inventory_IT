@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { SearchInput, TitleTable } from "../../components/atoms";
+import {
+  FormDeleteModalStock,
+  TableStocks,
+  Loading,
+} from "../../components/molecules";
+import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import { FormDeleteModalStock, TableStocks } from "../../components/molecules";
-import ShowModal from "../../components/organisms/ShowModal";
-import { TitleTable } from "../../components/atoms";
-import { TableBody, TableHeader } from "../../components/organisms";
-import Loading from "../../components/molecules/Loading";
 import { AiFillFileAdd } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,21 +16,33 @@ import {
 } from "../../Redux/Feature/StockSlice";
 import { NavLink } from "react-router-dom";
 
+const StockList = ({ data, setDeleteModalStock, setId }) => {
+  if (data.length === 0) {
+    return (
+      <div className="min-h-[60vh] flex justify-center items-center">
+        <div>Tidak ada stock yang dicari</div>
+      </div>
+    );
+  } else {
+    return (
+      <TableStocks
+        data={data}
+        setDeleteModalStock={setDeleteModalStock}
+        setId={setId}
+      />
+    );
+  }
+};
+
 const StockPage = () => {
   const [id, setId] = useState("");
-
   const dispatch = useDispatch();
   const data = useSelector((state) => state.stocks.data);
   const isLoading = useSelector((state) => state.stocks.isLoading);
 
   useEffect(() => {
     dispatch(fetchStocks());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchStockNumbers());
-  }, []);
-  useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
@@ -58,23 +72,20 @@ const StockPage = () => {
                   <div className="order-1 ">
                     <TitleTable>Data Stok</TitleTable>
                   </div>
-                  <div className="input-group order-3 md:order-2">
-                    <input
-                      type="search"
-                      placeholder="Search Data..."
-                      value={search}
-                      onChange={handleSearchChange}
-                    />
-                  </div>
+                  <SearchInput
+                    search={search}
+                    handleSearchChange={handleSearchChange}
+                  />
                   <NavLink
                     to={`buat`}
                     className="button flex gap-2 items-center order-2 md:order-3"
                   >
-                    <AiFillFileAdd /> <span>Tambah Stok</span>
+                    <AiFillFileAdd />{" "}
+                    <span className="hidden md:block">Tambah Stok</span>
                   </NavLink>
                 </TableHeader>
                 <TableBody>
-                  <TableStocks
+                  <StockList
                     data={filteredData}
                     setDeleteModalStock={setDeleteModalStock}
                     setId={setId}

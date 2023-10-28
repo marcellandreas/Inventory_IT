@@ -17,6 +17,7 @@ import { fetchCategories } from "../../Redux/Feature/StockSlice";
 import { AxiosInstance } from "../../apis/api";
 import CustomButton from "../../components/atoms/Button";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { HeaderBarangPengajuan } from "../../components/molecules";
 
 const AddComponentsStocks = () => {
   const idUser = localStorage.getItem("id_user");
@@ -210,12 +211,10 @@ const AddComponentsStocks = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between items-end ">
-                <h3 className=" text-lg font-semibold">Tambahkan Stok</h3>
-                <button className="button" onClick={handleaddclick}>
-                  <MdAddCircleOutline /> Tambah Stok
-                </button>
-              </div>
+              <HeaderBarangPengajuan
+                handleaddclick={handleaddclick}
+                label="Tambah Stock:"
+              />
               <hr />
               {inputList.map((x, i) => {
                 return (

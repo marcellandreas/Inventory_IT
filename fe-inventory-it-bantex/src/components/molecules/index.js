@@ -28,3 +28,10 @@ export { default as TablePcLine } from "./Table/TablePcLine";
 export { default as TableUsers } from "./Table/TableUsers";
 
 // Pengajuan
+
+//header
+
+export { default as HeaderBarangPengajuan } from "./Header/HeaderBarangPengajuan";
+
+// loading
+export { default as Loading } from "./Loading/";

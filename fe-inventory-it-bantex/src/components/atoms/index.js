@@ -8,3 +8,5 @@ export * from "./Table/TableContent";
 export * from "./FormConponents/CustomSelect";
 export * from "./FormConponents/CustomInput";
 export * from "./FormConponents/CustomTextArea";
+
+export { default as SearchInput } from "./SearchInput";

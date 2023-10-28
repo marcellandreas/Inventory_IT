@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { MdDelete, MdAddCircleOutline, MdEditNote } from "react-icons/md";
+import { MdDelete, MdEditNote } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   CustomInput,
@@ -9,6 +8,7 @@ import {
   CustomTextArea,
   Title,
 } from "../../components/atoms";
+import { HeaderBarangPengajuan } from "../../components/molecules";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import {
   fetchCategories,
@@ -372,13 +372,10 @@ const EditDelCompontentsStocks = () => {
             ) : null}
 
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between items-end ">
-                <h3 className=" text-lg font-semibold">Tambahkan Stock</h3>
-                <button className="button" onClick={handleaddclickPost}>
-                  <MdAddCircleOutline />
-                  Tambah Stok
-                </button>
-              </div>
+              <HeaderBarangPengajuan
+                handleaddclick={handleaddclickPost}
+                label="Barang permintaan:"
+              />
               <hr />
               {inputListPost.map((x, i) => {
                 return (

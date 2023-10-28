@@ -1,19 +1,9 @@
 import { MdEdit } from "react-icons/md";
-import {
-  columnTableItems,
-  columnTableUsers,
-} from "../../../assets/data/ColumnTables";
-import { MdEditNote, MdDelete } from "../../../assets/icons/icons";
+import { columnTableUsers } from "../../../assets/data/ColumnTables";
+import { MdDelete } from "../../../assets/icons/icons";
 import { TableContent, Tbody, Thead } from "../../atoms";
-import { ShowModal } from "../../organisms";
-import FormAddModalUser from "../Form/Users/FormAddModalUser";
-const TableUsers = ({
-  data,
-  setIsLoading,
-  setId,
-  setEditModal,
-  setDeleteModal,
-}) => {
+
+const TableUsers = ({ data, setId, setEditModal, setDeleteModal }) => {
   const role = localStorage.getItem("role");
 
   const tableHeaders =

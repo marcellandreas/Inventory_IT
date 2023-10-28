@@ -2,9 +2,29 @@ import React, { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
 import { MdDelete, MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { Title, CustomSelect, CustomTextArea } from "../../components/atoms";
+import {
+  Title,
+  CustomSelect,
+  CustomTextArea,
+  CustomInput,
+} from "../../components/atoms";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import FormApplication from "../../components/molecules/Form/Applications/FormApplication";
 import FormRequest from "../../components/molecules/Form/Applications/FormRequest";
+import { HeaderBarangPengajuan } from "../../components/molecules";
+import FormSubmission from "../../components/molecules/Form/Applications/FormSubmission";
+import { backToMenu } from "../../helpers/navigate";
+
+function PageHeader({ title, onBackClick }) {
+  return (
+    <div className="flex gap-2">
+      <button onClick={onBackClick} className="button">
+        Back
+      </button>
+      <Title>{title}</Title>
+    </div>
+  );
+}
 
 const MakeAGoodsRequest = React.memo(() => {
   const idUser = localStorage.getItem("id_user");
@@ -73,6 +93,27 @@ const MakeAGoodsRequest = React.memo(() => {
     setinputList(list);
   };
 
+  useEffect(() => {
+    const initialInputList = {
+      stock_no: "",
+      id_det_stock: "",
+      stock_description: "",
+      totalqty: "",
+      qty: "",
+      note: "",
+    };
+
+    const newInputList =
+      formValues.request_type === "REQUEST" ||
+      formValues.request_type === "SUBMISSION"
+        ? [initialInputList]
+        : [];
+
+    setinputList(newInputList);
+  }, [formValues.request_type]);
+
+  console.log(inputList);
+
   const [detStockData, setDetStockData] = useState([]);
 
   useEffect(() => {
@@ -107,42 +148,6 @@ const MakeAGoodsRequest = React.memo(() => {
   }, [inputList]);
 
   const [detStockQtyData, setDetStockQtyData] = useState([]);
-
-  // useEffect(() => {
-  //   // Gunakan async function untuk mengambil data berdasarkan id_det_stock
-  //   const fetchDataForQtyStock = async (idDetStock, index) => {
-  //     try {
-  //       if (idDetStock) {
-  //         const response = await AxiosInstance.get(
-  //           `/det-stock/id/${idDetStock}`
-  //         );
-  //         const data = response.data.data;
-
-  //         // Tambahkan data ke dalam state detStockQtyData
-  //         setDetStockQtyData((prevData) => {
-  //           const updatedData = [...prevData];
-  //           updatedData[index] = {
-  //             maxQty: data.qty, // Mengambil hanya data qty dari respons
-  //             stock_description: data.stock_detail_description,
-  //           };
-  //           return updatedData;
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error(
-  //         `Terjadi kesalahan saat mengambil data untuk id_det_stock ${idDetStock}: ${error}`
-  //       );
-  //     }
-  //   };
-
-  //   // Membuat array promises berdasarkan inputList
-  //   const promises = inputList.map((item, index) =>
-  //     fetchDataForQtyStock(item.id_det_stock, index)
-  //   );
-
-  //   // Melakukan permintaan secara paralel
-  //   Promise.all(promises);
-  // }, [inputList]);
 
   useEffect(() => {
     const fetchDataForQtyStock = async (idDetStock, index) => {
@@ -180,44 +185,6 @@ const MakeAGoodsRequest = React.memo(() => {
     fetchQtyForStockDetails();
   }, [...inputList.map((item, index) => item.id_det_stock)]);
 
-  // const handleinputchange = (e, index) => {
-  //   const { name, value } = e.target;
-  //   const updatedInputList = [...inputList];
-  //   const maxQty = updatedInputList.maxQty;
-
-  //   if (name === "qty") {
-  //     const qtyValue = parseInt(value, 10);
-  //     // const maxQty = detStockQtyData[index].maxQty;
-
-  //     if (!isNaN(qtyValue)) {
-  //       if (qtyValue > maxQty) {
-  //         window.alert("Qty melebihi jumlah yang tersedia.");
-  //         // Set nilai qty menjadi kosong jika alert muncul
-  //         updatedInputList[index] = { ...updatedInputList[index], [name]: "" }; // Menyimpan nilai qty kosong
-  //         setinputList(updatedInputList); // Perbarui state inputList
-  //       } else {
-  //         updatedInputList[index] = {
-  //           ...updatedInputList[index],
-  //           [name]: qtyValue,
-  //         };
-  //         setinputList(updatedInputList); // Perbarui state inputList
-  //       }
-  //     } else {
-  //       // Jika nilai qty tidak dapat di-parse sebagai angka, kosongkan nilainya
-  //       updatedInputList[index] = { ...updatedInputList[index], [name]: "" };
-  //       setinputList(updatedInputList); // Perbarui state inputList
-  //     }
-  //   } else {
-  //     updatedInputList[index] = {
-  //       ...updatedInputList[index],
-  //       [name]: value,
-  //     };
-  //     setinputList(updatedInputList); // Perbarui state inputList
-  //   }
-  // };
-
-  console.log(formValues);
-
   const handleinputchange = (e, index) => {
     const { name, value } = e.target;
     const updatedInputList = [...inputList];
@@ -237,8 +204,6 @@ const MakeAGoodsRequest = React.memo(() => {
 
     setinputList(updatedInputList);
   };
-
-  console.log(inputList);
 
   const handleremove = (index) => {
     const list = [...inputList];
@@ -271,36 +236,43 @@ const MakeAGoodsRequest = React.memo(() => {
 
   const handleSubmit = async () => {
     try {
-      // Validasi qty sebelum melakukan operasi POST
-      const isQtyValid = inputList.every(
-        (item, index) => item.qty <= inputList[index].maxQty
-      );
-
-      if (!isQtyValid) {
-        alert("Qty melebihi jumlah yang tersedia.");
-        return;
+      if (formValues.request_type === "REQUEST") {
+        const isQtyValid = inputList.every((item) => item.qty <= item.maxQty);
+        if (!isQtyValid) {
+          alert("Qty melebihi jumlah yang tersedia.");
+          return;
+        }
       }
 
       const response1 = await AxiosInstance.post("/pengajuan/req", formValues);
-      if (response1.data.data && response1.data.data.no_pengajuan) {
-        const no_pengajuan = response1.data.data.no_pengajuan;
-        const dataPost = inputList.map((item) => ({
-          no_pengajuan: no_pengajuan,
-          stock_no: item.stock_no,
-          stock_description: item.stock_description,
-          qty: item.qty,
-          note: item.note,
-        }));
-        // Lakukan operasi POST ke tabel submission
-        const request2 = await AxiosInstance.post("/sub-form", dataPost);
-        await Promise.all([response1, request2]);
-        alert("Form Pengajuan Berhasil Dibuat");
-        backToMenu();
-      } else {
+      const { data } = response1.data;
+      const no_pengajuan = data?.no_pengajuan;
+
+      if (!no_pengajuan) {
         console.error(
           "Respons pertama tidak memiliki properti 'data' atau 'no_pengajuan'"
         );
+        return;
       }
+
+      const postData = inputList.map((item) => {
+        const commonFields = {
+          no_pengajuan,
+          stock_description: item.stock_description,
+          qty: item.qty,
+          note: item.note,
+        };
+        return formValues.request_type === "REQUEST"
+          ? { ...commonFields, stock_no: item.stock_no }
+          : commonFields;
+      });
+
+      const endpoint =
+        formValues.request_type === "REQUEST" ? "/req-form" : "/sub-form";
+      await AxiosInstance.post(endpoint, postData);
+
+      alert("Form Pengajuan Berhasil Dibuat");
+      backToMenu();
     } catch (error) {
       console.error("Terjadi kesalahan saat mengirim permintaan:", error);
     }
@@ -310,121 +282,76 @@ const MakeAGoodsRequest = React.memo(() => {
     <Sidebar>
       <LayoutContentDashboard>
         <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
-          <Title>Buat Entri Permintaan atau Pengajuan</Title>
+          <PageHeader
+            title="Buat Entri Permintaan atau Pengajuan"
+            onBackClick={backToMenu}
+          />
           <hr className="border border-slate-800 mb-5" />
           <section className="flex flex-col gap-5 justify-between">
-            <FormRequest
-              handleChangeValue={handleChangeValue}
-              formValues={formValues}
-            />
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-end ">
-                <h3 className=" text-lg font-semibold">Barang Pengajuan:</h3>
-                <button className="button" onClick={handleaddclick}>
-                  <MdAddCircleOutline /> <span>Tambah Barang</span>
-                </button>
+                <h3 className=" text-lg font-semibold">Pemohon:</h3>
               </div>
-              <hr />
-              {inputList.map((x, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl"
-                  >
-                    <CustomSelect
-                      label="Nomor Stok"
-                      options={[
-                        <option key="default" value="" disabled selected>
-                          Pilih Nomor Stok
-                        </option>,
-                        ...stockData.map((unit, index) => (
-                          <option key={index} value={unit.stock_no}>
-                            {`${unit.stock_no} - ${unit.stock_description}`}
-                          </option>
-                        )),
-                      ]}
-                      name="stock_no"
-                      value={x.stock_no}
-                      onChange={(e) => handleStockSelect(e, i)}
-                    />
-                    <CustomSelect
-                      label="Nama Stok"
-                      options={[
-                        <option key="default" value="" selected>
-                          Pilih Stok
-                        </option>,
-                        ...(detStockData[i] || []).map((unit, index) => (
-                          <option key={index} value={unit.id_detail_stock}>
-                            {`${unit.stock_detail_description}`}
-                          </option>
-                        )),
-                      ]}
-                      name="id_det_stock"
-                      value={x.id_det_stock}
-                      onChange={(e) => handleinputchange(e, i)}
-                    />
-
-                    {/* <div className="gap-2 flex flex-col w-60">
-                      <label>Nama Barang</label>
-                      <input
-                        className="bg-slate-200"
-                        placeholder="e.g:"
-                        name="stock_description"
-                        type="text"
-                        Value={
-                          detStockQtyData[i]
-                            ? detStockQtyData[i].stock_description
-                            : ""
-                        }
-                        onFocus={(e) => {
-                          if (!detStockQtyData[i]) {
-                            // Hanya isi input jika data kosong
-                            e.target.value = "";
-                            handleinputchange(e, i);
-                          }
-                        }}
-                        onChange={(e) => handleinputchange(e, i)}
-                      />
-                    </div> */}
-
-                    <div className="gap-2 flex flex-col w-60">
-                      <label>Qty</label>
-                      <input
-                        className="bg-slate-200"
-                        placeholder={`Max: ${detStockQtyData[i]?.maxQty}`}
-                        name="qty"
-                        onChange={(e) => handleinputchange(e, i)}
-                        type="text"
-                        min={1}
-                        max={detStockQtyData[i]?.maxQty}
-                      />
-                    </div>
-                    <CustomTextArea
-                      label="Catatan (Jika ada)"
-                      placeholder=""
-                      name="note"
-                      // value={x.note}
-                      onChange={(e) => handleinputchange(e, i)}
-                    />
-                    {inputList.length !== 1 && (
-                      <button
-                        className=" button_delete"
-                        onClick={() => handleremove(i)}
-                      >
-                        <MdDelete />
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
+              <FormApplication
+                handleChangeValue={handleChangeValue}
+                formValues={formValues}
+              />
             </div>
+            {formValues &&
+              (formValues.request_type === "REQUEST" ||
+                formValues.request_type === "SUBMISSION") && (
+                <div className="flex flex-col gap-2">
+                  {formValues.request_type === "REQUEST" ? (
+                    <HeaderBarangPengajuan
+                      handleaddclick={handleaddclick}
+                      label="Barang permintaan:"
+                    />
+                  ) : (
+                    <HeaderBarangPengajuan
+                      handleaddclick={handleaddclick}
+                      label="Barang pengajuan:"
+                    />
+                  )}
+                  <hr />
+                  {inputList.map((x, i) => {
+                    return formValues.request_type === "REQUEST" ? (
+                      <FormRequest
+                        key={i}
+                        x={x}
+                        i={i}
+                        stockData={stockData}
+                        detStockData={detStockData}
+                        detStockQtyData={detStockQtyData}
+                        handleStockSelect={handleStockSelect}
+                        handleinputchange={handleinputchange}
+                        inputList={inputList}
+                        handleremove={handleremove}
+                      />
+                    ) : (
+                      <FormSubmission
+                        key={i}
+                        x={x}
+                        i={i}
+                        handleinputchange={handleinputchange}
+                        handleremove={handleremove}
+                        inputList={inputList}
+                      />
+                    );
+                  })}
+                </div>
+              )}
           </section>
-          <button
-            onClick={handleSubmit}
-            className="button absolute right-5 bottom-2"
-          >
-            <MdAddCircleOutline /> <span>Tambah Pengajuan</span>
-          </button>
+          {formValues && formValues.request_type !== "" && (
+            <button
+              onClick={handleSubmit}
+              className="button absolute right-5 bottom-2"
+            >
+              <MdAddCircleOutline />{" "}
+              <span className="capitalize">
+                Tambah {`${formValues.request_type}`}
+              </span>
+            </button>
+          )}
         </section>
       </LayoutContentDashboard>
     </Sidebar>
