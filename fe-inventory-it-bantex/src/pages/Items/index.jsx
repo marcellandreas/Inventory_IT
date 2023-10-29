@@ -3,15 +3,18 @@ import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import {
   FormAddModalItem,
   FormDeleteModalItem,
+  FormDeleteModalUser,
   FormEditModalItem,
   TableItems,
 } from "../../components/molecules";
 import { BsDatabaseFillAdd } from "../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
-import { TitleTable } from "../../components/atoms";
+import { SearchInput, TitleTable } from "../../components/atoms";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItemById, fetchItems } from "../../Redux/Feature/ItemsSlice";
+import { filterDataBySearch } from "../../helpers/filters";
+import Modals from "../../helpers/modals";
 
 const ItemsPage = () => {
   const [id, setId] = useState("");
@@ -27,9 +30,15 @@ const ItemsPage = () => {
     dispatch(fetchItemById(id));
   }, [id, dispatch]);
   // state modals in stock
-  const [addModalItem, setAddModalItem] = useState(false);
-  const [editModalItem, setEditModalItem] = useState(false);
-  const [deleteModalItem, setDeleteModalItem] = useState(false);
+
+  const { modalState, showModal, closeModal } = Modals();
+
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredData = filterDataBySearch(data, search);
 
   return (
     <>
@@ -50,76 +59,60 @@ const ItemsPage = () => {
                 Cetak qrcode
               </NavLink>
             </div>
-            {isLoading ? (
-              <p>Halaman Sedang Memuat Data</p>
-            ) : (
-              <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense">
-                <div className="bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6">
-                  <TableHeader>
-                    <TitleTable>Tabel Barang</TitleTable>
-                    <div className="input-group">
-                      <input
-                        onChange={(e) => {
-                          handleSearch(e);
-                        }}
-                        type="search"
-                        placeholder="Search Data..."
-                      />
+
+            <section className="grid grid-cols-6 h-[75vh] w-full  gap-4 grid-flow-dense">
+              <div className="bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6">
+                <TableHeader>
+                  <div className=" order-1">
+                    <TitleTable>Data Barang</TitleTable>
+                  </div>
+                  <SearchInput
+                    search={search}
+                    handleSearchChange={handleSearchChange}
+                  />
+                  <button
+                    className="button flex gap-2 items-center order-2 md:order-3"
+                    onClick={() => showModal("add")}
+                  >
+                    <BsDatabaseFillAdd />{" "}
+                    <span className="hidden md:block">Tambah Barang</span>
+                  </button>
+                </TableHeader>
+                <TableBody>
+                  {data.length === 0 ? (
+                    <div className="min-h-[60vh] w-full flex justify-center items-center">
+                      <div>Barang yang dicari tidak ditemukan</div>
                     </div>
-                    <button
-                      className="button flex gap-2 items-center"
-                      onClick={() => {
-                        setAddModalItem(true);
-                      }}
-                    >
-                      <BsDatabaseFillAdd /> <span>Tambah Barang</span>
-                    </button>
-                  </TableHeader>
-                  <TableBody>
+                  ) : filteredData.length == 0 ? (
+                    <div className="min-h-[60vh] flex w-full justify-center items-center">
+                      <div>Barang yang dicari tidak ditemukan</div>
+                    </div>
+                  ) : (
                     <TableItems
-                      data={data}
+                      data={filteredData}
                       setId={setId}
-                      setEditModalItem={setEditModalItem}
-                      setDeleteModalItem={setDeleteModalItem}
+                      setEditModal={() => showModal("edit")}
+                      setDeleteModal={() => showModal("delete")}
                     />
-                  </TableBody>
-                </div>
-              </section>
-            )}
+                  )}
+                </TableBody>
+              </div>
+            </section>
           </section>
         </LayoutContentDashboard>
       </Sidebar>
       {/* Modals Popup */}
-      <ShowModal
-        isVisible={addModalItem}
-        onClose={() => setAddModalItem(false)}
-      >
-        <FormAddModalItem
-          onClose={() => setAddModalItem(false)}
-          // setIsLoading={setIsLoading}
-        />
+      <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
+        <FormAddModalItem onClose={() => closeModal("add")} />
+      </ShowModal>
+      <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
+        <FormEditModalItem onClose={() => closeModal("edit")} id={id} />
       </ShowModal>
       <ShowModal
-        isVisible={editModalItem}
-        onClose={() => setEditModalItem(false)}
+        isVisible={modalState.delete}
+        onClose={() => closeModal("delete")}
       >
-        <FormEditModalItem
-          // isVisible={editModalItem}
-          onClose={() => setEditModalItem(false)}
-          // setIsLoading={setIsLoading}
-          id={id}
-        />
-      </ShowModal>
-      <ShowModal
-        isVisible={deleteModalItem}
-        onClose={() => deleteModalItem(false)}
-      >
-        <FormDeleteModalItem
-          // isVisible={deleteModalItem}
-          onClose={() => setDeleteModalItem(false)}
-          // setIsLoading={setIsLoading}
-          id={id}
-        />
+        <FormDeleteModalItem onClose={() => closeModal("delete")} id={id} />
       </ShowModal>
     </>
   );

@@ -29,6 +29,11 @@ const LoginPage = () => {
       const id_user = response.data.data.id_user;
       const username_ = response.data.data.username;
 
+      if (response.data.data.username) {
+        await AxiosInstance.post("auth/recordlogin", {
+          username: username_,
+        });
+      }
       // Set token autentikasi
       setAuthToken(token);
 

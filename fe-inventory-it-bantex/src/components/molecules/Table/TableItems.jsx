@@ -1,7 +1,7 @@
 import { columnTableItems } from "../../../assets/data/ColumnTables";
 import { MdEditNote, MdDelete } from "../../../assets/icons/icons";
 import { TableContent, Tbody, Thead } from "../../atoms";
-const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
+const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
   const role = localStorage.getItem("role");
 
   const tableHeaders =
@@ -32,7 +32,7 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
             <td className="border px-4 py-2">{barang.unit}</td>
             <td className="border px-4 py-2">{barang.category}</td>
             <td className="border px-4 py-2">{barang.brand}</td>
-            <td className={`border px-4 py-2 `}>
+            <td className={`border p-1   `}>
               <p className={`status ${barang.status}`}>{barang.status}</p>
             </td>
             <td className="border px-4 py-2">{barang.kondisi}</td>
@@ -43,7 +43,6 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
             <td className="border px-4 py-2">{barang.item_specification}</td>
             {role == 1 ? (
               <>
-                <td className="border px-4 py-2">{barang.post_user_id}</td>
                 <td className="border px-4 py-2">{barang.post_username}</td>
                 <td className="border px-4 py-2">
                   {barang.post_date.slice(0, 10)}
@@ -53,7 +52,7 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
             <td className="flex gap-2">
               <button
                 onClick={() => {
-                  setEditModalItem(true);
+                  setEditModal(true);
                   setId(barang.id);
                 }}
                 className="p-3 bg-blue-700 rounded-lg"
@@ -62,7 +61,7 @@ const TableItems = ({ setEditModalItem, setDeleteModalItem, data, setId }) => {
               </button>
               <button
                 onClick={() => {
-                  setDeleteModalItem(true);
+                  setDeleteModal(true);
                   setId(barang.id);
                 }}
                 className="p-3 bg-red-700 rounded-lg"

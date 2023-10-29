@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
-import { MdDelete, MdAddCircleOutline } from "react-icons/md";
+import { MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import {
-  Title,
-  CustomSelect,
-  CustomTextArea,
-  CustomInput,
-} from "../../components/atoms";
+import { Title } from "../../components/atoms";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import FormApplication from "../../components/molecules/Form/Applications/FormApplication";
 import FormRequest from "../../components/molecules/Form/Applications/FormRequest";
-import { HeaderBarangPengajuan } from "../../components/molecules";
+import { FormStock, HeaderBarangPengajuan } from "../../components/molecules";
 import FormSubmission from "../../components/molecules/Form/Applications/FormSubmission";
-import { backToMenu } from "../../helpers/navigate";
+import { useHelpersFormData } from "../../helpers/useHelpersForm";
 
 function PageHeader({ title, onBackClick }) {
   return (
@@ -185,6 +180,7 @@ const MakeAGoodsRequest = React.memo(() => {
     fetchQtyForStockDetails();
   }, [...inputList.map((item, index) => item.id_det_stock)]);
 
+  const { categories, unitOptions, typeOptions } = useHelpersFormData();
   const handleinputchange = (e, index) => {
     const { name, value } = e.target;
     const updatedInputList = [...inputList];
@@ -328,14 +324,21 @@ const MakeAGoodsRequest = React.memo(() => {
                         handleremove={handleremove}
                       />
                     ) : (
-                      <FormSubmission
-                        key={i}
-                        x={x}
-                        i={i}
-                        handleinputchange={handleinputchange}
-                        handleremove={handleremove}
-                        inputList={inputList}
-                      />
+                      <>
+                        <FormStock
+                          categories={categories}
+                          Unit={unitOptions}
+                          type={typeOptions}
+                        />
+                        <FormSubmission
+                          key={i}
+                          x={x}
+                          i={i}
+                          handleinputchange={handleinputchange}
+                          handleremove={handleremove}
+                          inputList={inputList}
+                        />
+                      </>
                     );
                   })}
                 </div>

@@ -78,22 +78,3 @@ input[type="radio"] {
     page-break-before: auto;
   }
 }
-
-.used {
-  background-color: #6fcaea;
-}
-
-.reused {
-  background-color: #d893a3;
-  color: #b30021;
-}
-
-.new {
-  background-color: #ebc474;
-}
-
-.status {
-  padding: 0.4rem 0;
-  border-radius: 2rem;
-  text-align: center;
-}

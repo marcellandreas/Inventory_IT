@@ -2,16 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
-import QRCode from "qrcode.react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDataDetailPengajuan } from "../../Redux/Feature/ItemsRequest";
-import { generateTableRows } from "../../helpers/generateTableRows";
-import { renderEmptyRows } from "../../helpers/renderEmptyRows";
-import { TableHeaderRow } from "../../helpers/tableHeaderRow";
-import { backToMenu } from "../../helpers/navigate";
-import AdminReqSub from "../../components/templates/RequestSubmission/AdminReqSub";
-import UserReqSub from "../../components/templates/RequestSubmission/UserReqSub";
-import ManagerReqSub from "../../components/templates/RequestSubmission/ManagerReqSub";
+import {
+  AdminReqSub,
+  UserReqSub,
+  ManagerReqSub,
+} from "../../components/templates";
 
 const DetailFormItemsRequest = () => {
   const { id_item_req } = useParams();
@@ -23,14 +18,14 @@ const DetailFormItemsRequest = () => {
   const [status, setStatus] = useState("");
   const [requestType, setRequestType] = useState("");
 
-  const dispatch = useDispatch();
-  const dataDetailPengajuan = useSelector(
-    (state) => state.dataSliceItemReq.dataDetailPengajuan
-  );
+  // const dispatch = useDispatch();
+  // const dataDetailPengajuan = useSelector(
+  //   (state) => state.dataSliceItemReq.dataDetailPengajuan
+  // );
 
-  useEffect(() => {
-    dispatch(fetchDataDetailPengajuan(id_item_req));
-  }, [dispatch, id_item_req]);
+  // useEffect(() => {
+  //   dispatch(fetchDataDetailPengajuan(id_item_req));
+  // }, [dispatch, id_item_req]);
 
   const handleAction = (actionType) => {
     AxiosInstance.put(`form/${actionType}/${id_item_req}`)
@@ -46,7 +41,7 @@ const DetailFormItemsRequest = () => {
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.get(`/form/id/${id_item_req}`);
-
+        console.log(response);
         setStatus(response.data.stock.status);
         setRequestType(response.data.stock.request_type);
 
@@ -56,10 +51,12 @@ const DetailFormItemsRequest = () => {
           );
 
           setDataStockReq(response2.data.data);
+          console.log("bisa jalan gk");
         } else if (response.data.stock.request_type === "SUBMISSION") {
           const response1 = await AxiosInstance.get(
             `pengajuan/sub/${id_item_req}`
           );
+          console.log("bisa jalan gk 2");
           setDataStockSub(response1.data.data);
         }
         setLoading(false);
@@ -83,10 +80,10 @@ const DetailFormItemsRequest = () => {
       });
   };
 
-  // const navigate = useNavigate();
-  // const backToMenu = () => {
-  //   navigate(-1);
-  // };
+  const navigate = useNavigate();
+  const backToMenu = () => {
+    navigate(-1);
+  };
 
   return (
     <Sidebar>
@@ -183,7 +180,7 @@ const DetailFormItemsRequest = () => {
               </>
             ) : dataStockSub.length !== 0 ? (
               <>
-                {dataStockReq?.map((data, i) => (
+                {dataStockSub?.map((data, i) => (
                   <UserReqSub
                     key={i}
                     data={data}

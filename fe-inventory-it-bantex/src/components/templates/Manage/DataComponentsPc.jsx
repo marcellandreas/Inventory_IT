@@ -16,6 +16,7 @@ const DataComponentsPc = ({
   dataPcComponent,
   formValues,
   setIsLoading,
+
   pcno,
 }) => {
   // state modals in stock

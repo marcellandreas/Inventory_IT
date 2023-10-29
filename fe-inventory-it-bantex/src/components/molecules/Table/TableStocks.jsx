@@ -54,7 +54,7 @@ const TableStocks = ({ setDeleteModalStock, data, setId }) => {
       <Tbody>
         {data?.map((barang, i) => (
           <>
-            <tr key={barang.id_stock}>
+            <tr key={barang.id_stock} className=" relative">
               <td className="border px-4 py-2">{i + 1}</td>
               <td className="border">
                 <div
@@ -91,12 +91,15 @@ const TableStocks = ({ setDeleteModalStock, data, setId }) => {
               </td>
             </tr>
             {selectedStockNo === barang.stock_no && (
-              <td colSpan={10} className=" ">
-                <td colSpan={8}>
-                  <div
-                    className="relative z-30"
-                    key={`dropdown-${barang.id_stock}`}
-                  >
+              <td colSpan={12} className="bg-blue-300 -z-50 px-0 py-2 m-0">
+                <td
+                  colSpan={6}
+                  className="relative z-30"
+                  key={`dropdown-${barang.id_stock}`}
+                >
+                  {dataDetailStockNo.length === 0 ? (
+                    <p className="text-center">DaTa Tidak Ada</p>
+                  ) : (
                     <TableContent>
                       <Thead>
                         <tr>{tableHeadersDetail}</tr>
@@ -124,10 +127,10 @@ const TableStocks = ({ setDeleteModalStock, data, setId }) => {
                         ))}
                       </Tbody>
                     </TableContent>
-                  </div>
-                </td>
-                <td colSpan={2}>
-                  <div className="w-20 bg-red-400 min-h-[50px]"></div>
+                  )}
+                  <section>
+                    <div></div>
+                  </section>
                 </td>
               </td>
             )}

@@ -5,10 +5,7 @@ import { TableHeaderRow } from "../../../helpers/tableHeaderRow";
 
 const UserReqSub = ({ data, id, status }) => {
   return (
-    <section
-      key={i}
-      className="flex bg-white gap-3 flex-col border max-h-[500px] w-full  border-black p-2 "
-    >
+    <section className="flex bg-white gap-3 flex-col border max-h-[500px] w-full  border-black p-2 ">
       <div className=" font-semibold text-center">
         <h3 className=" text-xl">Form Pengajuan Barang IT {id}</h3>
         <p className=" font-normal">Atas beban PT {data.name_pt} </p>

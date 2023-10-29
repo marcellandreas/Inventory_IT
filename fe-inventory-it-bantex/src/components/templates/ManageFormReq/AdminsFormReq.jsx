@@ -69,7 +69,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
 
   return (
     <section className="grid grid-cols-6 gap-4 grid-flow-dense ">
-      <div className="self-start flex justify-between w-full col-span-6">
+      <div className="self-start flex-wrap flex justify-between w-full col-span-6 ">
         <div className="flex pl-2 gap-2 self-start order-2">
           <NavLink
             to={`/printPage`}
@@ -82,8 +82,8 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
             Set Up
           </NavLink>
         </div>
-        <section className="flex gap-2 p-2 bg-slate-200 h-12 mb-5 rounded-lg order-1">
-          {["Semua", "Butuh Approved", ""].map((label, index) => (
+        <section className="flex flex-wrap gap-2 p-2 bg-slate-200 mb-5 rounded-lg order-1">
+          {["Semua", "Butuh Approved", "Approved"].map((label, index) => (
             <button
               key={index}
               onClick={() => setToggleState(index + 1)}
@@ -108,8 +108,12 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
                 search={search}
                 handleSearchChange={handleSearchChange}
               />
-              <NavLink to={`buat`} className="button flex gap-2 items-center">
-                <AiFillFileAdd /> <span>Buat Pengajuan</span>
+              <NavLink
+                to={`buat`}
+                className="button flex gap-2 items-center order-2 md:order-3"
+              >
+                <AiFillFileAdd />{" "}
+                <span className="hidden md:block">Buat Pengajuan</span>
               </NavLink>
             </TableHeader>
             <TableBody>{renderTableData()}</TableBody>

@@ -1,32 +1,17 @@
 import { useEffect, useState } from "react";
-
-import {
-  TableDataUsers,
-  TableDataAdmins,
-  Sidebar,
-  LayoutContentDashboard,
-} from "../../components/templates";
-import { AxiosInstance } from "../../apis/api";
-import Title from "../../components/atoms/Text/Title";
-import { useSelector } from "react-redux";
-import {
-  setDataItemsReq,
-  setLoadingPengajuan,
-} from "../../Redux/Feature/DataPengajuanBarang";
-import {
-  setDataPt,
-  setLoadingDivPt,
-} from "../../Redux/Feature/DataDivisionAndPT";
+import { SearchInput, TitleTable } from "../../components/atoms";
 import {
   FormAddModalUser,
   FormDeleteModalUser,
   FormEditModalUser,
-  TableItems,
   TableUsers,
 } from "../../components/molecules";
 import { ShowModal, TableBody, TableHeader } from "../../components/organisms";
-import { TitleTable } from "../../components/atoms";
+import { Sidebar, LayoutContentDashboard } from "../../components/templates";
+import { AxiosInstance } from "../../apis/api";
 import { BsDatabaseFillAdd } from "react-icons/bs";
+import { filterDataBySearch } from "../../helpers/filters";
+import Modals from "../../helpers/modals";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
@@ -36,32 +21,36 @@ const AccesPage = () => {
   const [allData, setAllData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState("");
+  const { modalState, showModal, closeModal } = Modals();
 
-  const userData = useSelector((state) => state.user);
-  const username = userData.username;
-  const role = userData.role;
-  const id_user = userData.id_user;
-
-  // Show Modal useState
-  const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
+  // melakuan search
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
 
   useEffect(() => {
-    AxiosInstance.get("/users")
-      .then((res) => {
-        setIsLoading(false);
-        const data = res.data.data;
+    const fetchData = async () => {
+      try {
+        const response = await AxiosInstance.get("/users");
+        const data = response.data.data;
 
         const admins = data.filter((user) => user.role === "1");
         const users = data.filter((user) => user.role === "2");
         const managers = data.filter((user) => user.role === "3");
+
         setAdmins(admins);
         setUsers(users);
         setManager(managers);
         setAllData(data);
-      })
-      .catch(handleFetchError);
+
+        setIsLoading(false);
+      } catch (error) {
+        handleFetchError(error);
+      }
+    };
+
+    fetchData();
   }, [isLoading]);
 
   const handleFetchError = (err) => {
@@ -69,133 +58,148 @@ const AccesPage = () => {
     alert("Terjadi kesalahan dalam memproses data");
   };
 
+  const filteredData = filterDataBySearch(allData, search);
+  const filteredDataAdmin = filterDataBySearch(admin, search);
+  const filteredDataUser = filterDataBySearch(users, search);
+  const filteredDataManager = filterDataBySearch(manager, search);
+
   return (
     <>
       <Sidebar>
         <LayoutContentDashboard>
-          <section className="flex gap-2 p-2 max-w-[440px] bg-slate-200 h-12  mb-5 rounded-lg">
-            <button
-              onClick={() => {
-                setToggleState(1);
-              }}
-              className={`${
-                toggleState === 1
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[100px]`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => {
-                setToggleState(2);
-              }}
-              className={`${
-                toggleState === 2
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[100px]`}
-            >
-              Users
-            </button>
-            <button
-              onClick={() => {
-                setToggleState(3);
-              }}
-              className={`${
-                toggleState === 3
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[100px]`}
-            >
-              Admins
-            </button>
-            <button
-              onClick={() => {
-                setToggleState(4);
-              }}
-              className={`${
-                toggleState === 4
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[100px]`}
-            >
-              Manager
-            </button>
-          </section>
-          <TableHeader>
-            <TitleTable>Tabel Barang</TitleTable>
-            <div className="input-group">
-              <input
-                onChange={(e) => {
-                  handleSearch(e);
-                }}
-                type="search"
-                placeholder="Search Data..."
-              />
+          <section className="grid grid-cols-6 gap-4 grid-flow-dense w-full  ">
+            <div className="self-start flex-wrap flex justify-between w-full col-span-6 row-span-2 ">
+              <section className="flex flex-wrap  w-full gap-2 p-2 bg-slate-200 mb-5 rounded-lg order-1 ">
+                {["Semua", "Pengguna", "Admin", "Manajer", "Login History"].map(
+                  (label, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setToggleState(index + 1), setSearch("");
+                      }}
+                      className={`${
+                        toggleState === index + 1
+                          ? "bg-slate-500 hover:bg-slate-700"
+                          : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
+                      } rounded-md p-1 min-w-[100px]`}
+                    >
+                      {label}
+                    </button>
+                  )
+                )}
+              </section>
             </div>
-            <button
-              className="button flex gap-2 items-center"
-              onClick={() => {
-                setAddModal(true);
-              }}
-            >
-              <BsDatabaseFillAdd /> <span>Tambah User</span>
-            </button>
-          </TableHeader>
-          <TableBody>
-            {toggleState === 1 ? (
-              <TableUsers
-                data={allData}
-                setIsLoading={setIsLoading}
-                setEditModal={setEditModal}
-                setDeleteModal={setDeleteModal}
-                setId={setId}
-              />
-            ) : toggleState === 2 ? (
-              <TableUsers
-                data={users}
-                setIsLoading={setIsLoading}
-                setId={setId}
-                setEditModal={setEditModal}
-                setDeleteModal={setDeleteModal}
-              />
-            ) : toggleState === 3 ? (
-              <TableUsers
-                data={admin}
-                setIsLoading={setIsLoading}
-                setId={setId}
-                setEditModal={setEditModal}
-                setDeleteModal={setDeleteModal}
-              />
-            ) : toggleState === 4 ? (
-              <TableUsers
-                data={manager}
-                setIsLoading={setIsLoading}
-                setId={setId}
-                setEditModal={setEditModal}
-                setDeleteModal={setDeleteModal}
-              />
-            ) : null}
-          </TableBody>
+            <div className="col-span-6">
+              <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
+                <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
+                  <TableHeader>
+                    <div className="order-1">
+                      <TitleTable>Data Users</TitleTable>
+                    </div>
+                    <SearchInput
+                      search={search}
+                      handleSearchChange={handleSearchChange}
+                    />
+                    <button
+                      className="button flex gap-2 items-center order-2 md:order-3"
+                      onClick={() => showModal("add")}
+                    >
+                      <BsDatabaseFillAdd />
+                      <span className="hidden md:block">Tambah User</span>
+                    </button>
+                  </TableHeader>
+                  <TableBody>
+                    {toggleState === 1 ? (
+                      <>
+                        {filteredData.length == 0 ? (
+                          <div className="min-h-[60vh] flex justify-center items-center">
+                            <div>Users yang dicari tidak ditemukan</div>
+                          </div>
+                        ) : (
+                          <TableUsers
+                            data={filteredData}
+                            setIsLoading={setIsLoading}
+                            setEditModal={() => showModal("edit")}
+                            setDeleteModal={() => showModal("delete")}
+                            setId={setId}
+                          />
+                        )}
+                      </>
+                    ) : toggleState === 2 ? (
+                      <>
+                        {filteredDataUser.length == 0 ? (
+                          <div className="min-h-[60vh] flex justify-center items-center">
+                            <div>Users yang dicari tidak ditemukan</div>
+                          </div>
+                        ) : (
+                          <TableUsers
+                            data={filteredDataUser}
+                            setIsLoading={setIsLoading}
+                            setId={setId}
+                            setEditModal={() => showModal("edit")}
+                            setDeleteModal={() => showModal("delete")}
+                          />
+                        )}
+                      </>
+                    ) : toggleState === 3 ? (
+                      <>
+                        {filteredDataAdmin.length == 0 ? (
+                          <div className="min-h-[60vh] flex justify-center items-center">
+                            <div>Users yang dicari tidak ditemukan</div>
+                          </div>
+                        ) : (
+                          <TableUsers
+                            data={filteredDataAdmin}
+                            setIsLoading={setIsLoading}
+                            setId={setId}
+                            setEditModal={() => showModal("edit")}
+                            setDeleteModal={() => showModal("delete")}
+                          />
+                        )}
+                      </>
+                    ) : toggleState === 4 ? (
+                      <>
+                        {filteredDataAdmin.length == 0 ? (
+                          <div className="min-h-[60vh] flex justify-center items-center">
+                            <div>Users yang dicari tidak ditemukan</div>
+                          </div>
+                        ) : (
+                          <TableUsers
+                            data={filteredDataManager}
+                            setIsLoading={setIsLoading}
+                            setId={setId}
+                            setEditModal={() => showModal("edit")}
+                            setDeleteModal={() => showModal("delete")}
+                          />
+                        )}
+                      </>
+                    ) : null}
+                  </TableBody>
+                </div>
+              </section>
+            </div>
+          </section>
         </LayoutContentDashboard>
       </Sidebar>
-      <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
+      <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
         <FormAddModalUser
-          onClose={() => setAddModal(false)}
+          onClose={() => closeModal("add")}
           setIsLoading={setIsLoading}
         />
       </ShowModal>
-      <ShowModal isVisible={editModal} onClose={() => setEditModal(false)}>
+      <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
         <FormEditModalUser
-          onClose={() => setEditModal(false)}
+          onClose={() => closeModal("edit")}
           setIsLoading={setIsLoading}
           id={id}
         />
       </ShowModal>
-      <ShowModal isVisible={deleteModal} onClose={() => setDeleteModal(false)}>
+      <ShowModal
+        isVisible={modalState.delete}
+        onClose={() => closeModal("delete")}
+      >
         <FormDeleteModalUser
-          onClose={() => setDeleteModal(false)}
+          onClose={() => closeModal("delete")}
           setIsLoading={setIsLoading}
           id={id}
         />

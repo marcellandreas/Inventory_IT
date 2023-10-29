@@ -41,7 +41,6 @@ export const columnTableItems = [
   "date_registation",
   "date_expired",
   "item_specification",
-  "post_user_id",
   "post_username",
   "post_date",
   "action",
@@ -101,7 +100,7 @@ export const columnTableUsers = [
 
 export const columnTableStockDetail = [
   "Id",
-  "Nama detail Stock",
+  "Nama Stock",
   "Qty",
   "Merek",
   "Info",

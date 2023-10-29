@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataAuth } from "../../../../config/ValidateForm";
+import { CustomInput, CustomSelect } from "../../../atoms";
 
 const FormAddModalUser = ({ onClose, setIsLoading }) => {
   const [loading, setLoading] = useState(true);
@@ -66,48 +67,41 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
   return (
     <form
       onSubmit={handleCreateForm}
-      className="form_modal max-h-[600px]  overflow-y-auto"
+      className="md:w-auto mx-5 w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px]  overflow-y-auto"
     >
-      <h1 className="text-2xl text-center">Tambah User </h1>
-      <hr className="border border-slate-800 w-2/5 m-auto" />
-      <div className="gap-2 flex flex-col w-60">
-        <label className="min-w-[140px]">Peran User</label>
-        <div className="flex justify-end items-end gap-2">
-          <select
-            className="content_input"
-            onChange={handleChangeValue}
-            name="role"
-          >
-            <option value="">Pilih peran</option>
-            {roles.map((role, index) => (
-              <option key={index} value={role}>
-                {roleLabels[role]}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      <h1 className="text-2xl text-center">Tambah User</h1>
+      <hr className="border border-slate-800 w-full m-0" />
+      <CustomSelect
+        label="Peran Role"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Peran Role
+          </option>,
+          ...roles.map((role, index) => (
+            <option key={index} value={role}>
+              {roleLabels[role]}
+            </option>
+          )),
+        ]}
+        name="role"
+        onChange={handleChangeValue}
+      />
+      <CustomInput
+        label="Username"
+        type="text"
+        placeholder="Masukan Username"
+        name="username"
+        onChange={handleChangeValue}
+      />
 
-      <div className="content_input">
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          placeholder="Enter Your New Username"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-      </div>
-      <div className="content_input">
-        <label>Password</label>
-        <input
-          type="text"
-          name="password"
-          placeholder="Enter Your New password"
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-      </div>
+      <CustomInput
+        label="Password"
+        type="text"
+        name="password"
+        placeholder="Masukan Password"
+        onChange={handleChangeValue}
+      />
+
       {validation.length > 0 && (
         <div>
           {validation.map((error) => (

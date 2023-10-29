@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataAuth } from "../../../../config/ValidateForm";
+import { CustomInput, CustomSelect } from "../../../atoms";
 
-const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
+const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
   const [formValues, setFormValues] = useState({
-    code_user: "",
     username: "",
     password: "",
     role: "",
   });
-  console.log(id, "form modal");
+  const [loading, setLoading] = useState(true);
+
+  const [roles, setRoles] = useState([]);
+  useEffect(() => {
+    // Mengambil daftar peran unik melalui API
+    AxiosInstance.get("/auth/unique")
+      .then((response) => {
+        setRoles(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false);
+      });
+  }, []);
 
   const [validation, setValidation] = useState([]);
 
@@ -18,17 +32,15 @@ const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
     setFormValues({ ...formValues, [name]: value });
   };
   const data = {
-    code_user: formValues.code_user,
     username: formValues.username,
     password: formValues.password,
     role: formValues.role,
   };
 
   useEffect(() => {
-    AxiosInstance.get(`users/${id}`).then((res) => {
+    AxiosInstance.get(`/users/${id}`).then((res) => {
       const itemData = res.data.data;
       const mappedItemData = itemData.map((item) => ({
-        code_user: item.code_user,
         username: item.username,
         password: item.password,
         role: item.role,
@@ -36,6 +48,12 @@ const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
       setFormValues(mappedItemData[0]);
     });
   }, []);
+
+  const roleLabels = {
+    1: "Admin",
+    2: "User",
+    3: "Manager",
+  };
 
   const handleUpdateForm = (e) => {
     e.preventDefault();
@@ -60,43 +78,45 @@ const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
   return (
     <form
       onSubmit={handleUpdateForm}
-      className="form_modal max-h-[600px]  overflow-y-auto"
+      className="md:w-auto mx-5 w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px] overflow-y-auto"
     >
-      <h1 className="text-2xl text-center">Edit Admin </h1>
+      <h1 className="text-2xl text-center">Edit User </h1>
       <hr className="border border-slate-800 w-2/5 m-auto" />
-      <div className="content_input">
-        <label>Code Admin</label>
-        <input
-          type="text"
-          name="code_user"
-          placeholder="Enter Your New Code User"
-          value={formValues.code_user}
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-      </div>
-      <div className="content_input">
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          placeholder="Enter Your New Username"
-          value={formValues.username}
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-      </div>
-      <div className="content_input">
-        <label>Password</label>
-        <input
-          type="text"
-          name="password"
-          placeholder="Enter Your New password"
-          value={formValues.password}
-          className="p-1 rounded-md"
-          onChange={handleChangeValue}
-        />
-      </div>
+
+      <CustomSelect
+        label="Peran Role"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Peran Role
+          </option>,
+          ...roles.map((role, index) => (
+            <option key={index} value={role}>
+              {roleLabels[role]}
+            </option>
+          )),
+        ]}
+        value={formValues.role}
+        name="role"
+        onChange={handleChangeValue}
+      />
+      <CustomInput
+        label="Username"
+        type="text"
+        placeholder="Masukan Username"
+        name="username"
+        value={formValues.username}
+        onChange={handleChangeValue}
+      />
+
+      <CustomInput
+        label="Password"
+        type="text"
+        name="password"
+        placeholder="Masukan Password"
+        onChange={handleChangeValue}
+        value={formValues.password}
+      />
+
       {validation.length > 0 && (
         <div>
           {validation.map((error) => (
@@ -119,4 +139,4 @@ const FormEditModalAdmin = ({ onClose, setIsLoading, id }) => {
   );
 };
 
-export default FormEditModalAdmin;
+export default FormEditModalUser;

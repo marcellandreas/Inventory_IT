@@ -10,7 +10,6 @@ import {
   ReportsPage,
   AccesPage,
   PcMasterPage,
-  PcLinePage,
   GetAllPcMasterPage,
   BarcodePrinterPage,
   QrcodePrinterPage,
@@ -75,9 +74,6 @@ const Routers = () => {
             />
           </Route>
 
-          <Route path="/pc-line">
-            <Route index element={<PcLinePage />}></Route>
-          </Route>
           <Route path="/employess">
             <Route index element={<AccesPage />}></Route>
           </Route>

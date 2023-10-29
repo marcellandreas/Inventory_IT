@@ -3,6 +3,7 @@ import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
 import Title from "../../../atoms/Text/Title";
 import { CustomInput, CustomSelect } from "../../../atoms";
+import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 
 const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");
@@ -61,8 +62,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
       });
   };
 
-  const Unit = ["PCS", "DUS", "PAC", "Meter", "Ml", "Liter", "DLL"];
-  const category = ["PC", "LAPTOP"];
+  const { unitOptions, CategoriesPcMaster } = useHelpersFormData();
 
   return (
     <section className="w-[550px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3  max-h-[600px]  overflow-y-auto">
@@ -90,7 +90,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
               <option key="default" value="" disabled selected>
                 Pilih Unit Satuan
               </option>,
-              ...Unit.map((unit, index) => (
+              ...unitOptions.map((unit, index) => (
                 <option key={index} value={unit}>
                   {unit}
                 </option>
@@ -105,9 +105,9 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
               <option key="default" value="" disabled selected>
                 Pilih Category
               </option>,
-              ...category.map((unit, index) => (
-                <option key={index} value={unit}>
-                  {unit}
+              ...CategoriesPcMaster.map((pc, index) => (
+                <option key={index} value={pc}>
+                  {pc}
                 </option>
               )),
             ]}

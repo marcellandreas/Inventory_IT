@@ -8,15 +8,16 @@ import {
   CustomTextArea,
   Title,
 } from "../../components/atoms";
-import { HeaderBarangPengajuan } from "../../components/molecules";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import {
-  fetchCategories,
-  fetchStockByNo,
-} from "../../Redux/Feature/StockSlice";
+  FormDetailStock,
+  HeaderBarangPengajuan,
+} from "../../components/molecules";
+import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { fetchStockByNo } from "../../Redux/Feature/StockSlice";
 import { fetchStockDetails } from "../../Redux/Feature/DetailStockslice";
 import { AxiosInstance } from "../../apis/api";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { useHelpersFormData } from "../../helpers/useHelpersForm";
 
 const EditDelCompontentsStocks = () => {
   const idUser = localStorage.getItem("id_user");
@@ -35,13 +36,7 @@ const EditDelCompontentsStocks = () => {
 
   const dispatch = useDispatch();
 
-  //   categoris/ unit/ type
-  const categories = useSelector((state) => state.stocks.categories);
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-  const Unit = ["PCS", "DUS", "PAC", "Meter", "Ml", "Liter", "DLL"];
-  const Type = ["Hardware", "Software"];
+  const { categories, unitOptions, typeOptions } = useHelpersFormData();
 
   //   get by stock no
   useEffect(() => {
@@ -274,7 +269,7 @@ const EditDelCompontentsStocks = () => {
                   <option key="default" value="" disabled selected>
                     Pilih Unit Satuan
                   </option>,
-                  ...Unit.map((unit, index) => (
+                  ...unitOptions.map((unit, index) => (
                     <option key={index} value={unit}>
                       {unit}
                     </option>
@@ -292,7 +287,7 @@ const EditDelCompontentsStocks = () => {
                   <option key="default" value="" disabled selected>
                     Pilih Tipe Barang
                   </option>,
-                  ...Type.map((type, index) => (
+                  ...typeOptions.map((type, index) => (
                     <option key={index} value={type}>
                       {type}
                     </option>
@@ -379,61 +374,14 @@ const EditDelCompontentsStocks = () => {
               <hr />
               {inputListPost.map((x, i) => {
                 return (
-                  <div
+                  <FormDetailStock
                     key={i}
-                    className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl"
-                  >
-                    <CustomInput
-                      label="Nama Stok"
-                      placeholder="e.g: HDD-1000GB"
-                      name="stock_detail_description"
-                      type="text"
-                      value={x.stock_detail_description}
-                      onChange={(e) => handleinputchangePost(e, i)}
-                    />
-                    <CustomInput
-                      label="Merek"
-                      placeholder="e.g: Seagate"
-                      name="brand"
-                      type="text"
-                      value={x.brand}
-                      onChange={(e) => handleinputchangePost(e, i)}
-                    />
-                    <CustomInput
-                      label="Info Tambahan"
-                      placeholder="e.g:"
-                      name="additional_info"
-                      type="text"
-                      value={x.additional_info}
-                      onChange={(e) => handleinputchangePost(e, i)}
-                    />
-                    <div className="gap-2 flex flex-col w-[60px]">
-                      <label>Qty</label>
-                      <input
-                        className="bg-slate-200"
-                        placeholder="e.g:"
-                        name="qty"
-                        value={x.qty}
-                        onChange={(e) => handleinputchangePost(e, i)}
-                        type="number"
-                      />
-                    </div>
-                    <CustomTextArea
-                      label="Catatan (jika ada)"
-                      placeholder=""
-                      name="note"
-                      value={x.note}
-                      onChange={(e) => handleinputchangePost(e, i)}
-                    />
-                    {inputListPost.length !== 1 && (
-                      <button
-                        className=" button_delete"
-                        onClick={() => handleremovePost(i)}
-                      >
-                        <MdDelete />
-                      </button>
-                    )}
-                  </div>
+                    x={x}
+                    i={i}
+                    inputList={inputListPost}
+                    handleinputchange={handleinputchangePost}
+                    handleremove={handleremovePost}
+                  />
                 );
               })}
             </div>

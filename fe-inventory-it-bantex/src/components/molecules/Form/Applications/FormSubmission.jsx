@@ -18,6 +18,14 @@ const FormSubmission = ({
         value={x.stock_description}
         onChange={(e) => handleinputchange(e, i)}
       />
+      <CustomInput
+        label="Merek Barang"
+        type="text"
+        placeholder="Masukan Merek Barang"
+        name="brand"
+        value={x.brand}
+        onChange={(e) => handleinputchange(e, i)}
+      />
 
       <div className="gap-2 flex flex-col w-60">
         <label>Qty</label>

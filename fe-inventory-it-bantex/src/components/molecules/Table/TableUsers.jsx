@@ -38,7 +38,7 @@ const TableUsers = ({ data, setId, setEditModal, setDeleteModal }) => {
                     setEditModal(true);
                     setId(user.id_user);
                   }}
-                  className="p-2 bg-blue-600 rounded-lg"
+                  className="button_edit"
                 >
                   <MdEdit />
                 </button>
@@ -47,7 +47,7 @@ const TableUsers = ({ data, setId, setEditModal, setDeleteModal }) => {
                     setDeleteModal(true);
                     setId(user.id_user);
                   }}
-                  className="p-2 bg-red-600 rounded-lg"
+                  className="button_delete"
                 >
                   <MdDelete />
                 </button>

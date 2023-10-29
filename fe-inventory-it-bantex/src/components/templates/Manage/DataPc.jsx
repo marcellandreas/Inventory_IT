@@ -16,6 +16,7 @@ import {
 import Loading from "../../molecules/Loading";
 import { TitleTable } from "../../atoms";
 import { TableHeader } from "../../organisms";
+import Modals from "../../../helpers/modals";
 
 const DataPc = () => {
   const [formValues, setFormValues] = useState({
@@ -35,11 +36,7 @@ const DataPc = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [dataPcComponent, setDataPcComponent] = useState([]);
-
-  // state modals in stock
-  const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const { modalState, showModal, closeModal } = Modals();
 
   // get LocalStorage
   const toke = localStorage.getItem("GetIdFromTable");
@@ -130,13 +127,13 @@ const DataPc = () => {
             <TableHeader>
               <TitleTable>Data PC Master</TitleTable>
               <div className="flex gap-2">
-                <button className="button" onClick={() => setAddModal(true)}>
+                <button className="button" onClick={() => showModal("add")}>
                   <BsDatabaseFillAdd />
                 </button>
-                <button className="button" onClick={() => setEditModal(true)}>
+                <button className="button" onClick={() => showModal("edit")}>
                   <MdEditNote />
                 </button>
-                <button onClick={() => setDeleteModal(true)} className="button">
+                <button onClick={() => showModal("delete")} className="button">
                   <MdDelete />
                 </button>
               </div>
@@ -285,23 +282,26 @@ const DataPc = () => {
           />
         </section>
       )}
-      <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
+      <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
         <FormAddModalPcMaster
-          onClose={() => setAddModal(false)}
+          onClose={() => closeModal("add")}
           setIsLoading={setIsLoading}
         />
       </ShowModal>
-      <ShowModal isVisible={editModal} onClose={() => setEditModal(false)}>
+      <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
         <FormEditModalPcMaster
-          onClose={() => setEditModal(false)}
+          onClose={() => closeModal("edit")}
           setIsLoading={setIsLoading}
           id={id}
           pcno={pcno}
         />
       </ShowModal>
-      <ShowModal isVisible={deleteModal} onClose={() => setDeleteModal(false)}>
+      <ShowModal
+        isVisible={modalState.delete}
+        onClose={() => closeModal("delete")}
+      >
         <FormDeleteModalPcMaster
-          onClose={() => setDeleteModal(false)}
+          onClose={() => closeModal("delete")}
           setIsLoading={setIsLoading}
           id={id}
           pcno={pcno}

@@ -15,6 +15,7 @@ import {
   fetchStocks,
 } from "../../Redux/Feature/StockSlice";
 import { NavLink } from "react-router-dom";
+import { filterDataBySearch } from "../../helpers/filters";
 
 const StockList = ({ data, setDeleteModalStock, setId }) => {
   if (data.length === 0) {
@@ -37,7 +38,7 @@ const StockList = ({ data, setDeleteModalStock, setId }) => {
 const StockPage = () => {
   const [id, setId] = useState("");
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.stocks.data);
+  const dataStock = useSelector((state) => state.stocks.data);
   const isLoading = useSelector((state) => state.stocks.isLoading);
 
   useEffect(() => {
@@ -54,11 +55,7 @@ const StockPage = () => {
     setSearch(e.target.value);
   };
 
-  const filteredData = data.filter((item) => {
-    const searchableFields = Object.values(item).join(" ").toLowerCase();
-    return searchableFields.includes(search.toLowerCase());
-  });
-
+  const filteredData = filterDataBySearch(dataStock, search);
   return (
     <>
       <Sidebar>
@@ -85,11 +82,17 @@ const StockPage = () => {
                   </NavLink>
                 </TableHeader>
                 <TableBody>
-                  <StockList
-                    data={filteredData}
-                    setDeleteModalStock={setDeleteModalStock}
-                    setId={setId}
-                  />
+                  {dataStock.length === 0 ? (
+                    <div className="min-h-[60vh] flex justify-center items-center">
+                      <div>Stock Tidak Tersedia</div>
+                    </div>
+                  ) : (
+                    <StockList
+                      data={filteredData}
+                      setDeleteModalStock={setDeleteModalStock}
+                      setId={setId}
+                    />
+                  )}
                 </TableBody>
               </div>
             </section>

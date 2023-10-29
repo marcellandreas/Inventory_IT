@@ -5,6 +5,7 @@ import getUserData from "../../../../utils/GetUserData";
 import { useDispatch } from "react-redux";
 import { createItem, fetchItems } from "../../../../Redux/Feature/ItemsSlice";
 import { CustomInput, CustomSelect, CustomTextArea } from "../../../atoms";
+import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 
 const FormAddModalItem = ({ onClose, setIsLoading }) => {
   // const idUser = localStorage.getItem("id_user");
@@ -65,9 +66,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         onClose();
       });
   };
-
-  const Unit = ["PCS", "DUS", "PAC", "Meter", "Ml", "Liter", "DLL"];
-  const category = ["HDD", "SDD"];
+  const { unitOptions, categories } = useHelpersFormData();
 
   return (
     <form
@@ -82,6 +81,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         label="No Item"
         type="text"
         name="item_no"
+        className="col-span-3 md:col-span-1"
         placeholder="Enter Your New Item Number"
         onChange={handleChangeValue}
       />
@@ -89,6 +89,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         label="Deskripsi Barang"
         type="text"
         name="item_description"
+        className="col-span-3 md:col-span-1"
         placeholder="Enter Your New Item Description"
         onChange={handleChangeValue}
       />
@@ -99,12 +100,13 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
           <option key="default" value="" disabled selected>
             Pilih Unit Satuan
           </option>,
-          ...Unit.map((unit, index) => (
+          ...unitOptions.map((unit, index) => (
             <option key={index} value={unit}>
               {unit}
             </option>
           )),
         ]}
+        className="col-span-3 md:col-span-1"
         name="unit"
         onChange={handleChangeValue}
       />
@@ -114,12 +116,13 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
           <option key="default" value="" disabled selected>
             Pilih Category
           </option>,
-          ...category.map((unit, index) => (
+          ...categories.map((unit, index) => (
             <option key={index} value={unit}>
               {unit}
             </option>
           )),
         ]}
+        className="col-span-3 md:col-span-1"
         name="category"
         onChange={handleChangeValue}
       />
@@ -128,11 +131,12 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         label="Merek Barang"
         type="text"
         name="brand"
+        className="col-span-3 md:col-span-1"
         placeholder="Enter Your New Brand "
         onChange={handleChangeValue}
       />
 
-      <div className="gap-2 flex flex-col w-60">
+      <div className="gap-2 flex flex-col w-60 col-span-3 md:col-span-1">
         <label>Status Barang</label>
         <div className="flex flex-wrap gap-1">
           <input
@@ -161,7 +165,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
           <label className="ml-2">Reused</label>
         </div>
       </div>
-      <div className="gap-2 flex flex-col w-60">
+      <div className="gap-2 flex flex-col w-60 col-span-3 md:col-span-1">
         <label>Kondisi Barang</label>
         <div className="flex flex-wrap gap-1">
           <input
@@ -194,11 +198,12 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         label="Lokasi Barang"
         type="text"
         name="item_location"
+        className="col-span-3 md:col-span-1"
         placeholder="Enter Your New Item Location"
         onChange={handleChangeValue}
       />
 
-      <div className="gap-2 flex flex-col w-60 row-span-2">
+      <div className="gap-2 flex flex-col w-60 row-span-2 col-span-3 md:col-span-1">
         <label>Note (if any)</label>
         <textarea
           className="bg-slate-200 h-[120px]"
@@ -213,18 +218,20 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         placeholder="Enter Your date"
         onChange={handleChangeValue}
         type="date"
+        className="col-span-3 md:col-span-1"
       />
       <CustomInput
         label="Date Expired (jika tidak terpakai)"
         name="date_expired"
         placeholder="Enter Your New date "
-        className="p-1 rounded-md"
+        className="col-span-3 md:col-span-1"
         onChange={handleChangeValue}
       />
       <CustomInput
         label="Item Spesifikasi"
         type="text"
         name="item_specification"
+        className="col-span-3 md:col-span-1"
         placeholder="Enter Your New item specification "
         onChange={handleChangeValue}
       />
@@ -236,7 +243,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
           ))}
         </div>
       )}
-      <div className="flex flex-wrap gap-2 w-full row-span-1 h-10 col-span-2 self-end">
+      <div className="flex flex-wrap gap-2 w-full row-span-1 h-10 col-span-3 md:col-span-2 self-end">
         <button
           onClick={() => {
             onClose();

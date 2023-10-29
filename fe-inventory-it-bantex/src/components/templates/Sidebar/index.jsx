@@ -5,7 +5,6 @@ import { MdWarehouse } from "react-icons/md";
 import Topbar from "../../organisms/Topbar";
 import {
   LogoutMenu,
-  MenuDropdown,
   menuSidebar,
   menuSidebarOrganization,
 } from "./MenuSidebar";
@@ -54,119 +53,121 @@ const Sidebar = ({ children }) => {
               onClick={() => setOpenMob(!openMob)}
             />
           </div>
-          <section
+          <div
             className={`absolute ${
               openMob ? "left-0" : "-left-[900px]"
-            } text-slate-100 bg-slate-800 h-screen w-1/2 z-40`}
+            } text-slate-100 bg-slate-800 h-screen w-full z-40`}
           >
-            <div
-              style={{
-                transitionDelay: `${3}00ms`,
-              }}
-              className="py-3 flex gap-2 bg-amber-400 mt-4 relative"
-            >
-              <div>
-                <MdWarehouse size={25} />
-              </div>
-              <h2
-                className={`whitespace-pre duration-500 ${
-                  !openMob && "opacity-0 translate-x-28 overflow-hidden"
-                }`}
+            <section>
+              <div
+                style={{
+                  transitionDelay: `${3}00ms`,
+                }}
+                className="py-3 flex gap-2 bg-amber-400 mt-4 relative"
               >
-                Inventory IT
-              </h2>
-            </div>
-            <div className="mt-4 flex flex-col gap-4 relative">
-              {menuSidebar?.map((menu, i) => (
-                <NavLink
-                  to={menu?.path}
-                  key={i}
-                  activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 hover:w-full rounded-md z-50`}
+                <div>
+                  <MdWarehouse size={25} />
+                </div>
+                <h2
+                  className={`whitespace-pre duration-500 ${
+                    !openMob && "opacity-0 translate-x-28 overflow-hidden"
+                  }`}
                 >
-                  <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-                  <h2
-                    style={{
-                      transitionDelay: `${i + 3}00ms`,
-                    }}
-                    className={`whitespace-pre duration-500 ${
-                      !openMob && "opacity-0 translate-x-28 overflow-hidden"
-                    }`}
+                  Inventory IT
+                </h2>
+              </div>
+              <div className="mt-4 flex flex-col gap-4 relative">
+                {menuSidebar?.map((menu, i) => (
+                  <NavLink
+                    to={menu?.path}
+                    key={i}
+                    activestyle="active"
+                    className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 hover:w-full rounded-md z-50`}
                   >
-                    {menu?.name_menu}
-                  </h2>
-                  <h2
-                    className={`${
-                      openMob && "hidden z-50"
-                    } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+                    <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+                    <h2
+                      style={{
+                        transitionDelay: `${i + 3}00ms`,
+                      }}
+                      className={`whitespace-pre duration-500 ${
+                        !openMob && "opacity-0 translate-x-28 overflow-hidden"
+                      }`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                    <h2
+                      className={`${
+                        openMob && "hidden z-50"
+                      } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                  </NavLink>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-col gap-4 relative">
+                {menuSidebarOrganization?.map((menu, i) => (
+                  <NavLink
+                    to={menu?.path}
+                    key={i}
+                    activestyle="active"
+                    className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
                   >
-                    {menu?.name_menu}
-                  </h2>
-                </NavLink>
-              ))}
-            </div>
-            <div className="mt-4 flex flex-col gap-4 relative">
-              {menuSidebarOrganization?.map((menu, i) => (
-                <NavLink
-                  to={menu?.path}
-                  key={i}
-                  activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
-                >
-                  <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-                  <h2
-                    style={{
-                      transitionDelay: `${i + 3}00ms`,
-                    }}
-                    className={`whitespace-pre duration-500 ${
-                      !openMob && "opacity-0 translate-x-28 overflow-hidden"
-                    }`}
+                    <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+                    <h2
+                      style={{
+                        transitionDelay: `${i + 3}00ms`,
+                      }}
+                      className={`whitespace-pre duration-500 ${
+                        !openMob && "opacity-0 translate-x-28 overflow-hidden"
+                      }`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                    <h2
+                      className={`${
+                        openMob && "hidden"
+                      } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                  </NavLink>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-col gap-4 relative">
+                {LogoutMenu?.map((menu, i) => (
+                  <button
+                    key={i}
+                    onClick={handleLogout}
+                    activestyle="active"
+                    className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
                   >
-                    {menu?.name_menu}
-                  </h2>
-                  <h2
-                    className={`${
-                      openMob && "hidden"
-                    } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
-                  >
-                    {menu?.name_menu}
-                  </h2>
-                </NavLink>
-              ))}
-            </div>
-            <div className="mt-4 flex flex-col gap-4 relative">
-              {LogoutMenu?.map((menu, i) => (
-                <button
-                  key={i}
-                  onClick={handleLogout}
-                  activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
-                >
-                  <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-                  <h2
-                    style={{
-                      transitionDelay: `${i + 3}00ms`,
-                    }}
-                    className={`whitespace-pre duration-500 ${
-                      !openMob && "opacity-0 translate-x-28 overflow-hidden"
-                    }`}
-                  >
-                    {menu?.name_menu}
-                  </h2>
-                  <h2
-                    className={`${
-                      openMob && "hidden"
-                    } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
-                  >
-                    {menu?.name_menu}
-                  </h2>
-                </button>
-              ))}
-            </div>
-          </section>
+                    <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+                    <h2
+                      style={{
+                        transitionDelay: `${i + 3}00ms`,
+                      }}
+                      className={`whitespace-pre duration-500 ${
+                        !openMob && "opacity-0 translate-x-28 overflow-hidden"
+                      }`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                    <h2
+                      className={`${
+                        openMob && "hidden"
+                      } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                  </button>
+                ))}
+              </div>
+            </section>
+          </div>
           <section className="flex flex-col w-full mt-5">
             <Topbar />
-            <div className="min-h-[85vh] overflow-hidden py-5 overflow-y-auto">
+            <div className="min-h-s] overflow-hidden py-5 overflow-y-auto">
               {children}
             </div>
           </section>
