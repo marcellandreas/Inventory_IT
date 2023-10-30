@@ -71,7 +71,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
   return (
     <form
       onSubmit={handleCreateForm}
-      className="  bg-amber-400 px-4 py-2 max-h-[600px] rounded-xl overflow-y-auto grid grid-cols-3 gap-4 grid-flow-dense "
+      className="  bg-amber-400 px-4 py-2 max-h-[600px] rounded-xl overflow-y-auto grid grid-cols-3 gap-4 grid-flow-dense  "
     >
       <h1 className="text-2xl font-semibold text-center row-span-1 col-span-3">
         Tambah Barang{" "}

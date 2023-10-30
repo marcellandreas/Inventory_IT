@@ -213,7 +213,7 @@ const Sidebar = ({ children }) => {
                   to={menu?.path}
                   key={i}
                   activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 hover:w-full rounded-md z-50`}
+                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 hover:w-full rounded-md`}
                 >
                   <div>{React.createElement(menu?.icon, { size: "20" })}</div>
                   <h2
@@ -243,7 +243,7 @@ const Sidebar = ({ children }) => {
                   to={menu?.path}
                   key={i}
                   activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
+                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md `}
                 >
                   <div>{React.createElement(menu?.icon, { size: "20" })}</div>
                   <h2
@@ -272,7 +272,7 @@ const Sidebar = ({ children }) => {
                   key={i}
                   onClick={handleLogout}
                   activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
+                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md `}
                 >
                   <div>{React.createElement(menu?.icon, { size: "20" })}</div>
                   <h2

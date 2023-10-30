@@ -1,14 +1,26 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import TablePcLineAdd from "../../components/molecules/Table/TablePcLineAdd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
+import { TableBody, TableHeader } from "../../components/organisms";
+import { SearchInput, TitleTable } from "../../components/atoms";
+import { filterDataBySearch } from "../../helpers/filters";
+import {
+  createPcLine,
+  fetchItemsUnusedForPcMaster,
+} from "../../Redux/Feature/DataPcMaster";
 
 const AddComponentsPC = () => {
-  const dataUnused = useSelector((state) => state.dataPc.dataItemsUnused);
+  const dispatch = useDispatch();
 
+  const dataUnused = useSelector((state) => state.pcmaster.dataUnused);
+
+  useEffect(() => {
+    dispatch(fetchItemsUnusedForPcMaster());
+  }, [dispatch]);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const pc_no = searchParams.get("pc_no");
@@ -39,18 +51,27 @@ const AddComponentsPC = () => {
     post_user_id: idUser,
     post_username: username,
   }));
+
+  console.log(clickedItems);
+
+  const loadingPcLine = useSelector((state) => state.pcmaster.loadingPcLine);
+
   const handleCreateForm = async (e) => {
     e.preventDefault();
-    await AxiosInstance.post("/pcline", dataPost)
-      .then((res) => {
-        alert("Berhasil Menambah Komponets");
-        navigate(-1);
-        dispatch(setLoadingPc(false));
-      })
-      .catch((err) => {
-        alert("Gagal Menambah Komponents");
-      });
+    if (loadingPcLine) {
+      console.log("berhasil");
+    } else {
+      dispatch(createPcLine(dataPost));
+      navigate(-1);
+    }
   };
+
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredData = filterDataBySearch(dataUnused, search);
 
   return (
     <>
@@ -63,7 +84,11 @@ const AddComponentsPC = () => {
                 <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
               </button>
               <form onSubmit={handleCreateForm}>
-                <button type="submit" className="button">
+                <button
+                  type="submit"
+                  className="button disabled:bg-slate-300 disabled:text-black disabled:font-semibold"
+                  disabled={clickedItems.length === 0}
+                >
                   Tambah Komponen
                 </button>
               </form>
@@ -84,23 +109,22 @@ const AddComponentsPC = () => {
             </section>
 
             <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
-              <section className="table__header">
-                <h1 className=" font-semibold text-md">
-                  Tabel Komponen Tersedia {pc_no}
-                </h1>
-                <div className="input-group">
-                  <input type="search" placeholder="Search Data..." />
-                </div>
-              </section>
-              <section className="table__body">
+              <TableHeader>
+                <TitleTable>Data Komponen Tersedia </TitleTable>
+                <SearchInput
+                  search={search}
+                  handleSearchChange={handleSearchChange}
+                />
+              </TableHeader>
+              <TableBody>
                 <TablePcLineAdd
-                  data={dataUnused}
+                  data={filteredData}
                   backToMenu={backToMenu}
                   handleGetItemNo={handleGetItemNo}
                   clickedItems={clickedItems}
                   setClickedItems={setClickedItems}
                 />
-              </section>
+              </TableBody>
             </section>
           </section>
         </LayoutContentDashboard>

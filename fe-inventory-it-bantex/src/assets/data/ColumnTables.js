@@ -22,7 +22,6 @@ export const columnTablePcLine = [
   "note",
   "date_registation",
   "item_specification",
-  "post_user_id",
   "post_username",
   "post_date",
 ];

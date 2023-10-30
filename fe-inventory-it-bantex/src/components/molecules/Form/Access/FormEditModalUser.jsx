@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataAuth } from "../../../../config/ValidateForm";
 import { CustomInput, CustomSelect } from "../../../atoms";
+import {
+  fetchUserData,
+  updateUserData,
+} from "../../../../Redux/Feature/UserSlice";
+import { useDispatch } from "react-redux";
 
 const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
   const [formValues, setFormValues] = useState({
@@ -37,6 +42,8 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
     role: formValues.role,
   };
 
+  console.log(data);
+
   useEffect(() => {
     AxiosInstance.get(`/users/${id}`).then((res) => {
       const itemData = res.data.data;
@@ -55,20 +62,24 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
     3: "Manager",
   };
 
+  const dispatch = useDispatch();
+
   const handleUpdateForm = (e) => {
     e.preventDefault();
     const errors = validateFormDataAuth(formValues);
-    // Jika ada error, tampilkan error
+
     if (errors.length > 0) {
       setValidation(errors);
       return;
     }
 
-    AxiosInstance.patch(`/users/${id}`, data)
-      .then((res) => {
+    // Memanggil async thunk
+    dispatch(updateUserData({ id, data }))
+      .unwrap()
+      .then(() => {
         onClose();
-        setIsLoading(true);
-        alert("berhasil");
+        alert("Berhasil");
+        dispatch(fetchUserData());
       })
       .catch((err) => {
         console.log(err);

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchItemById, fetchItems } from "../../Redux/Feature/ItemsSlice";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
+import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 
 const ItemsPage = () => {
   const [id, setId] = useState("");
@@ -59,19 +60,16 @@ const ItemsPage = () => {
                 Cetak qrcode
               </NavLink>
             </div>
-
             <section className="grid grid-cols-6 h-[75vh] w-full  gap-4 grid-flow-dense">
               <div className="bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6">
                 <TableHeader>
-                  <div className=" order-1">
-                    <TitleTable>Data Barang</TitleTable>
-                  </div>
+                  <TitleTable>Data Barang</TitleTable>
                   <SearchInput
                     search={search}
                     handleSearchChange={handleSearchChange}
                   />
                   <button
-                    className="button flex gap-2 items-center order-2 md:order-3"
+                    className="button flex gap-2 items-center order-2 sm:order-3"
                     onClick={() => showModal("add")}
                   >
                     <BsDatabaseFillAdd />{" "}
@@ -79,15 +77,9 @@ const ItemsPage = () => {
                   </button>
                 </TableHeader>
                 <TableBody>
-                  {data.length === 0 ? (
-                    <div className="min-h-[60vh] w-full flex justify-center items-center">
-                      <div>Barang yang dicari tidak ditemukan</div>
-                    </div>
-                  ) : filteredData.length == 0 ? (
-                    <div className="min-h-[60vh] flex w-full justify-center items-center">
-                      <div>Barang yang dicari tidak ditemukan</div>
-                    </div>
-                  ) : (
+                  {generateDynamicContent(
+                    data,
+                    filteredData,
                     <TableItems
                       data={filteredData}
                       setId={setId}

@@ -16,24 +16,8 @@ import {
 } from "../../Redux/Feature/StockSlice";
 import { NavLink } from "react-router-dom";
 import { filterDataBySearch } from "../../helpers/filters";
-
-const StockList = ({ data, setDeleteModalStock, setId }) => {
-  if (data.length === 0) {
-    return (
-      <div className="min-h-[60vh] flex justify-center items-center">
-        <div>Tidak ada stock yang dicari</div>
-      </div>
-    );
-  } else {
-    return (
-      <TableStocks
-        data={data}
-        setDeleteModalStock={setDeleteModalStock}
-        setId={setId}
-      />
-    );
-  }
-};
+import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
+import Modals from "../../helpers/modals";
 
 const StockPage = () => {
   const [id, setId] = useState("");
@@ -56,6 +40,8 @@ const StockPage = () => {
   };
 
   const filteredData = filterDataBySearch(dataStock, search);
+  const { modalState, showModal, closeModal } = Modals();
+
   return (
     <>
       <Sidebar>
@@ -66,30 +52,26 @@ const StockPage = () => {
             <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
               <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                 <TableHeader>
-                  <div className="order-1 ">
-                    <TitleTable>Data Stok</TitleTable>
-                  </div>
+                  <TitleTable>Data Stok</TitleTable>
                   <SearchInput
                     search={search}
                     handleSearchChange={handleSearchChange}
                   />
                   <NavLink
                     to={`buat`}
-                    className="button flex gap-2 items-center order-2 md:order-3"
+                    className="button flex gap-2 items-center order-2 sm:order-3"
                   >
                     <AiFillFileAdd />{" "}
                     <span className="hidden md:block">Tambah Stok</span>
                   </NavLink>
                 </TableHeader>
                 <TableBody>
-                  {dataStock.length === 0 ? (
-                    <div className="min-h-[60vh] flex justify-center items-center">
-                      <div>Stock Tidak Tersedia</div>
-                    </div>
-                  ) : (
-                    <StockList
+                  {generateDynamicContent(
+                    dataStock,
+                    filteredData,
+                    <TableStocks
                       data={filteredData}
-                      setDeleteModalStock={setDeleteModalStock}
+                      setDeleteModal={() => showModal("delete")}
                       setId={setId}
                     />
                   )}
@@ -100,7 +82,7 @@ const StockPage = () => {
         </LayoutContentDashboard>
       </Sidebar>
       {/* Modals Popup */}
-      <ShowModal
+      {/* <ShowModal
         isVisible={deleteModalStock}
         onClose={() => setDeleteModalStock(false)}
       >
@@ -109,6 +91,12 @@ const StockPage = () => {
           onClose={() => setDeleteModalStock(false)}
           id={id}
         />
+      </ShowModal> */}
+      <ShowModal
+        isVisible={modalState.delete}
+        onClose={() => closeModal("delete")}
+      >
+        <FormDeleteModalStock onClose={() => closeModal("delete")} id={id} />
       </ShowModal>
     </>
   );

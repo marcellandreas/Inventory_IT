@@ -110,7 +110,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
               />
               <NavLink
                 to={`buat`}
-                className="button flex gap-2 items-center order-2 md:order-3"
+                className="button flex gap-2 items-center order-2 sm:order-3"
               >
                 <AiFillFileAdd />{" "}
                 <span className="hidden md:block">Buat Pengajuan</span>

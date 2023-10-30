@@ -36,7 +36,6 @@ const TablePcLine = ({ setEditModal, setDeleteModal, data, setId }) => {
 
             {role == 1 ? (
               <>
-                <td className="border px-4 py-2">{barang.post_user_id}</td>
                 <td className="border px-4 py-2">{barang.post_username}</td>
                 <td className="border px-4 py-2">
                   {barang.post_date.slice(0, 10)}

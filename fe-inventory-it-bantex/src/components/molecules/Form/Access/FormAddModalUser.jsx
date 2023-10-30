@@ -22,6 +22,8 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
     username: "",
     password: "",
     role: "",
+    full_name: "",
+    email: "",
   });
 
   const [validation, setValidation] = useState([]);
@@ -67,7 +69,7 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
   return (
     <form
       onSubmit={handleCreateForm}
-      className="md:w-auto mx-5 w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px]  overflow-y-auto"
+      className="md:w-auto mx-5  bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px]  overflow-y-auto"
     >
       <h1 className="text-2xl text-center">Tambah User</h1>
       <hr className="border border-slate-800 w-full m-0" />
@@ -93,6 +95,20 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
         name="username"
         onChange={handleChangeValue}
       />
+      <CustomInput
+        label="Nama Lengkap"
+        type="text"
+        placeholder="Masukan Nama Lengkap"
+        name="full_name"
+        onChange={handleChangeValue}
+      />
+      <CustomInput
+        label="Email"
+        type="email"
+        placeholder="Masukan Email"
+        name="email"
+        onChange={handleChangeValue}
+      />
 
       <CustomInput
         label="Password"
@@ -109,7 +125,7 @@ const FormAddModalUser = ({ onClose, setIsLoading }) => {
           ))}
         </div>
       )}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 w-full">
         <button className="button flex-1">Simpan</button>
         <button
           onClick={() => {

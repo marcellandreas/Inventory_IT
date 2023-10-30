@@ -8,14 +8,16 @@ import dataSliceItemReq from "./Feature/ItemsRequest";
 import itemsSlice from "./Feature/ItemsSlice";
 import stockReducer from "./Feature/StockSlice";
 import detailReducer from "./Feature/DetailStockslice";
+import pcmasterReducer from "./Feature/DataPcMaster";
 
 export const store = configureStore({
   reducer: {
     dataInventory: dataState,
     dataPc: dataPc,
+    pcmaster: pcmasterReducer,
     dataDivisionAndPT: dataDivisionAndPT,
     dataPengajuanBarang: dataPengajuanBarang,
-    user: userReducer,
+    users: userReducer,
     dataSliceItemReq: dataSliceItemReq,
     itemsSlice: itemsSlice,
     stocks: stockReducer,

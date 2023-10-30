@@ -12,14 +12,13 @@ import { AxiosInstance } from "../../apis/api";
 import { BsDatabaseFillAdd } from "react-icons/bs";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../Redux/Feature/UserSlice";
+import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
-  const [users, setUsers] = useState([]);
-  const [admin, setAdmins] = useState([]);
-  const [manager, setManager] = useState([]);
-  const [allData, setAllData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [id, setId] = useState("");
   const { modalState, showModal, closeModal } = Modals();
 
@@ -29,39 +28,19 @@ const AccesPage = () => {
     setSearch(e.target.value);
   };
 
+  const dispatch = useDispatch();
+  const { admins, users, managers, allData, isLoading, error } = useSelector(
+    (state) => state.users
+  );
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await AxiosInstance.get("/users");
-        const data = response.data.data;
-
-        const admins = data.filter((user) => user.role === "1");
-        const users = data.filter((user) => user.role === "2");
-        const managers = data.filter((user) => user.role === "3");
-
-        setAdmins(admins);
-        setUsers(users);
-        setManager(managers);
-        setAllData(data);
-
-        setIsLoading(false);
-      } catch (error) {
-        handleFetchError(error);
-      }
-    };
-
-    fetchData();
-  }, [isLoading]);
-
-  const handleFetchError = (err) => {
-    console.error("Terjadi kesalahan dalam memproses data:", err);
-    alert("Terjadi kesalahan dalam memproses data");
-  };
+    dispatch(fetchUserData());
+  }, [dispatch]);
 
   const filteredData = filterDataBySearch(allData, search);
-  const filteredDataAdmin = filterDataBySearch(admin, search);
+  const filteredDataAdmin = filterDataBySearch(admins, search);
   const filteredDataUser = filterDataBySearch(users, search);
-  const filteredDataManager = filterDataBySearch(manager, search);
+  const filteredDataManager = filterDataBySearch(managers, search);
 
   return (
     <>
@@ -101,7 +80,7 @@ const AccesPage = () => {
                       handleSearchChange={handleSearchChange}
                     />
                     <button
-                      className="button flex gap-2 items-center order-2 md:order-3"
+                      className="button flex gap-2 items-center order-2 sm:order-3"
                       onClick={() => showModal("add")}
                     >
                       <BsDatabaseFillAdd />
@@ -118,7 +97,7 @@ const AccesPage = () => {
                         ) : (
                           <TableUsers
                             data={filteredData}
-                            setIsLoading={setIsLoading}
+                            // setIsLoading={setIsLoading}
                             setEditModal={() => showModal("edit")}
                             setDeleteModal={() => showModal("delete")}
                             setId={setId}
@@ -127,14 +106,12 @@ const AccesPage = () => {
                       </>
                     ) : toggleState === 2 ? (
                       <>
-                        {filteredDataUser.length == 0 ? (
-                          <div className="min-h-[60vh] flex justify-center items-center">
-                            <div>Users yang dicari tidak ditemukan</div>
-                          </div>
-                        ) : (
+                        {generateDynamicContent(
+                          users,
+                          filteredDataUser,
                           <TableUsers
                             data={filteredDataUser}
-                            setIsLoading={setIsLoading}
+                            // setIsLoading={setIsLoading}
                             setId={setId}
                             setEditModal={() => showModal("edit")}
                             setDeleteModal={() => showModal("delete")}
@@ -143,14 +120,12 @@ const AccesPage = () => {
                       </>
                     ) : toggleState === 3 ? (
                       <>
-                        {filteredDataAdmin.length == 0 ? (
-                          <div className="min-h-[60vh] flex justify-center items-center">
-                            <div>Users yang dicari tidak ditemukan</div>
-                          </div>
-                        ) : (
+                        {generateDynamicContent(
+                          admins,
+                          filteredDataAdmin,
                           <TableUsers
                             data={filteredDataAdmin}
-                            setIsLoading={setIsLoading}
+                            // setIsLoading={setIsLoading}
                             setId={setId}
                             setEditModal={() => showModal("edit")}
                             setDeleteModal={() => showModal("delete")}
@@ -159,14 +134,12 @@ const AccesPage = () => {
                       </>
                     ) : toggleState === 4 ? (
                       <>
-                        {filteredDataAdmin.length == 0 ? (
-                          <div className="min-h-[60vh] flex justify-center items-center">
-                            <div>Users yang dicari tidak ditemukan</div>
-                          </div>
-                        ) : (
+                        {generateDynamicContent(
+                          managers,
+                          filteredDataManager,
                           <TableUsers
                             data={filteredDataManager}
-                            setIsLoading={setIsLoading}
+                            // setIsLoading={setIsLoading}
                             setId={setId}
                             setEditModal={() => showModal("edit")}
                             setDeleteModal={() => showModal("delete")}
@@ -184,13 +157,13 @@ const AccesPage = () => {
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
         <FormAddModalUser
           onClose={() => closeModal("add")}
-          setIsLoading={setIsLoading}
+          // setIsLoading={setIsLoading}
         />
       </ShowModal>
       <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
         <FormEditModalUser
           onClose={() => closeModal("edit")}
-          setIsLoading={setIsLoading}
+          // setIsLoading={setIsLoading}
           id={id}
         />
       </ShowModal>
@@ -200,7 +173,7 @@ const AccesPage = () => {
       >
         <FormDeleteModalUser
           onClose={() => closeModal("delete")}
-          setIsLoading={setIsLoading}
+          // setIsLoading={setIsLoading}
           id={id}
         />
       </ShowModal>

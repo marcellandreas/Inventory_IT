@@ -1,178 +1,118 @@
 import { useEffect, useState } from "react";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import {
-  FormAddModalItem,
-  FormDeleteModalItem,
-  FormEditModalItem,
-  TablePcLine,
-} from "../../components/molecules";
-import { AxiosInstance } from "../../apis/api";
-import ShowModal from "../../components/organisms/ShowModal";
-import Title from "../../components/atoms/Text/Title";
+import { TablePcLine } from "../../components/molecules";
 import { useNavigate } from "react-router-dom";
+import {
+  fechtPcLineData,
+  fetchItemsUnusedForPcMaster,
+} from "../../Redux/Feature/DataPcMaster";
+import { useDispatch, useSelector } from "react-redux";
+import { TableBody, TableHeader } from "../../components/organisms";
+import { SearchInput, TitleTable } from "../../components/atoms";
+import { filterDataBySearch } from "../../helpers/filters";
+import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 
 const GetUnusedItems = () => {
   const [toggleState, setToggleState] = useState(1);
 
-  const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [id, setId] = useState("");
+  const dispatch = useDispatch();
+
+  const dataUnused = useSelector((state) => state.pcmaster.dataUnused);
+  const dataPcLine = useSelector((state) => state.pcmaster.dataPcLine);
+
   useEffect(() => {
-    AxiosInstance.get("/items/unused")
-      .then((res) => {
-        setData(res.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        alert("terjadi kesalahan dalam memproses data");
-      });
-  }, [isLoading]);
+    dispatch(fetchItemsUnusedForPcMaster());
+  }, [dispatch]);
+
   useEffect(() => {
-    AxiosInstance.get("/pcline")
-      .then((res) => {
-        setData2(res.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        alert("terjadi kesalahan dalam memproses data");
-      });
-  }, [isLoading]);
+    dispatch(fechtPcLineData());
+  }, [dispatch]);
+
   // state modals in stock
-  const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
 
   const navigate = useNavigate();
   const backToMenu = () => {
     navigate(-1);
   };
 
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredDataPcLine = filterDataBySearch(dataPcLine, search);
+  const filteredDataUnused = filterDataBySearch(dataUnused, search);
+
   return (
-    <>
-      <Sidebar>
-        <LayoutContentDashboard>
-          {data2.length == 0 ? (
-            "kosong"
-          ) : isLoading ? (
-            <p>Halaman Sedang Memuat Data</p>
-          ) : (
-            <section className="container mx-auto mt-5 flex flex-col gap-5  w-full">
-              <section className="flex  gap-3">
-                <button onClick={backToMenu} className="button">
-                  Back
-                </button>
-
+    <Sidebar>
+      <LayoutContentDashboard>
+        <section className="grid grid-cols-6 gap-4 grid-flow-dense w-full ">
+          <section className="flex  gap-3 col-span-6">
+            <button onClick={backToMenu} className="button h-12 w-12">
+              Back
+            </button>
+            <section className="flex flex-wrap gap-2 p-2 bg-slate-200 mb-5 rounded-lg order-1">
+              {["Terpakai", "Tersedia"].map((label, index) => (
                 <button
-                  onClick={() => {
-                    setToggleState(1);
-                  }}
+                  key={index}
+                  onClick={() => setToggleState(index + 1)}
                   className={`${
-                    toggleState === 1
+                    toggleState === index + 1
                       ? "bg-slate-500 hover:bg-slate-700"
                       : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-                  } rounded-md p-3 min-w-[100px]`}
+                  } rounded-md p-1 min-w-[100px]`}
                 >
-                  Terpakai
+                  {label}
                 </button>
-                <button
-                  onClick={() => {
-                    setToggleState(2);
-                  }}
-                  className={`${
-                    toggleState === 2
-                      ? "bg-slate-500 hover:bg-slate-700"
-                      : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-                  } rounded-md p-3 min-w-[100px]`}
-                >
-                  Tersedia
-                </button>
-              </section>
-              {toggleState === 1 ? (
-                <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
-                  <section className="table__header">
-                    <Title>Tabel Komponen Terpakai</Title>
-                    <div className="input-group">
-                      <input
-                        onChange={(e) => {
-                          handleSearch(e);
-                        }}
-                        type="search"
-                        placeholder="Search Data..."
-                      />
-                    </div>
-                  </section>
-
-                  <section className="table__body">
-                    <TablePcLine
-                      data={data2}
-                      setId={setId}
-                      setEditModalItem={setEditModal}
-                      setDeleteModalItem={setDeleteModal}
-                    />
-                  </section>
-                </section>
-              ) : (
-                <section className="w-[82vw] bg-slate-400 backdrop-blur-md">
-                  <section className="table__header">
-                    <Title>Tabel Komponen Tersedia</Title>
-                    <div className="input-group">
-                      <input
-                        onChange={(e) => {
-                          handleSearch(e);
-                        }}
-                        type="search"
-                        placeholder="Search Data..."
-                      />
-                    </div>
-                    {/* <button
-                    className="button"
-                    onClick={() => {
-                      setAddModal(true);
-                    }}
-                  >
-                    Add Item
-                  </button> */}
-                  </section>
-
-                  <section className="table__body">
-                    <TablePcLine
-                      data={data}
-                      setId={setId}
-                      setEditModalItem={setEditModal}
-                      setDeleteModalItem={setDeleteModal}
-                    />
-                  </section>
-                </section>
-              )}
+              ))}
             </section>
+          </section>
+          {toggleState === 1 ? (
+            <div className="col-span-6">
+              <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
+                <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
+                  <TableHeader>
+                    <TitleTable>Tabel Komponen Terpakai</TitleTable>
+                    <SearchInput
+                      search={search}
+                      handleSearchChange={handleSearchChange}
+                    />
+                  </TableHeader>
+                  <TableBody>
+                    {generateDynamicContent(
+                      dataPcLine,
+                      filteredDataPcLine,
+                      <TablePcLine data={filteredDataPcLine} />
+                    )}
+                  </TableBody>
+                </div>
+              </section>
+            </div>
+          ) : (
+            <div className="col-span-6">
+              <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
+                <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
+                  <TableHeader>
+                    <TitleTable>Tabel Komponen Terpakai</TitleTable>
+                    <SearchInput
+                      search={search}
+                      handleSearchChange={handleSearchChange}
+                    />
+                  </TableHeader>
+                  <TableBody>
+                    {generateDynamicContent(
+                      dataPcLine,
+                      filteredDataPcLine,
+                      <TablePcLine data={filteredDataUnused} />
+                    )}
+                  </TableBody>
+                </div>
+              </section>
+            </div>
           )}
-        </LayoutContentDashboard>
-      </Sidebar>
-      {/* Modals Popup */}
-      <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
-        <FormAddModalItem
-          onClose={() => setAddModal(false)}
-          setIsLoading={setIsLoading}
-        />
-      </ShowModal>
-      <ShowModal isVisible={editModal} onClose={() => setEditModal(false)}>
-        <FormEditModalItem
-          // isVisible={editModalItem}
-          onClose={() => setEditModal(false)}
-          setIsLoading={setIsLoading}
-          id={id}
-        />
-      </ShowModal>
-      <ShowModal isVisible={deleteModal} onClose={() => deleteModal(false)}>
-        <FormDeleteModalItem
-          // isVisible={deleteModalItem}
-          onClose={() => setDeleteModal(false)}
-          setIsLoading={setIsLoading}
-          id={id}
-        />
-      </ShowModal>
-    </>
+        </section>
+      </LayoutContentDashboard>
+    </Sidebar>
   );
 };
 

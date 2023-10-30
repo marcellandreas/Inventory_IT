@@ -10,7 +10,7 @@ import { fetchStockDetails } from "../../../Redux/Feature/DetailStockslice";
 import { MdDelete, MdEditNote } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-const TableStocks = ({ setDeleteModalStock, data, setId }) => {
+const TableStocks = ({ setDeleteModal, data, setId }) => {
   const [selectedStockNo, setSelectedStockNo] = useState("");
   const dispatch = useDispatch();
 
@@ -81,7 +81,8 @@ const TableStocks = ({ setDeleteModalStock, data, setId }) => {
                 </NavLink>
                 <button
                   onClick={() => {
-                    setDeleteModalStock(true);
+                    setDeleteModal(true);
+
                     setId(barang.id_stock);
                   }}
                   className="button_delete"

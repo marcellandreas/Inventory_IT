@@ -1,12 +1,6 @@
 // AuthTemp.js
-import React, { useState } from "react";
-import { AxiosInstance } from "../../../apis/api";
-import { setAuthToken } from "../../../config/Auth";
-import Form from "../../molecules/Form";
+import React from "react";
 import { MdWarehouse } from "react-icons/md";
-
-import { useDispatch } from "react-redux";
-import { setUserData } from "../../../Redux/Feature/UserSlice";
 
 import image from "../../../assets/images/login.png";
 

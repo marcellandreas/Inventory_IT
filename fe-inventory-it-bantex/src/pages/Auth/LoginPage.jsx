@@ -24,10 +24,7 @@ const LoginPage = () => {
         password,
       });
 
-      const token = response.data.data.token;
-      const role = response.data.data.role;
-      const id_user = response.data.data.id_user;
-      const username_ = response.data.data.username;
+      const { token, role, id_user, username: username_ } = response.data.data;
 
       if (response.data.data.username) {
         await AxiosInstance.post("auth/recordlogin", {
@@ -40,7 +37,6 @@ const LoginPage = () => {
       localStorage.setItem("role", role);
       localStorage.setItem("id_user", id_user);
       localStorage.setItem("username", username_);
-      console.log(response);
       // Refresh Token
       if (token) {
         window.location.href = "/";
@@ -57,7 +53,7 @@ const LoginPage = () => {
         show={show}
         handleLogin={handleLogin}
         handleShow={handleShow}
-      ></FormLogin>
+      />
     </AuthTemp>
   );
 };

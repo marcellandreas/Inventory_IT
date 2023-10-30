@@ -11,30 +11,19 @@ import {
   setLoadingPc,
 } from "../../Redux/Feature/DataPc";
 import { useEffect } from "react";
+import {
+  fetchItemsUnusedForPcMaster,
+  fetchPcMasterData,
+} from "../../Redux/Feature/DataPcMaster";
 
 const PcMaster = () => {
   const dispatch = useDispatch();
 
-  const handleFetchError = (err) => {
-    console.error("Terjadi kesalahan dalam memproses data:", err);
-    alert("Terjadi kesalahan dalam memproses data");
-  };
-
-  const fetchData = (url, successAction) => {
-    AxiosInstance.get(url)
-      .then((res) => {
-        dispatch(successAction(res.data.data));
-        dispatch(setLoadingPc(false));
-      })
-      .catch(handleFetchError);
-  };
-
   useEffect(() => {
-    fetchData("/pcmaster", setDataPcMaster);
+    dispatch(fetchPcMasterData());
   }, [dispatch]);
-
   useEffect(() => {
-    fetchData("/items/unused", setDataItemsUnused);
+    dispatch(fetchItemsUnusedForPcMaster());
   }, [dispatch]);
 
   return (

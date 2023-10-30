@@ -55,7 +55,7 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                   setEditModal(true);
                   setId(barang.id);
                 }}
-                className="p-3 bg-blue-700 rounded-lg"
+                className="button_edit"
               >
                 <MdEditNote />
               </button>
@@ -64,7 +64,7 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                   setDeleteModal(true);
                   setId(barang.id);
                 }}
-                className="p-3 bg-red-700 rounded-lg"
+                className="button_delete"
               >
                 <MdDelete />
               </button>
