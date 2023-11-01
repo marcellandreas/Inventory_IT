@@ -80,6 +80,49 @@ const getAllDataReqSubandStockRequest = async (req, res) => {
   }
 };
 
+const getAllDataReqSubandStockRequestByStatus = async (req, res) => {
+  try {
+    const [data] =
+      await FormPengajuanModal.getAllDataReqSubandStockRequestByStatus();
+    // Map the data and process GROUP_CONCAT results into arrays of objects
+    const transformedData = data.map((item) => ({
+      id_item_req: item.id_item_req,
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      status: item.status,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
+      date_done: item.date_done,
+      request_type: item.request_type,
+      request_data:
+        item.Id_submission_item &&
+        item.Id_submission_item.split(",").map((idSub, index) => ({
+          id_submission_item: idSub,
+          stock_description:
+            item.stock_description && item.stock_description.split(",")[index],
+          qty: item.qty && item.qty.split(",")[index],
+          note: item.note && item.note.split(",")[index],
+        })),
+    }));
+
+    res.json({
+      message: "berhasil mengambil Data penerimaan barang",
+      data: transformedData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
 const getAllDataReqSubandStockRequestById = async (req, res) => {
   const { id_item_req } = req.params;
   let isFound = false;
@@ -107,6 +150,8 @@ const getAllDataReqSubandStockRequestById = async (req, res) => {
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
           stock_no: item.stock_no && item.stock_no.split(",")[index],
+          id_detail_stock:
+            item.id_detail_stock && item.id_detail_stock.split(",")[index],
         })),
     }));
     isFound = true;
@@ -158,6 +203,8 @@ const getAllDataReqSubandStockSubmission = async (req, res) => {
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
+          id_detail_stock:
+            item.id_detail_stock && item.id_detail_stock.split(",")[index],
         })),
     }));
 
@@ -200,6 +247,9 @@ const getAllDataReqSubandStockSubmissionById = async (req, res) => {
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
+          stock_no: item.stock_no && item.stock_no.split(",")[index],
+          id_detail_stock:
+            item.id_detail_stock && item.id_detail_stock.split(",")[index],
         })),
     }));
     isFound = true;
@@ -214,6 +264,51 @@ const getAllDataReqSubandStockSubmissionById = async (req, res) => {
       });
       return;
     }
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getAllDataReqSubandStockSubmissionByStatus = async (req, res) => {
+  try {
+    const [data] =
+      await FormPengajuanModal.getAllDataReqSubandStockSubmissionByStatus();
+    // Map the data and process GROUP_CONCAT results into arrays of objects
+    console.log(data);
+    const transformedData = data.map((item) => ({
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      status: item.status,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
+      date_done: item.date_done,
+      request_type: item.request_type,
+      submissionData:
+        item.id_stock_sub &&
+        item.id_stock_sub.split(",").map((idSub, index) => ({
+          id_stock_sub: idSub,
+          stock_description:
+            item.stock_description && item.stock_description.split(",")[index],
+          qty: item.qty && item.qty.split(",")[index],
+          note: item.note && item.note.split(",")[index],
+          id_detail_stock:
+            item.id_detail_stock && item.id_detail_stock.split(",")[index],
+        })),
+    }));
+
+    res.json({
+      message: "berhasil mengambil Data pengajuan barang berdadarkan status",
+      data: transformedData,
+    });
+  } catch (error) {
     res.status(500).json({
       message: "Server Error",
       serverMessage: error,
@@ -356,7 +451,9 @@ module.exports = {
   // stock request
   getAllDataReqSubandStockRequest,
   getAllDataReqSubandStockRequestById,
+  getAllDataReqSubandStockRequestByStatus,
   // stock submission
   getAllDataReqSubandStockSubmission,
   getAllDataReqSubandStockSubmissionById,
+  getAllDataReqSubandStockSubmissionByStatus,
 };

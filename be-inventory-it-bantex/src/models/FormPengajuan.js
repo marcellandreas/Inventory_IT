@@ -30,7 +30,8 @@ const getAllDataReqSubandStockRequest = () => {
   GROUP_CONCAT(sr.Id_submission_item) AS Id_submission_item,
   GROUP_CONCAT(sr.stock_description) AS stock_description, 
   GROUP_CONCAT(sr.qty) AS qty, 
-  GROUP_CONCAT(sr.note) AS note
+  GROUP_CONCAT(sr.note) AS note,
+  GROUP_CONCAT(sr.id_detail_stock) AS id_detail_stock
 FROM request_submission rs
 LEFT JOIN stock_request sr ON rs.no_pengajuan = sr.no_pengajuan 
 WHERE rs.request_type = "REQUEST"
@@ -59,10 +60,39 @@ const getAllDataReqSubandStockRequestById = (id_item_req) => {
   GROUP_CONCAT(stock_request.stock_description) AS stock_description, 
   GROUP_CONCAT(stock_request.qty) AS qty, 
   GROUP_CONCAT(stock_request.note) AS note, 
-  GROUP_CONCAT(stock_request.stock_no) AS stock_no 
+  GROUP_CONCAT(stock_request.stock_no) AS stock_no,
+  GROUP_CONCAT(stock_request.id_detail_stock) AS id_detail_stock 
   FROM request_submission 
   LEFT JOIN stock_request ON request_submission.no_pengajuan = stock_request.no_pengajuan 
   WHERE request_submission.id_item_req = ${id_item_req} 
+  GROUP BY request_submission.no_pengajuan;`;
+  return pool.execute(SQLQuery);
+};
+const getAllDataReqSubandStockRequestByStatus = (id_item_req) => {
+  const SQLQuery = `SELECT 
+  request_submission.no_pengajuan, 
+  request_submission.name_pt, 
+  request_submission.name_division, 
+  request_submission.status, 
+  request_submission.approved_1, 
+  request_submission.approved_2, 
+  request_submission.post_user_id, 
+  request_submission.post_username, 
+  request_submission.post_date, 
+  request_submission.date_approved_1,
+  request_submission.date_approved_2,
+  request_submission.date_done,
+  request_submission.request_type,
+  GROUP_CONCAT(stock_request.Id_submission_item) AS Id_submission_item, 
+  GROUP_CONCAT(stock_request.stock_description) AS stock_description, 
+  GROUP_CONCAT(stock_request.qty) AS qty, 
+  GROUP_CONCAT(stock_request.note) AS note, 
+  GROUP_CONCAT(stock_request.stock_no) AS stock_no,
+  GROUP_CONCAT(stock_request.id_detail_stock) AS id_detail_stock 
+  FROM request_submission 
+  LEFT JOIN stock_request ON request_submission.no_pengajuan = stock_request.no_pengajuan 
+  WHERE request_submission.status = "Selesai"
+AND request_submission.request_type = "REQUEST"
   GROUP BY request_submission.no_pengajuan;`;
   return pool.execute(SQLQuery);
 };
@@ -87,7 +117,7 @@ const getAllDataReqSubandStockSubmission = () => {
   GROUP_CONCAT(ss.id_stock_sub) AS id_stock_sub,
   GROUP_CONCAT(ss.stock_description) AS description,
   GROUP_CONCAT(ss.qty) AS qty,
-  GROUP_CONCAT(ss.note) AS note
+  GROUP_CONCAT(ss.note) AS note,
 FROM request_submission rs
 LEFT JOIN stock_submission ss ON rs.no_pengajuan = ss.no_pengajuan
 WHERE rs.request_type = "SUBMISSION"
@@ -116,11 +146,43 @@ const getAllDataReqSubandStockSubmissionById = (id_stock_sub) => {
   GROUP_CONCAT(stock_submission.id_stock_sub) AS id_stock_sub, 
   GROUP_CONCAT(stock_submission.stock_description) AS stock_description, 
   GROUP_CONCAT(stock_submission.qty) AS qty, 
-  GROUP_CONCAT(stock_submission.note) AS note
+  GROUP_CONCAT(stock_submission.note) AS note,
+  GROUP_CONCAT(stock_submission.stock_no) AS stock_no, 
+  GROUP_CONCAT(stock_submission.id_detail_stock) AS id_detail_stock 
   FROM request_submission 
   LEFT JOIN stock_submission ON request_submission.no_pengajuan = stock_submission.no_pengajuan 
   WHERE request_submission.id_item_req = ${id_stock_sub} 
   GROUP BY request_submission.no_pengajuan;`;
+
+  return pool.execute(SQLQuery);
+};
+const getAllDataReqSubandStockSubmissionByStatus = (status) => {
+  const SQLQuery = `SELECT 
+  request_submission.no_pengajuan, 
+  request_submission.name_pt, 
+  request_submission.name_division, 
+  request_submission.status, 
+  request_submission.approved_1, 
+  request_submission.approved_2, 
+  request_submission.post_user_id, 
+  request_submission.post_username, 
+  request_submission.post_date, 
+  request_submission.date_approved_1,
+  request_submission.date_approved_2,
+  request_submission.date_done,
+  request_submission.request_type,
+  GROUP_CONCAT(stock_submission.id_stock_sub) AS id_stock_sub, 
+  GROUP_CONCAT(stock_submission.stock_description) AS stock_description, 
+  GROUP_CONCAT(stock_submission.qty) AS qty, 
+  GROUP_CONCAT(stock_submission.note) AS note,
+  GROUP_CONCAT(stock_submission.stock_no) AS stock_no, 
+  GROUP_CONCAT(stock_submission.id_detail_stock) AS id_detail_stock 
+FROM request_submission 
+LEFT JOIN stock_submission ON request_submission.no_pengajuan = stock_submission.no_pengajuan 
+WHERE request_submission.status = "Selesai"
+AND request_submission.request_type = "SUBMISSION"
+GROUP BY request_submission.no_pengajuan;
+`;
 
   return pool.execute(SQLQuery);
 };
@@ -158,7 +220,9 @@ module.exports = {
   // request stock
   getAllDataReqSubandStockRequest,
   getAllDataReqSubandStockRequestById,
+  getAllDataReqSubandStockRequestByStatus,
   // submission stock
   getAllDataReqSubandStockSubmission,
   getAllDataReqSubandStockSubmissionById,
+  getAllDataReqSubandStockSubmissionByStatus,
 };

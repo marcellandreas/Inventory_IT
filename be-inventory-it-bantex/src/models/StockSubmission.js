@@ -8,12 +8,14 @@ class StockSubmission {
   // Metode untuk membuat entri baru request items
   createStockSubmission(stockSubmission, callback) {
     const query =
-      "INSERT INTO stock_submission (no_pengajuan, stock_description, qty, note) VALUES ?";
+      "INSERT INTO stock_submission (no_pengajuan, stock_no, stock_description, qty, note, 	id_detail_stock) VALUES ?";
     const values = stockSubmission.map((item) => [
       item.no_pengajuan,
+      item.stock_no,
       item.stock_description,
       item.qty,
       item.note,
+      item.id_detail_stock,
     ]);
 
     this.connection.query(query, [values], (error, results) => {

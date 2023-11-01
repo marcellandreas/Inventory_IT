@@ -7,13 +7,14 @@ class StockRequest {
   // Metode untuk membuat entri baru request item
   createStockRequest(stockRequest, callback) {
     const query =
-      "INSERT INTO stock_request (no_pengajuan, stock_no, stock_description, qty, note) VALUES ?";
+      "INSERT INTO stock_request (no_pengajuan, stock_no, stock_description, qty, note, id_detail_stock) VALUES ?";
     const values = stockRequest.map((item) => [
       item.no_pengajuan,
       item.stock_no,
       item.stock_description,
       item.qty,
       item.note,
+      item.id_detail_stock,
     ]);
 
     this.connection.query(query, [values], (error, results) => {

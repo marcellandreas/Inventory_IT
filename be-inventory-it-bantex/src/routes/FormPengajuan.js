@@ -7,6 +7,10 @@ router.get("/", formPengajuanController.getAllDataItemReq);
 
 router.get("/req", formPengajuanController.getAllDataReqSubandStockRequest);
 router.get(
+  "/status-req",
+  formPengajuanController.getAllDataReqSubandStockRequestByStatus
+);
+router.get(
   "/req/:id_item_req",
   formPengajuanController.getAllDataReqSubandStockRequestById
 );
@@ -19,6 +23,10 @@ router.post("/sub", formPengajuanController.PostsubmissionItems);
 
 // stock submission
 router.get("/sub", formPengajuanController.getAllDataReqSubandStockSubmission);
+router.get(
+  "/status-sub",
+  formPengajuanController.getAllDataReqSubandStockSubmissionByStatus
+);
 router.get(
   "/sub/:id_stock_sub",
   formPengajuanController.getAllDataReqSubandStockSubmissionById

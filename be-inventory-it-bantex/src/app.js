@@ -60,7 +60,10 @@ const stockRouter = require("./routes/Stocks");
 app.use("/stocks", stockRouter);
 
 const detailStockRouter = require("./routes/StocksDetail");
-app.use("/detail-stock", detailStockRouter);
+app.use("/det-stock", detailStockRouter);
+
+const detailStockTemporaryRouter = require("./routes/StocksDetailTemporary");
+app.use("/det-temp-stock", detailStockTemporaryRouter);
 
 const DataItems = require("./routes/Items");
 app.use("/items", DataItems);

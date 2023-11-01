@@ -132,3 +132,17 @@ exports.updateMultipleDetailStock = (req, res) => {
     }
   });
 };
+
+exports.updatePlusDetailStock = (req, res) => {
+  const data = req.body; // Data yang akan diupdate, contoh: [{ id_detail_stock: 1, qty: 5 }, { id_detail_stock: 2, qty: 10 }]
+
+  detailStockModel.updatePlusDetailStock(data, (error) => {
+    if (error) {
+      res.status(500).json({ message: "Server Error", serverMessage: error });
+    } else {
+      res.status(200).json({
+        message: "Berhasil Mengupdate Jumlah Stok Detail Secara Massal",
+      });
+    }
+  });
+};
