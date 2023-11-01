@@ -1,41 +1,150 @@
-const pool = require("../config/database");
+const mysql = require("mysql2");
 
-const getAllPcMaster = () => {
-  const SQLQuery = `SELECT * FROM pc_master`;
-  return pool.execute(SQLQuery);
-};
+class PcMaster {
+  constructor(dbConfig) {
+    this.connection = mysql.createConnection(dbConfig);
+  }
 
-const getPcMasterById = (id) => {
-  const SQLQuery = `SELECT * FROM pc_master WHERE id_pc_master = ${id}`;
-  return pool.execute(SQLQuery);
-};
+  getAllPcMaster(callback) {
+    this.connection.query("SELECT * FROM pc_master", (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+      callback(null, results);
+    });
+  }
 
-const getPcMasterByPcMaster = (pcno) => {
-  const SQLQuery = `SELECT * FROM pc_master WHERE pc_no = '${pcno}'`;
+  getPcMasterById(id, callback) {
+    this.connection.query(
+      "SELECT * FROM pc_master WHERE id_pc_master = ?",
+      [id],
+      (error, result) => {
+        if (error) {
+          return callback(error, null);
+        }
+        callback(null, result[0]);
+      }
+    );
+  }
 
-  return pool.execute(SQLQuery);
-};
+  getPcMasterByPcMaster(pcno, callback) {
+    this.connection.query(
+      "SELECT * FROM pc_master WHERE pc_no = ?",
+      [pcno],
+      (error, result) => {
+        if (error) {
+          return callback(error, null);
+        }
+        callback(null, result);
+      }
+    );
+  }
 
-const createPcMaster = (body) => {
-  const SQLQuery = `INSERT INTO pc_master ( pc_no, pc_description, unit, category, status, pc_location, note, date_registation, date_expired, pc_spectification, post_user_id, post_username, post_date) VALUES ('${body.pc_no}', '${body.pc_description}', '${body.unit}', '${body.category}', '${body.status}', '${body.pc_location}', '${body.note}', '${body.date_registation}', '${body.date_expired}', '${body.pc_spectification}', '${body.post_user_id}', '${body.post_username}', current_timestamp())`;
-  return pool.execute(SQLQuery);
-};
+  createPcMaster(body, callback) {
+    this.generatePcCode(body.category, (generateCodeError, code) => {
+      if (generateCodeError) {
+        callback(generateCodeError, null);
+      } else {
+        this.connection.query(
+          "INSERT INTO pc_master (pc_no, pc_description, unit, category, status, pc_location, note, date_registation, date_expired, pc_spectification, post_user_id, post_username, post_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp())",
+          [
+            code,
+            body.pc_description,
+            body.unit,
+            body.category,
+            body.status,
+            body.pc_location,
+            body.note,
+            body.date_registation,
+            body.date_expired,
+            body.pc_spectification,
+            body.post_user_id,
+            body.post_username,
+          ],
+          (error, result) => {
+            if (error) {
+              callback(error, null);
+            } else {
+              callback(null, code);
+            }
+          }
+        );
+      }
+    });
+  }
 
-const UpdatePcMaster = (body, id) => {
-  const SQLQuery = `UPDATE pc_master SET pc_no = '${body.pc_no}', pc_description = '${body.pc_description}', unit = '${body.unit}', category = '${body.category}', status = '${body.status}', pc_location = '${body.pc_location}', note = '${body.note}', date_registation = '${body.date_registation}', date_expired = '${body.date_expired}', pc_spectification = '${body.pc_spectification}', post_user_id = '${body.post_user_id}', post_username = '${body.post_username}' WHERE pc_master.id_pc_master = ${id}`;
-  return pool.execute(SQLQuery);
-};
+  generatePcCode(category, callback) {
+    const categoriesPrefix =
+      category === "PC"
+        ? "IT-PC"
+        : category === "LAPTOP"
+        ? "IT-LAPTOP"
+        : "IT-LAINNYA";
+    const query = `SELECT MAX(pc_no) AS max_code FROM pc_master WHERE category = '${category}'`;
+    this.connection.query(query, (error, results) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
 
-const deletePcMaster = async (id) => {
-  const SQLQuery = `DELETE FROM pc_master WHERE pc_master.id_pc_master = ${id}`;
-  return pool.execute(SQLQuery);
-};
+      let code = "0001";
 
-module.exports = {
-  getAllPcMaster,
-  getPcMasterById,
-  createPcMaster,
-  getPcMasterByPcMaster,
-  UpdatePcMaster,
-  deletePcMaster,
-};
+      if (results[0].max_code) {
+        const maxCode = results[0].max_code;
+        const maxNumber = parseInt(maxCode.substr(6), 10);
+        const nextNumber = maxNumber + 1;
+        code = nextNumber.toString().padStart(4, "0");
+      }
+
+      const pcCode = `${categoriesPrefix}-${code}`;
+      callback(null, pcCode);
+    });
+  }
+
+  updatePcMaster(body, id, callback) {
+    this.connection.query(
+      "UPDATE pc_master SET  pc_description = ?, unit = ?, category = ?, status = ?, pc_location = ?, note = ?, date_registation = ?, date_expired = ?, pc_spectification = ?, post_user_id = ?, post_username = ? WHERE id_pc_master = ?",
+      [
+        body.pc_description,
+        body.unit,
+        body.category,
+        body.status,
+        body.pc_location,
+        body.note,
+        body.date_registation,
+        body.date_expired,
+        body.pc_spectification,
+        body.post_user_id,
+        body.post_username,
+        id,
+      ],
+      (error, result) => {
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(null, "Pc master updated successfully");
+        }
+      }
+    );
+  }
+
+  deletePcMaster(id, callback) {
+    this.connection.query(
+      "DELETE FROM pc_master WHERE id_pc_master = ?",
+      [id],
+      (error, result) => {
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(null, "Pc master deleted successfully");
+        }
+      }
+    );
+  }
+
+  // Implement other methods like updatePcMaster and deletePcMaster
+
+  // Add the generatePcCode method if it's not already defined in your code
+}
+
+module.exports = PcMaster;
