@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
 import Title from "../../../atoms/Text/Title";
+import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
+import { CustomInput, CustomSelect } from "../../../atoms";
 
 const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
   console.log("di form edit", id);
+  const { unitOptions, CategoriesPcMaster } = useHelpersFormData();
+
   const [formValues, setFormValues] = useState({
-    pc_no: "",
     pc_description: "",
     unit: "",
     category: "",
@@ -43,18 +46,6 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
-  // const data = {
-  //   pc_no: formValues.pc_no,
-  //   pc_description: formValues.pc_description,
-  //   unit: formValues.unit,
-  //   category: formValues.category,
-  //   status: formValues.status,
-  //   pc_location: formValues.pc_location,
-  //   note: formValues.note,
-  //   date_registation: formValues.date_registation,
-  //   date_expired: formValues.date_expired,
-  //   pc_spectification: formValues.pc_spectification,
-  // };
 
   const handleUpdateForm = (e) => {
     e.preventDefault();
@@ -86,45 +77,50 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
             <label>Pc Number</label>
             <input
               className=" bg-slate-200 uppercase"
-              placeholder="e.g: IT-PC-0001"
-              type="text"
-              name="pc_no"
-              onChange={handleChangeValue}
+              readOnly
               value={formValues.pc_no}
             />
           </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Pc Description</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g: "
-              name="pc_description"
-              type="text"
-              onChange={handleChangeValue}
-              value={formValues.pc_description}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Unit</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g: Pcs, Liter, Meter"
-              name="unit"
-              type="text"
-              onChange={handleChangeValue}
-              value={formValues.unit}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Category</label>
-            <input
-              className=" bg-slate-200 uppercase"
-              placeholder="e.g: PC or LAPTOP"
-              type="text"
-              onChange={handleChangeValue}
-              value={formValues.category}
-            />
-          </div>
+          <CustomInput
+            label="Deskripsi PC"
+            name="pc_description"
+            type="text"
+            onChange={handleChangeValue}
+            value={formValues.pc_description}
+          />
+
+          <CustomSelect
+            label="Unit"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Unit Satuan
+              </option>,
+              ...unitOptions.map((unit, index) => (
+                <option key={index} value={unit}>
+                  {unit}
+                </option>
+              )),
+            ]}
+            className="col-span-3 md:col-span-1"
+            name="unit"
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Kategory"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Category
+              </option>,
+              ...CategoriesPcMaster.map((unit, index) => (
+                <option key={index} value={unit}>
+                  {unit}
+                </option>
+              )),
+            ]}
+            className="col-span-3 md:col-span-1"
+            name="category"
+            onChange={handleChangeValue}
+          />
 
           <div className="gap-2 flex flex-col w-60">
             <label>Status Barang</label>
@@ -159,17 +155,14 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
             </div>
           </div>
 
-          <div className="gap-2 flex flex-col w-60">
-            <label>Pc Location</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder="e.g: "
-              type="text"
-              name="pc_location"
-              onChange={handleChangeValue}
-              value={formValues.pc_location}
-            />
-          </div>
+          <CustomInput
+            label="Lokasi PC"
+            placeholder="e.g: "
+            type="text"
+            name="pc_location"
+            onChange={handleChangeValue}
+            value={formValues.pc_location}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <div className="gap-2 flex flex-col w-60">
@@ -182,30 +175,23 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
               value={formValues.note}
             />
           </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Date Registration</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder=""
-              type="text"
-              name="date_registration"
-              onChange={handleChangeValue}
-              value={formValues.date_registation}
-            />
-          </div>
-          <div className="gap-2 flex flex-col w-60">
-            <label>Date Expired</label>
-            <input
-              className=" bg-slate-200 "
-              placeholder=""
-              type="text"
-              name="date_expired"
-              onChange={handleChangeValue}
-              value={
-                formValues.date_expired == null ? "-" : formValues.date_expired
-              }
-            />
-          </div>
+
+          <CustomInput
+            label="Tanggal Registrasi"
+            type="date"
+            name="date_registration"
+            onChange={handleChangeValue}
+            value={formValues.date_registation}
+          />
+          <CustomInput
+            label="Tanggal Kadaluarsa"
+            type="date"
+            name="date_expired"
+            onChange={handleChangeValue}
+            value={
+              formValues.date_expired == null ? "-" : formValues.date_expired
+            }
+          />
           <div className="flex flex-wrap gap-2 pt-12">
             <button
               onClick={() => {

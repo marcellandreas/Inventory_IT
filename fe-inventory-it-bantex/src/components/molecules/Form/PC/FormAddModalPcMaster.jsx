@@ -9,7 +9,6 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
   const [formValues, setFormValues] = useState({
-    pc_no: "",
     pc_description: "",
     unit: "",
     category: "",
@@ -26,7 +25,6 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
     setFormValues({ ...formValues, [name]: value });
   };
   const data = {
-    pc_no: formValues.pc_no,
     pc_description: formValues.pc_description,
     unit: formValues.unit,
     category: formValues.category,
@@ -68,18 +66,11 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
     <section className="w-[550px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3  max-h-[600px]  overflow-y-auto">
       <Title className="text-2xl text-center">Tambah PC Master</Title>
       <hr className="border border-slate-800  w-2/5 m-0" />
-      <form onSubmit={handleCreateForm} className="flex justify-between">
-        <div>
+      <form onSubmit={handleCreateForm} className="flex justify-between gap-">
+        <div className=" flex flex-col gap-2">
           <CustomInput
-            label="Pc Number"
-            placeholder="e.g: IT-PC-0001"
-            name="pc_no"
-            type="text"
-            onChange={handleChangeValue}
-          />
-          <CustomInput
-            label="Pc Description"
-            placeholder="e.g:"
+            label="Deskripsi PC"
+            placeholder="e.g: PC-RUANG IT-user"
             name="pc_description"
             type="text"
             onChange={handleChangeValue}
@@ -103,7 +94,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
             label="Kategory"
             options={[
               <option key="default" value="" disabled selected>
-                Pilih Category
+                Pilih Kategory
               </option>,
               ...CategoriesPcMaster.map((pc, index) => (
                 <option key={index} value={pc}>
@@ -116,7 +107,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
           />
 
           <div className="gap-2 flex flex-col w-60">
-            <label>Status Barang</label>
+            <label>Status PC</label>
             <div className="flex flex-wrap gap-1">
               <input
                 type="radio"
@@ -146,10 +137,10 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
           </div>
 
           <div className="gap-2 flex flex-col w-60">
-            <label>Pc Location</label>
+            <label>Lokasi Pc</label>
             <input
               className=" bg-slate-200 "
-              placeholder="e.g: "
+              placeholder="e.g: Ruang IT"
               type="text"
               name="pc_location"
               onChange={handleChangeValue}
@@ -158,7 +149,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
         </div>
         <div className="flex flex-col gap-2">
           <div className="gap-2 flex flex-col w-60">
-            <label>Note (if any)</label>
+            <label>Catatan (jika ada)</label>
             <textarea
               className="bg-slate-200 h-[98px]"
               placeholder=""
@@ -167,7 +158,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
             />
           </div>
           <div className="gap-2 flex flex-col w-60">
-            <label>Date Registration</label>
+            <label>Tanggal Registrasi</label>
             <input
               className=" bg-slate-200 "
               placeholder=""
@@ -177,7 +168,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
             />
           </div>
           <div className="gap-2 flex flex-col w-60">
-            <label>Date Expired</label>
+            <label>Tanggal kadaluarsa</label>
             <input
               className=" bg-slate-200 "
               placeholder=""
@@ -187,10 +178,10 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
             />
           </div>
           <div className="gap-2 flex flex-col w-60">
-            <label>PC Spec</label>
+            <label>Spefifikasi PC</label>
             <input
               className=" bg-slate-200 "
-              placeholder=""
+              placeholder="eg: Spesifikasi "
               type="text"
               name="pc_spectification"
               onChange={handleChangeValue}
