@@ -1,5 +1,6 @@
 import { MdDelete } from "react-icons/md";
-import { CustomInput, CustomTextArea } from "../../../atoms";
+import { CustomInput, CustomSelect, CustomTextArea } from "../../../atoms";
+import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 
 const FormSubmission = ({
   i,
@@ -7,9 +8,28 @@ const FormSubmission = ({
   handleinputchange,
   handleremove,
   inputList,
+  handleStockSelect,
 }) => {
+  const { stockData } = useHelpersFormData();
+
   return (
     <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
+      <CustomSelect
+        label="Nomor Stok"
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Nomor Stok
+          </option>,
+          ...stockData.map((unit, index) => (
+            <option key={index} value={unit.stock_no}>
+              {`${unit.stock_no} - ${unit.stock_description}`}
+            </option>
+          )),
+        ]}
+        name="stock_no"
+        value={x.stock_no}
+        onChange={(e) => handleStockSelect(e, i)}
+      />
       <CustomInput
         label="Nama Barang"
         type="text"
@@ -24,6 +44,14 @@ const FormSubmission = ({
         placeholder="Masukan Merek Barang"
         name="brand"
         value={x.brand}
+        onChange={(e) => handleinputchange(e, i)}
+      />
+      <CustomInput
+        label="Info Tambahan Barang"
+        type="text"
+        placeholder="Masukan Merek Barang"
+        name="additional_info"
+        value={x.additional_info}
         onChange={(e) => handleinputchange(e, i)}
       />
 

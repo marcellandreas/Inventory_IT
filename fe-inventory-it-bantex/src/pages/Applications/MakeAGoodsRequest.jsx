@@ -34,24 +34,6 @@ const MakeAGoodsRequest = React.memo(() => {
     post_username: username,
   });
 
-  const [stockData, setStockData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await AxiosInstance.get("/stocks");
-        const fetchedStockData = response.data.data.map(
-          ({ stock_no, stock_description }) => ({ stock_no, stock_description })
-        );
-        setStockData(fetchedStockData);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -65,6 +47,10 @@ const MakeAGoodsRequest = React.memo(() => {
       totalqty: "",
       qty: "",
       note: "",
+      brand: "",
+      additional_info: "",
+      post_user_id: idUser,
+      post_username: username,
     },
   ]);
 
@@ -144,6 +130,7 @@ const MakeAGoodsRequest = React.memo(() => {
 
   const [detStockQtyData, setDetStockQtyData] = useState([]);
 
+  console.log(inputList);
   useEffect(() => {
     const fetchDataForQtyStock = async (idDetStock, index) => {
       try {
@@ -230,6 +217,8 @@ const MakeAGoodsRequest = React.memo(() => {
     navigate(-1);
   };
 
+  console.log(inputList);
+
   const handleSubmit = async () => {
     try {
       if (formValues.request_type === "REQUEST") {
@@ -254,6 +243,7 @@ const MakeAGoodsRequest = React.memo(() => {
       const postData = inputList.map((item) => {
         const commonFields = {
           no_pengajuan,
+          stock_no: item.stock_no,
           stock_description: item.stock_description,
           qty: item.qty,
           note: item.note,
@@ -266,6 +256,21 @@ const MakeAGoodsRequest = React.memo(() => {
       const endpoint =
         formValues.request_type === "REQUEST" ? "/req-form" : "/sub-form";
       await AxiosInstance.post(endpoint, postData);
+
+      if (formValues.request_type === "SUBMISSION") {
+        const dataDetailPost = inputList.map((item) => ({
+          stock_no: item.stock_no,
+          stock_detail_description: item.stock_description,
+          qty: item.qty,
+          brand: item.brand,
+          additional_info: item.additional_info,
+          note: item.note,
+          post_user_id: idUser,
+          post_username: username,
+        }));
+        console.log(dataDetailPost);
+        await AxiosInstance.post("/det-temp-stock", dataDetailPost);
+      }
 
       alert("Form Pengajuan Berhasil Dibuat");
       backToMenu();
@@ -315,7 +320,6 @@ const MakeAGoodsRequest = React.memo(() => {
                         key={i}
                         x={x}
                         i={i}
-                        stockData={stockData}
                         detStockData={detStockData}
                         detStockQtyData={detStockQtyData}
                         handleStockSelect={handleStockSelect}
@@ -325,11 +329,6 @@ const MakeAGoodsRequest = React.memo(() => {
                       />
                     ) : (
                       <>
-                        <FormStock
-                          categories={categories}
-                          Unit={unitOptions}
-                          type={typeOptions}
-                        />
                         <FormSubmission
                           key={i}
                           x={x}
@@ -337,6 +336,7 @@ const MakeAGoodsRequest = React.memo(() => {
                           handleinputchange={handleinputchange}
                           handleremove={handleremove}
                           inputList={inputList}
+                          handleStockSelect={handleStockSelect}
                         />
                       </>
                     );

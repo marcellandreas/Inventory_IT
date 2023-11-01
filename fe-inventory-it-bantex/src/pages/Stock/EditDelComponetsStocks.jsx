@@ -209,6 +209,8 @@ const EditDelCompontentsStocks = () => {
     }
   };
 
+  console.log(inputList);
+
   return (
     <Sidebar>
       <LayoutContentDashboard>
@@ -299,7 +301,7 @@ const EditDelCompontentsStocks = () => {
               />
             </div>
 
-            {inputList.length !== 1 ? (
+            {inputList.length >= 1 ? (
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-end ">
                   <h3 className=" text-lg font-semibold">Perbarui Stok</h3>

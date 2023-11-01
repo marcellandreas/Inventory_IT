@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { TableBody, TableHeader } from "../../components/organisms";
 import LayoutContentDashboard from "../../components/templates/LayoutContentDashboard";
 import Sidebar from "../../components/templates/Sidebar";
-import { GetDataPT } from "../../config/GetData";
 import { TableContent, Tbody, Thead } from "../../components/atoms";
 
 const SetUp = () => {

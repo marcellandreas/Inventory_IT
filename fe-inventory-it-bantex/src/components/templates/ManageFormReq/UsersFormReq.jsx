@@ -82,7 +82,7 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
         renderNoDataMessage()
       ) : (
         <>
-          <div className="flex pl-2 gap-2 self-start w-full">
+          {/* <div className="flex pl-2 gap-2 self-start w-full">
             <NavLink
               to={`/printPage`}
               className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
@@ -93,7 +93,7 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
             <NavLink to={`set-up`} className="button">
               Set Up
             </NavLink>
-          </div>
+          </div> */}
           <section className="w-[82vw] bg-slate-200 backdrop-blur-md">
             <TableHeader>
               <TitleTable>Data Pengajuan Barang</TitleTable>

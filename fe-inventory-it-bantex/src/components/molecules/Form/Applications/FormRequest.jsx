@@ -1,8 +1,8 @@
 import { MdDelete } from "react-icons/md";
 import { CustomSelect, CustomTextArea } from "../../../atoms";
+import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 
 const FormRequest = ({
-  stockData,
   detStockData,
   detStockQtyData,
   handleStockSelect,
@@ -12,6 +12,8 @@ const FormRequest = ({
   x,
   i,
 }) => {
+  const { stockData } = useHelpersFormData();
+
   return (
     <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
       <CustomSelect
@@ -38,7 +40,7 @@ const FormRequest = ({
           </option>,
           ...(detStockData[i] || []).map((unit, index) => (
             <option key={index} value={unit.id_detail_stock}>
-              {`${unit.stock_detail_description}`}
+              {`${unit.stock_detail_description}-${unit.brand}`}
             </option>
           )),
         ]}
