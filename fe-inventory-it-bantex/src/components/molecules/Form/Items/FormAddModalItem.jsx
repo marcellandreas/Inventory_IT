@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataItems } from "../../../../config/ValidateForm";
 import getUserData from "../../../../utils/GetUserData";
 import { useDispatch } from "react-redux";
@@ -12,8 +11,9 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
   // const username = localStorage.getItem("username");
   const [validation, setValidation] = useState([]);
 
+  console.log(validation);
+
   const [formValues, setFormValues] = useState({
-    item_no: "",
     item_description: "",
     unit: "",
     category: "",
@@ -36,7 +36,6 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
   const dispatch = useDispatch();
 
   const data = {
-    item_no: formValues.item_no,
     item_description: formValues.item_description,
     unit: formValues.unit,
     category: formValues.category,
@@ -52,7 +51,8 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
     post_username: username,
   };
 
-  const handleCreateForm = async () => {
+  const handleCreateForm = async (e) => {
+    e.preventDefault();
     const errors = validateFormDataItems(formValues);
 
     if (errors.length > 0) {
@@ -77,14 +77,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         Tambah Barang{" "}
       </h1>
       <hr className="border border-slate-800 w-full m-auto col-span-3" />
-      <CustomInput
-        label="No Item"
-        type="text"
-        name="item_no"
-        className="col-span-3 md:col-span-1"
-        placeholder="Enter Your New Item Number"
-        onChange={handleChangeValue}
-      />
+
       <CustomInput
         label="Deskripsi Barang"
         type="text"
@@ -204,7 +197,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
       />
 
       <div className="gap-2 flex flex-col w-60 row-span-2 col-span-3 md:col-span-1">
-        <label>Note (if any)</label>
+        <label>Catatan (Jika ada)</label>
         <textarea
           className="bg-slate-200 h-[120px]"
           placeholder=""
@@ -213,7 +206,7 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         />
       </div>
       <CustomInput
-        label="Date Registasi"
+        label="Tanggal Registrasi"
         name="date_registation"
         placeholder="Enter Your date"
         onChange={handleChangeValue}
@@ -221,8 +214,9 @@ const FormAddModalItem = ({ onClose, setIsLoading }) => {
         className="col-span-3 md:col-span-1"
       />
       <CustomInput
-        label="Date Expired (jika tidak terpakai)"
+        label="Tanggal Kadaluarsa (jika tidak terpakai)"
         name="date_expired"
+        type="date"
         placeholder="Enter Your New date "
         className="col-span-3 md:col-span-1"
         onChange={handleChangeValue}

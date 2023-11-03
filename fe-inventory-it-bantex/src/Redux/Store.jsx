@@ -7,6 +7,7 @@ import userReducer from "./Feature/UserSlice";
 import dataSliceItemReq from "./Feature/ItemsRequest";
 import itemsSlice from "./Feature/ItemsSlice";
 import stockReducer from "./Feature/StockSlice";
+import stockDetailSlice from "./Feature/stockDetailSlice";
 import detailReducer from "./Feature/DetailStockslice";
 import pcmasterReducer from "./Feature/DataPcMaster";
 
@@ -20,6 +21,7 @@ export const store = configureStore({
     users: userReducer,
     dataSliceItemReq: dataSliceItemReq,
     itemsSlice: itemsSlice,
+    stocksDetSlice: stockDetailSlice,
     stocks: stockReducer,
     detailStock: detailReducer,
     // contoh biar ada perubahan unutk comit

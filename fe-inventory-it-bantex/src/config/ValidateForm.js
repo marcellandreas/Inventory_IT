@@ -100,3 +100,34 @@ export const validateFormDataAuth = (formValues) => {
 
   return errors;
 };
+
+export const validateFormTakeItem = (formValues, data) => {
+  const errors = {};
+
+  if (!formValues.stock_no) {
+    errors.stock_no = "Nomor Stok harus diisi";
+  }
+  if (!formValues.id_detail_stock) {
+    errors.id_detail_stock = "Nama Stock harus diisi";
+  }
+  // if (!formValues.item_description) {
+  //   errors.item_description = "qty kurang";
+  // }
+  if (!formValues.item_location) {
+    errors.item_location = "Lokasi Item  harus diisi";
+  }
+  if (!formValues.date_registation) {
+    errors.date_registation = "Date Register harus diisi";
+  }
+  if (!formValues.item_specification) {
+    errors.item_specification = "Spesifikasi harus diisi";
+  }
+
+  // Lakukan validasi lain sesuai kebutuhan untuk input lainnya
+  // Contoh:
+  // if (!formValues.item_description) {
+  //   errors.item_description = "Item Description harus diisi";
+  // }
+
+  return errors;
+};

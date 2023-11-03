@@ -26,7 +26,7 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
       <Tbody>
         {data.map((barang, i) => (
           <tr key={i}>
-            <td className="border px-4 py-2">{i++}</td>
+            <td className="border px-4 py-2">{i + 1}</td>
             <td className="border px-4 py-2">{barang.item_no}</td>
             <td className="border px-4 py-2">{barang.item_description}</td>
             <td className="border px-4 py-2">{barang.unit}</td>

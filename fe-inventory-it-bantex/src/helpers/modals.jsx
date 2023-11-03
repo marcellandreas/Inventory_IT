@@ -5,6 +5,7 @@ function Modals() {
     add: false,
     edit: false,
     delete: false,
+    take: false,
   });
 
   const showModal = (type) => {

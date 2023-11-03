@@ -85,6 +85,19 @@ export const updateStock = createAsyncThunk(
   }
 );
 
+// update stocks qty
+export const updateStockQty = createAsyncThunk(
+  "stock/updateStockQty",
+  async (stockNo, { rejectWithValue }) => {
+    try {
+      const response = await AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Membuat slice Redux
 const stockSlice = createSlice({
   name: "stocks",
@@ -191,7 +204,12 @@ const stockSlice = createSlice({
       .addCase(updateStock.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
-      });
+      })
+
+      // update stock qty
+      .addCase(updateStockQty.pending, (state) => {})
+      .addCase(updateStockQty.fulfilled, (state) => {})
+      .addCase(updateStockQty.rejected, (state, action) => {});
   },
 });
 

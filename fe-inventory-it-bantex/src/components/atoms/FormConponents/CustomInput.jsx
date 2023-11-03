@@ -6,6 +6,7 @@ export const CustomInput = ({
   value,
   onChange,
   className,
+  readOnly,
 }) => (
   <div className={`gap-2 flex flex-col w-60 ${className || ""}`}>
     <label>{label}</label>
@@ -16,6 +17,7 @@ export const CustomInput = ({
       type={type}
       value={value}
       onChange={onChange}
+      readOnly={readOnly ? true : undefined}
     />
   </div>
 );

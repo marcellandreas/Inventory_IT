@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import {
   FormAddModalItem,
@@ -14,6 +14,7 @@ import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
 import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 import { useFetchItems } from "../../config/GetData";
+import FormTakeModalItem from "../../components/molecules/Form/Items/FormTakeModalItem";
 
 const ItemsPage = () => {
   const [id, setId] = useState("");
@@ -54,13 +55,22 @@ const ItemsPage = () => {
                     search={search}
                     handleSearchChange={handleSearchChange}
                   />
-                  <button
-                    className="button flex gap-2 items-center order-2 sm:order-3"
-                    onClick={() => showModal("add")}
-                  >
-                    <BsDatabaseFillAdd />{" "}
-                    <span className="hidden md:block">Tambah Barang</span>
-                  </button>
+                  <div className=" order-2 sm:order-3 flex gap-4">
+                    <button
+                      className="button flex gap-2 items-center order-2 sm:order-3"
+                      onClick={() => showModal("add")}
+                    >
+                      <BsDatabaseFillAdd />{" "}
+                      <span className="hidden md:block">Tambah Barang</span>
+                    </button>
+                    <button
+                      className="button flex gap-2 items-center order-2 sm:order-3"
+                      onClick={() => showModal("take")}
+                    >
+                      <BsDatabaseFillAdd />{" "}
+                      <span className="hidden md:block">Ambil Barang</span>
+                    </button>
+                  </div>
                 </TableHeader>
                 <TableBody>
                   {generateDynamicContent(
@@ -82,6 +92,9 @@ const ItemsPage = () => {
       {/* Modals Popup */}
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
         <FormAddModalItem onClose={() => closeModal("add")} />
+      </ShowModal>
+      <ShowModal isVisible={modalState.take} onClose={() => closeModal("take")}>
+        <FormTakeModalItem onClose={() => closeModal("take")} />
       </ShowModal>
       <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
         <FormEditModalItem onClose={() => closeModal("edit")} id={id} />

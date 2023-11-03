@@ -103,15 +103,15 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         Edit Barang
       </h1>
       <hr className="border border-slate-800 w-full m-auto col-span-3" />
-      <CustomInput
-        label="No Item"
-        type="text"
-        name="item_no"
-        value={formValues.item_no}
-        className="col-span-3 md:col-span-1"
-        placeholder="Enter Your New Item Number"
-        onChange={handleChangeValue}
-      />
+
+      <div className="gap-2 flex flex-col w-60">
+        <label>Items Nomer</label>
+        <input
+          className=" bg-slate-200 uppercase"
+          readOnly
+          value={formValues.item_no}
+        />
+      </div>
       <CustomInput
         label="Deskripsi Barang"
         type="text"
@@ -237,7 +237,7 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         onChange={handleChangeValue}
       />
       <div className="gap-2 flex flex-col w-60 row-span-2 col-span-3 md:col-span-1">
-        <label>Note (if any)</label>
+        <label>Catatan (jika ada)</label>
         <textarea
           className="bg-slate-200 h-[120px]"
           placeholder=""
@@ -247,7 +247,7 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         />
       </div>
       <CustomInput
-        label="Date Registasi"
+        label="Tanggal Registrasi"
         name="date_registation"
         placeholder="Enter Your date"
         onChange={handleChangeValue}
@@ -258,6 +258,7 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
       <CustomInput
         label="Date Expired (jika tidak terpakai)"
         name="date_expired"
+        type="date"
         value={formValues.date_expired}
         placeholder="Enter Your New date "
         className="col-span-3 md:col-span-1"

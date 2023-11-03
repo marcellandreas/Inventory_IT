@@ -27,10 +27,14 @@ export const fetchItems = createAsyncThunk("items/fetchItems", async () => {
   return response.data.data;
 });
 
-export const createItem = createAsyncThunk("items/createItem", async (data) => {
-  const response = await AxiosInstance.post("/items", data);
-  return response.data;
-});
+export const createItem = createAsyncThunk(
+  "items/createItem",
+  async (data, { dispatch }) => {
+    const response = await AxiosInstance.post("/items", data);
+    dispatch(fetchItems());
+    return response.data;
+  }
+);
 
 export const fetchItemById = createAsyncThunk(
   "items/fetchItemById",
