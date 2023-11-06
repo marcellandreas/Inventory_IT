@@ -8,13 +8,13 @@ import {
 } from "../../components/molecules";
 import { ShowModal, TableBody, TableHeader } from "../../components/organisms";
 import { Sidebar, LayoutContentDashboard } from "../../components/templates";
-import { AxiosInstance } from "../../apis/api";
 import { BsDatabaseFillAdd } from "react-icons/bs";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../Redux/Feature/UserSlice";
 import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
+import TabBar from "../../components/organisms/TabBar";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
@@ -41,32 +41,19 @@ const AccesPage = () => {
   const filteredDataAdmin = filterDataBySearch(admins, search);
   const filteredDataUser = filterDataBySearch(users, search);
   const filteredDataManager = filterDataBySearch(managers, search);
-
+  const tabs = ["Semua", "Pengguna", "Admin", "Manajer", "Login History"];
   return (
     <>
       <Sidebar>
         <LayoutContentDashboard>
           <section className="grid grid-cols-6 gap-4 grid-flow-dense w-full  ">
             <div className="self-start flex-wrap flex justify-between w-full col-span-6 row-span-2 ">
-              <section className="flex flex-wrap  w-full gap-2 p-2 bg-slate-200 mb-5 rounded-lg order-1 ">
-                {["Semua", "Pengguna", "Admin", "Manajer", "Login History"].map(
-                  (label, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setToggleState(index + 1), setSearch("");
-                      }}
-                      className={`${
-                        toggleState === index + 1
-                          ? "bg-slate-500 hover:bg-slate-700"
-                          : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-                      } rounded-md p-1 min-w-[100px]`}
-                    >
-                      {label}
-                    </button>
-                  )
-                )}
-              </section>
+              <TabBar
+                tabs={tabs}
+                setSearch={setSearch}
+                setToggleState={setToggleState}
+                toggleState={toggleState}
+              />
             </div>
             <div className="col-span-6">
               <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
