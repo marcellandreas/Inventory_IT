@@ -14,7 +14,7 @@ import Modals from "../../helpers/modals";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../Redux/Feature/UserSlice";
 import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
-import TabBar from "../../components/organisms/TabBar";
+import TabBar from "@TabBar";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
