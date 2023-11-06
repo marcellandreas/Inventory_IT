@@ -13,7 +13,7 @@ const FormRegister = ({ handleLogin, handleChangeValue, handleShow, show }) => {
         <span>Register into your account</span>
       </div>
       <div className="grid grid-flow-dense grid-cols-4 w-full gap-2">
-        <div className="flex relative col-span-2 ">
+        <div className="flex relative col-span-4 sm:col-span-2 ">
           <div className="flex  gap-2 flex-col w-full">
             <label className="text-lg font-semibold text-slate-700">name</label>
             <input
@@ -29,7 +29,7 @@ const FormRegister = ({ handleLogin, handleChangeValue, handleShow, show }) => {
             <FiUser />
           </div>
         </div>
-        <div className="flex relative col-span-2 ">
+        <div className="flex relative col-span-4 sm:col-span-2 ">
           <div className="flex  gap-2 flex-col w-full">
             <label className="text-lg font-semibold text-slate-700">
               email
