@@ -2,26 +2,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosInstance } from "../../apis/api";
 
-const initialState = {
-  data: [],
-  isLoading: false,
-  error: null,
-  dataById: {
-    item_no: "",
-    item_description: "",
-    unit: "",
-    category: "",
-    brand: "",
-    status: "",
-    kondisi: "",
-    item_location: "",
-    note: "",
-    date_registration: "",
-    date_expired: "",
-    item_specification: "",
-  },
-};
-
 export const fetchItems = createAsyncThunk("items/fetchItems", async () => {
   const response = await AxiosInstance.get("/items");
   return response.data.data;
@@ -39,7 +19,7 @@ export const createItem = createAsyncThunk(
 export const fetchItemById = createAsyncThunk(
   "items/fetchItemById",
   async (id) => {
-    const response = await AxiosInstance.get(`/items/by/${id}`);
+    const response = await AxiosInstance.get(`/items/id/${id}`);
     return response.data.data;
   }
 );
@@ -56,10 +36,21 @@ export const updateItem = createAsyncThunk(
   }
 );
 
-export const deleteItem = createAsyncThunk("items/deleteItem", async (id) => {
-  const response = await AxiosInstance.delete(`/items/${id}`);
-  return response.data;
-});
+export const deleteItem = createAsyncThunk(
+  "items/deleteItem",
+  async (id, { dispatch }) => {
+    const response = await AxiosInstance.delete(`/items/${id}`);
+    dispatch(fetchItems);
+    return response.data;
+  }
+);
+
+const initialState = {
+  data: [],
+  isLoading: false,
+  error: null,
+  dataById: {},
+};
 
 const itemsSlice = createSlice({
   name: "items",
@@ -80,6 +71,7 @@ const itemsSlice = createSlice({
         state.isLoading = false;
         state.error = "Terjadi kesalahan dalam memproses data";
       })
+      // POST ITEMS
       .addCase(createItem.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -91,6 +83,7 @@ const itemsSlice = createSlice({
         state.isLoading = false;
         state.error = "Terjadi kesalahan dalam memproses data";
       })
+      // GET ALL DATA BY ITEMS
       .addCase(fetchItemById.pending, (state) => {
         state.isLoading = true;
         state.error = null;

@@ -6,7 +6,7 @@ import {
 import { TableContent, Tbody, Thead } from "../../atoms";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchStockDetails } from "../../../Redux/Feature/DetailStockslice";
+import { fetchStockDetails } from "../../../Redux/Feature/detailStockslice";
 import { MdDelete, MdEditNote } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 

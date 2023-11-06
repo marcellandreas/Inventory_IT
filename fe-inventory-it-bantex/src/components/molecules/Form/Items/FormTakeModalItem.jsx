@@ -5,8 +5,12 @@ import { validateFormTakeItem } from "../../../../config/ValidateForm";
 import { CustomInput, CustomSelect } from "../../../atoms";
 import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 import { createItem } from "../../../../Redux/Feature/ItemsSlice";
-import { updateMultipleDetails } from "../../../../Redux/Feature/stockDetailSlice";
+import { updateMultipleDetails } from "../../../../Redux/Feature/detailStockslice";
 import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
+import {
+  useFecthStockDetailsById,
+  useFetchStockDetailsByStockNo,
+} from "../../../../config/GetData";
 
 const FormTakeModalItem = ({ onClose }) => {
   const idUser = localStorage.getItem("id_user");
@@ -31,38 +35,29 @@ const FormTakeModalItem = ({ onClose }) => {
 
   const { stockData } = useHelpersFormData();
 
-  const [detStockData, setDetStockData] = useState([]);
-
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
+  // Get detail Stock Data by No
+  const [detStockData, setDetStockData] = useState([]);
+  const stockDetails = useFetchStockDetailsByStockNo(formValues.stock_no);
   useEffect(() => {
     if (formValues.stock_no) {
-      const fetchData = async () => {
-        try {
-          const res = await AxiosInstance.get(
-            `det-stock/no/${formValues.stock_no}`
-          );
-          const data = res.data.data;
-
-          setDetStockData(data); // Menggantikan array dengan objek data
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
+      if (stockDetails) {
+        setDetStockData(stockDetails);
+      }
     }
-  }, [formValues.stock_no]);
+  }, [formValues.stock_no, stockDetails]);
 
+  // Get Stock Data by no
   const [stockForm, setStockForm] = useState({
     category: "",
     unit: "",
     type: "",
     note: "",
   });
-
   useEffect(() => {
     if (formValues.stock_no) {
       const fetchData = async () => {
@@ -90,37 +85,27 @@ const FormTakeModalItem = ({ onClose }) => {
     }
   }, [formValues.stock_no]);
 
+  // get detail stock data by id
   const [formDetStock, setFormDetStock] = useState({
     brand: "",
     item_description: "",
     qty: "",
   });
-
+  const stockDetialsById = useFecthStockDetailsById(formValues.id_detail_stock);
   useEffect(() => {
-    if (formValues.id_detail_stock) {
-      const fetchData = async () => {
-        try {
-          const res = await AxiosInstance.get(
-            `det-stock/id/${formValues.id_detail_stock}`
-          );
-          const data = res.data.data;
-          const item_description = data?.stock_detail_description;
-          const brand = data?.brand;
-          const qty = data?.qty;
+    if (formValues.id_detail_stock && stockDetialsById) {
+      const item_description = stockDetialsById.stock_detail_description;
+      const brand = stockDetialsById.brand;
+      const qty = stockDetialsById.qty;
 
-          setFormDetStock((prevFormValues) => ({
-            ...prevFormValues,
-            item_description,
-            brand,
-            qty,
-          }));
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
+      setFormDetStock((prevFormValues) => ({
+        ...prevFormValues,
+        item_description,
+        brand,
+        qty,
+      }));
     }
-  }, [formValues.id_detail_stock]);
+  }, [formValues.id_detail_stock, stockDetialsById]);
 
   const data = {
     item_description: formDetStock.item_description,
@@ -178,10 +163,7 @@ const FormTakeModalItem = ({ onClose }) => {
   const { unitOptions, categories } = useHelpersFormData();
 
   return (
-    <form
-      onSubmit={handleCreateForm}
-      className="  bg-amber-400 px-4 py-2 max-h-[600px] min-h-[400px] rounded-xl overflow-y-auto grid grid-cols-3 gap-4 grid-flow-dense  "
-    >
+    <form onSubmit={handleCreateForm} className="form_modal2">
       <div className="  flex flex-col col-span-3 gap-4">
         <h1 className="text-2xl font-semibold text-center row-span-1 col-span-3">
           Ambil Barang

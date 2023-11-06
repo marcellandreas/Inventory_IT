@@ -14,7 +14,7 @@ import {
 } from "../../components/molecules";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import { fetchStockByNo } from "../../Redux/Feature/StockSlice";
-import { fetchStockDetails } from "../../Redux/Feature/DetailStockslice";
+import { fetchStockDetails } from "../../Redux/Feature/detailStockslice";
 import { AxiosInstance } from "../../apis/api";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useHelpersFormData } from "../../helpers/useHelpersForm";

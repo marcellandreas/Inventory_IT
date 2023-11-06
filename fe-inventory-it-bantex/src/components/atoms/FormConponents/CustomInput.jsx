@@ -4,6 +4,7 @@ export const CustomInput = ({
   name,
   type,
   value,
+  defaultValue,
   onChange,
   className,
   readOnly,
@@ -16,6 +17,7 @@ export const CustomInput = ({
       name={name}
       type={type}
       value={value}
+      defaultValue={defaultValue}
       onChange={onChange}
       readOnly={readOnly ? true : undefined}
     />

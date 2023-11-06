@@ -49,6 +49,7 @@ export const createStock = createAsyncThunk(
     try {
       const response = await AxiosInstance.post("/stocks", formValues);
       dispatch(fetchStocks()); // Dispatch tindakan lain jika perlu
+      dispatch(updateStockQty());
       return response.data;
     } catch (error) {
       throw error;
@@ -104,7 +105,7 @@ const stockSlice = createSlice({
   initialState: {
     data: [],
     dataGetStockNo: [],
-    databyStockNo: [],
+    databyStockNo: {},
     categories: [],
     dataStockById: {},
     isLoading: false,

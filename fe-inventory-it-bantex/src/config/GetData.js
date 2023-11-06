@@ -1,9 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, fetchStocks } from "../Redux/Feature/StockSlice";
-import { fetchItems } from "../Redux/Feature/ItemsSlice";
+import {
+  fetchCategories,
+  fetchStockByNo,
+  fetchStocks,
+} from "../Redux/Feature/StockSlice";
+import { fetchItemById, fetchItems } from "../Redux/Feature/ItemsSlice";
 import { useEffect } from "react";
 import { fetchUserData } from "../Redux/Feature/UserSlice";
 import { fetchAllData } from "../Redux/Feature/ItemsRequest";
+import {
+  fetchDetailStock,
+  fetchStockDetails,
+  fetchStockDetailsByid,
+} from "../Redux/Feature/detailStockslice";
 
 // categories
 export function useFetchCategories() {
@@ -25,6 +34,15 @@ export function useFetchItems() {
   return dataItems;
 }
 
+export function useFetchItemById(id) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.itemsSlice.dataById);
+  useEffect(() => {
+    dispatch(fetchItemById(id));
+  }, [id]);
+  return data;
+}
+
 // Stock
 export function useFetchStocks() {
   const dispatch = useDispatch();
@@ -34,6 +52,46 @@ export function useFetchStocks() {
   }, [dispatch]);
   return data;
 }
+
+export function useFetchDetailStock() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.detailStock.data);
+  useEffect(() => {
+    dispatch(fetchDetailStock());
+  }, [dispatch]);
+  return data;
+}
+
+// get data by stock no
+export function useFetchStockByNo() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.stocks.databyStockNo);
+  useEffect(() => {
+    dispatch(fetchStockByNo());
+  }, [dispatch]);
+  return data;
+}
+
+export function useFetchStockDetailsByStockNo(stockNo) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.detailStock.dataDetailStockNo);
+  useEffect(() => {
+    dispatch(fetchStockDetails(stockNo));
+  }, [dispatch, stockNo]);
+
+  return data;
+}
+
+export function useFecthStockDetailsById(idDetailStock) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.detailStock.dataDetailId);
+  useEffect(() => {
+    dispatch(fetchStockDetailsByid(idDetailStock));
+  }, [dispatch, idDetailStock]);
+  return data;
+}
+
+export function usePostDetailStock(dataDetailPost) {}
 
 // User
 export function useFetchUsers() {

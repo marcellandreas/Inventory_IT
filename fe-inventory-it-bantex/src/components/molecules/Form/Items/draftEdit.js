@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataItems } from "../../../../config/ValidateForm";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchItemById,
-  updateItem,
-} from "../../../../Redux/Feature/ItemsSlice";
+import { updateItem } from "../../../../Redux/Feature/ItemsSlice";
 import { CustomInput, CustomSelect } from "../../../atoms";
+import {
+  useFetchItemById,
+  useFetchStockDetailsByStockNo,
+  useFetchStocks,
+} from "../../../../config/GetData";
 import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
-import { useFetchItemById, useFetchStocks } from "../../../../config/GetData";
 
 const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");
@@ -16,7 +17,11 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
   const dataItemById = useFetchItemById(id);
   const dataStocks = useFetchStocks();
   const dispatch = useDispatch();
+  const { stockData } = useHelpersFormData();
+
   const [formValues, setFormValues] = useState({
+    stock_no: "",
+    id_detail_stock: "",
     item_no: dataItemById.item_no,
     item_description: dataItemById.item_description,
     unit: dataItemById.unit,
@@ -31,12 +36,59 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
     item_specification: dataItemById.item_specification,
   });
 
-  const [validation, setValidation] = useState([]);
+  const dataItemDescription = dataItemById.item_description;
+
+  // Get detail Stock Data by No
+  const [detStockData, setDetStockData] = useState([]);
+  const stockDetails = useFetchStockDetailsByStockNo(formValues.stock_no);
+  useEffect(() => {
+    if (formValues.stock_no && stockDetails) {
+      setDetStockData(stockDetails);
+    }
+  }, [formValues.stock_no, stockDetails]);
 
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
+  console.log(formValues);
+
+  // get data stock_no
+
+  const [stockForm, setStockForm] = useState({
+    category: "",
+    unit: "",
+    type: "",
+    note: "",
+  });
+
+  useEffect(() => {
+    if (formValues.stock_no) {
+      const fetchData = async () => {
+        try {
+          const res = await AxiosInstance.get(
+            `/stocks/stock/${formValues.stock_no}`
+          );
+          const { category, unit, type, note } = res.data.stock;
+          setStockForm((prevFormValues) => ({
+            ...prevFormValues,
+            category,
+            unit,
+            type,
+            note,
+          }));
+          setFormValues((prevFormValues) => ({
+            ...prevFormValues,
+            id_detail_stock: "", // Mengatur id_detail_stock menjadi kosong
+          }));
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
+  }, [formValues.stock_no]);
 
   const data = {
     item_no: formValues.item_no,
@@ -57,20 +109,29 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
 
   const handleUpdateForm = (e) => {
     e.preventDefault();
-    const errors = validateFormDataItems(formValues);
-
-    if (errors.length > 0) {
-      setValidation(errors);
-      return;
+    if (formValues.stock_no === "") {
+      dispatch(updateItem({ id, data: data }))
+        .unwrap()
+        .then(() => {
+          onClose();
+          alert("berhasil Edit Data");
+        });
+    } else if (formValues.stock_no !== "") {
+      alert("dingin");
     }
-
-    dispatch(updateItem({ id, data: data }))
-      .unwrap()
-      .then(() => {
-        onClose();
-        alert("berhasil Edit Data");
-      });
   };
+
+  // useEffect(() => {
+  //   if (formValues.stock_no && formValues.item_description) {
+  //     setFormValues({
+  //       status: "new",
+  //       kondisi: "Good",
+  //       note: "",
+  //       item_location: "",
+
+  //     });
+  //   }
+  // });
 
   return (
     <form
@@ -83,7 +144,8 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
       <hr className="border border-slate-800 w-full m-auto col-span-3" />
       <div className="col-span-3 flex flex-col gap-2">
         <h1>
-          Default Value <span className=" text-red-700">*</span>
+          Ubah Stock_no jika emang ingin mengubah edit nya{" "}
+          <span className=" text-red-700">*</span>
         </h1>
         <div className="col-span-3 grid grid-flow-dense grid-cols-3 ">
           <div className="gap-2 flex flex-col w-60">
@@ -94,12 +156,38 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
               value={formValues.item_no}
             />
           </div>
-
-          <CustomInput
-            label="Deskripsi Barang"
-            readOnly={true}
-            className="col-span-3 md:col-span-1"
-            value={formValues.item_description}
+          <CustomSelect
+            label="Nomor Stok"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Nomor Stok
+              </option>,
+              ...dataStocks.map((unit, index) => (
+                <option key={index} value={unit.stock_no}>
+                  {`${unit.stock_no} - ${unit.stock_description}`}
+                </option>
+              )),
+            ]}
+            name="stock_no"
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Nama Stock"
+            options={[
+              // <option key="default" value={formValues.item_description}>
+              //   {formValues.item_description}
+              // </option>,
+              <option key="default" value={dataItemDescription}>
+                {dataItemDescription}
+              </option>,
+              ...detStockData.map((unit, index) => (
+                <option key={index} value={unit.id_detail_stock}>
+                  {`${unit.id_detail_stock}-${unit.stock_detail_description}`}
+                </option>
+              )),
+            ]}
+            name="id_detail_stock"
+            onChange={handleChangeValue}
           />
         </div>
       </div>
@@ -220,13 +308,13 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
           <CustomInput
             label="Satuan"
             className="col-span-3 md:col-span-1"
-            value={formValues.unit}
+            value={stockForm.unit}
             readOnly={true}
           />
           <CustomInput
             label="Kategori"
             className="col-span-3 md:col-span-1"
-            value={formValues.category}
+            value={stockForm.category}
             readOnly={true}
           />
           <CustomInput
@@ -238,25 +326,16 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         </div>
       </div>
 
-      {validation.length > 0 && (
-        <div>
-          {validation.map((error) => (
-            <div key={error}>{error}</div>
-          ))}
-        </div>
-      )}
-      <div className="col-span-3 grid grid-flow-dense grid-cols-3">
-        <div className="gap-2 w-full row-span-1 h-10 col-span-3 flex place-self-end   ">
-          <button
-            onClick={() => {
-              onClose();
-            }}
-            className="button_2 flex-1 "
-          >
-            Kembali
-          </button>
-          <button className="button flex-1 ">Simpan</button>
-        </div>
+      <div className="flex flex-wrap gap-2 w-full row-span-1 h-10 col-span-3 md:col-span-2 self-end">
+        <button
+          onClick={() => {
+            onClose();
+          }}
+          className="button_2 flex-1"
+        >
+          Kembali
+        </button>
+        <button className="button flex-1">Simpan</button>
       </div>
     </form>
   );

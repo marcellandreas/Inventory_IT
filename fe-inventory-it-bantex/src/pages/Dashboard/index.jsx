@@ -60,7 +60,7 @@ const Dashboard = () => {
             </div>
             <div className=" bg-white   text-yellow-700 border-yellow-700 border-l-4    flex items-center px-6 justify-between py-2 rounded-xl min-h-[50px] row-span-1 col-span-4 sm:col-span-2 md:col-span-2  lg:col-span-1">
               <div className="font-semibold">
-                <p className=" uppercase text-md ">Jumlah Pengajuan</p>
+                <p className=" uppercase text-heading-1 ">Jumlah Pengajuan</p>
                 <h3 className="text-3xl">{dataPengajuan.length}</h3>
               </div>
               <div className="text-5xl">

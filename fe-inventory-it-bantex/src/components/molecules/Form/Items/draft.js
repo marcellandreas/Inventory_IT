@@ -1,27 +1,7 @@
-import { useEffect, useState } from "react";
-import { validateFormDataItems } from "../../../../config/ValidateForm";
-import { useDispatch } from "react-redux";
-import { createItem } from "../../../../Redux/Feature/ItemsSlice";
-import { CustomInput, CustomSelect } from "../../../atoms";
-import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
-import { useFetchStocks } from "../../../../config/GetData";
-import { AxiosInstance } from "../../../../apis/api";
-import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
-import getUserData from "../../../../utils/GetUserData";
-
-const FormAddModalItem = ({ onClose }) => {
-  // get id and username
-  const idUser = localStorage.getItem("id_user");
-  const username = localStorage.getItem("username");
-  // const { idUser, username } = getUserData();
-  const postLoginData = {
-    post_user_id: idUser,
-    post_username: username,
-  };
-  // validation
+const FormAddModalItem = ({ onClose, setIsLoading }) => {
+  const { idUser, username } = getUserData();
   const [validationErrors, setValidationErrors] = useState({});
-  const dispatch = useDispatch();
-  const dataStock = useFetchStocks();
+
   const [formValues, setFormValues] = useState({
     item_description: "",
     unit: "",
@@ -41,7 +21,9 @@ const FormAddModalItem = ({ onClose }) => {
     setFormValues({ ...formValues, [name]: value });
   };
 
-  // metode mencocokan category dan mengubah nya menjadi stock_no
+  const dispatch = useDispatch();
+
+  const dataStock = useFetchStocks();
   const [matchingStocks, setMatchingStocks] = useState([]);
 
   useEffect(() => {
@@ -71,8 +53,19 @@ const FormAddModalItem = ({ onClose }) => {
 
   const createItemAndUnwrap = async () => {
     const data = {
-      ...formValues,
-      ...postLoginData,
+      item_description: formValues.item_description,
+      unit: formValues.unit,
+      category: formValues.category,
+      brand: formValues.brand,
+      status: formValues.status,
+      kondisi: formValues.kondisi,
+      item_location: formValues.item_location,
+      note: formValues.note,
+      date_registation: formValues.date_registation,
+      date_expired: formValues.date_expired,
+      item_specification: formValues.item_specification,
+      post_user_id: idUser,
+      post_username: username,
     };
     return await dispatch(createItem(data)).unwrap();
   };
@@ -83,11 +76,12 @@ const FormAddModalItem = ({ onClose }) => {
       const dataDetailPost = {
         stock_no: matchingStocks,
         stock_detail_description: formValues.item_description,
-        qty: 0,
+        qty: 1,
         brand: formValues.brand,
         additional_info: "-",
         note: formValues.note,
-        ...postLoginData,
+        post_user_id: idUser,
+        post_username: username,
       };
 
       const response1 = await AxiosInstance.post("/det-stock", [
@@ -110,45 +104,43 @@ const FormAddModalItem = ({ onClose }) => {
   };
 
   const handleNotMatchingStocks = async () => {
-    const createItemResponse = await createItemAndUnwrap();
+    const dataStockPost = {
+      stock_description: formValues.item_description,
+      stock_qty: 1,
+      category: formValues.category,
+      unit: formValues.unit,
+      type: "undifined",
+      note: formValues.note,
+      post_user_id: idUser,
+      post_username: username,
+    };
 
-    if (createItemResponse) {
-      const dataStockPost = {
-        stock_description: formValues.item_description,
-        stock_qty: 0,
-        category: formValues.category,
-        unit: formValues.unit,
-        type: "",
+    const responseStock = await AxiosInstance.post("/stocks", dataStockPost);
+
+    if (responseStock.data.data) {
+      const stockNo = responseStock.data.data.stock_no;
+      const dataDetailPost = {
+        stock_no: stockNo,
+        stock_detail_description: formValues.item_description,
+        qty: 1,
+        brand: formValues.brand,
+        additional_info: "-",
         note: formValues.note,
-        ...postLoginData,
+        post_user_id: idUser,
+        post_username: username,
       };
 
-      const responseStock = await AxiosInstance.post("/stocks", dataStockPost);
+      const response1 = await AxiosInstance.post("/det-stock", [
+        dataDetailPost,
+      ]);
 
-      if (responseStock.data.data) {
-        const stockNo = responseStock.data.data.stock_no;
-        const dataDetailPost = {
-          stock_no: stockNo,
-          stock_detail_description: formValues.item_description,
-          qty: 0,
-          brand: formValues.brand,
-          additional_info: "-",
-          note: formValues.note,
-          ...postLoginData,
-        };
-
-        const response1 = await AxiosInstance.post("/det-stock", [
-          dataDetailPost,
-        ]);
-
-        if (response1.data) {
-          const request2 = dispatch(updateStockQty(matchingStocks));
-          console.log(request2, "berjalan");
-        }
-        onClose();
-      } else {
-        console.error("Respons pertama tidak memiliki properti 'data'");
+      if (response1.data) {
+        const request2 = dispatch(updateStockQty(matchingStocks));
+        console.log(request2, "berjalan");
       }
+      onClose();
+    } else {
+      console.error("Respons pertama tidak memiliki properti 'data'");
     }
     console.log("Category does not match");
   };
@@ -156,9 +148,10 @@ const FormAddModalItem = ({ onClose }) => {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    // validations
     const errors = validateFormDataItems(formValues);
+
     setValidationErrors(errors);
+
     if (Object.keys(errors).length > 0) {
       return;
     }
@@ -388,5 +381,3 @@ const FormAddModalItem = ({ onClose }) => {
     </form>
   );
 };
-
-export default FormAddModalItem;
