@@ -12,13 +12,12 @@ import {
 import { Title, TitleTable } from "../../atoms";
 import { NavLink } from "react-router-dom";
 import { AiFillFileAdd } from "react-icons/ai";
-import { MdLocalPrintshop } from "react-icons/md";
 import { TableBody, TableHeader } from "../../organisms";
+import image from "../../../assets/images/form-concept.jpg";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
 
 const UsersFormReq = ({ setId, setDeleteModal }) => {
   const username = localStorage.getItem("username");
-  const [toggleState, setToggleState] = useState(1);
   const dispatch = useDispatch();
 
   const dataReq = useSelector(
@@ -69,7 +68,10 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
 
   const renderNoDataMessage = () => (
     <div className="min-h-[70vh] flex justify-center gap-10 items-center flex-col">
-      <Title>Tidak Ditemukan Surat Pengajuan </Title>
+      <img src={image} alt="" className="w-80 h-80" />
+      <p class="text-sm font-light sm:text-base sm:font-normal md:text-lg md:font-medium lg:text-xl lg:font-semibold xl:text-2xl xl:font-semibold">
+        Data belum tersedia. Anda bisa mulai mengisi data yang diperlukan.
+      </p>
       <NavLink to={`buat`} className="button flex gap-2 items-center">
         <AiFillFileAdd /> <span>Buat Pengajuan</span>
       </NavLink>
@@ -82,18 +84,6 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
         renderNoDataMessage()
       ) : (
         <>
-          {/* <div className="flex pl-2 gap-2 self-start w-full">
-            <NavLink
-              to={`/printPage`}
-              className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
-            >
-              <MdLocalPrintshop />
-              Cetak Pengajuan
-            </NavLink>
-            <NavLink to={`set-up`} className="button">
-              Set Up
-            </NavLink>
-          </div> */}
           <section className="w-[82vw] bg-slate-200 backdrop-blur-md">
             <TableHeader>
               <TitleTable>Data Pengajuan Barang</TitleTable>

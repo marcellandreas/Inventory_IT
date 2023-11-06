@@ -13,6 +13,7 @@ import {
   fetchStockDetails,
   fetchStockDetailsByid,
 } from "../Redux/Feature/detailStockslice";
+import { fetchFormDataReqSubById } from "../Redux/Feature/requestSubmissionSlice";
 
 // categories
 export function useFetchCategories() {
@@ -112,5 +113,14 @@ export function useFetchRequestSubmission() {
   useEffect(() => {
     dispatch(fetchAllData());
   }, [dispatch]);
+  return data;
+}
+
+export function useFetchFormDataReqSubById(id) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.reqSub.dataById);
+  useEffect(() => {
+    dispatch(fetchFormDataReqSubById(id));
+  }, [dispatch, id]);
   return data;
 }

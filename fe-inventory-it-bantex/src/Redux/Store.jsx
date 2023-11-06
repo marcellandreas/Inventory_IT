@@ -9,9 +9,12 @@ import itemsSlice from "./Feature/ItemsSlice";
 import stockReducer from "./Feature/StockSlice";
 import stockDetailSlice from "./Feature/detailStockslice";
 import pcmasterReducer from "./Feature/DataPcMaster";
+import requestSubmissionSlice from "./Feature/requestSubmissionSlice";
 
 export const store = configureStore({
   reducer: {
+    reqSub: requestSubmissionSlice,
+
     dataInventory: dataState,
     dataPc: dataPc,
     pcmaster: pcmasterReducer,
