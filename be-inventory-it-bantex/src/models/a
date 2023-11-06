@@ -29,3 +29,11 @@ class Stock {
 
   // Rest of your methods
 }
+
+
+getLoggedInUsers(callback) {
+  const query = "SELECT username, login_time FROM login_history WHERE logout_time IS NULL";
+  this.connection.query(query, (error, results) => {
+    callback(error, results);
+  });
+}

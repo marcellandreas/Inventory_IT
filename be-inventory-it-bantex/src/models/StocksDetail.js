@@ -57,6 +57,14 @@ class StocksModel {
     });
   }
 
+  //  metode mengambil data detail stock di atas qty 1
+  getDetailStockQtyAboveOne(callback) {
+    const query = `SELECT * FROM detail_stock WHERE qty >= 1;`;
+    this.connection.query(query, (error, results) => {
+      callback(error, results);
+    });
+  }
+
   getDetailStockByStockNo(stockNo, callback) {
     const query = "SELECT * FROM detail_stock WHERE stock_no = ?";
     this.connection.query(query, [stockNo], (error, results) => {

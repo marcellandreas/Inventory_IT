@@ -18,6 +18,15 @@ exports.getAllStocks = (req, res) => {
     }
   });
 };
+exports.getDetailStockQtyAboveOne = (req, res) => {
+  stocks.getDetailStockQtyAboveOne((error, stocks) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(200).json({ data: stocks });
+    }
+  });
+};
 
 exports.createStock = (req, res) => {
   const {

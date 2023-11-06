@@ -23,6 +23,19 @@ exports.getAllDetailStock = (req, res) => {
   });
 };
 
+exports.getDetailStockQtyAboveOne = (req, res) => {
+  detailStockModel.getDetailStockQtyAboveOne((error, results) => {
+    if (error) {
+      res.status(500).json({ message: "Server Error", serverMessage: error });
+    } else {
+      res.status(200).json({
+        message: "Berhasil Mengambil Data Detail Stock dengan QTY diatas 1",
+        data: results,
+      });
+    }
+  });
+};
+
 // Mendapatkan detail stok berdasarkan ID
 exports.getDetailStockById = (req, res) => {
   const detailStockId = req.params.id;

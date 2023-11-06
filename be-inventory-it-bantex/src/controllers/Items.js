@@ -1,145 +1,87 @@
-const itemsModal = require("../models/Items");
+const ItemsModel = require("../models/Items");
 
-// function get all data in table items
-const getAllItems = async (req, res) => {
-  try {
-    const [data] = await itemsModal.getAllItems();
-    res.json({
-      message: "Berhasil Mengambil Data Barang",
-      data: data,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+const dbConfig = {
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "inventory_it",
 };
 
-const getUnusedItemNo = async (req, res) => {
-  try {
-    const [data] = await itemsModal.getUnusedItemNo();
+const items = new ItemsModel(dbConfig);
 
-    res.json({
-      message: "Berhasil Mengambil items yang belum terhubung",
-      data: data,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
-};
-
-// function get data by id in table items
-const getItemById = async (req, res) => {
-  const { id } = req.params;
-  let isFound = false;
-  try {
-    const [data] = await itemsModal.getItemById(id);
-    isFound = true;
-    res.json({
-      message: `Berhasil Mengambil Data Barang id ${id} `,
-      data: data,
-    });
-  } catch (error) {
-    if (!isFound) {
-      res.status(404).json({
-        message: "Data tidak ada",
-      });
-      return;
+exports.getAllItems = (req, res) => {
+  items.getAllItems((error, data) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(200).json({ message: "Berhasil Mengambil Data Barang", data });
     }
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+  });
 };
 
-const createNewItem = async (req, res) => {
+exports.getUnusedItemNo = (req, res) => {
+  items.getUnusedItemNo((error, data) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(200).json({
+        message: "Berhasil Mengambil items yang belum terhubung",
+        data,
+      });
+    }
+  });
+};
+
+exports.getItemById = (req, res) => {
+  const { id } = req.params;
+  items.getItemById(id, (error, data) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else if (!data) {
+      res.status(404).json({ message: "Data tidak ada" });
+    } else {
+      res.status(200).json({ data });
+    }
+  });
+};
+
+exports.createNewItem = (req, res) => {
   const { body } = req;
-  try {
-    await itemsModal.createNewItem(body);
-    res.json({
-      message: "Berhasil Membuat Data Barang Baru",
-      data: body,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+  items.createNewItem(body, (error) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res
+        .status(201)
+        .json({ message: "Berhasil Membuat Data Barang Baru", data: body });
+    }
+  });
 };
 
-const updateItem = async (req, res) => {
+exports.updateItem = (req, res) => {
   const { id } = req.params;
   const { body } = req;
-  try {
-    await itemsModal.updateItem(body, id);
-    res.json({
-      message: "Data User berhasil diubah",
-      data: {
-        id_user: id,
-        ...body,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+  items.updateItem(body, id, (error) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(200).json({
+        message: "Data Barang berhasil diubah",
+        data: { id_user: id, ...body },
+      });
+    }
+  });
 };
 
-// const updateItem = async (req, res) => {
-//   const { id } = req.params;
-//   const { body } = req;
-
-//   try {
-//     const updatedItem = await itemsModal.updateItem(body, id);
-
-//     // Cek apakah barang telah diperbarui
-//     if (updatedItem) {
-//       res.json({
-//         message: "Data Barang berhasil diubah",
-//         data: updatedItem,
-//       });
-//     } else {
-//       res.status(404).json({
-//         message: "Data Barang tidak ditemukan",
-//       });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Server Error",
-//       serverMessage: error,
-//     });
-//   }
-// };
-
-const delateItem = async (req, res) => {
+exports.deleteItem = (req, res) => {
   const { id } = req.params;
-  try {
-    await itemsModal.deleteItem(id);
-    res.json({
-      message: "Data Barang berhasil dihapus",
-      data: null,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
-};
-
-module.exports = {
-  getAllItems,
-  getItemById,
-  getUnusedItemNo,
-  delateItem,
-  updateItem,
-  createNewItem,
+  items.deleteItem(id, (error) => {
+    if (error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res
+        .status(200)
+        .json({ message: "Data Barang berhasil dihapus", data: null });
+    }
+  });
 };
