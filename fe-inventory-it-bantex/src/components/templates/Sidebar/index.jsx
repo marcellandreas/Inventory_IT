@@ -70,7 +70,7 @@ const Sidebar = ({ children }) => {
                 </div>
                 <h2
                   className={`whitespace-pre duration-500 ${
-                    !openMob && "opacity-0 translate-x-28 overflow-hidden"
+                    !openMob && "opacity-0 translate-x-28 overflow-hidden "
                   }`}
                 >
                   Inventory IT
@@ -175,25 +175,25 @@ const Sidebar = ({ children }) => {
       ) : (
         <section className="flex bg-slate-100">
           <div
-            className={`bg-slate-800 min-h-screen ${
+            className={`bg-slate-800 min-h-screen font-bold ${
               open ? "w-[200px]" : "w-16"
-            } duration-500 text-slate-100 px-4`}
+            } duration-500 text-gray-200 px-4`}
           >
             <div
               style={{
                 transitionDelay: `${3}00ms`,
               }}
-              className="py-3 flex gap-2 bg-amber-400 mt-4 relative"
+              className="py-3 flex gap-2 mt-4 relative"
             >
               <div>
                 <MdWarehouse size={25} />
               </div>
               <h2
                 className={`whitespace-pre duration-500 ${
-                  !open && "opacity-0 translate-x-28 overflow-hidden"
+                  !open && "opacity-0 translate-x-28 overflow-hidden font-bold"
                 }`}
               >
-                Inventory IT
+                InventoryIT
               </h2>
               <div
                 className={`absolute ${
@@ -296,7 +296,7 @@ const Sidebar = ({ children }) => {
               ))}
             </div>
           </div>
-          <section className="flex flex-col w-full mt-5">
+          <section className="flex flex-col w-full mt-5 bg-slate-100">
             <Topbar />
             <div className="min-h-[85vh] overflow-hidden py-5 overflow-y-auto">
               {children}

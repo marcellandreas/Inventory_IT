@@ -12,7 +12,7 @@ const FormDetailStock = ({
     <>
       <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
         <CustomInput
-          label="Nama Stok"
+          label="Detail Persedian "
           placeholder="e.g:"
           name="stock_detail_description"
           type="text"

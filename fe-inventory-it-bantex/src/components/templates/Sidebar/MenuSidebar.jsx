@@ -4,6 +4,7 @@ import { HiDocument } from "react-icons/hi";
 import { ImBooks } from "react-icons/im";
 import { FaComputer } from "react-icons/fa6";
 import { CiGrid42 } from "react-icons/ci";
+import { IoMdLogOut } from "react-icons/io";
 
 export const menuSidebar = [
   {
@@ -45,7 +46,7 @@ export const LogoutMenu = [
   {
     path: "/",
     name_menu: "Logout",
-    icon: MdPeople,
+    icon: IoMdLogOut,
   },
 ];
 

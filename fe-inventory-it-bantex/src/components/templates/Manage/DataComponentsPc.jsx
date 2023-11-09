@@ -11,6 +11,7 @@ import {
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 import { TitleTable } from "../../atoms";
+import { TableBody, TableHeader } from "../../organisms";
 
 const DataComponentsPc = ({
   dataPcComponent,
@@ -38,8 +39,8 @@ const DataComponentsPc = ({
         </section>
       ) : (
         <section className="w-[82vw] overflow-hidden min-h-[100px] bg-slate-300 backdrop-blur-md rounded-3xl">
-          <section className="table__header rounded-3xl">
-            <TitleTable>komponen {formValues.pc_description}</TitleTable>
+          <TableHeader>
+            <TitleTable>Komponen {formValues.pc_description}</TitleTable>
             <div className="flex gap-2">
               <NavLink to={`unused`} className="button">
                 <BiDetail />
@@ -51,10 +52,10 @@ const DataComponentsPc = ({
                 <MdDelete />
               </button>
             </div>
-          </section>
-          <section className="table__body">
+          </TableHeader>
+          <TableBody>
             <TablePcLine data={dataPcComponent} />
-          </section>
+          </TableBody>
         </section>
       )}
       <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>

@@ -50,9 +50,9 @@ const StockPage = () => {
             <Loading />
           ) : (
             <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
-              <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
+              <div className=" bg-gray-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                 <TableHeader>
-                  <TitleTable>Data Stok</TitleTable>
+                  <TitleTable>Data Persedian</TitleTable>
                   <SearchInput
                     search={search}
                     handleSearchChange={handleSearchChange}

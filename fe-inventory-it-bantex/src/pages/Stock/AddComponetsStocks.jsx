@@ -122,18 +122,20 @@ const AddComponentsStocks = () => {
           </div>
           <hr className="border border-slate-800  w-full mb-5" />
           <section className="flex flex-col gap-5 justify-between">
-            <FormStock
-              handleChangeValue={handleChangeValue}
-              categories={categories}
-              Unit={unitOptions}
-              type={typeOptions}
-            />
+            <div className="flex flex-col gap-2">
+              <HeaderBarangPengajuan label="Persediaan:" />
+              <FormStock
+                handleChangeValue={handleChangeValue}
+                categories={categories}
+                Unit={unitOptions}
+                type={typeOptions}
+              />
+            </div>
             <div className="flex flex-col gap-2">
               <HeaderBarangPengajuan
                 handleaddclick={handleaddclick}
-                label="Tambah Stock:"
+                label="Detail Persediaan:"
               />
-              <hr />
               {inputList.map((x, i) => {
                 return (
                   <FormDetailStock
@@ -151,9 +153,9 @@ const AddComponentsStocks = () => {
           </section>
           <button
             onClick={handleSubmit}
-            className="button absolute right-5 bottom-2"
+            className="button absolute right-12 bottom-2"
           >
-            <MdAddCircleOutline /> <span>Tambah Pengajuan</span>
+            <MdAddCircleOutline /> <span>Tambah Persediaan</span>
           </button>
         </section>
       </LayoutContentDashboard>

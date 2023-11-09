@@ -4,18 +4,18 @@ const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
   return (
     <div className="grid grid-flow-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-slate-300 px-3 py-4 rounded-xl">
       <CustomInput
-        label="Nama Barang"
+        label="Deskripsi Persedian"
         type="text"
         name="stock_description"
-        placeholder="Masukan Nama Barang"
+        placeholder="Masukan Deskripsi Barang"
         className=" col-span-1"
         onChange={handleChangeValue}
       />
       <CustomSelect
-        label="Kategory"
+        label="Kategori"
         options={[
           <option key="default" value="" disabled selected>
-            Pilih Kategory
+            Pilih Kategori Persedian
           </option>,
           ...categories.map((unit, index) => (
             <option key={index} value={unit}>
@@ -38,10 +38,10 @@ const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
       </div>
       <div className=" row-span-2"></div>
       <CustomSelect
-        label="Unit"
+        label="Satuan"
         options={[
           <option key="default" value="" disabled selected>
-            Pilih Unit Satuan
+            Pilih Satuan Persedian
           </option>,
           ...Unit.map((unit, index) => (
             <option key={index} value={unit}>
@@ -55,10 +55,10 @@ const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
       />
 
       <CustomSelect
-        label="tipe Barang"
+        label="Tipe"
         options={[
           <option key="default" value="" disabled selected>
-            Pilih Tipe Barang
+            Pilih Tipe Persedian
           </option>,
           ...type.map((type, index) => (
             <option key={index} value={type}>

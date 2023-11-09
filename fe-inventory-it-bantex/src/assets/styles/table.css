@@ -11,7 +11,6 @@
 .table__header {
   width: 100%;
   height: auto;
-  background-color: #fff4;
   padding: 0.8rem 1rem;
   display: flex;
   justify-content: space-between;
@@ -22,7 +21,7 @@
 .table__header .input-group {
   width: 35%;
   height: 100%;
-  background-color: #fff5;
+  background-color: #fff;
   padding: 0 0.8rem;
   border-radius: 2rem;
   display: flex;
@@ -60,7 +59,7 @@
 }
 
 .table__body {
-  width: 95%;
+  width: 98%;
   max-height: calc(89% - 1.6rem);
   background-color: #fffb;
 

@@ -313,7 +313,6 @@ const MakeAGoodsRequest = React.memo(() => {
                       label="Barang pengajuan:"
                     />
                   )}
-                  <hr />
                   {inputList.map((x, i) => {
                     return formValues.request_type === "REQUEST" ? (
                       <FormRequest

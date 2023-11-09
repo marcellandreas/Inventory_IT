@@ -60,7 +60,7 @@ const AccesPage = () => {
                 <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                   <TableHeader>
                     <div className="order-1">
-                      <TitleTable>Data Users</TitleTable>
+                      <TitleTable>Data Pengguna</TitleTable>
                     </div>
                     <SearchInput
                       search={search}

@@ -35,17 +35,14 @@ const GetAllPcMaster = () => {
   return (
     <Sidebar>
       <LayoutContentDashboard>
-        <section className="container mx-auto mt-5 flex flex-col gap-5  w-full">
+        <section className="container mx-auto  flex flex-col gap-5   w-full">
           {/* Header Kontent */}
-          <section>
-            <button onClick={backToMenu}>
-              <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-            </button>
-          </section>
-
+          <button onClick={backToMenu}>
+            <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
+          </button>
           <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
             <TableHeader>
-              <TitleTable>Data PC/Laptop </TitleTable>
+              <TitleTable>Data PC / Laptop </TitleTable>
               <SearchInput
                 search={search}
                 handleSearchChange={handleSearchChange}

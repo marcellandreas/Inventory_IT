@@ -122,10 +122,10 @@ const DataPc = () => {
         <Loading />
       ) : (
         <section className="w-full flex-col flex gap-9  ">
-          <section className="bg-slate-300 rounded-3xl shadow-md  mt-4 ">
+          <section className="bg-gray-200 rounded-3xl shadow-md">
             {/* Menu */}
             <TableHeader>
-              <TitleTable>Data PC Master</TitleTable>
+              <TitleTable>Data Master Komputer</TitleTable>
               <div className="flex gap-2">
                 <button className="button" onClick={() => showModal("add")}>
                   <BsDatabaseFillAdd />
@@ -141,10 +141,10 @@ const DataPc = () => {
             {/* Data */}
             <section className="gap-2 max-h-[216px] p-4 justify-between   flex  flex-wrap  overflow-hidden overflow-y-auto">
               <div className="gap-2 flex flex-col w-60">
-                <label className="min-w-[140px]">Pc Number</label>
+                <label className="min-w-[140px]">Kode Pc</label>
                 <div className="flex justify-end items-end gap-2">
                   <select
-                    className="w-full bg-gray-200 rounded-md shadow-sm h-8"
+                    className="w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm h-8"
                     onChange={handleChange}
                     name="pc_no"
                   >
@@ -160,41 +160,43 @@ const DataPc = () => {
                 </div>
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label> PC Description</label>
+                <label>Deskripsi</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
                   defaultValue={formValues.pc_description}
                   readOnly
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Unit</label>
+                <label>Satuan</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
                   defaultValue={formValues.unit}
+                  readOnly
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Category</label>
+                <label>Kategori</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
+                  readOnly
                   value={formValues.category}
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Pc Location</label>
+                <label>Lokasi Pc</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
                   readOnly
                   defaultValue={formValues.pc_location}
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Status Barang</label>
+                <label>Status </label>
                 <div
                   className="flex flex-wrap gap-2 items-center rounded-md h-9"
                   readOnly
@@ -223,34 +225,35 @@ const DataPc = () => {
                 </div>
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Date Registration</label>
+                <label>Tanggal Registrasi</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
                   readOnly
                   defaultValue={formValues.date_registration || "-"}
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Date Expired</label>
+                <label>Tanggal Kadaluarsa (Rusak)</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
                   defaultValue={formValues.date_expired || "-"}
                   readOnly
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label>Note</label>
+                <label>Catatan (jika ada)</label>
                 <textarea
-                  className="bg-slate-200 h-[120px]"
+                  className="bg-gray-100 border border-gray-300 h-[120px]"
+                  readOnly
                   defaultValue={formValues.note}
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">
-                <label> PC Spectification</label>
+                <label>Spesifikasi </label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
                   type="text"
                   readOnly
                   defaultValue={formValues.pc_spectification}
@@ -259,7 +262,8 @@ const DataPc = () => {
               <div className="gap-2 flex flex-col w-60">
                 <label>Created at: </label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
+                  readOnly
                   type="text"
                   defaultValue={formValues.post_date.slice(0, 10)}
                 />
@@ -267,7 +271,8 @@ const DataPc = () => {
               <div className="gap-2 flex flex-col w-60">
                 <label>Username Upload</label>
                 <input
-                  className=" bg-slate-200"
+                  className=" bg-gray-100 border border-gray-300"
+                  readOnly
                   type="text"
                   defaultValue={formValues.post_username}
                 />

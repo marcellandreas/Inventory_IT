@@ -25,6 +25,7 @@ export { default as TableItems } from "./Table/TableItems";
 export { default as TablePcMasters } from "./Table/TablePcMaster";
 export { default as TablePcLine } from "./Table/TablePcLine";
 export { default as TableUsers } from "./Table/TableUsers";
+export { default as TableLatestApplications } from "./Table/TableLatestApplications";
 
 // Pengajuan
 

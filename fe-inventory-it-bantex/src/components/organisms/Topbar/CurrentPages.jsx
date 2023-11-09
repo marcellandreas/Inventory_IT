@@ -4,7 +4,9 @@ export default function getCurrentPage(pathname, id_item_req) {
   console.log(id_item_req);
   switch (pathname) {
     case "/stock":
-      return "Stock";
+      return "Halaman Persedian";
+    case "/stock/buat":
+      return "Persedian > Buat";
     case "/items":
       return "Halaman Barang";
     case "/pc-master":
@@ -13,9 +15,9 @@ export default function getCurrentPage(pathname, id_item_req) {
       return "Halaman PC > Data PC";
     // pengajuan
     case "/form-pengajuan":
-      return "Pengajuan Barang";
+      return "Halaman Pengajuan ";
     case "/form-pengajuan/buat":
-      return "Tambah Permintaan / Pengajuan ";
+      return "Pengajuan / Permintaan > Buat ";
     case `/form-pengajuan/detail/${id_item_req}`:
       return "Detail Pengajuan Barang";
     case "/employess":
