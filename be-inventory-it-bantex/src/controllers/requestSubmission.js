@@ -22,16 +22,30 @@ exports.getAllData = (req, res) => {
     }
   });
 };
+exports.getDataPostDateNew = (req, res) => {
+  requestSubmission.getDataPostDateNew((error, results) => {
+    if (error) {
+      res.status(500).json({ message: "Server Error", serverMessage: error });
+    } else {
+      res.status(200).json({
+        message: "Berhasil Mengambil Data Terbaru ",
+        data: results,
+      });
+    }
+  });
+};
 
 exports.getReqSubById = (req, res) => {
   const { id } = req.params;
-  requestSubmission.getReqSubById(id, (error, stock) => {
+  requestSubmission.getReqSubById(id, (error, data) => {
     if (error) {
       res.status(500).json({ error: error.message });
-    } else if (!stock) {
-      res.status(404).json({ message: "Stock not found" });
+    } else if (!data) {
+      res.status(404).json({
+        message: `Pengajuan atau Penerimaan tidak ditemukan dengan id: ${id}`,
+      });
     } else {
-      res.status(200).json({ stock });
+      res.status(200).json({ data });
     }
   });
 };

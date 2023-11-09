@@ -1,19 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const detailStockController = require("../controllers/Stocksdetail");
+const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
+router.use(verifyAccessToken);
 router.get("/", detailStockController.getAllDetailStock);
 router.get("/id/:id", detailStockController.getDetailStockById);
 router.get("/no/:stockNo", detailStockController.getDetailStockByStockNo);
 router.get("/qty/", detailStockController.getDetailStockQtyAboveOne);
+// create
 router.post("/", detailStockController.createDetailStock);
-// Rute untuk mengupdate data detail stock berdasarkan id_detail_stock
+// edit by id
 router.put("/id/:id", detailStockController.updateDetailStockById);
+// hapus
 router.delete("/:id", detailStockController.deleteDetailStock);
-
-// Rute untuk pembaruan multi data detail stok
-// Rute untuk mengupdate lebih dari satu data
+// pengurangan stock
 router.put("/update-multiple", detailStockController.updateMultipleDetailStock);
+// penambahan stock
 router.put("/update-plus", detailStockController.updatePlusDetailStock);
 
 module.exports = router;

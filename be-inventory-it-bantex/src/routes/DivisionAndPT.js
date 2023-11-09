@@ -3,7 +3,9 @@ const express = require("express");
 const router = express.Router();
 const divisionAndPTController = require("../controllers/DivisionAndPT");
 // const { verifyAccessToken } = require("../middleware/Verify-jwt");
+const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
+router.use(verifyAccessToken);
 router.get("/", divisionAndPTController.getAllDataPT);
 router.get("/division/:name_pt", divisionAndPTController.getDivisionByNamePt);
 // router.post("/", itemsController.createNewItem);

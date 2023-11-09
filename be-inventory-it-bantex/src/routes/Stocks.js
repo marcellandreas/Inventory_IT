@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const stocksController = require("../controllers/Stocks");
+const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
+router.use(verifyAccessToken);
 // Rute untuk mengambil semua data stocks
 router.get("/", stocksController.getAllStocks);
 

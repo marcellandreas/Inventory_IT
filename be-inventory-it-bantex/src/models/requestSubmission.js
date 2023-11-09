@@ -13,6 +13,15 @@ class requestSubmission {
       callback(error, results);
     });
   }
+  getDataPostDateNew(callback) {
+    const query = `SELECT * FROM request_submission
+    ORDER BY post_date DESC
+    LIMIT 7;
+    `;
+    this.connection.query(query, (error, results) => {
+      callback(error, results);
+    });
+  }
 
   getReqSubById(id, callback) {
     this.connection.query(

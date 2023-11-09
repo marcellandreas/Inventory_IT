@@ -227,6 +227,20 @@ exports.getAllLogins = (req, res) => {
   });
 };
 
+exports.getDataLoginsLatest = (req, res) => {
+  user.getDataLoginsLatest((error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({ message: "No login history found" });
+    }
+
+    res.status(200).json(results);
+  });
+};
+
 // Mendapatkan data pengguna berdasarkan role
 exports.getUserByRole = (req, res) => {
   const { role } = req.params;

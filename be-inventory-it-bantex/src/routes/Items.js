@@ -2,8 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 const itemsController = require("../controllers/Items");
-const { verifyAccessToken } = require("../middleware/Verify-jwt");
+const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
+router.use(verifyAccessToken);
 router.get("/", itemsController.getAllItems);
 router.get("/id/:id", itemsController.getItemById);
 router.get("/unused", itemsController.getUnusedItemNo);

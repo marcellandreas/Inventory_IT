@@ -131,6 +131,14 @@ class User {
     });
   }
 
+  getDataLoginsLatest(callback) {
+    const query =
+      "SELECT username, MAX(login_time) AS last_login_time FROM login_history GROUP BY username ORDER BY last_login_time DESC LIMIT 7;";
+    this.connection.query(query, (error, results) => {
+      callback(error, results);
+    });
+  }
+
   // Metode untuk mengambil pengguna berdasarkan ID
   getUserByID(id_user, callback) {
     const query =

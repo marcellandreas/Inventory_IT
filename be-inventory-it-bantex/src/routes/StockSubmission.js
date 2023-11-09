@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const stockSubmissionController = require("../controllers/StockSubmission");
+const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
+router.use(verifyAccessToken);
 // Rute untuk membuat entri baru submission items
 router.post("/", stockSubmissionController.createStockSubmission);
 
