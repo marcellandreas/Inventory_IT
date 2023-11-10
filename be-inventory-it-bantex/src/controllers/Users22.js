@@ -93,28 +93,58 @@ exports.deleteUser = (req, res) => {
 };
 
 // Metode untuk mengedit data pengguna
-exports.editUser = (req, res) => {
+// exports.editUser = (req, res) => {
+//   const { id_user } = req.params;
+//   const { username, full_name, email, role } = req.body;
+
+//   if (err) {
+//     return res.status(500).json({ error: err.message });
+//   }
+
+//   user.editUser(
+//     id_user,
+//     { username, full_name, email, role },
+//     (error, results) => {
+//       if (error) {
+//         return res.status(500).json({ error: error.message });
+//       }
+
+//       res.status(200).json({ message: "User updated successfully" });
+//     }
+//   );
+// };
+
+exports.editUser = async (req, res) => {
   const { id_user } = req.params;
-  const { username, password, role } = req.body;
+  const { username, full_name, email, role } = req.body;
 
-  // Hash the new password before storing it
-  bcrypt.hash(password, 10, (err, hash) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-
-    user.editUser(
+  try {
+    await user.editUser(
       id_user,
-      { username, password: hash, role },
-      (error, results) => {
+      username,
+      full_name,
+      email,
+      role,
+      (error, result) => {
         if (error) {
           return res.status(500).json({ error: error.message });
+        } else {
+          res.status(200).json({
+            message: "User updated successfully",
+            data: {
+              id_user,
+              username,
+              full_name,
+              email,
+              role,
+            },
+          });
         }
-
-        res.status(200).json({ message: "User updated successfully" });
       }
     );
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
 exports.getAllUsers = (req, res) => {
@@ -229,6 +259,20 @@ exports.getAllLogins = (req, res) => {
 
 exports.getDataLoginsLatest = (req, res) => {
   user.getDataLoginsLatest((error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({ message: "No login history found" });
+    }
+
+    res.status(200).json(results);
+  });
+};
+
+exports.getAllDataHistoryLogin = (req, res) => {
+  user.getAllDataHistoryLogin((error, results) => {
     if (error) {
       return res.status(500).json({ error: error.message });
     }

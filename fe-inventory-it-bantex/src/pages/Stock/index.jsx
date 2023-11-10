@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useReactToPrint } from "react-to-print";
-import { SearchInput, TitleTable } from "../../components/atoms";
+import { SearchInput } from "../../components/atoms";
 import {
   FormDeleteModalStock,
   TableStocks,
@@ -8,7 +7,6 @@ import {
 } from "../../components/molecules";
 import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import { AiFillFileAdd } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategories,
@@ -54,46 +52,31 @@ const StockPage = () => {
             <Loading />
           ) : (
             <section className="grid grid-cols-6 h-[75vh] w-full  gap-4 grid-flow-dense ">
-              <div className="flex  gap-4 col-span-6 z-50 justify-end ">
-                {showDropdown && (
-                  <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
-                )}
-                <button
-                  className="button"
-                  onClick={() => setShowDropdown(!showDropdown)}
-                >
-                  Mencetak Stock
-                </button>
-                {/* <div
-                  ref={(ref) => setComponentRef(ref)}
-                  style={{ width: "100%" }}
-                >
-                  <div className=" hidden print:block">
-                    <TableStocks data={dataStock} />
-                  </div>
-                </div> */}
-
-                {/* <button onClick={handlePrint} className="button">
-                  Print
-                </button>
-                <button className="button w-40">
-                  <CSVLink data={dataStock}>CSV</CSVLink>
-                </button> */}
-              </div>
               <div className=" bg-gray-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                 <TableHeader>
-                  <TitleTable>Data Persedian</TitleTable>
+                  {/* <TitleTable>Data Persedian</TitleTable> */}
                   <SearchInput
                     search={search}
                     handleSearchChange={handleSearchChange}
                   />
-                  <NavLink
+                  {/* <NavLink
                     to={`buat`}
                     className="button flex gap-2 items-center order-2 sm:order-3"
                   >
                     <AiFillFileAdd />{" "}
                     <span className="hidden md:block">Tambah Stok</span>
-                  </NavLink>
+                  </NavLink> */}
+                  <div className="flex  gap-4 col-span-6 z-50 justify-end order-2 sm:order-3">
+                    {showDropdown && (
+                      <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
+                    )}
+                    <button
+                      className="button"
+                      onClick={() => setShowDropdown(!showDropdown)}
+                    >
+                      Mencetak Stock
+                    </button>
+                  </div>
                 </TableHeader>
                 <TableBody>
                   {generateDynamicContent(

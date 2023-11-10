@@ -4,12 +4,7 @@ import { TableContent, Tbody, Thead } from "../../atoms";
 const TableLatestApplications = ({ data }) => {
   const role = localStorage.getItem("role");
 
-  const tableHeaders =
-    role == 1
-      ? columnTableLatestReqSub
-      : columnTableLatestReqSub.filter(
-          (columnName) => !["action"].includes(columnName)
-        );
+  const tableHeaders = columnTableLatestReqSub;
 
   return (
     <div className=" h-[40vh]">
@@ -32,7 +27,9 @@ const TableLatestApplications = ({ data }) => {
               <td className="border px-4 py-2">{data.no_pengajuan}</td>
               <td className="border px-4 py-2">{data.name_pt}</td>
               <td className="border px-4 py-2">{data.name_division}</td>
-              <td className="border px-4 py-2">{data.status}</td>
+              <td className={`border p-1`}>
+                <p className={`status ${data.status}`}>{data.status}</p>
+              </td>
             </tr>
           ))}
         </Tbody>

@@ -67,15 +67,31 @@ class User {
   }
 
   // Metode untuk mengedit data pengguna berdasarkan id_user
-  editUser(id_user, userData, callback) {
-    const { username, password, role } = userData;
-    const query =
-      "UPDATE user SET username = ?, password = ?, role = ? WHERE id_user = ?";
+  // editUser(id_user, userData, callback) {
+  //   const { username, role, full_name, email } = userData;
+  //   const query =
+  //     "UPDATE user SET username = ?, full_name = ?, email = ?, role = ? WHERE id_user = ?";
+  //   this.connection.query(
+  //     query,
+  //     [username, full_name, email, role, id_user],
+  //     (error, results) => {
+  //       callback(error, results);
+  //     }
+  //   );
+  // }
+
+  editUser(id_user, username, full_name, email, role, callback) {
+    const query = `UPDATE user SET username = ?, full_name = ?, email = ?, role = ? WHERE id_user = ?`;
+
     this.connection.query(
       query,
-      [username, password, role, id_user],
-      (error, results) => {
-        callback(error, results);
+      [username, full_name, email, role, id_user],
+      (error, result) => {
+        if (error) {
+          return callback(error, null);
+        }
+
+        callback(null, result);
       }
     );
   }
@@ -134,6 +150,13 @@ class User {
   getDataLoginsLatest(callback) {
     const query =
       "SELECT username, MAX(login_time) AS last_login_time FROM login_history GROUP BY username ORDER BY last_login_time DESC LIMIT 7;";
+    this.connection.query(query, (error, results) => {
+      callback(error, results);
+    });
+  }
+
+  getAllDataHistoryLogin(callback) {
+    const query = "SELECT * FROM `login_history` ORDER BY login_time DESC;";
     this.connection.query(query, (error, results) => {
       callback(error, results);
     });

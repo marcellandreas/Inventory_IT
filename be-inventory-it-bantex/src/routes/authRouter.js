@@ -7,7 +7,7 @@ const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.post("/recordlogin", verifyAccessToken, authController.recordLogin);
+router.post("/recordlogin", authController.recordLogin);
 router.get(
   "/lastlogin/:username",
   verifyAccessToken,
@@ -15,6 +15,11 @@ router.get(
 );
 router.get("/alllogins", verifyAccessToken, authController.getAllLogins);
 router.get("/latest", verifyAccessToken, authController.getDataLoginsLatest);
+router.get(
+  "/history",
+  verifyAccessToken,
+  authController.getAllDataHistoryLogin
+);
 // router.delete("/user/:username", userController.deleteUser);
 router.get("/allusers", verifyAccessToken, authController.getAllUsers);
 router.put("/user/:id_user", verifyAccessToken, authController.editUser);

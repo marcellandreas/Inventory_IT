@@ -4,7 +4,7 @@ import { TableContent, Tbody, Thead } from "../../atoms";
 import { PiWarningOctagonLight } from "react-icons/pi";
 import { MdDelete, MdEditNote } from "react-icons/md";
 
-const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
+const TableNewApplications = ({ data, setDeleteModal, setId }) => {
   const role = localStorage.getItem("role");
 
   const tableHeaders =
@@ -43,6 +43,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
                   </span>
                 </NavLink>
               </td>
+
               <td className="border px-4 py-2">{data.no_pengajuan}</td>
               <td className="border px-4 py-2">{data.name_pt}</td>
               <td className="border px-4 py-2">{data.name_division}</td>
@@ -89,4 +90,4 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
   );
 };
 
-export default TableApplicationsForm;
+export default TableNewApplications;

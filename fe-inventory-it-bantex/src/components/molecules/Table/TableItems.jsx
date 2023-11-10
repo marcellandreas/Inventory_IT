@@ -33,7 +33,9 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
             <td className="border px-4 py-2">{barang.category}</td>
             <td className="border px-4 py-2">{barang.brand}</td>
             <td className={`border p-1   `}>
-              <p className={`status ${barang.status}`}>{barang.status}</p>
+              <p className={` text-center p-2 rounded-lg ${barang.status}`}>
+                {barang.status}
+              </p>
             </td>
             <td className="border px-4 py-2">{barang.kondisi}</td>
             <td className="border px-4 py-2">{barang.item_location}</td>

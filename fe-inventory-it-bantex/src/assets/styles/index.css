@@ -13,10 +13,10 @@ th {
 }
 
 td {
-  white-space: nowrap; /* Menghindari pemutusan kata di dalam sel */
-  overflow: hidden; /* Menghindari tampilan horizontal scroll */
-  text-overflow: ellipsis; /* Menggantikan teks yang terpotong dengan elipsis (titik-titik) */
-  word-wrap: break-word; /* Memungkinkan pemutusan kata saat teks terlalu panjang */
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+  /* word-wrap: break-word; */
 }
 @media print {
   @page {
@@ -103,3 +103,5 @@ input[type="radio"] {
   border-left: 1px solid grey;
   border-top: 1px solid grey;
 }
+
+/* scroll website */

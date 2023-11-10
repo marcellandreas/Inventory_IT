@@ -1,36 +1,26 @@
-import { useParams } from "react-router-dom";
+import { AiFillFileAdd } from "react-icons/ai";
+import { Link, NavLink, useParams } from "react-router-dom";
 
 export default function getCurrentPage(pathname, id_item_req) {
   console.log(id_item_req);
   switch (pathname) {
     case "/stock":
-      return "Halaman Persedian";
-    case "/stock/buat":
-      return "Persedian > Buat";
-    case "/items":
-      return "Halaman Barang";
-    case "/pc-master":
-      return "Halaman PC";
-    case "/pc-master/detail":
-      return "Halaman PC > Data PC";
-    // pengajuan
-    case "/form-pengajuan":
-      return "Halaman Pengajuan ";
-    case "/form-pengajuan/buat":
-      return "Pengajuan / Permintaan > Buat ";
-    case `/form-pengajuan/detail/${id_item_req}`:
-      return "Detail Pengajuan Barang";
-    case "/employess":
-      return "Kelola Hak Akses";
-    case "/pc-line":
-      return "Halaman Komponents PC";
-    case "/reports":
-      return "Reports";
-    case "/stock/in":
-      return "Stock In";
-    case "/stock/out":
-      return "Stock Out";
+      return {
+        title: "Stok",
+        button: (
+          <NavLink
+            to={`buat`}
+            className="button flex gap-2 items-center order-2 sm:order-3"
+          >
+            <AiFillFileAdd />{" "}
+            <span className="hidden md:block">Tambah Stok</span>
+          </NavLink>
+        ),
+      };
+
     default:
-      return "Dashboard";
+      return {
+        title: "Dashboard",
+      };
   }
 }

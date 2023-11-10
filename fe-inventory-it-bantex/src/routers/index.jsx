@@ -25,6 +25,7 @@ import {
   RegisterPage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
+import NewApplications from "../pages/Applications/NewApplications";
 const Routers = () => {
   return (
     <BrowserRouter>
@@ -67,6 +68,7 @@ const Routers = () => {
           <Route path="/form-pengajuan">
             <Route index element={<ApplicationsPage />} />
             <Route path="buat" element={<MakeAGoodReqPage />} />
+            <Route path="new" element={<NewApplications />} />
             <Route path="set-up" element={<SetUpReqPage />} />
             <Route
               path="detail/:id_item_req"

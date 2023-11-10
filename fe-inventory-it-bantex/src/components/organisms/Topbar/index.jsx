@@ -15,19 +15,10 @@ const Topbar = ({ isOpen, toggle }) => {
 
   return (
     <section className="h-[10vh] w-full relative   px-5  ">
-      <div className="h-[10vh]  rounded-xl bg-slate-300 w-full border-b-2 flex flex-col md:flex-row justify-center md:justify-between border-l-4 border-slate-700 p-2  lg:p-5 text-slate-700 font-bold items-center">
-        {/* <button
-          className={`flex items-center justify-center bg-white absolute cursor-pointer rounded-full  top-3 w-10 h-10 border border-separate border-slate-500 ${
-            isOpen ? "rotate-180 left-1" : "rotate-0 left-1"
-          }`}
-          onClick={toggle}
-        >
-          <span className="text-3xl    text-slate-900">
-            <GiHamburgerMenu />
-          </span>
-        </button> */}
-        <p className="text-lg uppercase">{currentPage}</p>
-        <p className="text-lg">Hi {username}, Welcome to InventoryIT</p>
+      <div className="h-[10vh]  rounded-xl bg-slate-300 w-full border-b-2 flex flex-col md:flex-row justify-center md:justify-between border-l-4 border-slate-700 p-2  lg:p-5 text-slate-700  items-center">
+        <p className="text-lg capitalize font-bold">{currentPage.title}</p>
+        <p className="text-md">Hi {username}, Welcome to InventoryIT</p>
+        {currentPage.button && <div className="ml-4">{currentPage.button}</div>}
       </div>
     </section>
   );

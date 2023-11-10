@@ -48,10 +48,6 @@ app.use("/sub-form", StockSubmission);
 const categoriesRouter = require("./routes/categories");
 app.use("/categories", categoriesRouter);
 
-// Feature Sing Up Users Auth
-const AuthUsers = require("./routes/Auth");
-app.use("/api", AuthUsers);
-
 // data users router
 const DataUsers = require("./routes/Users");
 app.use("/users", DataUsers);
