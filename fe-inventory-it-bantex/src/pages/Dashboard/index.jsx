@@ -1,24 +1,17 @@
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import {
-  TableLatestApplications,
-  TableStocks,
-  Widget,
-} from "../../components/molecules";
-import { useSelector } from "react-redux";
+import { TableLatestApplications, Widget } from "../../components/molecules";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
 import { MdPeopleAlt } from "react-icons/md";
-import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 import { ImBooks } from "react-icons/im";
-import { Pie } from "react-chartjs-2";
-
+import { Pie, Chart } from "react-chartjs-2";
 import {
   useFetchItems,
   useFetchRequestSubmission,
   useFetchStocks,
   useFetchUsers,
 } from "../../config/GetData";
-import { MdDashboard, MdWarehouse, MdPeople } from "react-icons/md";
+import { MdWarehouse } from "react-icons/md";
 import { CiGrid42 } from "react-icons/ci";
 import { TableBody, TableHeader } from "../../components/organisms";
 import { TitleTable } from "../../components/atoms";
@@ -43,12 +36,14 @@ const Dashboard = () => {
       console.log(res.data);
     });
   }, []);
-  const dataAs = {
-    labels: ["Label 1", "Label 2", "Label 3"],
+  const data = {
+    labels: ["Red", "Green", "Blue"],
     datasets: [
       {
-        data: [30, 40, 30], // Data untuk masing-masing bagian diagram lingkaran
-        backgroundColor: ["red", "blue", "green"], // Warna untuk masing-masing bagian
+        label: "My Pie Chart",
+        data: [30, 50, 20],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
       },
     ],
   };
@@ -95,7 +90,7 @@ const Dashboard = () => {
           </div>
 
           <div className=" bg-gray-200 rounded-xl min-h-[50px] col-span-4 md:col-span-1 row-span-4  ">
-            <Pie data={dataAs} />
+            {/* <Chart type="pie" data={data} /> */}
           </div>
           <div className=" bg-gray-200 p-4 rounded-xl flex flex-col gap-1 h-auto md:min-h-[50px] md:row-span-4 col-span-4 md:col-span-1">
             <div className="text-center text-gray-900 mb-5 font-semibold ">

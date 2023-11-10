@@ -3,12 +3,14 @@ import { AxiosInstance } from "../../apis/api";
 import { useNavigate } from "react-router-dom";
 import { MdPrint } from "react-icons/md";
 import QRCode from "qrcode.react";
+import { useReactToPrint } from "react-to-print";
 
 function PrintPage() {
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [dataDetailPengajuan, setDataDetailPengajuan] = useState([]);
+  const [componentRef, setComponentRef] = useState(null);
 
   useEffect(() => {
     // Inisialisasi dataDetailPengajuan sebagai array kosong
@@ -80,9 +82,13 @@ function PrintPage() {
       alert("Tanggal akhir tidak boleh sebelum tanggal awal.");
       return;
     }
-
-    window.print();
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef,
+    documentTitle: "data-stock",
+    // onAfterPrint: () => alert("Berhasil print dokument"),
+  });
 
   return (
     <div className="p-2">
@@ -97,10 +103,11 @@ function PrintPage() {
           <h1 className=" text-xl font-bold">Print Form Pengajuan</h1>
         </div>
         <div className="flex gap-4">
-          <button onClick={printBarcode} className="button print:hidden w-40">
+          <button className="button" onClick={handlePrint}>
             <MdPrint />
             Cetak Print
           </button>
+
           <input
             type="date"
             value={startDate}
@@ -123,212 +130,227 @@ function PrintPage() {
           />
         </div>
       </section>
-
-      {!startDate || !endDate ? (
-        // Tampilkan semua data jika belum ada filter yang diterapkan
-        dataDetailPengajuan?.map((item, index) => (
-          <div key={index} className="print-page">
-            <section
-              key={index}
-              className="flex bg-white gap-3 flex-col border border-black min-h-[500px] p-3"
-            >
-              <div className=" font-semibold text-center">
-                <h3 className=" text-xl">Form Pengajuan Barang IT </h3>
-                <p className=" font-normal">Atas beban PT {item.name_pt} </p>
-              </div>
-              <div className=" font-semibold ">
-                <p>No: {item.no_pengajuan} </p>
-                <p>Tgl: {item.post_date.slice(0, 10)} </p>
-                <p>Bagian: {item.name_division} </p>
-              </div>
-              <div className="flex flex-col justify-between gap-2 h-[320px]  ">
-                <table className=" bg-transparent border">
-                  <tr className="border py-0 m-0">
-                    <th className="border py-0 m-0 border-black">No</th>
-                    <th className="border py-0 m-0 border-black">
-                      Nama Barang
-                    </th>
-                    <th className="border py-0 m-0 border-black">QTY</th>
-                    <th className="border py-0 m-0 border-black">Keterangan</th>
-                  </tr>
-                  {(item.dataStock || Array(5).fill(null)).map((sub, index) => (
-                    <tr key={index} className="border">
-                      <td className="border py-0 m-0 border-black">
-                        {index + 1}
-                      </td>
-                      <td className="border py-0 m-0 border-black">
-                        {sub ? sub.stock_description : ""}
-                      </td>
-                      <td className="border py-0 m-0 border-black">
-                        {sub ? sub.qty : ""}
-                      </td>
-                      <td className="border py-0 m-0 border-black">
-                        {sub ? sub.note : ""}
-                      </td>
-                    </tr>
-                  ))}
-                  {item.dataStock?.length < 5 &&
-                    // Mengisi baris kosong jika item kurang dari 5
-                    new Array(5 - item.dataStock.length)
-                      .fill(null)
-                      .map((_, index) => (
-                        <tr
-                          key={index + item.dataStock.length}
-                          className="border"
-                        >
-                          <td className="border py-0 m-0 border-black">
-                            {index + item.dataStock.length + 1}
-                          </td>
-                          <td className="border py-0 m-0 border-black"></td>
-                          <td className="border py-0 m-0 border-black"></td>
-                          <td className="border py-0 m-0 border-black"></td>
-                        </tr>
-                      ))}
-                </table>
-                <div className="flex justify-around">
-                  <div className="h-36 flex flex-col items-center justify-between">
-                    <p>Pemohon</p>
-                    {item.status !== "Ditolak" ? (
-                      <QRCode
-                        value={`${item.post_username} - ${item.no_pengajuan}`}
-                        size={50}
-                        fgColor="#000"
-                        bgColor="#fff"
-                      />
-                    ) : null}
-                    <p className=" font-semibold">{item.post_username}</p>
+      <div ref={(ref) => setComponentRef(ref)} style={{ width: "100%" }}>
+        <div className="  print:block">
+          {!startDate || !endDate ? (
+            // Tampilkan semua data jika belum ada filter yang diterapkan
+            dataDetailPengajuan?.map((item, index) => (
+              <div key={index} className="print-page">
+                <section
+                  key={index}
+                  className="flex bg-white gap-3 flex-col border border-black min-h-[500px] p-3"
+                >
+                  <div className=" font-semibold text-center">
+                    <h3 className=" text-xl">Form Pengajuan Barang IT </h3>
+                    <p className=" font-normal">
+                      Atas beban PT {item.name_pt}{" "}
+                    </p>
                   </div>
-                  <div className="h-36 flex flex-col items-center justify-between">
-                    <p>Diketahui</p>
-                    {item.status !== "Ditolak" ? (
-                      <QRCode
-                        value={`${item.post_username} - ${item.no_pengajuan}`}
-                        size={50}
-                        fgColor="#000"
-                        bgColor="#fff"
-                      />
-                    ) : null}
-                    <p className=" font-semibold">{item.approved_1}</p>
+                  <div className=" font-semibold ">
+                    <p>No: {item.no_pengajuan} </p>
+                    <p>Tgl: {item.post_date.slice(0, 10)} </p>
+                    <p>Bagian: {item.name_division} </p>
                   </div>
-                  <div className="h-36  flex flex-col items-center justify-between">
-                    <p>DiSetujui</p>
-                    {item.status !== "Ditolak" ? (
-                      <QRCode
-                        value={`${item.post_username} - ${item.no_pengajuan}`}
-                        size={50}
-                        fgColor="#000"
-                        bgColor="#fff"
-                      />
-                    ) : null}
-                    <p className=" font-semibold">{item.approved_2}</p>
+                  <div className="flex flex-col justify-between gap-2 h-[320px]  ">
+                    <table className=" bg-transparent border">
+                      <tr className="border py-0 m-0">
+                        <th className="border py-0 m-0 border-black">No</th>
+                        <th className="border py-0 m-0 border-black">
+                          Nama Barang
+                        </th>
+                        <th className="border py-0 m-0 border-black">QTY</th>
+                        <th className="border py-0 m-0 border-black">
+                          Keterangan
+                        </th>
+                      </tr>
+                      {(item.dataStock || Array(5).fill(null)).map(
+                        (sub, index) => (
+                          <tr key={index} className="border">
+                            <td className="border py-0 m-0 border-black">
+                              {index + 1}
+                            </td>
+                            <td className="border py-0 m-0 border-black">
+                              {sub ? sub.stock_description : ""}
+                            </td>
+                            <td className="border py-0 m-0 border-black">
+                              {sub ? sub.qty : ""}
+                            </td>
+                            <td className="border py-0 m-0 border-black">
+                              {sub ? sub.note : ""}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                      {item.dataStock?.length < 5 &&
+                        // Mengisi baris kosong jika item kurang dari 5
+                        new Array(5 - item.dataStock.length)
+                          .fill(null)
+                          .map((_, index) => (
+                            <tr
+                              key={index + item.dataStock.length}
+                              className="border"
+                            >
+                              <td className="border py-0 m-0 border-black">
+                                {index + item.dataStock.length + 1}
+                              </td>
+                              <td className="border py-0 m-0 border-black"></td>
+                              <td className="border py-0 m-0 border-black"></td>
+                              <td className="border py-0 m-0 border-black"></td>
+                            </tr>
+                          ))}
+                    </table>
+                    <div className="flex justify-around">
+                      <div className="h-36 flex flex-col items-center justify-between">
+                        <p>Pemohon</p>
+                        {item.status !== "Ditolak" ? (
+                          <QRCode
+                            value={`${item.post_username} - ${item.no_pengajuan}`}
+                            size={50}
+                            fgColor="#000"
+                            bgColor="#fff"
+                          />
+                        ) : null}
+                        <p className=" font-semibold">{item.post_username}</p>
+                      </div>
+                      <div className="h-36 flex flex-col items-center justify-between">
+                        <p>Diketahui</p>
+                        {item.status !== "Ditolak" ? (
+                          <QRCode
+                            value={`${item.post_username} - ${item.no_pengajuan}`}
+                            size={50}
+                            fgColor="#000"
+                            bgColor="#fff"
+                          />
+                        ) : null}
+                        <p className=" font-semibold">{item.approved_1}</p>
+                      </div>
+                      <div className="h-36  flex flex-col items-center justify-between">
+                        <p>DiSetujui</p>
+                        {item.status !== "Ditolak" ? (
+                          <QRCode
+                            value={`${item.post_username} - ${item.no_pengajuan}`}
+                            size={50}
+                            fgColor="#000"
+                            bgColor="#fff"
+                          />
+                        ) : null}
+                        <p className=" font-semibold">{item.approved_2}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </section>
               </div>
-            </section>
-          </div>
-        ))
-      ) : filteredData.length == 0 ? (
-        <p>Data Tidak Ditemukan</p> // Tampilkan data yang telah difilter jika filter sudah diterapkan
-      ) : (
-        filteredData.map((item, groupIndex) => (
-          <div key={groupIndex} className="print-page">
-            <section className="flex bg-white gap-3 flex-col border border-black max-h-[500px] p-3">
-              <div className=" font-semibold text-center">
-                <h3 className=" text-xl">Form Pengajuan Barang IT </h3>
-                <p className=" font-normal">Atas beban PT {item.name_pt} </p>
-              </div>
-              <div className=" font-semibold ">
-                <p>No: {item.no_pengajuan} </p>
-                <p>Tgl: {item.post_date.slice(0, 10)} </p>
-                <p>Bagian: {item.name_division} </p>
-              </div>
-              <div className="flex flex-col justify-between gap-2 h-[300px]  ">
-                <table className=" bg-transparent border">
-                  <tr className="border py-0 m-0">
-                    <th className="border py-0 m-0 border-black">No</th>
-                    <th className="border py-0 m-0 border-black">
-                      Nama Barang
-                    </th>
-                    <th className="border py-0 m-0 border-black">QTY</th>
-                    <th className="border py-0 m-0 border-black">Keterangan</th>
-                  </tr>
-                  {(item.dataStock || Array(5).fill(null)).map((sub, index) => (
-                    <tr key={index} className="border">
-                      <td className="border py-0 m-0 border-black">
-                        {index + 1}
-                      </td>
-                      <td className="border py-0 m-0 border-black">
-                        {sub ? sub.stock_description : ""}
-                      </td>
-                      <td className="border py-0 m-0 border-black">
-                        {sub ? sub.qty : ""}
-                      </td>
-                      <td className="border py-0 m-0 border-black">
-                        {sub ? sub.note : ""}
-                      </td>
-                    </tr>
-                  ))}
-                  {item.dataStock?.length < 5 &&
-                    // Mengisi baris kosong jika item kurang dari 5
-                    new Array(5 - item.dataStock.length)
-                      .fill(null)
-                      .map((_, index) => (
-                        <tr
-                          key={index + item.dataStock.length}
-                          className="border"
-                        >
-                          <td className="border py-0 m-0 border-black">
-                            {index + item.dataStock.length + 1}
-                          </td>
-                          <td className="border py-0 m-0 border-black"></td>
-                          <td className="border py-0 m-0 border-black"></td>
-                          <td className="border py-0 m-0 border-black"></td>
-                        </tr>
-                      ))}
-                </table>
-                <div className="flex justify-around">
-                  <div className="h-36 flex flex-col items-center justify-between">
-                    <p>Pemohon</p>
-                    {item.status !== "Ditolak" ? (
-                      <QRCode
-                        value={`${item.post_username} - ${item.no_pengajuan}`}
-                        size={50}
-                        fgColor="#000"
-                        bgColor="#fff"
-                      />
-                    ) : null}
-                    <p className=" font-semibold">{item.post_username}</p>
+            ))
+          ) : filteredData.length == 0 ? (
+            <p>Data Tidak Ditemukan</p> // Tampilkan data yang telah difilter jika filter sudah diterapkan
+          ) : (
+            filteredData.map((item, groupIndex) => (
+              <div key={groupIndex} className="print-page">
+                <section className="flex bg-white gap-3 flex-col border border-black max-h-[500px] p-3">
+                  <div className=" font-semibold text-center">
+                    <h3 className=" text-xl">Form Pengajuan Barang IT </h3>
+                    <p className=" font-normal">
+                      Atas beban PT {item.name_pt}{" "}
+                    </p>
                   </div>
-                  <div className="h-36 flex flex-col items-center justify-between">
-                    <p>Diketahui</p>
-                    {item.status !== "Ditolak" ? (
-                      <QRCode
-                        value={`${item.post_username} - ${item.no_pengajuan}`}
-                        size={50}
-                        fgColor="#000"
-                        bgColor="#fff"
-                      />
-                    ) : null}
-                    <p className=" font-semibold">{item.approved_1}</p>
+                  <div className=" font-semibold ">
+                    <p>No: {item.no_pengajuan} </p>
+                    <p>Tgl: {item.post_date.slice(0, 10)} </p>
+                    <p>Bagian: {item.name_division} </p>
                   </div>
-                  <div className="h-36  flex flex-col items-center justify-between">
-                    <p>DiSetujui</p>
-                    {item.status !== "Ditolak" ? (
-                      <QRCode
-                        value={`${item.post_username} - ${item.no_pengajuan}`}
-                        size={50}
-                        fgColor="#000"
-                        bgColor="#fff"
-                      />
-                    ) : null}
-                    <p className=" font-semibold">{item.approved_2}</p>
+                  <div className="flex flex-col justify-between gap-2 h-[300px]  ">
+                    <table className=" bg-transparent border">
+                      <tr className="border py-0 m-0">
+                        <th className="border py-0 m-0 border-black">No</th>
+                        <th className="border py-0 m-0 border-black">
+                          Nama Barang
+                        </th>
+                        <th className="border py-0 m-0 border-black">QTY</th>
+                        <th className="border py-0 m-0 border-black">
+                          Keterangan
+                        </th>
+                      </tr>
+                      {(item.dataStock || Array(5).fill(null)).map(
+                        (sub, index) => (
+                          <tr key={index} className="border">
+                            <td className="border py-0 m-0 border-black">
+                              {index + 1}
+                            </td>
+                            <td className="border py-0 m-0 border-black">
+                              {sub ? sub.stock_description : ""}
+                            </td>
+                            <td className="border py-0 m-0 border-black">
+                              {sub ? sub.qty : ""}
+                            </td>
+                            <td className="border py-0 m-0 border-black">
+                              {sub ? sub.note : ""}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                      {item.dataStock?.length < 5 &&
+                        // Mengisi baris kosong jika item kurang dari 5
+                        new Array(5 - item.dataStock.length)
+                          .fill(null)
+                          .map((_, index) => (
+                            <tr
+                              key={index + item.dataStock.length}
+                              className="border"
+                            >
+                              <td className="border py-0 m-0 border-black">
+                                {index + item.dataStock.length + 1}
+                              </td>
+                              <td className="border py-0 m-0 border-black"></td>
+                              <td className="border py-0 m-0 border-black"></td>
+                              <td className="border py-0 m-0 border-black"></td>
+                            </tr>
+                          ))}
+                    </table>
+                    <div className="flex justify-around">
+                      <div className="h-36 flex flex-col items-center justify-between">
+                        <p>Pemohon</p>
+                        {item.status !== "Ditolak" ? (
+                          <QRCode
+                            value={`${item.post_username} - ${item.no_pengajuan}`}
+                            size={50}
+                            fgColor="#000"
+                            bgColor="#fff"
+                          />
+                        ) : null}
+                        <p className=" font-semibold">{item.post_username}</p>
+                      </div>
+                      <div className="h-36 flex flex-col items-center justify-between">
+                        <p>Diketahui</p>
+                        {item.status !== "Ditolak" ? (
+                          <QRCode
+                            value={`${item.post_username} - ${item.no_pengajuan}`}
+                            size={50}
+                            fgColor="#000"
+                            bgColor="#fff"
+                          />
+                        ) : null}
+                        <p className=" font-semibold">{item.approved_1}</p>
+                      </div>
+                      <div className="h-36  flex flex-col items-center justify-between">
+                        <p>DiSetujui</p>
+                        {item.status !== "Ditolak" ? (
+                          <QRCode
+                            value={`${item.post_username} - ${item.no_pengajuan}`}
+                            size={50}
+                            fgColor="#000"
+                            bgColor="#fff"
+                          />
+                        ) : null}
+                        <p className=" font-semibold">{item.approved_2}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </section>
               </div>
-            </section>
-          </div>
-        ))
-      )}
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 }

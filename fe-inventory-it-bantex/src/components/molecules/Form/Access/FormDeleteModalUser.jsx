@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
+import image from "../../../../assets/images/header.png";
 
 const FormDeleteModalUser = ({ onClose, id, setIsLoading }) => {
   const [data, setData] = useState([]);
@@ -22,24 +23,23 @@ const FormDeleteModalUser = ({ onClose, id, setIsLoading }) => {
   };
   return (
     <form className="form_modal">
-      <h1 className="text-2xl text-center">Hapus Delete</h1>
-      <hr className="border border-slate-800 w-2/5 m-auto" />
+      <h1 className=" text-lg font-bold text-center">Hapus Akun Admin</h1>
+      <hr className="border border-slate-800 w-full m-auto" />
       <section className="flex flex-col items-center gap-2 w-full justify-center">
         <p>Anda yakin ingin menghapus User</p>
-
         <div className="delete_item_box">{data}</div>
       </section>
       <div className="flex flex-wrap gap-2 w-full">
-        <button onClick={handleDelete} className="button flex-1">
-          Ya, Hapus Sekarang
-        </button>
         <button
           onClick={() => {
             onClose();
           }}
           className="button_2 flex-1"
         >
-          Back
+          Kembali
+        </button>
+        <button onClick={handleDelete} className="button flex-1">
+          Ya, Hapus Sekarang
         </button>
       </div>
     </form>
@@ -47,3 +47,11 @@ const FormDeleteModalUser = ({ onClose, id, setIsLoading }) => {
 };
 
 export default FormDeleteModalUser;
+{
+  /* <div className=" bg-gray-100 h-[10vh] relative">
+        <img src={image} className="h-full" alt="" />
+        <p className="absolute top-1/2 left-1/2 transform translate-[-10%, -50%] text-white text-xl">
+          Hapus
+        </p>
+      </div> */
+}

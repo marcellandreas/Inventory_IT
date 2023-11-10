@@ -11,13 +11,23 @@ export const fetchUserData = createAsyncThunk(
   }
 );
 
+export const fetchLoginHistory = createAsyncThunk(
+  "users/fetchLoginHistory",
+  async () => {
+    const response = await AxiosInstance.get("/auth/history");
+    return response.data;
+  }
+);
+
 export const updateUserData = createAsyncThunk(
   "user/updateUserData",
   async ({ id, data }) => {
     try {
       const response = await AxiosInstance.put(`/auth/user/${id}`, data);
+      console.log(response);
       return response.data;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -30,6 +40,7 @@ const userSlice = createSlice({
     users: [],
     managers: [],
     allData: [],
+    dataLoginHistory: [],
     isLoading: false,
     error: null,
   },
@@ -48,6 +59,19 @@ const userSlice = createSlice({
         state.allData = action.payload;
       })
       .addCase(fetchUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      // ...
+      .addCase(fetchLoginHistory.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchLoginHistory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.dataLoginHistory = action.payload;
+      })
+      .addCase(fetchLoginHistory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       })

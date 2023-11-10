@@ -97,7 +97,15 @@ export const columnTableLatestReqSub = [
   "status",
 ];
 
-export const columnTableUsers = ["Id", "Kode", "Username", "password", "Aksi"];
+export const columnTableUsers = [
+  "Id",
+  "Kode",
+  "Username",
+  "Nama Lengkap",
+  "Email",
+  "Aksi",
+];
+export const columnTableLoginHistory = ["Id", "Username", "Terakhir Login"];
 
 export const columnTableStockDetail = [
   "Id",

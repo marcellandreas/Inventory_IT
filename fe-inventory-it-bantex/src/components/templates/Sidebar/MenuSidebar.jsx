@@ -56,16 +56,16 @@ export const menuSidebarOrganization = [
     name_menu: "Employees",
     icon: MdPeople,
   },
-  {
-    path: "/documents",
-    name_menu: "Documents",
-    icon: HiDocument,
-  },
-  {
-    path: "/reports",
-    name_menu: "Reports",
-    icon: BiSolidReport,
-  },
+  // {
+  //   path: "/documents",
+  //   name_menu: "Documents",
+  //   icon: HiDocument,
+  // },
+  // {
+  //   path: "/reports",
+  //   name_menu: "Reports",
+  //   icon: BiSolidReport,
+  // },
 ];
 
 export const MenuDropdown = [

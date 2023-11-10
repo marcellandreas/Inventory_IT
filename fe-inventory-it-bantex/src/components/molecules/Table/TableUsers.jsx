@@ -31,7 +31,8 @@ const TableUsers = ({ data, setId, setEditModal, setDeleteModal }) => {
               <td className="border px-4 py-2">{i + 1}</td>
               <td className="border px-4 py-2">{user.code_user}</td>
               <td className="border px-4 py-2">{user.username}</td>
-              <td className="border px-4 py-2">{user.password}</td>
+              <td className="border px-4 py-2">{user.full_name}</td>
+              <td className="border px-4 py-2">{user.email}</td>
               <td className="flex gap-2">
                 <button
                   onClick={() => {

@@ -78,3 +78,28 @@ input[type="radio"] {
     page-break-before: auto;
   }
 }
+
+.dropdown-print {
+  position: absolute;
+  top: 12rem;
+  z-index: 900px;
+  right: 1.5rem;
+  padding: 15px;
+  width: 120px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid grey;
+}
+
+.dropdown-print::before {
+  content: "";
+  position: absolute;
+  top: -0.9rem;
+  height: 25px;
+  width: 25px;
+  background: white;
+  transform: rotate(45deg);
+  right: 1rem;
+  border-left: 1px solid grey;
+  border-top: 1px solid grey;
+}

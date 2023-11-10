@@ -12,6 +12,8 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
+    full_name: "",
+    email: "",
     role: "",
   });
   const [loading, setLoading] = useState(true);
@@ -36,9 +38,11 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
   const data = {
     username: formValues.username,
-    password: formValues.password,
+    full_name: formValues.full_name,
+    email: formValues.email,
     role: formValues.role,
   };
 
@@ -50,17 +54,19 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
       const mappedItemData = itemData.map((item) => ({
         username: item.username,
         password: item.password,
+        full_name: item.full_name,
+        email: item.email,
         role: item.role,
       }));
       setFormValues(mappedItemData[0]);
     });
   }, []);
 
-  const roleLabels = {
-    1: "Admin",
-    2: "User",
-    3: "Manager",
-  };
+  // const roleLabels = {
+  //   1: "Admin",
+  //   2: "User",
+  //   3: "Manager",
+  // };
 
   const dispatch = useDispatch();
 
@@ -89,12 +95,45 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
   return (
     <form
       onSubmit={handleUpdateForm}
-      className="md:w-auto mx-5 w-[450px] bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px] overflow-y-auto"
+      className="md:w-auto mx-5 bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px] overflow-y-auto"
     >
-      <h1 className="text-2xl text-center">Edit User </h1>
-      <hr className="border border-slate-800 w-2/5 m-auto" />
+      <h1 className="text-lg font-bold text-center">Edit Data Pengguna </h1>
+      <hr className="border border-slate-800 w-full m-auto" />
+      {/* <div className=" border border-gray-800 rounded-md p-4"> */}
+      <CustomInput
+        label="Username"
+        type="text"
+        placeholder="Masukan Username"
+        name="username"
+        value={formValues.username}
+        onChange={handleChangeValue}
+      />
+      {/* <CustomInput
+        label="Password"
+        type="text"
+        name="password"
+        placeholder="Masukan Password"
+        onChange={handleChangeValue}
+        value={formValues.password}
+      /> */}
+      <CustomInput
+        label="nama Lengkap"
+        type="text"
+        name="full_name"
+        onChange={handleChangeValue}
+        value={formValues.full_name}
+      />
+      <CustomInput
+        label="Email"
+        type="email"
+        name="email"
+        onChange={handleChangeValue}
+        value={formValues.email}
+      />
 
-      <CustomSelect
+      {/* </div> */}
+
+      {/* <CustomSelect
         label="Peran Role"
         options={[
           <option key="default" value="" disabled selected>
@@ -109,24 +148,7 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
         value={formValues.role}
         name="role"
         onChange={handleChangeValue}
-      />
-      <CustomInput
-        label="Username"
-        type="text"
-        placeholder="Masukan Username"
-        name="username"
-        value={formValues.username}
-        onChange={handleChangeValue}
-      />
-
-      <CustomInput
-        label="Password"
-        type="text"
-        name="password"
-        placeholder="Masukan Password"
-        onChange={handleChangeValue}
-        value={formValues.password}
-      />
+      /> */}
 
       {validation.length > 0 && (
         <div>

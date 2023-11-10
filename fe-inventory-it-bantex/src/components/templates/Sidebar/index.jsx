@@ -12,6 +12,7 @@ import { signOut } from "../../../config/Auth";
 
 const Sidebar = ({ children }) => {
   const navigate = useNavigate();
+  const role = localStorage.getItem("role");
 
   const handleLogout = () => {
     signOut();
@@ -63,7 +64,7 @@ const Sidebar = ({ children }) => {
                 style={{
                   transitionDelay: `${3}00ms`,
                 }}
-                className="py-3 flex gap-2 bg-amber-400 mt-4 relative"
+                className="py-3 flex gap-2  mt-4 relative cursor-pointer "
               >
                 <div>
                   <MdWarehouse size={25} />
@@ -105,35 +106,39 @@ const Sidebar = ({ children }) => {
                   </NavLink>
                 ))}
               </div>
-              <div className="mt-4 flex flex-col gap-4 relative">
-                {menuSidebarOrganization?.map((menu, i) => (
-                  <NavLink
-                    to={menu?.path}
-                    key={i}
-                    activestyle="active"
-                    className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
-                  >
-                    <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-                    <h2
-                      style={{
-                        transitionDelay: `${i + 3}00ms`,
-                      }}
-                      className={`whitespace-pre duration-500 ${
-                        !openMob && "opacity-0 translate-x-28 overflow-hidden"
-                      }`}
+              {role == 2 ? null : (
+                <div className="mt-4 flex flex-col gap-4 relative">
+                  {menuSidebarOrganization?.map((menu, i) => (
+                    <NavLink
+                      to={menu?.path}
+                      key={i}
+                      activestyle="active"
+                      className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
                     >
-                      {menu?.name_menu}
-                    </h2>
-                    <h2
-                      className={`${
-                        openMob && "hidden"
-                      } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
-                    >
-                      {menu?.name_menu}
-                    </h2>
-                  </NavLink>
-                ))}
-              </div>
+                      <div>
+                        {React.createElement(menu?.icon, { size: "20" })}
+                      </div>
+                      <h2
+                        style={{
+                          transitionDelay: `${i + 3}00ms`,
+                        }}
+                        className={`whitespace-pre duration-500 ${
+                          !openMob && "opacity-0 translate-x-28 overflow-hidden"
+                        }`}
+                      >
+                        {menu?.name_menu}
+                      </h2>
+                      <h2
+                        className={`${
+                          openMob && "hidden"
+                        } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+                      >
+                        {menu?.name_menu}
+                      </h2>
+                    </NavLink>
+                  ))}
+                </div>
+              )}
               <div className="mt-4 flex flex-col gap-4 relative">
                 {LogoutMenu?.map((menu, i) => (
                   <button
@@ -236,36 +241,37 @@ const Sidebar = ({ children }) => {
                 </NavLink>
               ))}
             </div>
-
-            <div className="mt-4 flex flex-col gap-4 relative">
-              {menuSidebarOrganization?.map((menu, i) => (
-                <NavLink
-                  to={menu?.path}
-                  key={i}
-                  activestyle="active"
-                  className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md `}
-                >
-                  <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-                  <h2
-                    style={{
-                      transitionDelay: `${i + 3}00ms`,
-                    }}
-                    className={`whitespace-pre duration-500 ${
-                      !open && "opacity-0 translate-x-28 overflow-hidden"
-                    }`}
+            {role == 2 ? null : (
+              <div className="mt-4 flex flex-col gap-4 relative">
+                {menuSidebarOrganization?.map((menu, i) => (
+                  <NavLink
+                    to={menu?.path}
+                    key={i}
+                    activestyle="active"
+                    className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md `}
                   >
-                    {menu?.name_menu}
-                  </h2>
-                  <h2
-                    className={`${
-                      open && "hidden"
-                    } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
-                  >
-                    {menu?.name_menu}
-                  </h2>
-                </NavLink>
-              ))}
-            </div>
+                    <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+                    <h2
+                      style={{
+                        transitionDelay: `${i + 3}00ms`,
+                      }}
+                      className={`whitespace-pre duration-500 ${
+                        !open && "opacity-0 translate-x-28 overflow-hidden"
+                      }`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                    <h2
+                      className={`${
+                        open && "hidden"
+                      } absolute left-48 bg-white font-semibold whitespace-pre text-slate-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit`}
+                    >
+                      {menu?.name_menu}
+                    </h2>
+                  </NavLink>
+                ))}
+              </div>
+            )}
             <div className="mt-4 flex flex-col gap-4 relative">
               {LogoutMenu?.map((menu, i) => (
                 <button

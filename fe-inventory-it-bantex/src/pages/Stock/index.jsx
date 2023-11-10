@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useReactToPrint } from "react-to-print";
 import { SearchInput, TitleTable } from "../../components/atoms";
 import {
   FormDeleteModalStock,
@@ -18,12 +19,15 @@ import { NavLink } from "react-router-dom";
 import { filterDataBySearch } from "../../helpers/filters";
 import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 import Modals from "../../helpers/modals";
+import { CSVLink, CSVDownload } from "react-csv";
+import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
 
 const StockPage = () => {
   const [id, setId] = useState("");
   const dispatch = useDispatch();
   const dataStock = useSelector((state) => state.stocks.data);
   const isLoading = useSelector((state) => state.stocks.isLoading);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     dispatch(fetchStocks());
@@ -49,7 +53,33 @@ const StockPage = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
+            <section className="grid grid-cols-6 h-[75vh] w-full  gap-4 grid-flow-dense ">
+              <div className="flex  gap-4 col-span-6 z-50 justify-end ">
+                {showDropdown && (
+                  <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
+                )}
+                <button
+                  className="button"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  Mencetak Stock
+                </button>
+                {/* <div
+                  ref={(ref) => setComponentRef(ref)}
+                  style={{ width: "100%" }}
+                >
+                  <div className=" hidden print:block">
+                    <TableStocks data={dataStock} />
+                  </div>
+                </div> */}
+
+                {/* <button onClick={handlePrint} className="button">
+                  Print
+                </button>
+                <button className="button w-40">
+                  <CSVLink data={dataStock}>CSV</CSVLink>
+                </button> */}
+              </div>
               <div className=" bg-gray-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                 <TableHeader>
                   <TitleTable>Data Persedian</TitleTable>
