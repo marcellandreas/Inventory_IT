@@ -32,7 +32,7 @@ const RegisterPage = () => {
         setNavigate(true);
       })
       .catch((error) => {
-        alert("Terjadi kesalahan");
+        alert(error.response.data.message);
       });
   };
 

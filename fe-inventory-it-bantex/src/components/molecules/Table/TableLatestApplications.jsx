@@ -2,8 +2,6 @@ import { columnTableLatestReqSub } from "../../../assets/data/ColumnTables";
 import { TableContent, Tbody, Thead } from "../../atoms";
 
 const TableLatestApplications = ({ data }) => {
-  const role = localStorage.getItem("role");
-
   const tableHeaders = columnTableLatestReqSub;
 
   return (

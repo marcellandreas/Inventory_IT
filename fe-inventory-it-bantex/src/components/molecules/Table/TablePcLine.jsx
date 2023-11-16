@@ -1,16 +1,9 @@
 import { columnTablePcLine } from "../../../assets/data/ColumnTables";
 import { TableContent, Tbody, Thead } from "../../atoms";
 
-const TablePcLine = ({ setEditModal, setDeleteModal, data, setId }) => {
-  const role = localStorage.getItem("role");
+const TablePcLine = ({ data }) => {
+  const tableHeaders = columnTablePcLine;
 
-  const tableHeaders =
-    role == 1
-      ? columnTablePcLine
-      : columnTablePcLine.filter(
-          (columnName) =>
-            !["post_user_id", "post_username", "post_date"].includes(columnName)
-        );
   return (
     <TableContent>
       <Thead>
@@ -23,25 +16,43 @@ const TablePcLine = ({ setEditModal, setDeleteModal, data, setId }) => {
         </tr>
       </Thead>
       <Tbody>
-        {data.map((barang, i) => (
-          <tr key={i} className="h-5">
+        {data.map((pc, i) => (
+          <tr key={i} className="h-5 w-full">
             <td className="border px-4 py-2">{i + 1}</td>
-            <td className="border px-4 py-2">{barang.item_no}</td>
-            <td className="border px-4 py-2">{barang.item_description}</td>
-            <td className="border px-4 py-2">{barang.unit}</td>
-            <td className="border px-4 py-2">{barang.brand}</td>
-            <td className="border px-4 py-2 ">{barang.note}</td>
-            <td className="border px-4 py-2">{barang.date_registation}</td>
-            <td className="border px-4 py-2">{barang.item_specification}</td>
+            <td className="border px-4 py-2 whitespace-nowrap">{pc.item_no}</td>
+            <td className="border px-4 py-2 whitespace-nowrap">
+              <p className=" font-semibold">{pc.item_description}</p>
+              <p>
+                brand: <span>{pc.brand}</span>
+              </p>
+              <p>
+                Satuan: <span>{pc.unit}</span>
+              </p>
+              <p>
+                Spesifikasi: <span>{pc.item_specification}</span>
+              </p>
+            </td>
 
-            {role == 1 ? (
-              <>
-                <td className="border px-4 py-2">{barang.post_username}</td>
-                <td className="border px-4 py-2">
-                  {barang.post_date.slice(0, 10)}
-                </td>
-              </>
-            ) : role == 2 ? null : null}
+            <td className="border px-4 py-2" style={{ maxWidth: "1000px" }}>
+              {pc.note}
+            </td>
+            <td className="border px-4 py-2 whitespace-nowrap">
+              <p>
+                Tgl Regis: <span>{pc.date_registation.slice(0, 10)}</span>
+              </p>
+              <p>
+                Tgl exp:{" "}
+                <span>
+                  {pc.date_expired ? pc.date_expired.slice(0, 10) : "-"}
+                </span>
+              </p>
+            </td>
+            <td className="border px-4 py-2 whitespace-nowrap">
+              <p>{pc.post_username}</p>
+              <p>
+                date: <span>{pc.post_date.slice(0, 10)}</span>
+              </p>
+            </td>
           </tr>
         ))}
       </Tbody>

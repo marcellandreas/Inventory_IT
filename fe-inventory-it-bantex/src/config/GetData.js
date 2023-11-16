@@ -14,6 +14,10 @@ import {
   fetchStockDetailsByid,
 } from "../Redux/Feature/detailStockslice";
 import { fetchFormDataReqSubById } from "../Redux/Feature/requestSubmissionSlice";
+import {
+  fechtPcLineData,
+  fetchItemsUnusedForPcMaster,
+} from "../Redux/Feature/DataPcMaster";
 
 // categories
 export function useFetchCategories() {
@@ -122,5 +126,23 @@ export function useFetchFormDataReqSubById(id) {
   useEffect(() => {
     dispatch(fetchFormDataReqSubById(id));
   }, [dispatch, id]);
+  return data;
+}
+
+// data unused componnets in pc master
+export function useFetchItemsUnusedForPcMaster() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.pcmaster.dataUnused);
+  useEffect(() => {
+    dispatch(fetchItemsUnusedForPcMaster());
+  }, [dispatch]);
+  return data;
+}
+export function useFetchPcLineData() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.pcmaster.dataPcLine);
+  useEffect(() => {
+    dispatch(fechtPcLineData());
+  }, [dispatch]);
   return data;
 }

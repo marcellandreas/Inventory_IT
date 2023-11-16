@@ -1,26 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { BsArrowLeftCircleFill, BsDatabaseFillAdd } from "react-icons/bs";
 import TablePcLineAdd from "../../components/molecules/Table/TablePcLineAdd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../apis/api";
+import React, { useState } from "react";
 import { TableBody, TableHeader } from "../../components/organisms";
 import { SearchInput, TitleTable } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
-import {
-  createPcLine,
-  fetchItemsUnusedForPcMaster,
-} from "../../Redux/Feature/DataPcMaster";
+import { createPcLine } from "../../Redux/Feature/DataPcMaster";
+import { useFetchItemsUnusedForPcMaster } from "../../config/GetData";
 
 const AddComponentsPC = () => {
   const dispatch = useDispatch();
 
-  const dataUnused = useSelector((state) => state.pcmaster.dataUnused);
+  const dataUnused = useFetchItemsUnusedForPcMaster();
 
-  useEffect(() => {
-    dispatch(fetchItemsUnusedForPcMaster());
-  }, [dispatch]);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const pc_no = searchParams.get("pc_no");
@@ -33,7 +27,6 @@ const AddComponentsPC = () => {
   };
 
   const handleItemRemove = (itemNo) => {
-    // Hapus itemNo dari clickedItems
     const updatedItems = clickedItems.filter((item) => item !== itemNo);
     setClickedItems(updatedItems);
   };
@@ -51,8 +44,6 @@ const AddComponentsPC = () => {
     post_user_id: idUser,
     post_username: username,
   }));
-
-  console.log(clickedItems);
 
   const loadingPcLine = useSelector((state) => state.pcmaster.loadingPcLine);
 
@@ -72,29 +63,33 @@ const AddComponentsPC = () => {
   };
 
   const filteredData = filterDataBySearch(dataUnused, search);
-
+  console.log(clickedItems);
   return (
     <>
       <Sidebar>
         <LayoutContentDashboard>
           <section className="container mx-auto  flex flex-col gap-5  w-full">
             {/* Header Kontent */}
-            <section className="flex gap-2 ">
+            <section className="flex gap-2 justify-between ">
               <button className="" onClick={backToMenu}>
                 <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
               </button>
-              <form onSubmit={handleCreateForm}>
-                <button
-                  type="submit"
-                  className="button disabled:bg-slate-300 disabled:text-black disabled:font-semibold"
-                  disabled={clickedItems.length === 0}
-                >
-                  Tambah Komponen
-                </button>
-              </form>
+              {clickedItems.length >= 1 ? (
+                <form onSubmit={handleCreateForm}>
+                  <button
+                    type="submit"
+                    className="button disabled:bg-slate-300 disabled:text-black disabled:font-semibold"
+                    disabled={clickedItems.length === 0}
+                  >
+                    Tambah Komponen
+                  </button>
+                </form>
+              ) : null}
             </section>
-            <section className="p-2">
-              {/* <h2>Item yang telah diklik:</h2> */}
+            <section className="p-2 border border-slate-800 rounded-md">
+              {clickedItems.length >= 1 ? (
+                <h2>List Item Yang di pilih: </h2>
+              ) : null}
               <ul className="flex gap-2  flex-wrap">
                 {clickedItems.map((itemNo, index) => (
                   <li
@@ -106,11 +101,19 @@ const AddComponentsPC = () => {
                   </li>
                 ))}
               </ul>
+              {clickedItems.length !== 0 ? null : (
+                <p className="flex gap-2 items-center  text-sm">
+                  Klik Icon
+                  <span>
+                    <BsDatabaseFillAdd />
+                  </span>
+                  jika ingin menambahkan
+                </p>
+              )}
             </section>
 
             <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
               <TableHeader>
-                <TitleTable>Data Komponen Tersedia </TitleTable>
                 <SearchInput
                   search={search}
                   handleSearchChange={handleSearchChange}

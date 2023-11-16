@@ -9,12 +9,12 @@ import {
   setDataPt,
   setLoadingDivPt,
 } from "../../../Redux/Feature/DataDivisionAndPT";
-import { Title, TitleTable } from "../../atoms";
 import { NavLink } from "react-router-dom";
 import { AiFillFileAdd } from "react-icons/ai";
 import { TableBody, TableHeader } from "../../organisms";
 import image from "../../../assets/images/form-concept.jpg";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
+import SearchNotFound from "../../../assets/images/search-not-found.jpg";
 
 const UsersFormReq = ({ setId, setDeleteModal }) => {
   const username = localStorage.getItem("username");
@@ -86,7 +86,6 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
         <>
           <section className="w-[82vw] bg-slate-200 backdrop-blur-md">
             <TableHeader>
-              <TitleTable>Data Pengajuan Barang</TitleTable>
               <div className="input-group">
                 <input
                   type="search"
@@ -95,16 +94,24 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
                   onChange={handleSearchChange}
                 />
               </div>
-              <NavLink to={`buat`} className="button flex gap-2 items-center">
-                <AiFillFileAdd /> <span>Buat Pengajuan</span>
-              </NavLink>
             </TableHeader>
             <TableBody>
-              <TableApplicationsForm
-                data={filteredData}
-                setId={setId}
-                setDeleteModal={setDeleteModal}
-              />
+              {filteredData.length === 0 ? (
+                <div className="min-h-[60vh] flex flex-col justify-center items-center">
+                  <img
+                    src={SearchNotFound}
+                    alt="search not found"
+                    className=" w-52 h-52"
+                  />
+                  <div>Maaf, data yang Anda cari tidak ditemukan</div>
+                </div>
+              ) : (
+                <TableApplicationsForm
+                  data={filteredData}
+                  setId={setId}
+                  setDeleteModal={setDeleteModal}
+                />
+              )}
             </TableBody>
           </section>
         </>

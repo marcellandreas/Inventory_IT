@@ -11,13 +11,7 @@ const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
   const [addModalItem, setAddModalItem] = useState(false);
   const [isIsLoading, setIsLoading] = useState(true);
 
-  const tableHeaders =
-    role == 1
-      ? columnTablePcLineAdd
-      : columnTablePcLineAdd.filter(
-          (columnName) =>
-            !["post_user_id", "post_username", "post_date"].includes(columnName)
-        );
+  const tableHeaders = columnTablePcLineAdd;
 
   // POST METHOD
 
@@ -41,37 +35,45 @@ const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
             </tr>
           </Thead>
           <Tbody>
-            {data.map((barang, i) => (
+            {data.map((pc, i) => (
               <tr key={i} className="h-5">
                 <td className="border px-4 py-2">
                   <button
-                    onClick={() => handleGetItemNo(barang.item_no)}
+                    onClick={() => handleGetItemNo(pc.item_no)}
                     className="button"
-                    disabled={clickedItems.includes(barang.item_no)}
+                    disabled={clickedItems.includes(pc.item_no)}
                   >
                     <BsDatabaseFillAdd />
                   </button>
                 </td>
                 <td className="border px-4 py-2">{i + 1}</td>
-                <td className="border px-4 py-2">{barang.item_no}</td>
-                <td className="border px-4 py-2">{barang.item_description}</td>
-                <td className="border px-4 py-2">{barang.unit}</td>
-                <td className="border px-4 py-2">{barang.brand}</td>
-                <td className="border px-4 py-2 ">{barang.note}</td>
-                <td className="border px-4 py-2">{barang.date_registation}</td>
-                <td className="border px-4 py-2">
-                  {barang.item_specification}
+                <td className="border px-4 py-2  whitespace-nowrap">
+                  {pc.item_no}
                 </td>
-
-                {role == 1 ? (
-                  <>
-                    <td className="border px-4 py-2">{barang.post_user_id}</td>
-                    <td className="border px-4 py-2">{barang.post_username}</td>
-                    <td className="border px-4 py-2">
-                      {barang.post_date.slice(0, 10)}
-                    </td>
-                  </>
-                ) : role == 2 ? null : null}
+                <td className="border px-4 py-2 whitespace-nowrap">
+                  <p className=" font-semibold">{pc.item_description}</p>
+                  <p>
+                    brand: <span>{pc.brand}</span>
+                  </p>
+                  <p>
+                    Satuan: <span>{pc.unit}</span>
+                  </p>
+                  <p>
+                    Spesifikasi: <span>{pc.item_specification}</span>
+                  </p>
+                </td>
+                <td className="border px-4 py-2">{pc.unit}</td>
+                <td className="border px-4 py-2">{pc.brand}</td>
+                <td className="border px-4 py-2 ">{pc.note}</td>
+                <td className="border px-4 py-2 whitespace-nowrap">
+                  <p>
+                    Tgl Regis: <span>{pc.date_registation}</span>
+                  </p>
+                  <p>
+                    Tgl exp:{" "}
+                    <span>{pc.date_expired ? pc.date_expired : "-"}</span>
+                  </p>
+                </td>
               </tr>
             ))}
           </Tbody>

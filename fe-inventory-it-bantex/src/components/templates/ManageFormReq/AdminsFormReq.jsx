@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { AiFillFileAdd } from "react-icons/ai";
 import { MdLocalPrintshop } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import { SearchInput, TitleTable } from "../../atoms";
+import { SearchInput } from "../../atoms";
 import { TableHeader, TableBody } from "../../organisms";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
+import TabBar from "@TabBar";
 
 const AdminsFormReq = ({ setId, setDeleteModal }) => {
   const [toggleState, setToggleState] = useState(1);
@@ -67,54 +67,38 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
     }
   };
 
+  const tabs = ["Semua", "Butuh Approved", "Approved"];
+
   return (
     <section className="grid grid-cols-6 gap-4 grid-flow-dense ">
       <div className="self-start flex-wrap flex justify-between w-full col-span-6 ">
-        <div className="flex pl-2 gap-2 self-start order-2">
-          <NavLink
-            to={`/printPage`}
-            className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
-          >
-            <MdLocalPrintshop />
-            Cetak Pengajuan A
-          </NavLink>
-          <NavLink to={`set-up`} className="button">
-            Set Up
-          </NavLink>
-        </div>
-        <section className="flex flex-wrap gap-2 p-2 bg-slate-200 mb-5 rounded-lg order-1">
-          {["Semua", "Butuh Approved", "Approved"].map((label, index) => (
-            <button
-              key={index}
-              onClick={() => setToggleState(index + 1)}
-              className={`${
-                toggleState === index + 1
-                  ? "bg-slate-500 hover:bg-slate-700"
-                  : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-              } rounded-md p-1 min-w-[100px]`}
-            >
-              {label}
-            </button>
-          ))}
-        </section>
+        <TabBar
+          tabs={tabs}
+          setSearch={setSearch}
+          setToggleState={setToggleState}
+          toggleState={toggleState}
+        />
       </div>
       <div className="col-span-6">
-        {/* <section className="w-[82vw] bg-slate-200 backdrop-blur-md"> */}
         <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
           <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
             <TableHeader>
-              <TitleTable>Data Pengajuan Barang</TitleTable>
               <SearchInput
                 search={search}
                 handleSearchChange={handleSearchChange}
               />
-              <NavLink
-                to={`buat`}
-                className="button flex gap-2 items-center order-2 sm:order-3"
-              >
-                <AiFillFileAdd />{" "}
-                <span className="hidden md:block">Buat Pengajuan</span>
-              </NavLink>
+              <div className="flex pl-2 gap-2 self-start order-2 items-center sm:order-3">
+                <NavLink
+                  to={`/printPage`}
+                  className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
+                >
+                  <MdLocalPrintshop />
+                  Print Pengajuan
+                </NavLink>
+                <NavLink to={`set-up`} className="button">
+                  Set Up
+                </NavLink>
+              </div>
             </TableHeader>
             <TableBody>{renderTableData()}</TableBody>
           </div>

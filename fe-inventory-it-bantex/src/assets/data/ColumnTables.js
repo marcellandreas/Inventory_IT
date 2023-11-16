@@ -6,59 +6,42 @@ export const columnTablePcLineAdd = [
   "unit",
   "brand",
   "note",
-  "date_registation",
-  "item_specification",
-  "post_user_id",
-  "post_username",
-  "post_date",
+  "Timeline",
 ];
 
 export const columnTablePcLine = [
   "id",
-  "Kode Barang",
+  "kode Barang",
   "deskripsi Barang",
-  "satuan",
-  "Merek",
-  "Catatan",
-  "Tanggal Registrasi",
-  "Spesifikasi Barang",
-  "Username ",
-  "Terakhir Unggah",
+  "catatan",
+  "timeline",
+  "created ",
 ];
 
 export const columnTableItems = [
   "ID",
   "Kode Barang",
   "deskripsi Barang",
-  "satuan",
-  "Kategory",
-  "merek",
-  "status",
-  "kondisi",
-  "lokasi Barang",
+  "Kategori",
+  "More Info",
   "catatan",
-  "Tanggal Regristrasi",
-  "Tanggal kadaluarsa",
-  "Spesifikasi Item",
+  "Timeline",
   "Created",
-  "Terakhir Unggah ",
   "aksi",
 ];
 
 export const columnTablePcMaster = [
   "id",
   "Kode Pc",
-  "Deskripsi Pc",
+  "Deskripsi",
   "Satuan",
   "Kategori",
   "status",
-  "Lokasi Pc",
+  "Lokasi",
   "Catatan",
-  "Tanggal Registrasi",
-  "Tanggal Kadaluarasa(Rusak)",
-  "Spesifikasi Pc",
+  "timeline",
+  "Spesifikasi",
   "created",
-  "Terakhir Unggah",
 ];
 
 export const columnTableStock = [
@@ -70,22 +53,17 @@ export const columnTableStock = [
   "Satuan",
   "Tipe",
   "Catatan",
-  "user",
-  "Terakhir Unggah",
+  "Created",
   "Aksi",
 ];
 
 export const columnTableItemsReq = [
   "id",
-  "Detail",
   "No. Pengajuan",
-  "Nama PT.",
-  "Nama Divisi",
   "status",
-  "Persetujuan 1",
-  "Persetujuan 2",
+  "Approved 1",
+  "Approved 2",
   "Created",
-  "Terakhir Unggah",
   "Aksi",
 ];
 

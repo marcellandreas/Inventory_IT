@@ -184,7 +184,12 @@ const EditDelCompontentsStocks = () => {
           });
         });
 
-        if (inputListPost.length > 0) {
+        // &&
+        //   inputListPost.every((item) =>
+        //     Object.values(item).every((value) => value === "")
+        //   )
+
+        if (inputListPost.length >= 1) {
           const dataDetailPost = inputListPost.map((item) => ({
             stock_no: stockNo,
             ...item,
@@ -193,6 +198,8 @@ const EditDelCompontentsStocks = () => {
             "/det-stock",
             dataDetailPost
           );
+        } else {
+          alert("berhasil");
         }
 
         await Promise.all([response1, ...requests2]);
@@ -209,7 +216,7 @@ const EditDelCompontentsStocks = () => {
     }
   };
 
-  console.log(inputList);
+  console.log(inputListPost);
 
   return (
     <Sidebar>

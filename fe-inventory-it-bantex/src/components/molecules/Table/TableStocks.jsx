@@ -52,38 +52,46 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
         <tr>{tableHeaders}</tr>
       </Thead>
       <Tbody>
-        {data?.map((barang, i) => (
+        {data?.map((stock, i) => (
           <>
-            <tr key={barang.id_stock} className=" relative">
+            <tr key={stock.id_stock} className=" relative">
               <td className="border px-4 py-2">{i + 1}</td>
-              <td className="border">
+              <td className="border whitespace-nowrap p-1">
                 <div
                   className="flex gap-2 justify-center items-center"
-                  onClick={() => handleStockNoClick(barang.stock_no)}
+                  onClick={() => handleStockNoClick(stock.stock_no)}
                 >
-                  <ArrowIcon isOpen={selectedStockNo === barang.stock_no} />
-                  {barang.stock_no}
+                  <ArrowIcon isOpen={selectedStockNo === stock.stock_no} />
+                  {stock.stock_no}
                 </div>
               </td>
-              <td className="border px-4 py-2">{barang.stock_description}</td>
-              <td className="border px-4 py-2">{barang.stock_qty}</td>
-              <td className="border px-4 py-2">{barang.category}</td>
-              <td className="border px-4 py-2">{barang.unit}</td>
-              <td className="border px-4 py-2">{barang.type}</td>
-              <td className="border px-4 ">{barang.note}</td>
-              <td className="border px-4 py-2">{barang.post_username}</td>
-              <td className="border px-4 py-2">
-                {barang?.post_date?.slice(0, 10)}
+              <td className="border p-1 whitespace-nowrap">
+                {stock.stock_description}
               </td>
+              <td className="border px-4 py-2">{stock.stock_qty}</td>
+              <td className="border px-4 py-2">{stock.category}</td>
+              <td className="border px-4 py-2">{stock.unit}</td>
+              <td className="border px-4 py-2">{stock.type}</td>
+              <td className="border px-4 ">{stock.note}</td>
+              <td className="border px-4 py-2 whitespace-nowrap">
+                <p className=" font-semibold capitalize">
+                  {stock.post_username}
+                </p>
+                <p>
+                  {"date: "}
+                  <span>{stock?.post_date?.slice(0, 10)}</span>
+                </p>
+              </td>
+
               <td className="flex gap-2">
-                <NavLink to={`ubah/${barang.stock_no}`} className="button_edit">
+                <NavLink to={`ubah/${stock.stock_no}`} className="button_edit">
                   <MdEditNote />
                 </NavLink>
                 <button
                   onClick={() => {
                     setDeleteModal(true);
 
-                    setId(barang.id_stock);
+                    setId(stock.id_stock);
                   }}
                   className="button_delete"
                 >
@@ -91,12 +99,12 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
                 </button>
               </td>
             </tr>
-            {selectedStockNo === barang.stock_no && (
+            {selectedStockNo === stock.stock_no && (
               <td colSpan={12} className="bg-blue-300 -z-50 px-0 py-2 m-0">
                 <td
                   colSpan={6}
                   className="relative z-30"
-                  key={`dropdown-${barang.id_stock}`}
+                  key={`dropdown-${stock.id_stock}`}
                 >
                   {dataDetailStockNo.length === 0 ? (
                     <p className="text-center">DaTa Tidak Ada</p>

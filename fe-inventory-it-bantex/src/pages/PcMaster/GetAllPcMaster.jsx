@@ -36,7 +36,6 @@ const GetAllPcMaster = () => {
     <Sidebar>
       <LayoutContentDashboard>
         <section className="container mx-auto  flex flex-col gap-5   w-full">
-          {/* Header Kontent */}
           <button onClick={backToMenu}>
             <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
           </button>

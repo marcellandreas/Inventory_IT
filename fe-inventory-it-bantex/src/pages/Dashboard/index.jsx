@@ -98,18 +98,15 @@ const Dashboard = () => {
             </div>
             <div className="flex flex-col gap-1  flex-wrap  ">
               {dataLogin?.map((data, i) => (
-                <div
-                  key={i}
-                  className="flex w-full  flex-wrap xl:flex-nowrap  "
-                >
-                  <div className=" rounded-s-md bg-teal-500 w-full p-1 flex justify-around text-slate-900 flex-col ">
+                <div key={i} className="flex w-full  flex-wrap  ">
+                  <div className=" rounded-s-md bg-teal-500 p-1 flex justify-around text-slate-900 flex-col ">
                     Username
                     <span className=" font-semibold text-gray-700 ">
                       {data.username}
                     </span>
                   </div>
-                  <div className=" rounded-e-md bg-teal-500 w-full p-1 flex justify-around text-slate-900 flex-col  ">
-                    Waktu Terakhir{" "}
+                  <div className=" rounded-e-md bg-teal-500  p-1 flex justify-around text-slate-900 flex-col  ">
+                    Waktu Terakhir
                     <span className=" font-semibold text-gray-700">
                       {`${data.last_login_time.slice(0, 10)}`}
                     </span>
@@ -118,12 +115,6 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
-          {/* <div className=" bg-slate-900 rounded-xl min-h-[50px] row-span-1 md:row-span-2 col-span-4 md:col-span-2 order-3 ">
-              Tabel 2
-            </div>
-            <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-2">
-              asdh
-            </div> */}
         </section>
       </LayoutContentDashboard>
     </Sidebar>
