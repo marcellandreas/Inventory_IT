@@ -24,7 +24,7 @@ const Navbar = ({
       <div
         className={`absolute ${
           openMob ? "left-[158px] rotate-180" : "left-8 rotate-0"
-        } text-slate-800 flex justify-center items-center transition-transform z-50 rounded-full border border-slate-800 bg-white h-8 w-8`}
+        } text-slate-800 z-50 flex justify-center items-center transition-transform  rounded-full border border-slate-800 bg-white h-8 w-8`}
       >
         <BsChevronDoubleRight
           size={24}

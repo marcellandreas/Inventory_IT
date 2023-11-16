@@ -10,6 +10,7 @@ import stockReducer from "./Feature/StockSlice";
 import stockDetailSlice from "./Feature/detailStockslice";
 import pcmasterReducer from "./Feature/DataPcMaster";
 import requestSubmissionSlice from "./Feature/requestSubmissionSlice";
+import moreSettingSlice from "./Feature/moreSettingSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     dataPc: dataPc,
     pcmaster: pcmasterReducer,
     dataDivisionAndPT: dataDivisionAndPT,
+    moreSetting: moreSettingSlice,
     dataPengajuanBarang: dataPengajuanBarang,
     users: userReducer,
     dataSliceItemReq: dataSliceItemReq,

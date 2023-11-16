@@ -1,8 +1,11 @@
 import { columnTableItemsReq } from "../../../assets/data/ColumnTables";
 import { NavLink } from "react-router-dom";
 import { TableContent, Tbody, Thead } from "../../atoms";
-import { PiWarningOctagonLight } from "react-icons/pi";
-import { MdDelete, MdEditNote } from "react-icons/md";
+import {
+  MdDelete,
+  MdEditNote,
+  PiWarningOctagonLight,
+} from "../../../assets/icons/icons";
 
 const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
   const tableHeaders = columnTableItemsReq;
@@ -23,7 +26,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
           <tr key={i}>
             <td className="border px-4 py-2 font-semibold text-xl">{i + 1}</td>
             <td className="border px-4 py-2">{data.no_pengajuan}</td>
-            <td className={`border p-1   `}>
+            <td className={`border    `}>
               <p className={` text-center p-2 rounded-lg ${data.status}`}>
                 {data.status}
               </p>

@@ -5,7 +5,7 @@ const DataMenu = ({ menu, i, isOpen }) => {
     <NavLink
       to={menu?.path}
       activestyle="active"
-      className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md z-50`}
+      className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-white hover:text-slate-800 rounded-md z-50`}
     >
       <div>{React.createElement(menu?.icon, { size: "20" })}</div>
       <h2

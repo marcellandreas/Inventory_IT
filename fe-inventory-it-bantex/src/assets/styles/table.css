@@ -162,20 +162,21 @@ tbody tr.hide td img {
   color: #006b21;
 }
 
-.status.cancelled {
+.Ditolak {
   background-color: #d893a3;
   color: #b30021;
 }
 
-.status.pending {
+.Approved1 {
   background-color: #ebc474;
 }
 
-.status.shipped {
+.Approved2 {
   background-color: #6fcaea;
 }
 
-.used {
+.used,
+.Diajukan {
   background-color: #6fcaea;
   color: blue;
 }

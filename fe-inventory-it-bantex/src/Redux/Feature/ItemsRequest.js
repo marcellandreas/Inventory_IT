@@ -4,7 +4,9 @@ import { AxiosInstance } from "../../apis/api";
 const initialState = {
   allData: [],
   needApproved: [],
+  needApproved2: [],
   approved: [],
+  approved2: [],
   loading: false,
   error: null,
 };
@@ -24,11 +26,31 @@ export const fetchNeedApproved = createAsyncThunk(
   }
 );
 
+export const fetchNeedApproved2 = createAsyncThunk(
+  "data/fetchNeedApproved2",
+  async (username) => {
+    const response = await AxiosInstance.get(
+      `form/status/Disetujui1/approved_2/${username}`
+    );
+    return response.data.data;
+  }
+);
+
 export const fetchApproved = createAsyncThunk(
   "data/fetchApproved",
   async (username) => {
     const response = await AxiosInstance.get(
       `form/data?approved_1=${username}`
+    );
+    return response.data.data;
+  }
+);
+
+export const fetchApproved2 = createAsyncThunk(
+  "data/fetchApproved2",
+  async (username) => {
+    const response = await AxiosInstance.get(
+      `form/data?approved_2=${username}`
     );
     return response.data.data;
   }
@@ -55,6 +77,7 @@ const dataSliceItemReq = createSlice({
         state.allData = action.payload;
         state.loading = false;
       })
+      // Butuh Persejuan Admin
       .addCase(fetchNeedApproved.pending, (state) => {
         state.loading = true;
       })
@@ -62,11 +85,28 @@ const dataSliceItemReq = createSlice({
         state.needApproved = action.payload;
         state.loading = false;
       })
+      // (Butuh Persetujuan Managers)
+      .addCase(fetchNeedApproved2.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchNeedApproved2.fulfilled, (state, action) => {
+        state.needApproved2 = action.payload;
+        state.loading = false;
+      })
+      // Approved 1 (IT / Admin)
       .addCase(fetchApproved.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchApproved.fulfilled, (state, action) => {
         state.approved = action.payload;
+        state.loading = false;
+      })
+      // Approved 2 (Manager)
+      .addCase(fetchApproved2.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchApproved2.fulfilled, (state, action) => {
+        state.approved2 = action.payload;
         state.loading = false;
       });
     // .addCase(fetchDataDetailPengajuan.pending, (state) => {

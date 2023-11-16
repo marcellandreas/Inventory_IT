@@ -18,6 +18,7 @@ import {
   fechtPcLineData,
   fetchItemsUnusedForPcMaster,
 } from "../Redux/Feature/DataPcMaster";
+import { fetchNamePt } from "../Redux/Feature/moreSettingSlice";
 
 // categories
 export function useFetchCategories() {
@@ -143,6 +144,15 @@ export function useFetchPcLineData() {
   const data = useSelector((state) => state.pcmaster.dataPcLine);
   useEffect(() => {
     dispatch(fechtPcLineData());
+  }, [dispatch]);
+  return data;
+}
+
+export function useFetchNamePt() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.moreSetting.data);
+  useEffect(() => {
+    dispatch(fetchNamePt());
   }, [dispatch]);
   return data;
 }

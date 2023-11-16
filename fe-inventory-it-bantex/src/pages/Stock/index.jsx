@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SearchInput } from "../../components/atoms";
-import {
-  FormDeleteModalStock,
-  TableStocks,
-  Loading,
-} from "../../components/molecules";
+import { TableStocks, Loading, FormDelStock } from "../../components/molecules";
 import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
 import {
   ContentLayout,
   MainLayout,
   generateDynamicContent,
 } from "../../components/templates";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
 import { filterDataBySearch } from "../../helpers/filters";
-
 import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
 import Modals from "../../helpers/modals";
 import { MdLocalPrintshop } from "react-icons/md";
@@ -47,7 +41,8 @@ const StockPage = () => {
                   search={search}
                   handleSearchChange={handleSearchChange}
                 />
-                <div className="flex  gap-4 col-span-6 z-50 justify-end order-2 sm:order-3">
+
+                <div className="flex  gap-4 col-span-6  justify-end order-2 sm:order-3">
                   {showDropdown && (
                     <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
                   )}
@@ -79,7 +74,7 @@ const StockPage = () => {
         isVisible={modalState.delete}
         onClose={() => closeModal("delete")}
       >
-        <FormDeleteModalStock onClose={() => closeModal("delete")} id={id} />
+        <FormDelStock onClose={() => closeModal("delete")} id={id} />
       </ShowModal>
     </>
   );

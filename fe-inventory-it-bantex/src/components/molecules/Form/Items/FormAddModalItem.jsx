@@ -7,17 +7,12 @@ import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 import { useFetchStocks } from "../../../../config/GetData";
 import { AxiosInstance } from "../../../../apis/api";
 import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
-import getUserData from "../../../../utils/GetUserData";
 
 const FormAddModalItem = ({ onClose }) => {
   // get id and username
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
-  // const { idUser, username } = getUserData();
-  const postLoginData = {
-    post_user_id: idUser,
-    post_username: username,
-  };
+
   // validation
   const [validationErrors, setValidationErrors] = useState({});
   const dispatch = useDispatch();
@@ -34,6 +29,8 @@ const FormAddModalItem = ({ onClose }) => {
     date_registation: "",
     date_expired: "",
     item_specification: "",
+    post_user_id: idUser,
+    post_username: username,
   });
 
   const handleChangeValue = (e) => {
@@ -72,7 +69,6 @@ const FormAddModalItem = ({ onClose }) => {
   const createItemAndUnwrap = async () => {
     const data = {
       ...formValues,
-      ...postLoginData,
     };
     return await dispatch(createItem(data)).unwrap();
   };

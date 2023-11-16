@@ -4,11 +4,11 @@ import {
   ContentLayout,
   generateDynamicContent,
 } from "../../components/templates";
-
 import {
-  FormAddModalItem,
-  FormDeleteModalItem,
-  FormEditModalItem,
+  FormAddItem,
+  FormDeleteItem,
+  FormEditItem,
+  FormTakeItem,
   TableItems,
 } from "../../components/molecules";
 import { BsDatabaseFillAdd } from "../../assets/icons/icons";
@@ -18,7 +18,6 @@ import { SearchInput } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
 import { useFetchItems } from "../../config/GetData";
-import FormTakeModalItem from "../../components/molecules/Form/Items/FormTakeModalItem";
 
 const ItemsPage = () => {
   const [id, setId] = useState("");
@@ -53,7 +52,6 @@ const ItemsPage = () => {
             </div>
             <section className=" h-[75vh] w-full  gap-4 bg-slate-200 rounded-xl min-h-[50px]  ">
               <TableHeader>
-                {/* <TitleTable>Data Barang</TitleTable> */}
                 <SearchInput
                   search={search}
                   handleSearchChange={handleSearchChange}
@@ -63,15 +61,13 @@ const ItemsPage = () => {
                     className="button flex gap-2 items-center order-2 sm:order-3"
                     onClick={() => showModal("add")}
                   >
-                    <BsDatabaseFillAdd />{" "}
-                    <span className="hidden md:block">Tambah Barang</span>
+                    <BsDatabaseFillAdd /> <span>Tambah Barang</span>
                   </button>
                   <button
                     className="button flex gap-2 items-center order-2 sm:order-3"
                     onClick={() => showModal("take")}
                   >
-                    <BsDatabaseFillAdd />{" "}
-                    <span className="hidden md:block">Ambil Barang</span>
+                    <BsDatabaseFillAdd /> <span>Ambil Barang</span>
                   </button>
                 </div>
               </TableHeader>
@@ -93,19 +89,19 @@ const ItemsPage = () => {
       </MainLayout>
       {/* Modals Popup */}
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
-        <FormAddModalItem onClose={() => closeModal("add")} />
+        <FormAddItem onClose={() => closeModal("add")} />
       </ShowModal>
       <ShowModal isVisible={modalState.take} onClose={() => closeModal("take")}>
-        <FormTakeModalItem onClose={() => closeModal("take")} />
+        <FormTakeItem onClose={() => closeModal("take")} />
       </ShowModal>
       <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
-        <FormEditModalItem onClose={() => closeModal("edit")} id={id} />
+        <FormEditItem onClose={() => closeModal("edit")} id={id} />
       </ShowModal>
       <ShowModal
         isVisible={modalState.delete}
         onClose={() => closeModal("delete")}
       >
-        <FormDeleteModalItem onClose={() => closeModal("delete")} id={id} />
+        <FormDeleteItem onClose={() => closeModal("delete")} id={id} />
       </ShowModal>
     </>
   );

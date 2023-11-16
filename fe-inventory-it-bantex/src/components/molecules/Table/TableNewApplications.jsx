@@ -1,8 +1,11 @@
 import { columnTableItemsReq } from "../../../assets/data/ColumnTables";
 import { NavLink } from "react-router-dom";
 import { TableContent, Tbody, Thead } from "../../atoms";
-import { PiWarningOctagonLight } from "react-icons/pi";
-import { MdDelete, MdEditNote } from "react-icons/md";
+import {
+  MdDelete,
+  MdEditNote,
+  PiWarningOctagonLight,
+} from "../../../assets/icons/icons";
 
 const TableNewApplications = ({ data, setDeleteModal, setId }) => {
   const tableHeaders = columnTableItemsReq;

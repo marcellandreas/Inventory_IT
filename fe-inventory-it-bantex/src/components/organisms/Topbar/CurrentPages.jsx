@@ -23,15 +23,15 @@ export default function getCurrentPage(pathname, id_item_req) {
     case "/items":
       return {
         title: "Items List",
-        button: (
-          <button
-            className="button flex gap-2 items-center order-2 sm:order-3"
-            onClick={() => ShowModal("add")}
-          >
-            {/* <BsDatabaseFillAdd />{" "} */}
-            <span className="hidden md:block">Tambah Barang</span>
-          </button>
-        ),
+        // button: (
+        //   <button
+        //     className="button flex gap-2 items-center order-2 sm:order-3"
+        //     onClick={() => ShowModal("add")}
+        //   >
+        //     {/* <BsDatabaseFillAdd />{" "} */}
+        //     <span className="hidden md:block">Tambah Barang</span>
+        //   </button>
+        // ),
       };
     case "/pc-master":
       return { title: "Pc List" };

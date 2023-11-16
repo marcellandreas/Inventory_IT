@@ -4,10 +4,14 @@ import {
   columnTableStockDetail,
 } from "../../../assets/data/ColumnTables";
 import { TableContent, Tbody, Thead } from "../../atoms";
-import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchStockDetails } from "../../../Redux/Feature/detailStockslice";
-import { MdDelete, MdEditNote } from "react-icons/md";
+import {
+  MdDelete,
+  MdEditNote,
+  FaAngleDown,
+  FaAngleRight,
+} from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 
 const TableStocks = ({ setDeleteModal, data, setId }) => {

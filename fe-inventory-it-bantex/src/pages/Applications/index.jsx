@@ -10,7 +10,9 @@ import { useDispatch } from "react-redux";
 import {
   fetchAllData,
   fetchApproved,
+  fetchApproved2,
   fetchNeedApproved,
+  fetchNeedApproved2,
 } from "../../Redux/Feature/ItemsRequest";
 import { ShowModal } from "../../components/organisms";
 import DeleteApplications from "../../components/molecules/Form/Applications/DeleteApplications";
@@ -23,7 +25,9 @@ const Applications = () => {
   useEffect(() => {
     dispatch(fetchAllData());
     dispatch(fetchNeedApproved(username));
+    dispatch(fetchNeedApproved2(username));
     dispatch(fetchApproved(username));
+    dispatch(fetchApproved2(username));
   }, [dispatch, username]);
 
   const [deleteModal, setDeleteModal] = useState(false);

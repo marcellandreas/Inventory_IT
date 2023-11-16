@@ -1,6 +1,5 @@
-import { MdEdit } from "react-icons/md";
 import { columnTableUsers } from "../../../assets/data/ColumnTables";
-import { MdDelete } from "../../../assets/icons/icons";
+import { MdDelete, MdEdit } from "../../../assets/icons/icons";
 import { TableContent, Tbody, Thead } from "../../atoms";
 
 const TableUsers = ({ data, setId, setEditModal, setDeleteModal }) => {

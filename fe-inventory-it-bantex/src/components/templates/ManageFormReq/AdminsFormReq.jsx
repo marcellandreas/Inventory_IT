@@ -4,7 +4,7 @@ import { MdLocalPrintshop } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { SearchInput } from "../../atoms";
 import { TableHeader, TableBody } from "../../organisms";
-import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
+import { TableApplicationsForm } from "../../molecules";
 import TabBar from "@TabBar";
 
 const AdminsFormReq = ({ setId, setDeleteModal }) => {

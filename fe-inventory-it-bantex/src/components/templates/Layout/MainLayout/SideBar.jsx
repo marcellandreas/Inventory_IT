@@ -69,7 +69,7 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
             key={i}
             onClick={handleLogout}
             activestyle="active"
-            className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-slate-800 rounded-md `}
+            className={` group flex items-center text-sm gap-2 font-medium p-2 hover:bg-amber-400 rounded-md `}
           >
             <div>{React.createElement(menu?.icon, { size: "20" })}</div>
             <h2

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { SearchInput, TitleTable } from "../../components/atoms";
 import {
-  FormAddModalUser,
-  FormDeleteModalUser,
-  FormEditModalUser,
+  FormAddUser,
+  FormDeleteUser,
+  FormEditUser,
   TableLoginHistory,
   TableUsers,
 } from "../../components/molecules";
@@ -174,16 +174,16 @@ const AccesPage = () => {
         </ContentLayout>
       </MainLayout>
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
-        <FormAddModalUser onClose={() => closeModal("add")} />
+        <FormAddUser onClose={() => closeModal("add")} />
       </ShowModal>
       <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
-        <FormEditModalUser onClose={() => closeModal("edit")} id={id} />
+        <FormEditUser onClose={() => closeModal("edit")} id={id} />
       </ShowModal>
       <ShowModal
         isVisible={modalState.delete}
         onClose={() => closeModal("delete")}
       >
-        <FormDeleteModalUser onClose={() => closeModal("delete")} id={id} />
+        <FormDeleteUser onClose={() => closeModal("delete")} id={id} />
       </ShowModal>
     </>
   );
