@@ -51,44 +51,42 @@ const ItemsPage = () => {
                 Cetak qrcode
               </NavLink>
             </div>
-            <section className="grid grid-cols-6 h-[75vh] w-full  gap-4 grid-flow-dense">
-              <div className="bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6">
-                <TableHeader>
-                  {/* <TitleTable>Data Barang</TitleTable> */}
-                  <SearchInput
-                    search={search}
-                    handleSearchChange={handleSearchChange}
+            <section className=" h-[75vh] w-full  gap-4 bg-slate-200 rounded-xl min-h-[50px]  ">
+              <TableHeader>
+                {/* <TitleTable>Data Barang</TitleTable> */}
+                <SearchInput
+                  search={search}
+                  handleSearchChange={handleSearchChange}
+                />
+                <div className=" order-2 sm:order-3 flex gap-4">
+                  <button
+                    className="button flex gap-2 items-center order-2 sm:order-3"
+                    onClick={() => showModal("add")}
+                  >
+                    <BsDatabaseFillAdd />{" "}
+                    <span className="hidden md:block">Tambah Barang</span>
+                  </button>
+                  <button
+                    className="button flex gap-2 items-center order-2 sm:order-3"
+                    onClick={() => showModal("take")}
+                  >
+                    <BsDatabaseFillAdd />{" "}
+                    <span className="hidden md:block">Ambil Barang</span>
+                  </button>
+                </div>
+              </TableHeader>
+              <TableBody>
+                {generateDynamicContent(
+                  dataItems,
+                  filteredData,
+                  <TableItems
+                    data={filteredData}
+                    setId={setId}
+                    setEditModal={() => showModal("edit")}
+                    setDeleteModal={() => showModal("delete")}
                   />
-                  <div className=" order-2 sm:order-3 flex gap-4">
-                    <button
-                      className="button flex gap-2 items-center order-2 sm:order-3"
-                      onClick={() => showModal("add")}
-                    >
-                      <BsDatabaseFillAdd />{" "}
-                      <span className="hidden md:block">Tambah Barang</span>
-                    </button>
-                    <button
-                      className="button flex gap-2 items-center order-2 sm:order-3"
-                      onClick={() => showModal("take")}
-                    >
-                      <BsDatabaseFillAdd />{" "}
-                      <span className="hidden md:block">Ambil Barang</span>
-                    </button>
-                  </div>
-                </TableHeader>
-                <TableBody>
-                  {generateDynamicContent(
-                    dataItems,
-                    filteredData,
-                    <TableItems
-                      data={filteredData}
-                      setId={setId}
-                      setEditModal={() => showModal("edit")}
-                      setDeleteModal={() => showModal("delete")}
-                    />
-                  )}
-                </TableBody>
-              </div>
+                )}
+              </TableBody>
             </section>
           </section>
         </ContentLayout>

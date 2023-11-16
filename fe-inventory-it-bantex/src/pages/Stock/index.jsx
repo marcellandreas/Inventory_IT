@@ -41,38 +41,36 @@ const StockPage = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <section className="grid col-span-6 grid-cols-6  w-full  gap-4 grid-flow-dense ">
-              <div className=" bg-gray-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
-                <TableHeader>
-                  <SearchInput
-                    search={search}
-                    handleSearchChange={handleSearchChange}
-                  />
-                  <div className="flex  gap-4 col-span-6 z-50 justify-end order-2 sm:order-3">
-                    {showDropdown && (
-                      <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
-                    )}
-                    <button
-                      className="button"
-                      onClick={() => setShowDropdown(!showDropdown)}
-                    >
-                      <MdLocalPrintshop />
-                      Print Stock
-                    </button>
-                  </div>
-                </TableHeader>
-                <TableBody>
-                  {generateDynamicContent(
-                    dataStock,
-                    filteredData,
-                    <TableStocks
-                      data={filteredData}
-                      setDeleteModal={() => showModal("delete")}
-                      setId={setId}
-                    />
+            <section className=" col-span-6 bg-gray-200 rounded-xl min-h-[50px]">
+              <TableHeader>
+                <SearchInput
+                  search={search}
+                  handleSearchChange={handleSearchChange}
+                />
+                <div className="flex  gap-4 col-span-6 z-50 justify-end order-2 sm:order-3">
+                  {showDropdown && (
+                    <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
                   )}
-                </TableBody>
-              </div>
+                  <button
+                    className="button"
+                    onClick={() => setShowDropdown(!showDropdown)}
+                  >
+                    <MdLocalPrintshop />
+                    Print Stock
+                  </button>
+                </div>
+              </TableHeader>
+              <TableBody>
+                {generateDynamicContent(
+                  dataStock,
+                  filteredData,
+                  <TableStocks
+                    data={filteredData}
+                    setDeleteModal={() => showModal("delete")}
+                    setId={setId}
+                  />
+                )}
+              </TableBody>
             </section>
           )}
         </ContentLayout>
