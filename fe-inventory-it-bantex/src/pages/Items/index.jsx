@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import {
+  MainLayout,
+  ContentLayout,
+  generateDynamicContent,
+} from "../../components/templates";
+
 import {
   FormAddModalItem,
   FormDeleteModalItem,
@@ -12,7 +17,6 @@ import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
 import { SearchInput } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
-import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 import { useFetchItems } from "../../config/GetData";
 import FormTakeModalItem from "../../components/molecules/Form/Items/FormTakeModalItem";
 
@@ -30,9 +34,9 @@ const ItemsPage = () => {
 
   return (
     <>
-      <Sidebar>
-        <LayoutContentDashboard>
-          <section className="container mx-auto flex flex-col gap-5 items-center">
+      <MainLayout>
+        <ContentLayout>
+          <section className="col-span-6 w-full mx-auto flex flex-col gap-5 items-center">
             <div className="flex gap-2 self-start">
               <NavLink
                 to={`/barcode`}
@@ -87,8 +91,8 @@ const ItemsPage = () => {
               </div>
             </section>
           </section>
-        </LayoutContentDashboard>
-      </Sidebar>
+        </ContentLayout>
+      </MainLayout>
       {/* Modals Popup */}
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
         <FormAddModalItem onClose={() => closeModal("add")} />

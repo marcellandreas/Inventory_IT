@@ -1,4 +1,8 @@
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import {
+  MainLayout,
+  ContentLayout,
+  generateDynamicContent,
+} from "../../components/templates";
 import { useEffect, useState } from "react";
 import { TablePcMasters } from "../../components/molecules";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
@@ -7,10 +11,6 @@ import { TableBody, TableHeader } from "../../components/organisms";
 import { SearchInput, TitleTable } from "../../components/atoms";
 import { useNavigate } from "react-router-dom";
 import { filterDataBySearch } from "../../helpers/filters";
-import SearchNotFound from "../../assets/images/search-not-found.jpg";
-import DataNotFound from "../../assets/images/data-not-found.jpg";
-import { fetchPcMasterData } from "../../Redux/Feature/DataPcMaster";
-import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 
 const GetAllPcMaster = () => {
   const dispatch = useDispatch();
@@ -33,13 +33,13 @@ const GetAllPcMaster = () => {
   const filteredData = filterDataBySearch(pcmasterData, search);
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="container mx-auto  flex flex-col gap-5   w-full">
+    <MainLayout>
+      <ContentLayout>
+        <section className="col-span-6 mx-auto  flex flex-col gap-5   w-full">
           <button onClick={backToMenu}>
             <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
           </button>
-          <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
+          <section className=" bg-slate-400 backdrop-blur-md rounded-3xl">
             <TableHeader>
               <TitleTable>Data PC / Laptop </TitleTable>
               <SearchInput
@@ -56,8 +56,8 @@ const GetAllPcMaster = () => {
             </TableBody>
           </section>
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

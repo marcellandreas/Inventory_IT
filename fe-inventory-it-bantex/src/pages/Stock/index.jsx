@@ -6,14 +6,13 @@ import {
   Loading,
 } from "../../components/molecules";
 import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
-import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
+import {
+  ContentLayout,
+  MainLayout,
+  generateDynamicContent,
+} from "../../components/templates";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   fetchCategories,
-//   fetchStockNumbers,
-//   fetchStocks,
-// } from "../../Redux/Feature/StockSlice";
+
 import { filterDataBySearch } from "../../helpers/filters";
 
 import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
@@ -22,16 +21,9 @@ import { MdLocalPrintshop } from "react-icons/md";
 
 const StockPage = () => {
   const [id, setId] = useState("");
-  // const dispatch = useDispatch();
   const dataStock = useSelector((state) => state.stocks.data);
   const isLoading = useSelector((state) => state.stocks.isLoading);
   const [showDropdown, setShowDropdown] = useState(false);
-
-  // useEffect(() => {
-  //   dispatch(fetchStocks());
-  //   dispatch(fetchStockNumbers());
-  //   dispatch(fetchCategories());
-  // }, [dispatch]);
 
   // melakuan search
   const [search, setSearch] = useState("");
@@ -44,12 +36,12 @@ const StockPage = () => {
 
   return (
     <>
-      <Sidebar>
-        <LayoutContentDashboard>
+      <MainLayout>
+        <ContentLayout>
           {isLoading ? (
             <Loading />
           ) : (
-            <section className="grid grid-cols-6 h-[75vh] w-full  gap-4 grid-flow-dense ">
+            <section className="grid col-span-6 grid-cols-6  w-full  gap-4 grid-flow-dense ">
               <div className=" bg-gray-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
                 <TableHeader>
                   <SearchInput
@@ -83,8 +75,8 @@ const StockPage = () => {
               </div>
             </section>
           )}
-        </LayoutContentDashboard>
-      </Sidebar>
+        </ContentLayout>
+      </MainLayout>
       <ShowModal
         isVisible={modalState.delete}
         onClose={() => closeModal("delete")}

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import {
+  MainLayout,
+  ContentLayout,
+  generateDynamicContent,
+} from "../../components/templates";
 import { TablePcLine } from "../../components/molecules";
 import { useNavigate } from "react-router-dom";
 import { TableBody, TableHeader } from "../../components/organisms";
 import { SearchInput } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
-import { generateDynamicContent } from "../../components/templates/GenerateDynamicContent";
 import {
   useFetchItemsUnusedForPcMaster,
   useFetchPcLineData,
@@ -59,9 +62,9 @@ const GetUnusedItems = () => {
   };
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="grid grid-cols-6 gap-4 grid-flow-dense w-full">
+    <MainLayout>
+      <ContentLayout>
+        <section className="col-span-6 grid grid-cols-6 gap-4 grid-flow-dense w-full">
           <button onClick={backToMenu} className="button h-12 w-12">
             Back
           </button>
@@ -81,8 +84,8 @@ const GetUnusedItems = () => {
             </section>
           </div>
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

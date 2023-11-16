@@ -2,7 +2,7 @@ import SearchNotFound from "../../../assets/images/search-not-found.jpg";
 import DataNotFound from "../../../assets/images/data-not-found.jpg";
 import { DynamicComponent } from "./DynamicComponent";
 
-export function generateDynamicContent(dataCount, filteredData, component) {
+function generateDynamicContent(dataCount, filteredData, component) {
   if (dataCount.length === 0) {
     return (
       <div className="min-h-[60vh] flex flex-col justify-center items-center">
@@ -25,6 +25,8 @@ export function generateDynamicContent(dataCount, filteredData, component) {
     return <DynamicComponent component={component} />;
   }
 }
+
+export default generateDynamicContent;
 
 // Di halaman Anda, Anda dapat menggunakannya seperti ini:
 //  {generateDynamicContent(dataPcMaster, filteredData, <TablePcMasters data={filteredData} />)}

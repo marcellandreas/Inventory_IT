@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   AdminsFormReq,
-  LayoutContentDashboard,
   ManagersFormReq,
-  Sidebar,
   UsersFormReq,
+  ContentLayout,
+  MainLayout,
 } from "../../components/templates";
 import { useDispatch } from "react-redux";
 import {
@@ -45,8 +45,8 @@ const Applications = () => {
   };
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>{renderForm()}</LayoutContentDashboard>
+    <MainLayout>
+      <ContentLayout>{renderForm()}</ContentLayout>
       <ShowModal isVisible={deleteModal} onClose={() => setDeleteModal(false)}>
         <DeleteApplications
           isVisible={deleteModal}
@@ -54,7 +54,7 @@ const Applications = () => {
           id={id}
         />
       </ShowModal>
-    </Sidebar>
+    </MainLayout>
   );
 };
 

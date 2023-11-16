@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { TableBody, TableHeader } from "../../components/organisms";
-import LayoutContentDashboard from "../../components/templates/LayoutContentDashboard";
-import Sidebar from "../../components/templates/Sidebar";
 import { TableContent, Tbody, Thead } from "../../components/atoms";
+import { MainLayout, ContentLayout } from "../../components/templates";
 
 const SetUp = () => {
   const [dataPt, setDataPt] = useState([]);
@@ -14,9 +13,9 @@ const SetUp = () => {
       .catch((err) => console.log(err));
   });
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="grid grid-cols-3 gap-4 grid-flow-dense ">
+    <MainLayout>
+      <ContentLayout>
+        <section className=" col-span-6 grid grid-cols-3 gap-4 grid-flow-dense ">
           {/* contet name pt */}
           <div className=" bg-slate-200 py-2 rounded-xl min-h-[50px] row-span-4 col-span-1">
             {/* <TableHeader> */}
@@ -57,8 +56,8 @@ const SetUp = () => {
           <div className=" bg-slate-200 rounded-xl min-h-[50px]">asdh</div>
           <div className=" bg-slate-200 rounded-xl min-h-[50px]">asdh</div>
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

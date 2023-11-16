@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
 import {
@@ -7,7 +6,7 @@ import {
   UserReqSub,
   ManagerReqSub,
 } from "../../components/templates";
-import { useDispatch } from "react-redux";
+import { MainLayout, ContentLayout } from "../../components/templates";
 
 const DetailFormItemsRequest = () => {
   const { id_item_req } = useParams();
@@ -128,10 +127,10 @@ const DetailFormItemsRequest = () => {
   };
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
+    <MainLayout>
+      <ContentLayout>
         {role == 1 ? (
-          <section className="w-full flex flex-col gap-4">
+          <section className=" col-span-6 flex flex-col gap-4">
             <div className="flex justify-between">
               <button onClick={backToMenu} className="button">
                 Back
@@ -191,7 +190,7 @@ const DetailFormItemsRequest = () => {
             ) : null}
           </section>
         ) : role == 2 ? (
-          <section className="w-full flex flex-col gap-4">
+          <section className="col-span-6 flex flex-col gap-4">
             <div className="flex justify-between">
               <button onClick={backToMenu} className="button">
                 Back
@@ -234,7 +233,7 @@ const DetailFormItemsRequest = () => {
             ) : null}
           </section>
         ) : role == 3 ? (
-          <section className="w-full flex flex-col gap-4">
+          <section className="col-span-6 flex flex-col gap-4">
             <div className="flex justify-between">
               <button onClick={backToMenu} className="button">
                 Back
@@ -293,8 +292,8 @@ const DetailFormItemsRequest = () => {
             ) : null}
           </section>
         ) : null}
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

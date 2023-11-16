@@ -70,7 +70,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
   const tabs = ["Semua", "Butuh Approved", "Approved"];
 
   return (
-    <section className="grid grid-cols-6 gap-4 grid-flow-dense ">
+    <>
       <div className="self-start flex-wrap flex justify-between w-full col-span-6 ">
         <TabBar
           tabs={tabs}
@@ -104,7 +104,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
           </div>
         </section>
       </div>
-    </section>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { MainLayout, ContentLayout } from "../../components/templates";
 import { TableLatestApplications, Widget } from "../../components/molecules";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
@@ -48,9 +48,9 @@ const Dashboard = () => {
     ],
   };
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="grid grid-cols-4 gap-4 grid-flow-dense  w-full h-[75vh]  ">
+    <MainLayout>
+      <ContentLayout>
+        <section className=" col-span-6 grid grid-cols-4 gap-4 grid-flow-dense ">
           <Widget
             icon={<ImBooks />}
             nameWidget="Jumlah Items"
@@ -116,8 +116,8 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

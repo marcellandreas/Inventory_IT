@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { MainLayout, ContentLayout } from "../../components/templates";
 
 const NewApplications = () => {
   const [activeTab, setActiveTab] = useState(1);
@@ -35,8 +35,8 @@ const NewApplications = () => {
   };
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
+    <MainLayout>
+      <ContentLayout>
         <div className="flex  mb-4 relative">
           {tabs.map((tab, index) => (
             <div
@@ -56,8 +56,8 @@ const NewApplications = () => {
           />
         </div>
         <TabContent activeTab={activeTab} />
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Title } from "../../components/atoms";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { ContentLayout, MainLayout } from "../../components/templates";
 import { AxiosInstance } from "../../apis/api";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import {
@@ -111,9 +111,9 @@ const AddComponentsStocks = () => {
   };
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
+    <MainLayout>
+      <ContentLayout>
+        <section className="w-full col-span-6  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
           <div className="flex gap-4">
             <button onClick={backToMenu}>
               <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
@@ -158,8 +158,8 @@ const AddComponentsStocks = () => {
             <MdAddCircleOutline /> <span>Tambah Persediaan</span>
           </button>
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

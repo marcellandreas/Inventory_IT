@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { MainLayout, ContentLayout } from "../../components/templates";
+
 import { BsArrowLeftCircleFill, BsDatabaseFillAdd } from "react-icons/bs";
 import TablePcLineAdd from "../../components/molecules/Table/TablePcLineAdd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -66,8 +67,8 @@ const AddComponentsPC = () => {
   console.log(clickedItems);
   return (
     <>
-      <Sidebar>
-        <LayoutContentDashboard>
+      <MainLayout>
+        <ContentLayout>
           <section className="container mx-auto  flex flex-col gap-5  w-full">
             {/* Header Kontent */}
             <section className="flex gap-2 justify-between ">
@@ -130,8 +131,8 @@ const AddComponentsPC = () => {
               </TableBody>
             </section>
           </section>
-        </LayoutContentDashboard>
-      </Sidebar>
+        </ContentLayout>
+      </MainLayout>
     </>
   );
 };

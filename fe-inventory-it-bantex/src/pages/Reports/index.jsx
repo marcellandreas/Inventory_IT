@@ -1,14 +1,7 @@
-import Title from "../../components/atoms/Text/Title";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { MainLayout, ContentLayout } from "../../components/templates";
 
 const ReportPage = () => {
-  return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <Title>Halaman Laporan</Title>
-      </LayoutContentDashboard>
-    </Sidebar>
-  );
+  return <MainLayout>asss</MainLayout>;
 };
 
 export default ReportPage;

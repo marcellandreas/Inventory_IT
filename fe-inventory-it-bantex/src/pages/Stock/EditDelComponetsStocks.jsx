@@ -12,7 +12,7 @@ import {
   FormDetailStock,
   HeaderBarangPengajuan,
 } from "../../components/molecules";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { ContentLayout, MainLayout } from "../../components/templates";
 import { fetchStockByNo } from "../../Redux/Feature/StockSlice";
 import { fetchStockDetails } from "../../Redux/Feature/detailStockslice";
 import { AxiosInstance } from "../../apis/api";
@@ -219,9 +219,9 @@ const EditDelCompontentsStocks = () => {
   console.log(inputListPost);
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
+    <MainLayout>
+      <ContentLayout>
+        <section className="w-full grid-col-6  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
           <div className="flex gap-4">
             <button onClick={backToMenu}>
               <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
@@ -403,8 +403,8 @@ const EditDelCompontentsStocks = () => {
             <span>Mengubah Stock</span>
           </button>
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

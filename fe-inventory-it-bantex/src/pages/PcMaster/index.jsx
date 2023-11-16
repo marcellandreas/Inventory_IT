@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  LayoutContentDashboard,
-  Sidebar,
-  DataPc,
-} from "../../components/templates";
+import { ContentLayout, MainLayout, DataPc } from "../../components/templates";
 import {
   fetchItemsUnusedForPcMaster,
   fetchPcMasterData,
@@ -21,11 +17,11 @@ const PcMaster = () => {
   }, [dispatch]);
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
+    <MainLayout>
+      <ContentLayout>
         <DataPc />
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 };
 

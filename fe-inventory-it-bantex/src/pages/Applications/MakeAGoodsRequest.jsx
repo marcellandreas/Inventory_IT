@@ -3,7 +3,7 @@ import { AxiosInstance } from "../../apis/api";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Title } from "../../components/atoms";
-import { LayoutContentDashboard, Sidebar } from "../../components/templates";
+import { MainLayout, ContentLayout } from "../../components/templates";
 import FormApplication from "../../components/molecules/Form/Applications/FormApplication";
 import FormRequest from "../../components/molecules/Form/Applications/FormRequest";
 import { FormStock, HeaderBarangPengajuan } from "../../components/molecules";
@@ -280,9 +280,9 @@ const MakeAGoodsRequest = React.memo(() => {
   };
 
   return (
-    <Sidebar>
-      <LayoutContentDashboard>
-        <section className="w-full  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
+    <MainLayout>
+      <ContentLayout>
+        <section className=" col-span-6  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
           <PageHeader
             title="Buat Entri Permintaan atau Pengajuan"
             onBackClick={backToMenu}
@@ -355,8 +355,8 @@ const MakeAGoodsRequest = React.memo(() => {
             </button>
           )}
         </section>
-      </LayoutContentDashboard>
-    </Sidebar>
+      </ContentLayout>
+    </MainLayout>
   );
 });
 

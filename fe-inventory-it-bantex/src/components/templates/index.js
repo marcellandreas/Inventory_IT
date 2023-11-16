@@ -1,6 +1,3 @@
-export { default as Sidebar } from "./Sidebar";
-
-export { default as LayoutContentDashboard } from "./LayoutContentDashboard";
 export { default as DataPc } from "./Manage/DataPc";
 
 export { default as UsersFormReq } from "./ManageFormReq/UsersFormReq";
@@ -12,3 +9,8 @@ export { default as AdminReqSub } from "./RequestSubmission/AdminReqSub";
 export { default as UserReqSub } from "./RequestSubmission/UserReqSub";
 export { default as ManagerReqSub } from "./RequestSubmission/ManagerReqSub";
 
+// folder layout
+export { default as MainLayout } from "./Layout/MainLayout/index";
+export { default as ContentLayout } from "./Layout/ContentLayout";
+
+export { default as generateDynamicContent } from "./GenerateDynamicContent";

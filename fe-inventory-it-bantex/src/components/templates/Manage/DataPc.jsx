@@ -121,9 +121,8 @@ const DataPc = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <section className="w-full flex-col flex gap-9  ">
+        <section className="w-full col-span-6 flex-col flex gap-9  ">
           <section className="bg-gray-200 rounded-3xl shadow-md">
-            {/* Menu */}
             <TableHeader>
               <TitleTable>Data Master Komputer</TitleTable>
               <div className="flex gap-2">
