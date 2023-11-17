@@ -183,12 +183,12 @@ class User {
     });
   }
 
-  getUserByRole1(callback) {
-    const query = "SELECT * FROM user WHERE role = 1";
-    this.connection.query(query, (error, results) => {
-      callback(error, results);
-    });
-  }
+  // getUserByRole1(callback) {
+  //   const query = "SELECT * FROM user WHERE role = 1";
+  //   this.connection.query(query, (error, results) => {
+  //     callback(error, results);
+  //   });
+  // }
 
   // Mengambil daftar peran pengguna tanpa duplikasi
   getUniqueRoles(callback) {

@@ -41,6 +41,7 @@ class requestSubmission {
   }
 
   // Metode untuk membuat form request baru
+  // tidak kepakai
   createFormRequest(data, callback) {
     const query =
       "INSERT INTO request_submission (no_pengajuan, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, date_approved_1, date_approved_2, date_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -67,11 +68,10 @@ class requestSubmission {
   // Metode untuk mengupdate form request
   updateFormRequest(id_item_req, data, callback) {
     const query =
-      "UPDATE request_submission SET no_pengajuan=?, name_pt=?, name_division=?, item_req_date=?, applicant=?, approved_1=?, approved_2=?, status=?, post_username=?, post_user_id=?, post_created_at=? WHERE id_item_req=?";
+      "UPDATE request_submission SET name_pt=?, name_division=?, item_req_date=?, applicant=?, approved_1=?, approved_2=?, status=?, post_username=?, post_user_id=?, post_created_at=? WHERE id_item_req=?";
     this.connection.query(
       query,
       [
-        data.no_pengajuan,
         data.name_pt,
         data.name_division,
         data.item_req_date,

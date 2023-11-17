@@ -1,34 +1,24 @@
 const express = require("express");
 
 const router = express.Router();
-const formPengajuanController = require("../controllers/FormPengajuan");
+const pengajuan = require("../controllers/FormPengajuan");
 
-router.get("/", formPengajuanController.getAllDataItemReq);
-router.get("/req", formPengajuanController.getAllDataReqSubandStockRequest);
-router.get(
-  "/status-req",
-  formPengajuanController.getAllDataReqSubandStockRequestByStatus
-);
-router.get(
-  "/req/:id_item_req",
-  formPengajuanController.getAllDataReqSubandStockRequestById
-);
+router.get("/", pengajuan.getAllDataItemReq);
 
-// Post Items Request
-router.post("/req", formPengajuanController.createItemRequest);
+// request
+router.get("/req", pengajuan.getAllDataReqSubandStockRequest);
+router.get("/status-req", pengajuan.getAllDataReqSubandStockRequestByStatus);
+router.get("/req/:id_item_req", pengajuan.getAllDataReqSubandStockRequestById);
+router.post("/req", pengajuan.createItemRequest);
+router.get("/req/:username", pengajuan.getDataItemReqByUsername);
 
-router.get("/req/:username", formPengajuanController.getDataItemReqByUsername);
-router.post("/sub", formPengajuanController.PostsubmissionItems);
-
-// stock submission
-router.get("/sub", formPengajuanController.getAllDataReqSubandStockSubmission);
-router.get(
-  "/status-sub",
-  formPengajuanController.getAllDataReqSubandStockSubmissionByStatus
-);
+// submission
+router.post("/sub", pengajuan.PostsubmissionItems);
+router.get("/sub", pengajuan.getAllDataReqSubandStockSubmission);
+router.get("/status-sub", pengajuan.getAllDataReqSubandStockSubmissionByStatus);
 router.get(
   "/sub/:id_stock_sub",
-  formPengajuanController.getAllDataReqSubandStockSubmissionById
+  pengajuan.getAllDataReqSubandStockSubmissionById
 );
 
 module.exports = router;

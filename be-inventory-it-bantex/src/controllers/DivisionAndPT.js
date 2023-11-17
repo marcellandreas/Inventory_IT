@@ -1,46 +1,48 @@
-const divisionAndPT = require("../models/DivAndPT");
+const DivPtModels = require("../models/DivAndPT");
 
-const getAllDataPT = async (req, res) => {
-  try {
-    const [data] = await divisionAndPT.getAllDataPt();
-    res.json({
-      message: "Berhasil Mengambil Data Barang",
-      data: data,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+const dbConfig = {
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "inventory_it",
 };
 
-const getDivisionByNamePt = async (req, res) => {
-  const { name_pt } = req.params;
-  let isFound = false;
-  try {
-    const [data] = await divisionAndPT.getDivisionByNamePt(name_pt);
-    isFound = true;
-    res.json({
-      message: `Berhasil Mengambil Divisi berdasarkan Nama PT:  ${name_pt} `,
-      data: data,
-    });
-  } catch (error) {
-    if (!isFound) {
-      res.status(404).json({
-        message: "Data tidak ada",
-      });
-      return;
+const divisionAndPT = new DivPtModels(dbConfig);
+
+exports.getAllDataPT = (req, res) => {
+  divisionAndPT.getAllDataPt((error, data) => {
+    if (error) {
+      res
+        .status(500)
+        .json({ message: "Gagal mengambil data pt", error: error.message });
+    } else {
+      if (!divisionAndPT) {
+        res.status(400).json({ message: "Tidak menemukan data pt" });
+      } else {
+        res.status(200).json({ message: "Berhasil mengambil data pt", data });
+      }
     }
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+  });
 };
 
-module.exports = {
-  getAllDataPT,
-  getDivisionByNamePt,
+exports.getDivisionByNamePt = (req, res) => {
+  const { name_pt } = req.params;
+  divisionAndPT.getItemById(name_pt, (error, divPt) => {
+    if (error) {
+      res.status(500).json({
+        error: error.message,
+        message: "Gagal mengambil division berdasarkan PT",
+      });
+    } else if (!divPt) {
+      res.status(404).json({
+        message: "Data tidak ditemukan",
+      });
+    } else {
+      res.status(200).json({
+        message: "Berhasil mengambil division berdasarkan PT",
+        data: divPt,
+      });
+      s;
+    }
+  });
 };

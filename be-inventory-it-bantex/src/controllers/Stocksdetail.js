@@ -13,12 +13,24 @@ const detailStockModel = new DetailStockModel(dbConfig);
 exports.getAllDetailStock = (req, res) => {
   detailStockModel.getAllDetailStock((error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Detail Stock",
-        data: results,
+      res.status(500).json({
+        success: false,
+        message: "Gagal mengambil data detail stock",
+        error: error.message,
       });
+    } else {
+      if (results.length === 0) {
+        res.status(404).json({
+          success: false,
+          message: "Tidak ada data detail stock yang ditemukan",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Berhasil mengambil data detail stock",
+          data: results,
+        });
+      }
     }
   });
 };
@@ -39,11 +51,16 @@ exports.getDetailStockQtyAboveOne = (req, res) => {
 // Mendapatkan detail stok berdasarkan ID
 exports.getDetailStockById = (req, res) => {
   const detailStockId = req.params.id;
+
   detailStockModel.getDetailStockById(detailStockId, (error, detailStock) => {
     if (error) {
       res.status(500).json({ message: "Server Error", serverMessage: error });
     } else {
-      res.status(200).json({ message: "Berhasil", data: detailStock });
+      if (detailStock) {
+        res.status(200).json({ message: "Berhasil", data: detailStock });
+      } else {
+        res.status(404).json({ message: "ID tidak ditemukan" });
+      }
     }
   });
 };

@@ -64,21 +64,34 @@ exports.updateCategory = (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Category not found" });
     }
-    res.status(200).json({ message: "Category updated" });
+    res.status(200).json({
+      message: "Category updated",
+      data: {
+        id: categoryId,
+        category: categoryData.category,
+        note: categoryData.note,
+      },
+    });
   });
 };
 
 // Menghapus kategori berdasarkan ID
+
 exports.deleteCategory = (req, res) => {
   const categoryId = req.params.id;
 
   categoryModel.deleteCategory(categoryId, (error, result) => {
     if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-    if (result.affectedRows === 0) {
+      res.status(500).json({ error: error.message });
+    } else if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Category not found" });
+    } else {
+      res.status(200).json({
+        message: "Category berhasil dihapus",
+        data: {
+          id: categoryId,
+        },
+      });
     }
-    res.status(204).send();
   });
 };

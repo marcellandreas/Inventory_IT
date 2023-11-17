@@ -21,12 +21,15 @@ router.get(
   authController.getAllDataHistoryLogin
 );
 // router.delete("/user/:username", userController.deleteUser);
+// Dist
 router.get("/allusers", verifyAccessToken, authController.getAllUsers);
 router.put("/user/:id_user", verifyAccessToken, authController.editUser);
 router.get("/user/role/:role", verifyAccessToken, authController.getUserByRole);
 // router.post("/changepassword", verifyAccessToken ,authController.changePassword);
 router.get("/user/:id_user", verifyAccessToken, authController.getUserByID);
-router.get("/user/role1", verifyAccessToken, authController.getUserByRole1);
+
+// role1 gk kepakai
+// router.get("/user/role1", verifyAccessToken, authController.getUserByRole1);
 
 // Rute untuk mengambil daftar peran pengguna tanpa duplikasi
 router.get("/unique", verifyAccessToken, authController.getUniqueRoles);

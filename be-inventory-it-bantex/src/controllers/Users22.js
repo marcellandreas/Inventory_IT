@@ -317,18 +317,18 @@ exports.getUserByID = (req, res) => {
 };
 
 // Mendapatkan data pengguna dengan role 1 dan menampilkan kata sandi tanpa bcrypt
-exports.getUserByRole1 = (req, res) => {
-  user.getUserByRole1((error, results) => {
-    if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Pengguna Berdasarkan Role 1",
-        data: results,
-      });
-    }
-  });
-};
+// exports.getUserByRole1 = (req, res) => {
+//   user.getUserByRole1((error, results) => {
+//     if (error) {
+//       res.status(500).json({ message: "Server Error", serverMessage: error });
+//     } else {
+//       res.status(200).json({
+//         message: "Berhasil Mengambil Data Pengguna Berdasarkan Role 1",
+//         data: results,
+//       });
+//     }
+//   });
+// };
 
 // Mengambil daftar peran pengguna tanpa duplikasi
 exports.getUniqueRoles = (req, res) => {

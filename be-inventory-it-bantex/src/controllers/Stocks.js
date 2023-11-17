@@ -9,112 +9,63 @@ const dbConfig = {
 
 const stocks = new Stocks(dbConfig);
 
+const sendErrorRes = (res, statusCode, message, error) => {
+  res
+    .status(statusCode)
+    .json({ success: false, message, error: error.message });
+};
+
+const sendSuccessRes = (res, statusCode, message, data) => {
+  res.status(statusCode).json({ message, data });
+};
+
 exports.getAllStocks = (req, res) => {
   stocks.getAllStocks((error, stocks) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal mengambil data semua stok", error);
     } else {
-      res.status(200).json({ data: stocks });
+      if (stocks.length === 0) {
+        sendSuccessRes(res, 404, "Tidak ada data stok yang ditemukan");
+      } else {
+        sendSuccessRes(res, 200, "Berhasil mengambil data semua stok", stocks);
+      }
     }
   });
 };
 
 exports.createStock = (req, res) => {
-  const {
-    stock_description,
-    stock_qty,
-    category,
-    unit,
-    type,
-    note,
-    post_user_id,
-    post_username,
-  } = req.body;
   const { body } = req;
-  stocks.createStock(
-    stock_description,
-    stock_qty,
-    category,
-    unit,
-    type,
-    note,
-    post_user_id,
-    post_username,
-    (error, stock_no) => {
-      if (error) {
-        res.status(500).json({ error: error.message });
-      } else {
-        res.status(201).json({
-          message: "Stock berhasil dibuat",
-          data: {
-            stock_no,
-            stock_description,
-            stock_qty,
-            category,
-            unit,
-            type,
-            note,
-            post_user_id,
-            post_username,
-          },
-        });
-      }
+  stocks.createStock(...Object.values(body), (error, stock_no) => {
+    if (error) {
+      sendErrorRes(res, 500, "Stock gagal dibuat", error);
+    } else {
+      const data = { stock_no, ...body };
+      sendSuccessRes(res, 201, "Stock berhasil dibuat", data);
     }
-  );
+  });
 };
 
 exports.updateStock = (req, res) => {
   const { stock_no } = req.params;
-  const {
-    stock_description,
-    stock_qty,
-    category,
-    unit,
-    type,
-    note,
-    post_user_id,
-    post_username,
-  } = req.body;
-  stocks.updateStock(
-    stock_no,
-    stock_description,
-    stock_qty,
-    category,
-    unit,
-    type,
-    note,
-    post_user_id,
-    post_username,
-    (error, result) => {
-      if (error) {
-        res.status(500).json({ error: error.message });
-      } else {
-        res.status(200).json({
-          message: "Stock berhasil diupdate",
-          data: {
-            stock_no,
-            stock_description,
-            stock_qty,
-            category,
-            unit,
-            type,
-            note,
-            post_user_id,
-            post_username,
-          },
-        });
-      }
+  stocks.updateStock(stock_no, ...Object.values(req.body), (error, result) => {
+    if (error) {
+      sendErrorRes(res, 500, "Stock gagal diupdate", error);
+    } else {
+      const data = { stock_no, ...req.body };
+      sendSuccessRes(res, 200, "Stock berhasil diupdate", data);
     }
-  );
+  });
 };
 
 exports.deleteStock = (req, res) => {
   const { id } = req.params;
   stocks.deleteStock(id, (error, result) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal menghapus stok", error);
+    } else if (result.affectedRows === 0) {
+      sendSuccessRes(res, 404, "Stok tidak ditemukan untuk dihapus");
     } else {
-      res.status(200).json({ message: "Stock berhasil dihapus" });
+      sendSuccessRes(res, 200, "Stok berhasil dihapus", { id });
     }
   });
 };
@@ -123,23 +74,32 @@ exports.getStockById = (req, res) => {
   const { id } = req.params;
   stocks.getStockById(id, (error, stock) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal mengambil stok berdasarkan ID", error);
     } else if (!stock) {
-      res.status(404).json({ message: "Stock not found" });
+      sendSuccessRes(res, 404, "Stock tidak ditemukan");
     } else {
-      res.status(200).json({ stock });
+      sendSuccessRes(res, 200, "Berhasil mengambil stok berdasarkan ID", stock);
     }
   });
 };
+
 exports.getStockByStockNo = (req, res) => {
   const { stockNo } = req.params;
   stocks.getStockByStockNo(stockNo, (error, stock) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({
+        message: "Gagal mengambil stok berdasarkan nomor stok",
+        error: error.message,
+      });
     } else if (!stock) {
-      res.status(404).json({ message: "Stock not found" });
+      res.status(404).json({
+        message: "Stok tidak ditemukan berdasarkan nomor stok",
+      });
     } else {
-      res.status(200).json({ stock });
+      res.status(200).json({
+        message: "Berhasil mengambil stok berdasarkan nomor stok",
+        data: stock,
+      });
     }
   });
 };
@@ -149,10 +109,17 @@ exports.getStockQty = (req, res) => {
   const stockNo = req.params.stockNo;
   stocks.calculateStockQty(stockNo, (error, stockQty) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      res.status(500).json({
+        message: "Gagal mengambil qty stok berdasarkan nomor stok",
+        error: error.message,
+      });
+    } else if (!stockQty) {
+      res.status(404).json({
+        message: "Qty stok tidak ditemukan berdasarkan nomor stok",
+      });
     } else {
       res.status(200).json({
-        message: "Berhasil Mengambil stock_qty",
+        message: "Berhasil mengambil qty stok berdasarkan nomor stok",
         stock_qty: stockQty,
       });
     }
@@ -164,26 +131,39 @@ exports.updateStockQty = (req, res) => {
   const stockNo = req.params.stockNo;
   stocks.updateStockQty(stockNo, (error) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      res.status(500).json({
+        message: "Gagal memperbarui stock_qty",
+        error: error.message,
+      });
     } else {
       res.status(200).json({
-        message: "stock_qty berhasil diperbarui",
+        message: "Berhasil memperbarui stock_qty",
       });
     }
   });
 };
 
 // Mengambil daftar stock no tanpa duplikasi
+
 exports.getUniqueStockNo = (req, res) => {
   stocks.getUniqueStockNo((error, stock_no) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
-      console.log(1);
-      res.status(200).json({
-        message: "Daftar Stock No",
-        data: stock_no,
+      res.status(500).json({
+        success: false,
+        message: "Gagal mengambil data no stock_no",
+        error: error.message,
       });
+    } else {
+      if (stock_no.length === 0) {
+        res.status(404).json({
+          message: "Tidak ada data no stok yang ditemukan",
+        });
+      } else {
+        res.status(200).json({
+          message: "Berhasil mengambil data semua no stok",
+          data: stock_no,
+        });
+      }
     }
   });
 };

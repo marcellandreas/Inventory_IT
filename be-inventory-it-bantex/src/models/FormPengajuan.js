@@ -117,7 +117,7 @@ const getAllDataReqSubandStockSubmission = () => {
   GROUP_CONCAT(ss.id_stock_sub) AS id_stock_sub,
   GROUP_CONCAT(ss.stock_description) AS description,
   GROUP_CONCAT(ss.qty) AS qty,
-  GROUP_CONCAT(ss.note) AS note,
+  GROUP_CONCAT(ss.note) AS note
 FROM request_submission rs
 LEFT JOIN stock_submission ss ON rs.no_pengajuan = ss.no_pengajuan
 WHERE rs.request_type = "SUBMISSION"
