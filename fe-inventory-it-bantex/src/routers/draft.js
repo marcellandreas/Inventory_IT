@@ -23,11 +23,9 @@ import {
   AddComponentsStocksPage,
   EditDelComponentsStocksPage,
   RegisterPage,
-  ProfilePage,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 import NewApplications from "../pages/Applications/NewApplications";
-import PersonalComputer from "../pages/PcMaster/PersonalComputer";
 const Routers = () => {
   return (
     <BrowserRouter>
@@ -37,7 +35,7 @@ const Routers = () => {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
         {/* Private Route */}
-        <Route element={<PrivateRoute />}>
+        <Route element={<PrivateRoute allowedRoles={["1" || "3"]} />}>
           <Route path="/*" element={<NotFoundAfter />} />
           <Route path="/">
             <Route index element={<Dashboard />} />
@@ -57,9 +55,6 @@ const Routers = () => {
           <Route path="/items">
             <Route index element={<ItemsPage />}></Route>
           </Route>
-          <Route path="/profile">
-            <Route index element={<ProfilePage />}></Route>
-          </Route>
 
           {/* Menambahkan path pc master */}
           <Route path="/pc-master">
@@ -67,9 +62,6 @@ const Routers = () => {
             <Route path="detail" element={<GetAllPcMasterPage />} />
             <Route path="unused" element={<GetUnusedItemsPage />} />
             <Route path="add-components" element={<AddComponentsPcPage />} />
-          </Route>
-          <Route path="/personal-computer">
-            <Route index element={<PersonalComputer />} />
           </Route>
 
           {/* Menambahkan path form pengajuan */}
@@ -98,6 +90,24 @@ const Routers = () => {
           </Route>
           <Route path="/reports">
             <Route index element={<ReportsPage />}></Route>
+          </Route>
+        </Route>
+        <Route element={<PrivateRoute allowedRoles={["2"]} />}>
+          <Route path="/*" element={<NotFoundAfter />} />
+          <Route path="/">
+            <Route index element={<Dashboard />} />
+          </Route>
+
+          {/* Menambahkan path form pengajuan */}
+          <Route path="/form-pengajuan">
+            <Route index element={<ApplicationsPage />} />
+            <Route path="buat" element={<MakeAGoodReqPage />} />
+            <Route path="new" element={<NewApplications />} />
+            <Route path="set-up" element={<SetUpReqPage />} />
+            <Route
+              path="detail/:id_item_req"
+              element={<DetailFormItemsReqPage />}
+            />
           </Route>
         </Route>
       </Routes>

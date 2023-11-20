@@ -202,6 +202,67 @@ class User {
       }
     });
   }
+
+  // Metode untuk mendapatkan data profile pengguna berdasarkan username
+  getUserProfile(username, callback) {
+    const query =
+      "SELECT id_user, code_user, username, full_name, email, role FROM user WHERE username = ?";
+    this.connection.query(query, [username], (error, results) => {
+      callback(error, results[0]);
+    });
+  }
+  // Metode untuk mengubah data profile pengguna
+  updateUserProfile(id_user, full_name, email, callback) {
+    const query = "UPDATE user SET full_name = ?, email = ? WHERE id_user = ?";
+    this.connection.query(
+      query,
+      [full_name, email, id_user],
+      (error, result) => {
+        callback(error, result);
+      }
+    );
+  }
+
+  // Metode untuk mengubah kata sandi pengguna
+  // changeUserPassword(id_user, oldPassword, newPassword, callback) {
+  //   // Dapatkan kata sandi lama dari database berdasarkan id_user
+  //   const getPasswordQuery = "SELECT password FROM user WHERE id_user = ?";
+  //   this.connection.query(getPasswordQuery, [id_user], (error, results) => {
+  //     if (error) {
+  //       return callback(error, null);
+  //     }
+
+  //     if (results.length === 0) {
+  //       return callback(null, { success: false, message: "User not found" });
+  //     }
+
+  //     const storedPassword = results[0].password;
+
+  //     // Bandingkan kata sandi lama yang dimasukkan dengan kata sandi yang tersimpan
+  //     bcrypt.compare(oldPassword, storedPassword, (compareError, compareResult) => {
+  //       if (compareError) {
+  //         return callback(compareError, null);
+  //       }
+
+  //       if (!compareResult) {
+  //         return callback(null, { success: false, message: "Incorrect old password" });
+  //       }
+
+  //       // Hash kata sandi baru sebelum menyimpannya di database
+  //       bcrypt.hash(newPassword, 10, (hashError, hashedPassword) => {
+  //         if (hashError) {
+  //           return callback(hashError, null);
+  //         }
+
+  //         // Update kata sandi baru di database
+  //         const updatePasswordQuery = "UPDATE user SET password = ? WHERE id_user = ?";
+  //         this.connection.query(updatePasswordQuery, [hashedPassword, id_user], (updateError, updateResult) => {
+  //           callback(updateError, { success: true, message: "Password updated successfully" });
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
 }
 
 module.exports = User;

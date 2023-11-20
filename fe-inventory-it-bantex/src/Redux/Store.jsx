@@ -11,11 +11,12 @@ import stockDetailSlice from "./Feature/detailStockslice";
 import pcmasterReducer from "./Feature/DataPcMaster";
 import requestSubmissionSlice from "./Feature/requestSubmissionSlice";
 import moreSettingSlice from "./Feature/moreSettingSlice";
+import authReducer from "./Feature/AuthSlice";
 
 export const store = configureStore({
   reducer: {
     reqSub: requestSubmissionSlice,
-
+    auth: authReducer,
     dataInventory: dataState,
     dataPc: dataPc,
     pcmaster: pcmasterReducer,

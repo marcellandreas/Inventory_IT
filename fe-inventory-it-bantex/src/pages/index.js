@@ -19,6 +19,7 @@ export { default as ApplicationsPage } from "./Applications";
 export { default as MakeAGoodReqPage } from "./Applications/MakeAGoodsRequest";
 export { default as DetailFormItemsReqPage } from "./Applications/DetailFormItemsRequest";
 export { default as SetUpReqPage } from "./Applications/SetUp";
+export { default as ProfilePage } from "./Auth/ProfilePage";
 
 // Not Found Pages
 export { default as NotFoundAfter } from "./NotFound/NotFoundAfterLoginPage";

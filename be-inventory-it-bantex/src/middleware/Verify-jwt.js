@@ -15,15 +15,23 @@ exports.verifyAccessToken = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
   let decoded;
+
   try {
     decoded = jwt.verify(token, process.env.TOKEN_SECRET);
   } catch (err) {
-    return authenticationError("Not Authentication silahkan login", res);
+    return authenticationError("Not Authentication, please login", res);
   }
 
   if (!decoded) {
     return authenticationError("Not Authentication", res);
   }
-  req.body.userId = decoded.id;
+
+  // Attach user information to req.user
+  req.user = {
+    id: decoded.id,
+    username: decoded.username,
+    // Add other user properties if needed
+  };
+
   next();
 };

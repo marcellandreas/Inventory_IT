@@ -10,6 +10,17 @@ export const fetchUserData = createAsyncThunk(
     return response.data.data;
   }
 );
+export const fetchProfile = createAsyncThunk("users/fetchProfile", async () => {
+  const profile = await AxiosInstance.get("auth/profile");
+  return profile.data;
+});
+
+// const profile = await AxiosInstance.get("auth/profile", {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// });
+// console.log(profile);
 
 export const fetchLoginHistory = createAsyncThunk(
   "users/fetchLoginHistory",
@@ -40,6 +51,7 @@ const userSlice = createSlice({
     users: [],
     managers: [],
     allData: [],
+    profile: [],
     dataLoginHistory: [],
     isLoading: false,
     error: null,
@@ -47,6 +59,18 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // profile page
+      .addCase(fetchProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.profile = action.payload;
+      })
+      .addCase(fetchProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
       .addCase(fetchUserData.pending, (state) => {
         state.isLoading = true;
         state.error = null;

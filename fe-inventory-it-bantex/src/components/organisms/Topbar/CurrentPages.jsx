@@ -13,8 +13,8 @@ export default function getCurrentPage(pathname, id_item_req) {
             to={`buat`}
             className="button flex gap-2 items-center order-2 sm:order-3"
           >
-            <AiFillFileAdd />{" "}
-            <span className="hidden md:block">Tambah Stok</span>
+            <AiFillFileAdd /> <span>Tambah Stok</span>
+            {/* <span className="hidden md:block">Tambah Stok</span> */}
           </NavLink>
         ),
       };

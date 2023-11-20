@@ -9,12 +9,24 @@ const dbConfig = {
 
 const items = new ItemsModel(dbConfig);
 
+const sendErrorRes = (res, statusCode, message, error) => {
+  res
+    .status(statusCode)
+    .json({ success: false, message, error: error.message });
+};
+
+const sendSuccessRes = (res, statusCode, message, data) => {
+  res.status(statusCode).json({ message, data });
+};
+
 exports.getAllItems = (req, res) => {
   items.getAllItems((error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Items", error);
+    } else if (!data) {
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
     } else {
-      res.status(200).json({ message: "Berhasil Mengambil Data Barang", data });
+      sendSuccessRes(res, 200, "Berhasil Mengambil Data Items", data);
     }
   });
 };
@@ -22,12 +34,11 @@ exports.getAllItems = (req, res) => {
 exports.getUnusedItemNo = (req, res) => {
   items.getUnusedItemNo((error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Unused", error);
+    } else if (!data) {
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil items yang belum terhubung",
-        data,
-      });
+      sendSuccessRes(res, 200, "Berhasil Mengambil Data Items", data);
     }
   });
 };
@@ -38,9 +49,11 @@ exports.getItemById = (req, res) => {
     if (error) {
       res.status(500).json({ error: error.message });
     } else if (!data) {
-      res.status(404).json({ message: "Data tidak ada" });
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
     } else {
-      res.status(200).json({ data });
+      res
+        .status(200)
+        .json({ message: "Berhasil Mengambil Data Item Berdasarkan Id", data });
     }
   });
 };
@@ -77,11 +90,11 @@ exports.deleteItem = (req, res) => {
   const { id } = req.params;
   items.deleteItem(id, (error) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal menghapus stok", error);
+    } else if (result.affectedRows === 0) {
+      sendSuccessRes(res, 404, "id tidak ditemukan untuk dihapus");
     } else {
-      res
-        .status(200)
-        .json({ message: "Data Barang berhasil dihapus", data: null });
+      sendSuccessRes(res, 200, "Item berhasil dihapus", { id });
     }
   });
 };

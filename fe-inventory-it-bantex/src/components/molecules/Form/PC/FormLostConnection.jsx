@@ -8,7 +8,7 @@ const FormLostConnection = ({ onClose, setIsLoading, pcInput }) => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
-
+  console.log(selectedValues);
   useEffect(() => {
     AxiosInstance.get(`pcline/${pcInput}`).then((res) => {
       setDataPcComponent(res.data.data);

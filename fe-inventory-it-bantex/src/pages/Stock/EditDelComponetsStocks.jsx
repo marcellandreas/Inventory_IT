@@ -221,188 +221,182 @@ const EditDelCompontentsStocks = () => {
   return (
     <MainLayout>
       <ContentLayout>
-        <section className="w-full grid-col-6  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
-          <div className="flex gap-4">
-            <button onClick={backToMenu}>
-              <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-            </button>
-            <Title>Perbarui Formulir Stok!</Title>
-          </div>
-          <hr className="border border-slate-800  w-full mb-5" />
-          <section
-            // onSubmit={handleCreateForm}
-            className="flex flex-col gap-5 justify-between"
-          >
-            <div className="grid grid-flow-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-5 bg-slate-300 px-3 py-4 rounded-xl">
-              <CustomInput
-                label="Nama Barang"
-                type="text"
-                name="stock_description"
-                placeholder="Masukan Nama Barang"
-                value={formValues.stock_description}
-                className=" col-span-1"
-                onChange={handleChangeValue}
-              />
-              <CustomSelect
-                label="Kategory"
-                options={[
-                  <option key="default" value="" disabled selected>
-                    Pilih Kategory
-                  </option>,
-                  ...categories.map((unit, index) => (
-                    <option key={index} value={unit}>
-                      {unit}
-                    </option>
-                  )),
-                ]}
-                name="category"
-                className=" col-span-1"
-                onChange={handleChangeValue}
-                value={formValues.category}
-              />
-              <div className="gap-2 flex flex-col w-60 row-span-2">
-                <label>Catatan (Jika ada)</label>
-                <textarea
-                  className="bg-slate-200 h-[120px] col-span-1 row-span-2"
-                  placeholder=""
-                  name="note"
-                  onChange={handleChangeValue}
-                  value={formValues.note}
-                />
-              </div>
-              <div className=" row-span-2"></div>
-
-              <CustomSelect
-                label="Unit"
-                options={[
-                  <option key="default" value="" disabled selected>
-                    Pilih Unit Satuan
-                  </option>,
-                  ...unitOptions.map((unit, index) => (
-                    <option key={index} value={unit}>
-                      {unit}
-                    </option>
-                  )),
-                ]}
-                name="unit"
-                value={formValues.unit}
-                className=" col-span-1"
-                onChange={handleChangeValue}
-              />
-
-              <CustomSelect
-                label="Tipe Barang"
-                options={[
-                  <option key="default" value="" disabled selected>
-                    Pilih Tipe Barang
-                  </option>,
-                  ...typeOptions.map((type, index) => (
-                    <option key={index} value={type}>
-                      {type}
-                    </option>
-                  )),
-                ]}
-                name="type"
-                value={formValues.type}
-                onChange={handleChangeValue}
-              />
-            </div>
-
-            {inputList.length >= 1 ? (
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-end ">
-                  <h3 className=" text-lg font-semibold">Perbarui Stok</h3>
-                </div>
-                <hr />
-                {inputList.map((x, i) => {
-                  return (
-                    <>
-                      <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
-                        <CustomInput
-                          label="Nama Stok"
-                          placeholder="e.g:"
-                          name="stock_detail_description"
-                          type="text"
-                          value={x.stock_detail_description}
-                          onChange={(e) => handleinputchange(e, i)}
-                        />
-                        <CustomInput
-                          label="Merek"
-                          placeholder="e.g:"
-                          name="brand"
-                          type="text"
-                          value={x.brand}
-                          onChange={(e) => handleinputchange(e, i)}
-                        />
-
-                        <CustomInput
-                          label="Info Tambahan"
-                          placeholder="e.g:"
-                          name="additional_info"
-                          type="text"
-                          value={x.additional_info}
-                          onChange={(e) => handleinputchange(e, i)}
-                        />
-
-                        <div className="gap-2 flex flex-col w-[60px]">
-                          <label>Qty</label>
-                          <input
-                            className="bg-slate-200"
-                            placeholder="e.g:"
-                            name="qty"
-                            value={x.qty}
-                            onChange={(e) => handleinputchange(e, i)}
-                            type="number"
-                          />
-                        </div>
-                        <CustomTextArea
-                          label="Catatan (Jika ada)"
-                          placeholder=""
-                          name="note"
-                          value={x.note}
-                          onChange={(e) => handleinputchange(e, i)}
-                        />
-                        <button
-                          className=" button_delete"
-                          onClick={() => handleremove(i)}
-                        >
-                          <MdDelete />
-                        </button>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            ) : null}
-
-            <div className="flex flex-col gap-2">
-              <HeaderBarangPengajuan
-                handleaddclick={handleaddclickPost}
-                label="Barang permintaan:"
-              />
-              <hr />
-              {inputListPost.map((x, i) => {
-                return (
-                  <FormDetailStock
-                    key={i}
-                    x={x}
-                    i={i}
-                    inputList={inputListPost}
-                    handleinputchange={handleinputchangePost}
-                    handleremove={handleremovePost}
-                  />
-                );
-              })}
-            </div>
-          </section>
-          <button
-            onClick={handleSubmit}
-            className="button absolute right-5 bottom-2"
-          >
-            <MdEditNote />
-            <span>Mengubah Stock</span>
+        <div className="flex gap-4 col-span-6">
+          <button onClick={backToMenu}>
+            <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
           </button>
-        </section>
+          <Title>Perbarui Formulir Stok!</Title>
+        </div>
+        <hr className="border border-slate-800  w-full mb-5 col-span-6" />
+
+        <div className="grid col-span-6 grid-flow-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-5 bg-slate-300 px-3 py-4 rounded-xl">
+          <CustomInput
+            label="Nama Barang"
+            type="text"
+            name="stock_description"
+            placeholder="Masukan Nama Barang"
+            value={formValues.stock_description}
+            className=" col-span-1"
+            onChange={handleChangeValue}
+          />
+          <CustomSelect
+            label="Kategory"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Kategory
+              </option>,
+              ...categories.map((unit, index) => (
+                <option key={index} value={unit}>
+                  {unit}
+                </option>
+              )),
+            ]}
+            name="category"
+            className=" col-span-1"
+            onChange={handleChangeValue}
+            value={formValues.category}
+          />
+          <div className="gap-2 flex flex-col w-60 row-span-2">
+            <label>Catatan (Jika ada)</label>
+            <textarea
+              className="bg-slate-200 h-[120px] col-span-1 row-span-2"
+              placeholder=""
+              name="note"
+              onChange={handleChangeValue}
+              value={formValues.note}
+            />
+          </div>
+          <div className=" row-span-2"></div>
+
+          <CustomSelect
+            label="Unit"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Unit Satuan
+              </option>,
+              ...unitOptions.map((unit, index) => (
+                <option key={index} value={unit}>
+                  {unit}
+                </option>
+              )),
+            ]}
+            name="unit"
+            value={formValues.unit}
+            className=" col-span-1"
+            onChange={handleChangeValue}
+          />
+
+          <CustomSelect
+            label="Tipe Barang"
+            options={[
+              <option key="default" value="" disabled selected>
+                Pilih Tipe Barang
+              </option>,
+              ...typeOptions.map((type, index) => (
+                <option key={index} value={type}>
+                  {type}
+                </option>
+              )),
+            ]}
+            name="type"
+            value={formValues.type}
+            onChange={handleChangeValue}
+          />
+        </div>
+
+        {inputList.length >= 1 ? (
+          <div className="flex flex-col gap-2 col-span-6">
+            <div className="flex justify-between items-end ">
+              <h3 className=" text-lg font-semibold">Perbarui Stok</h3>
+            </div>
+            <hr />
+            {inputList.map((x, i) => {
+              return (
+                <>
+                  <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
+                    <CustomInput
+                      label="Nama Stok"
+                      placeholder="e.g:"
+                      name="stock_detail_description"
+                      type="text"
+                      value={x.stock_detail_description}
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+                    <CustomInput
+                      label="Merek"
+                      placeholder="e.g:"
+                      name="brand"
+                      type="text"
+                      value={x.brand}
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+
+                    <CustomInput
+                      label="Info Tambahan"
+                      placeholder="e.g:"
+                      name="additional_info"
+                      type="text"
+                      value={x.additional_info}
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+
+                    <div className="gap-2 flex flex-col w-[60px]">
+                      <label>Qty</label>
+                      <input
+                        className="bg-slate-200"
+                        placeholder="e.g:"
+                        name="qty"
+                        value={x.qty}
+                        onChange={(e) => handleinputchange(e, i)}
+                        type="number"
+                      />
+                    </div>
+                    <CustomTextArea
+                      label="Catatan (Jika ada)"
+                      placeholder=""
+                      name="note"
+                      value={x.note}
+                      onChange={(e) => handleinputchange(e, i)}
+                    />
+                    <button
+                      className=" button_delete"
+                      onClick={() => handleremove(i)}
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        ) : null}
+
+        <div className="flex flex-col gap-2 col-span-6">
+          <HeaderBarangPengajuan
+            handleaddclick={handleaddclickPost}
+            label="Barang permintaan:"
+          />
+          <hr />
+          {inputListPost.map((x, i) => {
+            return (
+              <FormDetailStock
+                key={i}
+                x={x}
+                i={i}
+                inputList={inputListPost}
+                handleinputchange={handleinputchangePost}
+                handleremove={handleremovePost}
+              />
+            );
+          })}
+        </div>
+        <button
+          onClick={handleSubmit}
+          className="button absolute right-5 bottom-2"
+        >
+          <MdEditNote />
+          <span>Mengubah Stock</span>
+        </button>
       </ContentLayout>
     </MainLayout>
   );

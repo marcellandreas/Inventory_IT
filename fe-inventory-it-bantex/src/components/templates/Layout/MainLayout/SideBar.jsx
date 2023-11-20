@@ -2,7 +2,7 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 import { MdWarehouse } from "react-icons/md";
 import {
   LogoutMenu,
-  menuPengajuan,
+  // menuPengajuan,
   menuSidebar,
   menuSidebarOrganization,
 } from "./MenuSidebar";
@@ -44,25 +44,23 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
           />
         </div>
       </div>
-      {role == 2 ? null : (
-        <div className="mt-4 flex flex-col gap-4 relative">
-          {menuSidebar?.map((menu, i) => (
-            <DataMenu menu={menu} key={i} i={i} isOpen={open} />
-          ))}
-        </div>
-      )}
       <div className="mt-4 flex flex-col gap-4 relative">
-        {menuPengajuan?.map((menu, i) => (
-          <DataMenu menu={menu} key={i} i={i} isOpen={open} />
-        ))}
-      </div>
-      {role == 2 ? null : (
-        <div className="mt-4 flex flex-col gap-4 relative">
-          {menuSidebarOrganization?.map((menu, i) => (
+        {menuSidebar
+          ?.filter((menu) => {
+            if (role == 1) {
+              // Jika peran adalah 1, tampilkan semua menu
+              return true;
+            } else if (role == 2) {
+              // Jika peran adalah 2, tampilkan hanya Dashboard dan Form Pengajuan
+              return menu.path === "/" || menu.path === "/form-pengajuan";
+            }
+            return false;
+          })
+          .map((menu, i) => (
             <DataMenu menu={menu} key={i} i={i} isOpen={open} />
           ))}
-        </div>
-      )}
+      </div>
+
       <div className="mt-4 flex flex-col gap-4 relative">
         {LogoutMenu?.map((menu, i) => (
           <button

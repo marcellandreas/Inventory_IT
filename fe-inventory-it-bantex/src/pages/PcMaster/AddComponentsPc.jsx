@@ -69,67 +69,65 @@ const AddComponentsPC = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          <section className="container mx-auto  flex flex-col gap-5  w-full">
-            {/* Header Kontent */}
-            <section className="flex gap-2 justify-between ">
-              <button className="" onClick={backToMenu}>
-                <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-              </button>
-              {clickedItems.length >= 1 ? (
-                <form onSubmit={handleCreateForm}>
-                  <button
-                    type="submit"
-                    className="button disabled:bg-slate-300 disabled:text-black disabled:font-semibold"
-                    disabled={clickedItems.length === 0}
-                  >
-                    Tambah Komponen
-                  </button>
-                </form>
-              ) : null}
-            </section>
-            <section className="p-2 border border-slate-800 rounded-md">
-              {clickedItems.length >= 1 ? (
-                <h2>List Item Yang di pilih: </h2>
-              ) : null}
-              <ul className="flex gap-2  flex-wrap">
-                {clickedItems.map((itemNo, index) => (
-                  <li
-                    className="p-2 flex justify-between bg-slate-700 text-white w-48 rounded-md "
-                    key={index}
-                  >
-                    {itemNo}
-                    <button onClick={() => handleItemRemove(itemNo)}>X</button>
-                  </li>
-                ))}
-              </ul>
-              {clickedItems.length !== 0 ? null : (
-                <p className="flex gap-2 items-center  text-sm">
-                  Klik Icon
-                  <span>
-                    <BsDatabaseFillAdd />
-                  </span>
-                  jika ingin menambahkan
-                </p>
-              )}
-            </section>
+          {/* Header Kontent */}
+          <section className="flex gap-2 justify-between col-span-6 ">
+            <button className="" onClick={backToMenu}>
+              <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
+            </button>
+            {clickedItems.length >= 1 ? (
+              <form onSubmit={handleCreateForm}>
+                <button
+                  type="submit"
+                  className="button disabled:bg-slate-300 disabled:text-black disabled:font-semibold"
+                  disabled={clickedItems.length === 0}
+                >
+                  Tambah Komponen
+                </button>
+              </form>
+            ) : null}
+          </section>
+          <section className="p-2 border border-slate-800 rounded-md col-span-6">
+            {clickedItems.length >= 1 ? (
+              <h2>List Item Yang di pilih: </h2>
+            ) : null}
+            <ul className="flex gap-2  flex-wrap">
+              {clickedItems.map((itemNo, index) => (
+                <li
+                  className="p-2 flex justify-between bg-slate-700 text-white w-48 rounded-md "
+                  key={index}
+                >
+                  {itemNo}
+                  <button onClick={() => handleItemRemove(itemNo)}>X</button>
+                </li>
+              ))}
+            </ul>
+            {clickedItems.length !== 0 ? null : (
+              <p className="flex gap-2 items-center  text-sm">
+                Klik Icon
+                <span>
+                  <BsDatabaseFillAdd />
+                </span>
+                jika ingin menambahkan
+              </p>
+            )}
+          </section>
 
-            <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl">
-              <TableHeader>
-                <SearchInput
-                  search={search}
-                  handleSearchChange={handleSearchChange}
-                />
-              </TableHeader>
-              <TableBody>
-                <TablePcLineAdd
-                  data={filteredData}
-                  backToMenu={backToMenu}
-                  handleGetItemNo={handleGetItemNo}
-                  clickedItems={clickedItems}
-                  setClickedItems={setClickedItems}
-                />
-              </TableBody>
-            </section>
+          <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl col-span-6">
+            <TableHeader>
+              <SearchInput
+                search={search}
+                handleSearchChange={handleSearchChange}
+              />
+            </TableHeader>
+            <TableBody>
+              <TablePcLineAdd
+                data={filteredData}
+                backToMenu={backToMenu}
+                handleGetItemNo={handleGetItemNo}
+                clickedItems={clickedItems}
+                setClickedItems={setClickedItems}
+              />
+            </TableBody>
           </section>
         </ContentLayout>
       </MainLayout>

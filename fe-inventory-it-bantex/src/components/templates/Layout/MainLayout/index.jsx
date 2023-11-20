@@ -55,7 +55,7 @@ const MainLayout = ({ children }) => {
           </section>
         </section>
       ) : (
-        <section className="flex ">
+        <section className="flex bg-slate-100 ">
           <SideBar
             handleLogout={handleLogout}
             role={role}

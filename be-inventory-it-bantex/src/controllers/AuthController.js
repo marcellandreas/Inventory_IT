@@ -1,7 +1,7 @@
 // controllers/authController.js
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/Users22");
+const User = require("../models/AuthModel");
 const moment = require("moment-timezone");
 const dbConfig = {
   host: "localhost",
@@ -68,7 +68,10 @@ exports.login = (req, res) => {
           message: "Otentikasi berhasil",
           data: {
             role: user.role,
+            code_user: user.code_user,
             username: user.username,
+            email: user.email,
+            full_name: user.full_name,
             id_user: user.id_user,
             token: token,
           },
@@ -343,3 +346,49 @@ exports.getUniqueRoles = (req, res) => {
     }
   });
 };
+
+exports.getUserProfile = (req, res) => {
+  const { username } = req.user; // Dapatkan username dari token JWT
+
+  user.getUserProfile(username, (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (!result) {
+      return res.status(404).json({ message: "User profile not found" });
+    }
+
+    res.status(200).json(result);
+  });
+};
+
+exports.updateUserProfile = (req, res) => {
+  const { id } = req.params; // Dapatkan id_user dari token JWT
+  const { full_name, email } = req.body;
+
+  user.updateUserProfile(id, full_name, email, (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: "User profile updated successfully" });
+  });
+};
+
+// exports.changeUserPassword = (req, res) => {
+//   const { id_user } = req.user; // Dapatkan id_user dari token JWT
+//   const { oldPassword, newPassword } = req.body;
+
+//   user.changeUserPassword(id_user, oldPassword, newPassword, (error, result) => {
+//     if (error) {
+//       return res.status(500).json({ error: error.message });
+//     }
+
+//     if (!result.success) {
+//       return res.status(400).json({ message: result.message });
+//     }
+
+//     res.status(200).json({ message: "Password changed successfully" });
+//   });
+// };

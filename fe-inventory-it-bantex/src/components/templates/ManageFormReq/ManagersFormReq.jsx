@@ -1,10 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AxiosInstance } from "../../../apis/api";
 import {
-  setDataItemsByStatusAndUsername,
-  setLoadingPengajuan,
-} from "../../../Redux/Feature/DataPengajuanBarang";
-import {
   setDataPt,
   setLoadingDivPt,
 } from "../../../Redux/Feature/DataDivisionAndPT";
@@ -21,7 +17,6 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
   const [toggleState, setToggleState] = useState(1);
   const allData = useSelector((state) => state.dataSliceItemReq.allData);
   const allApproved2 = useSelector((state) => state.dataSliceItemReq.approved2);
-
   const needApproved2 = useSelector(
     (state) => state.dataSliceItemReq.needApproved2
   );

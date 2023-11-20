@@ -28,11 +28,16 @@ export const menuSidebar = [
     name_menu: "PC Master",
     icon: FaComputer,
   },
-  // {
-  //   path: "/form-pengajuan",
-  //   name_menu: "Pengajuan",
-  //   icon: CiGrid42,
-  // },
+  {
+    path: "/form-pengajuan",
+    name_menu: "Pengajuan",
+    icon: CiGrid42,
+  },
+  {
+    path: "/profile",
+    name_menu: "Pengajuan",
+    icon: CiGrid42,
+  },
   // {
   //   path: "/pc-line",
   //   name_menu: "PC line",
@@ -42,13 +47,13 @@ export const menuSidebar = [
   // { path: "/stock-out", name_menu: "Stock Out", icon: <MdWarehouse /> },
 ];
 
-export const menuPengajuan = [
-  {
-    path: "/form-pengajuan",
-    name_menu: "Pengajuan",
-    icon: CiGrid42,
-  },
-];
+// export const menuPengajuan = [
+//   {
+//     path: "/form-pengajuan",
+//     name_menu: "Pengajuan",
+//     icon: CiGrid42,
+//   },
+// ];
 
 export const LogoutMenu = [
   {

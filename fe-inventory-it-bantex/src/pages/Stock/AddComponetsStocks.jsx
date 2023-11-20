@@ -113,51 +113,47 @@ const AddComponentsStocks = () => {
   return (
     <MainLayout>
       <ContentLayout>
-        <section className="w-full col-span-6  p-2 rounded-xl flex flex-col gap-3   min-h-[600px]  overflow-y-auto">
-          <div className="flex gap-4">
-            <button onClick={backToMenu}>
-              <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-            </button>
-            <Title>Tambahkan Formulir Stok!</Title>
-          </div>
-          <hr className="border border-slate-800  w-full mb-5" />
-          <section className="flex flex-col gap-5 justify-between">
-            <div className="flex flex-col gap-2">
-              <HeaderBarangPengajuan label="Persediaan:" />
-              <FormStock
-                handleChangeValue={handleChangeValue}
-                categories={categories}
-                Unit={unitOptions}
-                type={typeOptions}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <HeaderBarangPengajuan
-                handleaddclick={handleaddclick}
-                label="Detail Persediaan:"
-              />
-              {inputList.map((x, i) => {
-                return (
-                  <FormDetailStock
-                    key={i}
-                    handleinputchange={handleinputchange}
-                    x={x}
-                    i={i}
-                    formValues={formValues}
-                    inputList={inputList}
-                    handleremove={handleremove}
-                  />
-                );
-              })}
-            </div>
-          </section>
-          <button
-            onClick={handleSubmit}
-            className="button absolute right-12 bottom-2"
-          >
-            <MdAddCircleOutline /> <span>Tambah Persediaan</span>
+        <div className="flex gap-4 col-span-6">
+          <button onClick={backToMenu}>
+            <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
           </button>
-        </section>
+          <Title>Tambahkan Formulir Stok!</Title>
+        </div>
+        <hr className="border border-slate-800  w-full mb-5 col-span-6" />
+        <div className="flex flex-col gap-2 col-span-6">
+          <HeaderBarangPengajuan label="Persediaan:" />
+          <FormStock
+            handleChangeValue={handleChangeValue}
+            categories={categories}
+            Unit={unitOptions}
+            type={typeOptions}
+          />
+        </div>
+        <div className="flex flex-col gap-2 col-span-6">
+          <HeaderBarangPengajuan
+            handleaddclick={handleaddclick}
+            label="Detail Persediaan:"
+          />
+          {inputList.map((x, i) => {
+            return (
+              <FormDetailStock
+                key={i}
+                handleinputchange={handleinputchange}
+                x={x}
+                i={i}
+                formValues={formValues}
+                inputList={inputList}
+                handleremove={handleremove}
+              />
+            );
+          })}
+        </div>
+        <button
+          onClick={handleSubmit}
+          className="button absolute right-12 bottom-2"
+        >
+          <MdAddCircleOutline /> <span>Tambah Persediaan</span>
+        </button>
       </ContentLayout>
     </MainLayout>
   );

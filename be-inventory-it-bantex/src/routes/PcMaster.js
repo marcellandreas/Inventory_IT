@@ -8,6 +8,7 @@ router.use(verifyAccessToken);
 router.get("/", PcMasterController.getAllPcMaster);
 // router.get("/:id", PcMasterController.getPcMasterById);
 router.get("/:pcno", PcMasterController.getPcMasterByPcNo);
+router.get("/personal/:id", PcMasterController.getPersonalComputer);
 router.post("/", PcMasterController.createPcMaster);
 router.patch("/:id", PcMasterController.UpdatePcMaster);
 router.delete("/:id", PcMasterController.deletePcMaster);

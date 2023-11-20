@@ -2,7 +2,7 @@ import { MdWarehouse } from "react-icons/md";
 import DataMenu from "./DataMenu";
 import {
   LogoutMenu,
-  menuPengajuan,
+  // menuPengajuan,
   menuSidebar,
   menuSidebarOrganization,
 } from "./MenuSidebar";
@@ -55,18 +55,16 @@ const Navbar = ({
               Inventory IT
             </h2>
           </div>
-          {role == 2 ? null : (
-            <div className="mt-4 flex flex-col gap-4 relative">
-              {menuSidebar?.map((menu, i) => (
-                <DataMenu menu={menu} key={i} i={i} isOpen={openMob} />
-              ))}
-            </div>
-          )}
           <div className="mt-4 flex flex-col gap-4 relative">
-            {menuPengajuan?.map((menu, i) => (
+            {menuSidebar?.map((menu, i) => (
               <DataMenu menu={menu} key={i} i={i} isOpen={openMob} />
             ))}
           </div>
+          {/* <div className="mt-4 flex flex-col gap-4 relative">
+            {menuPengajuan?.map((menu, i) => (
+              <DataMenu menu={menu} key={i} i={i} isOpen={openMob} />
+            ))}
+          </div> */}
           {role == 2 ? null : (
             <div className="mt-4 flex flex-col gap-4 relative">
               {menuSidebarOrganization?.map((menu, i) => (

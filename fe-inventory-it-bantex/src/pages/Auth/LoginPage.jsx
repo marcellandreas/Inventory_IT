@@ -31,6 +31,10 @@ const LoginPage = () => {
           username: username_,
         });
       }
+      // if (response.data.data.username) {
+      //   const profile = await AxiosInstance.get("auth/profile");
+      //   console.log(profile);
+      // }
       // Set token autentikasi
       setAuthToken(token);
 
@@ -38,12 +42,12 @@ const LoginPage = () => {
       localStorage.setItem("id_user", id_user);
       localStorage.setItem("username", username_);
       // Refresh Token
-      if (token) {
+      if (token && role) {
         window.location.href = "/";
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      // alert(error.response.data.message);
     }
   };
   return (
