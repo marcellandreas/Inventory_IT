@@ -1,10 +1,11 @@
 import { MdWarehouse } from "react-icons/md";
 import DataMenu from "./DataMenu";
+import logo from "../../../../assets/images/logo.png";
+
 import {
   LogoutMenu,
   // menuPengajuan,
   menuSidebar,
-  menuSidebarOrganization,
 } from "./MenuSidebar";
 import React from "react";
 import { BsChevronDoubleRight } from "react-icons/bs";
@@ -20,7 +21,7 @@ const Navbar = ({
   setOpenMob,
 }) => {
   return (
-    <>
+    <section className=" min-h-screen">
       <div
         className={`absolute ${
           openMob ? "left-[158px] rotate-180" : "left-8 rotate-0"
@@ -35,43 +36,39 @@ const Navbar = ({
       <div
         className={`absolute ${
           openMob ? "left-0" : "-left-[900px]"
-        } text-slate-100 bg-slate-800 h-screen w-full z-40`}
+        } text-slate-100 bg-slate-800 min-h-screen pb-20 w-full z-40`}
       >
         <section>
           <div
             style={{
               transitionDelay: `${3}00ms`,
             }}
-            className="py-3 flex gap-2  mt-4 relative cursor-pointer "
+            className="py-3 flex gap-2  mt-4 relative cursor-pointer h-[20vh] "
           >
-            <div>
-              <MdWarehouse size={25} />
-            </div>
-            <h2
-              className={`whitespace-pre duration-500 ${
-                !openMob && "opacity-0 translate-x-28 overflow-hidden "
-              }`}
-            >
-              Inventory IT
-            </h2>
+            <img src={logo} alt="" />
           </div>
           <div className="mt-4 flex flex-col gap-4 relative">
-            {menuSidebar?.map((menu, i) => (
-              <DataMenu menu={menu} key={i} i={i} isOpen={openMob} />
-            ))}
-          </div>
-          {/* <div className="mt-4 flex flex-col gap-4 relative">
-            {menuPengajuan?.map((menu, i) => (
-              <DataMenu menu={menu} key={i} i={i} isOpen={openMob} />
-            ))}
-          </div> */}
-          {role == 2 ? null : (
-            <div className="mt-4 flex flex-col gap-4 relative">
-              {menuSidebarOrganization?.map((menu, i) => (
-                <DataMenu menu={menu} key={i} i={i} isOpen={openMob} />
+            {menuSidebar
+              ?.filter((menu) => {
+                if (role == 1) {
+                  // Jika peran adalah 1, tampilkan semua menu
+                  return true;
+                } else if (role == 2) {
+                  // Jika peran adalah 2, tampilkan hanya Dashboard dan Form Pengajuan
+                  return (
+                    menu.path === "/" ||
+                    menu.path === "/form-pengajuan" ||
+                    menu.path === "/personal-computer" ||
+                    menu.path === "/profile"
+                  );
+                }
+                return false;
+              })
+              .map((menu, i) => (
+                <DataMenu menu={menu} key={i} i={i} isOpen={open} />
               ))}
-            </div>
-          )}
+          </div>
+
           <div className="mt-4 flex flex-col gap-4 relative">
             {LogoutMenu?.map((menu, i) => (
               <button
@@ -103,7 +100,7 @@ const Navbar = ({
           </div>
         </section>
       </div>
-    </>
+    </section>
   );
 };
 

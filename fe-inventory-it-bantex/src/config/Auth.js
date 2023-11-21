@@ -1,13 +1,24 @@
-import { useEffect } from "react";
 import { AxiosInstance } from "../apis/api";
 
-// token autentikasi dan role pengguna
+let tokenTimeout;
+
 const setAuthToken = (token) => {
+  // Hapus timeout sebelumnya jika ada
+  if (tokenTimeout) {
+    clearTimeout(tokenTimeout);
+  }
+
   localStorage.setItem("token", token);
 
   // Mengatur token autentikasi dalam header permintaan
   if (token) {
     AxiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+    // Set timeout untuk logout setelah 10 detik (untuk uji coba)
+    tokenTimeout = setTimeout(() => {
+      console.log("Logout setelah 10 detik");
+      signOut();
+    }, 10000); // 10 detik dalam milidetik
   } else {
     delete AxiosInstance.defaults.headers.common["Authorization"];
   }
@@ -22,15 +33,13 @@ const signOut = () => {
 
   // Menghapus token autentikasi dari header permintaan
   delete AxiosInstance.defaults.headers.common["Authorization"];
+
+  // Hapus timeout jika logout manual
+  if (tokenTimeout) {
+    clearTimeout(tokenTimeout);
+  }
+  console.log("Logout berhasil");
 };
-
-// useEffect(() => {
-//   const timeoutId = setTimeout(() => {
-//     signOut();
-//   }, 60 * 60 * 1000);
-
-//   return () => clearTimeout(timeoutId);
-// }, []);
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");

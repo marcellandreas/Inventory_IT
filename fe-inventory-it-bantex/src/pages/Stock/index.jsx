@@ -12,10 +12,11 @@ import { filterDataBySearch } from "../../helpers/filters";
 import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
 import Modals from "../../helpers/modals";
 import { MdLocalPrintshop } from "react-icons/md";
+import { useFetchStocks } from "../../config/GetData";
 
 const StockPage = () => {
   const [id, setId] = useState("");
-  const dataStock = useSelector((state) => state.stocks.data);
+  const dataStock = useFetchStocks();
   const isLoading = useSelector((state) => state.stocks.isLoading);
   const [showDropdown, setShowDropdown] = useState(false);
 

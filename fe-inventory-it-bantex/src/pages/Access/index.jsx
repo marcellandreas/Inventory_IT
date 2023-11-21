@@ -13,7 +13,6 @@ import {
   ContentLayout,
   generateDynamicContent,
 } from "../../components/templates";
-import { BsDatabaseFillAdd } from "react-icons/bs";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +21,7 @@ import {
   fetchUserData,
 } from "../../Redux/Feature/UserSlice";
 import TabBar from "@TabBar";
+import { MdAddCircleOutline } from "react-icons/md";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
@@ -87,7 +87,7 @@ const AccesPage = () => {
                       className="button flex gap-2 items-center order-2 sm:order-3"
                       onClick={() => showModal("add")}
                     >
-                      <BsDatabaseFillAdd />
+                      <MdAddCircleOutline />
                       <span className="hidden md:block">Tambah User</span>
                     </button>
                   ) : (

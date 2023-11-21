@@ -12,10 +12,12 @@ import { filterDataBySearch } from "../../helpers/filters";
 import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
 import Modals from "../../helpers/modals";
 import { MdLocalPrintshop } from "react-icons/md";
+import TableStocks2 from "../../components/molecules/Table/TableStocks2";
+import { useFetchStocks } from "../../config/GetData";
 
 const Stock2Page = () => {
   const [id, setId] = useState("");
-  const dataStock = useSelector((state) => state.stocks.data);
+  const dataStock = useFetchStocks();
   const isLoading = useSelector((state) => state.stocks.isLoading);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -42,7 +44,7 @@ const Stock2Page = () => {
                   handleSearchChange={handleSearchChange}
                 />
 
-                <div className="flex  gap-4 col-span-6  justify-end order-2 sm:order-3">
+                <div className="flex z-50  gap-4 col-span-6  justify-end order-2 sm:order-3">
                   {showDropdown && (
                     <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
                   )}
@@ -59,7 +61,7 @@ const Stock2Page = () => {
                 {generateDynamicContent(
                   dataStock,
                   filteredData,
-                  <TableStocks
+                  <TableStocks2
                     data={filteredData}
                     setDeleteModal={() => showModal("delete")}
                     setId={setId}

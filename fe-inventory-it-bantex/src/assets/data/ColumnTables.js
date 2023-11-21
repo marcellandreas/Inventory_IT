@@ -85,11 +85,11 @@ export const columnTableUsers = [
 ];
 export const columnTableLoginHistory = ["Id", "Username", "Terakhir Login"];
 
-export const columnTableStockDetail = [
-  "Id",
-  "Nama Stok",
-  "Qty",
-  "Merek",
-  "Info",
-  "Catatan",
-];
+// export const columnTableStockDetail = [
+//   "Id",
+//   "Nama Stok",
+//   "Qty",
+//   "Merek",
+//   "Info",
+//   "Catatan",
+// ];

@@ -36,7 +36,7 @@ const MainLayout = ({ children }) => {
   return (
     <>
       {isMobile ? (
-        <section className="flex md:hidden relative">
+        <section className="flex md:hidden relative min-h-screen">
           <Navbar
             handleLogout={handleLogout}
             role={role}

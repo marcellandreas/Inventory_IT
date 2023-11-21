@@ -69,12 +69,12 @@ export function useFetchDetailStock() {
 }
 
 // get data by stock no
-export function useFetchStockByNo() {
+export function useFetchStockByNo(stockNo) {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.stocks.databyStockNo);
   useEffect(() => {
-    dispatch(fetchStockByNo());
-  }, [dispatch]);
+    dispatch(fetchStockByNo(stockNo));
+  }, [dispatch, stockNo]);
   return data;
 }
 

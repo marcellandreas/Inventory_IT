@@ -5,6 +5,7 @@ import { ImBooks } from "react-icons/im";
 import { FaComputer } from "react-icons/fa6";
 import { CiGrid42 } from "react-icons/ci";
 import { IoMdLogOut } from "react-icons/io";
+import { BsPersonVcard } from "react-icons/bs";
 
 export const menuSidebar = [
   {
@@ -16,7 +17,6 @@ export const menuSidebar = [
     path: "/stock",
     name_menu: "Stock",
     icon: MdWarehouse,
-    // hasDropdown: true,
   },
   {
     path: "/items",
@@ -29,31 +29,26 @@ export const menuSidebar = [
     icon: FaComputer,
   },
   {
+    path: "/personal-computer",
+    name_menu: "Personal computer",
+    icon: FaComputer,
+  },
+  {
     path: "/form-pengajuan",
     name_menu: "Pengajuan",
     icon: CiGrid42,
   },
   {
-    path: "/profile",
-    name_menu: "Pengajuan",
-    icon: CiGrid42,
+    path: "/employess",
+    name_menu: "Employees",
+    icon: MdPeople,
   },
-  // {
-  //   path: "/pc-line",
-  //   name_menu: "PC line",
-  //   icon: <FaComputer />,
-  // },
-  // { path: "/stock-in", name_menu: "Stock In", icon: <MdWarehouse /> },
-  // { path: "/stock-out", name_menu: "Stock Out", icon: <MdWarehouse /> },
+  {
+    path: "/profile",
+    name_menu: "Profile Account",
+    icon: BsPersonVcard,
+  },
 ];
-
-// export const menuPengajuan = [
-//   {
-//     path: "/form-pengajuan",
-//     name_menu: "Pengajuan",
-//     icon: CiGrid42,
-//   },
-// ];
 
 export const LogoutMenu = [
   {
@@ -61,24 +56,6 @@ export const LogoutMenu = [
     name_menu: "Logout",
     icon: IoMdLogOut,
   },
-];
-
-export const menuSidebarOrganization = [
-  {
-    path: "/employess",
-    name_menu: "Employees",
-    icon: MdPeople,
-  },
-  // {
-  //   path: "/documents",
-  //   name_menu: "Documents",
-  //   icon: HiDocument,
-  // },
-  // {
-  //   path: "/reports",
-  //   name_menu: "Reports",
-  //   icon: BiSolidReport,
-  // },
 ];
 
 export const MenuDropdown = [

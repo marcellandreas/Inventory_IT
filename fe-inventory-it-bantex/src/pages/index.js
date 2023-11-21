@@ -3,10 +3,6 @@ export { default as LoginPage } from "./Auth/LoginPage";
 export { default as RegisterPage } from "./Auth/RegisterPage";
 export { default as StockPage } from "./Stock";
 export { default as ItemsPage } from "./Items";
-export { default as PcMasterPage } from "./PcMaster";
-export { default as GetAllPcMasterPage } from "./PcMaster/GetAllPcMaster";
-export { default as GetUnusedItemsPage } from "./PcMaster/GetUnusedItems";
-export { default as AddComponentsPcPage } from "./PcMaster/AddComponentsPc";
 export { default as AccesPage } from "./Access";
 export { default as ReportsPage } from "./Reports";
 export { default as BarcodePrinterPage } from "./PrintPage/Barcode";
@@ -24,3 +20,10 @@ export { default as ProfilePage } from "./Auth/ProfilePage";
 // Not Found Pages
 export { default as NotFoundAfter } from "./NotFound/NotFoundAfterLoginPage";
 export { default as NotFoundBefore } from "./NotFound/NotFoundBeforeLoginPage";
+
+// folder Pc Master
+export { default as PcMasterPage } from "./PcMaster";
+export { default as GetAllPcMasterPage } from "./PcMaster/GetAllPcMaster";
+export { default as GetUnusedItemsPage } from "./PcMaster/GetUnusedItems";
+export { default as AddComponentsPcPage } from "./PcMaster/AddComponentsPc";
+export { default as PersonalComputer } from "./PcMaster/PersonalComputer";

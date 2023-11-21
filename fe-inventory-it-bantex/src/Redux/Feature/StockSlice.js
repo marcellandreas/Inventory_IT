@@ -22,7 +22,7 @@ export const fetchStockByNo = createAsyncThunk(
   async (stockNo) => {
     try {
       const response = await AxiosInstance.get(`/stocks/stock/${stockNo}`);
-      return response.data.stock;
+      return response.data.data;
     } catch (error) {
       throw error;
     }

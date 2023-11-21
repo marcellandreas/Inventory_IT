@@ -4,10 +4,10 @@ import {
   LogoutMenu,
   // menuPengajuan,
   menuSidebar,
-  menuSidebarOrganization,
 } from "./MenuSidebar";
 import React, { useState } from "react";
 import DataMenu from "./DataMenu";
+import logo from "../../../../assets/images/logo.png";
 
 const SideBar = ({ handleLogout, role, open, setOpen }) => {
   return (
@@ -20,9 +20,10 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
         style={{
           transitionDelay: `${3}00ms`,
         }}
-        className="py-3 flex gap-2 mt-4 relative"
+        className="py-2 flex gap-2 mt-1 relative"
       >
-        <div>
+        <img src={logo} alt="" />
+        {/* <div>
           <MdWarehouse size={25} />
         </div>
         <h2
@@ -31,7 +32,7 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
           }`}
         >
           InventoryIT
-        </h2>
+        </h2> */}
         <div
           className={`absolute ${
             open ? "left-[158px] rotate-180" : "left-8 rotate-0"
@@ -52,7 +53,12 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
               return true;
             } else if (role == 2) {
               // Jika peran adalah 2, tampilkan hanya Dashboard dan Form Pengajuan
-              return menu.path === "/" || menu.path === "/form-pengajuan";
+              return (
+                menu.path === "/" ||
+                menu.path === "/form-pengajuan" ||
+                menu.path === "/personal-computer" ||
+                menu.path === "/profile"
+              );
             }
             return false;
           })

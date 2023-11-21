@@ -23,6 +23,7 @@ const EditDelCompontentsStocks = () => {
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
   const { stock_no } = useParams();
+
   const [formValues, setFormValues] = useState({
     stock_description: "",
     stock_qty: "",
@@ -88,12 +89,8 @@ const EditDelCompontentsStocks = () => {
   );
 
   useEffect(() => {
-    // Check if dataDetailStockNo is available and not empty
     if (dataDetailStockNo && dataDetailStockNo.length > 0) {
-      // Create a copy of the current inputList
       const updatedInputList = [...inputList];
-
-      // Iterate through dataDetailStockNo and update the corresponding elements in updatedInputList
       dataDetailStockNo.forEach((detail, index) => {
         updatedInputList[index] = {
           id_detail_stock: detail.id_detail_stock,
@@ -104,8 +101,6 @@ const EditDelCompontentsStocks = () => {
           note: detail.note,
         };
       });
-
-      // Set the updatedInputList to the state
       setinputList(updatedInputList);
     }
   }, [dataDetailStockNo]);
@@ -189,7 +184,7 @@ const EditDelCompontentsStocks = () => {
         //     Object.values(item).every((value) => value === "")
         //   )
 
-        if (inputListPost.length >= 1) {
+        if (!Object.values(inputListPost[0]).every((value) => value === "")) {
           const dataDetailPost = inputListPost.map((item) => ({
             stock_no: stockNo,
             ...item,
@@ -215,8 +210,6 @@ const EditDelCompontentsStocks = () => {
       console.error("Terjadi kesalahan saat mengirim permintaan:", error);
     }
   };
-
-  console.log(inputListPost);
 
   return (
     <MainLayout>

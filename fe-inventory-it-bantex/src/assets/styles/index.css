@@ -113,3 +113,7 @@ input[type="radio"] {
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
 }
+
+.custom-radius {
+  border-radius: 340px 120px 40px 120px;
+}

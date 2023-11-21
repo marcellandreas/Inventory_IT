@@ -28,6 +28,8 @@ import {
 import { PrivateRoute, ProtectRoute } from "./Routing";
 import NewApplications from "../pages/Applications/NewApplications";
 import PersonalComputer from "../pages/PcMaster/PersonalComputer";
+import Stock2Page from "../pages/Stock2";
+import DetailStock2 from "../pages/Stock2/DetailStock2";
 const Routers = () => {
   return (
     <BrowserRouter>
@@ -46,6 +48,16 @@ const Routers = () => {
           {/* Menambahkan path Stocks */}
           <Route path="/stock">
             <Route index element={<StockPage />} />
+            <Route path="buat" element={<AddComponentsStocksPage />} />
+            <Route
+              path="ubah/:stock_no"
+              element={<EditDelComponentsStocksPage />}
+            />
+            <Route path="detail/:id" element={<DetailStock2 />} />
+          </Route>
+          <Route path="/stock-2">
+            <Route index element={<Stock2Page />} />
+            <Route path="detail/:id" element={<DetailStock2 />} />
             <Route path="buat" element={<AddComponentsStocksPage />} />
             <Route
               path="ubah/:stock_no"

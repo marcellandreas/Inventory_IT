@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProfile } from "../../Redux/Feature/UserSlice";
 import { AxiosInstance } from "../../apis/api";
 import profileImg from "../../assets/images/bg.jpeg";
+import { MdEdit } from "react-icons/md";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.users);
-  const { code_user, username, id_user, full_name, email, role } = profile;
+  const { code_user, username, id_user, full_name, email } = profile;
   const [loading, setLoading] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   const [userData, setUserData] = useState({
     full_name: full_name,
     email: email,
-    // tambahkan properti profil lainnya sesuai kebutuhan
   });
 
   useEffect(() => {
@@ -24,7 +24,6 @@ const ProfilePage = () => {
     setLoading(false);
   }, [dispatch, loading]);
 
-  console.log(full_name, email);
   const [isTyping, setIsTyping] = useState(false); // State untuk melacak apakah pengguna sedang mengetik
 
   const handleTyping = () => {
@@ -109,9 +108,11 @@ const ProfilePage = () => {
                     onClick={() => {
                       setShowEdit(!showEdit);
                     }}
-                    className="button"
+                    className="flex gap-2  font-semibold items-center justify-center underline
+ text-blue-700                    "
                   >
-                    Edit
+                    <MdEdit size={20} />
+                    <span>Edit</span>
                   </button>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -140,18 +141,23 @@ const ProfilePage = () => {
                   <div className="flex gap-2 flex-wrap">
                     <CustomInput
                       label="Nama Lengkap"
-                      value={userData.full_name}
-                      name="full_name"
                       type="text"
+                      name="full-name"
+                      // className="col-span-3 md:col-span-1"
+                      placeholder="Enter Your New Item Location"
+                      value={userData.full_name}
                       onChange={handleChangeValue}
                     />
                     <CustomInput
                       label="Email"
                       type="email"
+                      name="email"
+                      // className="col-span-3 md:col-span-1"
+                      placeholder="Enter Your New Email Location"
                       value={userData.email}
                       onChange={handleChangeValue}
-                      name="email"
                     />
+
                     <button onClick={handleUpdateProfile} className="button">
                       Update
                     </button>

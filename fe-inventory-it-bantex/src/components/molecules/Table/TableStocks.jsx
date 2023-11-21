@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  columnTableStock,
-  columnTableStockDetail,
-} from "../../../assets/data/ColumnTables";
+import { columnTableStock } from "../../../assets/data/ColumnTables";
 import { TableContent, Tbody, Thead } from "../../atoms";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchStockDetails } from "../../../Redux/Feature/detailStockslice";
@@ -11,6 +8,7 @@ import {
   MdEditNote,
   FaAngleDown,
   FaAngleRight,
+  PiWarningOctagonLight,
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 
@@ -24,11 +22,11 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
       {columnName}
     </th>
   ));
-  const tableHeadersDetail = columnTableStockDetail.map((columnName, index) => (
-    <th key={index} className="px-4 py-2">
-      {columnName}
-    </th>
-  ));
+  // const tableHeadersDetail = columnTableStockDetail.map((columnName, index) => (
+  //   <th key={index} className="px-4 py-2">
+  //     {columnName}
+  //   </th>
+  // ));
 
   const dataDetailStockNo = useSelector(
     (state) => state.detailStock.dataDetailStockNo
@@ -88,6 +86,12 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
               </td>
 
               <td className="flex gap-2">
+                <NavLink
+                  to={`detail/${stock.stock_no}`}
+                  className="button text-amber-700"
+                >
+                  <PiWarningOctagonLight className=" text-amber-500 font-bold" />
+                </NavLink>
                 <NavLink to={`ubah/${stock.stock_no}`} className="button_edit">
                   <MdEditNote />
                 </NavLink>
@@ -104,48 +108,74 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
               </td>
             </tr>
             {selectedStockNo === stock.stock_no && (
-              <td colSpan={12} className="bg-blue-300 -z-50 px-0 py-2 m-0">
-                <td
-                  colSpan={6}
-                  className="relative z-30"
-                  key={`dropdown-${stock.id_stock}`}
-                >
+              <>
+                <td colSpan={12} className="bg-white -z-50 p-1  m-0">
                   {dataDetailStockNo.length === 0 ? (
-                    <p className="text-center">DaTa Tidak Ada</p>
+                    <p>data kosong</p>
                   ) : (
-                    <TableContent>
-                      <Thead>
-                        <tr>{tableHeadersDetail}</tr>
-                      </Thead>
-                      <Tbody>
-                        {dataDetailStockNo?.map((dataDetail, i) => (
-                          <tr key={i}>
-                            <td className="border px-4 py-2">{i + 1}</td>
-                            <td className="border px-4 py-2">
-                              {dataDetail.stock_detail_description}
-                            </td>
-                            <td className="border px-4 py-2">
-                              {dataDetail.qty}
-                            </td>
-                            <td className="border px-4 py-2">
-                              {dataDetail.brand}
-                            </td>
-                            <td className="border px-4 py-2">
-                              {dataDetail.additional_info || "-"}
-                            </td>
-                            <td className="border px-4 py-2">
-                              {dataDetail.note || "-"}
-                            </td>
-                          </tr>
-                        ))}
-                      </Tbody>
-                    </TableContent>
+                    <>
+                      {dataDetailStockNo.slice(0, 5).map((data, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="p-2 w-full bg-gray-200 rounded-md flex gap-2 text-sm mb-1 "
+                          >
+                            <div className="w-8 ">
+                              <p className=" text-gray-500 font-semibold">ID</p>
+                              <span className=" font-semibold text-slate-800">
+                                {index + 1}
+                              </span>
+                            </div>
+                            <div className="w-40 ">
+                              <p className=" text-gray-500 font-semibold">
+                                Nama Stock
+                              </p>
+                              <span className=" font-semibold text-slate-800">
+                                {data.stock_detail_description || "-"}
+                              </span>
+                            </div>
+                            <div className="w-16 ">
+                              <p className=" text-gray-500 font-semibold">
+                                QTY
+                              </p>
+                              <span className=" font-semibold text-slate-800">
+                                {data.qty || "-"}
+                              </span>
+                            </div>
+                            <div className="w-40 ">
+                              <p className=" text-gray-500 font-semibold">
+                                Merek
+                              </p>
+                              <span className=" font-semibold text-slate-800">
+                                {data.brand || "-"}
+                              </span>
+                            </div>
+                            <div className="w-40 ">
+                              <p className=" text-gray-500 font-semibold">
+                                Info
+                              </p>
+                              <span className=" font-semibold text-slate-800">
+                                {data.additional_info || "-"}
+                              </span>
+                            </div>
+                            <div className="w-60 ">
+                              <p className=" text-gray-500 font-semibold line-clamp-4">
+                                Catatan
+                              </p>
+                              <span className=" font-semibold text-slate-800">
+                                {data.note || "-"}
+                              </span>
+                            </div>
+                            {/* <div className="w-40 ">
+                          <p className=" text-gray-500 font-semibold">Aksi</p>
+                        </div> */}
+                          </div>
+                        );
+                      })}
+                    </>
                   )}
-                  <section>
-                    <div></div>
-                  </section>
                 </td>
-              </td>
+              </>
             )}
           </>
         ))}

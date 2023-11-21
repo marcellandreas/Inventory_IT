@@ -1,5 +1,5 @@
 import SearchNotFound from "../../../assets/images/search-not-found.jpg";
-import DataNotFound from "../../../assets/images/data-not-found.jpg";
+import DataNotFound from "../../../assets/images/data-not-found.png";
 import { DynamicComponent } from "./DynamicComponent";
 
 function generateDynamicContent(dataCount, filteredData, component) {

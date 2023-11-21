@@ -1,17 +1,17 @@
 // src/features/authSlice.js
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
-    token: "",
-    role: "",
-    codeUser: "",
-    idUser: "",
-    username: "",
-    email: "",
-    fullName: "",
+    token: '',
+    role: '',
+    codeUser: '',
+    idUser: '',
+    username: '',
+    email: '',
+    fullName: '',
   },
   reducers: {
     setAuthData: (state, action) => {
@@ -34,13 +34,13 @@ const authSlice = createSlice({
       state.fullName = fullName;
     },
     clearAuthData: (state) => {
-      state.token = "";
-      state.role = "";
-      state.codeUser = "";
-      state.idUser = "";
-      state.username = "";
-      state.email = "";
-      state.fullName = "";
+      state.token = '';
+      state.role = '';
+      state.codeUser = '';
+      state.idUser = '';
+      state.username = '';
+      state.email = '';
+      state.fullName = '';
     },
   },
 });

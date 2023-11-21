@@ -1,6 +1,5 @@
-import { AiFillFileAdd } from "react-icons/ai";
-import { Link, NavLink, useParams } from "react-router-dom";
-import ShowModal from "../ShowModal";
+import { MdAddCircleOutline } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 export default function getCurrentPage(pathname, id_item_req) {
   console.log(id_item_req);
@@ -13,7 +12,7 @@ export default function getCurrentPage(pathname, id_item_req) {
             to={`buat`}
             className="button flex gap-2 items-center order-2 sm:order-3"
           >
-            <AiFillFileAdd /> <span>Tambah Stok</span>
+            <MdAddCircleOutline /> <span>Tambah Stok</span>
             {/* <span className="hidden md:block">Tambah Stok</span> */}
           </NavLink>
         ),
@@ -48,7 +47,7 @@ export default function getCurrentPage(pathname, id_item_req) {
             to={`buat`}
             className="button flex gap-2 items-center order-2 sm:order-3"
           >
-            <AiFillFileAdd />{" "}
+            <MdAddCircleOutline />{" "}
             <span className="hidden md:block">Tambah Pengajuan</span>
           </NavLink>
         ),
@@ -58,7 +57,9 @@ export default function getCurrentPage(pathname, id_item_req) {
     case `/form-pengajuan/detail/${id_item_req}`:
       return { title: "Detail Pengajuan Barang" };
     case "/employess":
-      return { title: "Kelola Hak Akses" };
+      return {
+        title: "Kelola Hak Akses",
+      };
     case "/pc-line":
       return { title: "Komponent PC" };
     case "/reports":
