@@ -47,7 +47,7 @@ const MainLayout = ({ children }) => {
             openMob={openMob}
             setOpenMob={setOpenMob}
           />
-          <section className="flex flex-col w-full mt-5 bg-slate-100">
+          <section className="flex flex-col w-full mt-5 bg-slate-400">
             <Topbar />
             <div className="min-h-screen overflow-hidden py-5 overflow-y-auto">
               {children}
@@ -55,14 +55,14 @@ const MainLayout = ({ children }) => {
           </section>
         </section>
       ) : (
-        <section className="flex bg-slate-100 ">
+        <section className="flex bg-slate-400 ">
           <SideBar
             handleLogout={handleLogout}
             role={role}
             open={open}
             setOpen={setOpen}
           />
-          <section className="flex flex-col w-full mt-5 bg-slate-100 ">
+          <section className="flex flex-col w-full mt-5  ">
             <Topbar />
             <div className="min-h-[80vh]  overflow-hidden py-5 overflow-y-auto">
               {children}

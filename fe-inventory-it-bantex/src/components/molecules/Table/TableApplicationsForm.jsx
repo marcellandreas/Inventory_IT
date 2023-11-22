@@ -46,7 +46,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
 
             <td className="flex gap-2 justify-center items-center">
               <NavLink
-                to={`/form-pengajuan/detail/${data.id_item_req}`}
+                to={`/form-pengajuan/detail/${data.id_req_sub}`}
                 className="button flex gap-2 items-center w-8 h-8"
               >
                 <span className=" text-amber-500 font-bold">

@@ -52,9 +52,11 @@ export default function getCurrentPage(pathname, id_item_req) {
           </NavLink>
         ),
       };
+    case "/form-pengajuan/print":
+      return { title: "Cetak Pengajuan" };
     case "/form-pengajuan/buat":
       return { title: "Tambah Pengajuan" };
-    case `/form-pengajuan/detail/${id_item_req}`:
+    case `/form-pengajuan/detail`:
       return { title: "Detail Pengajuan Barang" };
     case "/employess":
       return {

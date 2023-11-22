@@ -2,19 +2,29 @@ import React, { useEffect, useState } from "react";
 import QRCode from "qrcode.react";
 import { AxiosInstance } from "../../apis/api";
 import { useNavigate } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
+import { ContentLayout, MainLayout } from "../../components/templates";
+import { MdArrowCircleLeft, MdArrowLeft, MdPrint } from "react-icons/md";
 
 function QrcodePrinter() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [componentRef, setComponentRef] = useState(null);
 
   const [isLoading, setIsLoading] = useState();
   useEffect(() => {
     AxiosInstance.get("/items").then((res) => {
       setData(res.data.data.map((item) => item.item_no));
 
-      //  setIsLoading(false);
+      setIsLoading(false);
     });
   }, [isLoading]);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef,
+    documentTitle: "data-qr-code-items",
+    // onAfterPrint: () => alert("Berhasil print dokument"),
+  });
 
   const backToMenu = () => {
     navigate(-1);
@@ -25,35 +35,36 @@ function QrcodePrinter() {
   };
 
   return (
-    <section className="w-full">
-      <div className="  m-10   flex flex-col gap-4 items-center">
-        <button
-          onClick={backToMenu}
-          className="button absolute left-10 print:hidden"
-        >
-          Back
-        </button>
-        <h1 className="text-align text-2xl uppercase font-bold ">
-          Cetak Qrcode
+    <MainLayout>
+      <ContentLayout>
+        <div className="col-span-1">
+          <MdArrowCircleLeft onClick={backToMenu} size={32} className=" " />
+        </div>
+        <h1 className="text-center rounded-md bg-white text-xl  uppercase font-bold col-span-4 ">
+          Cetak Barcode
         </h1>
-        <div className="flex w-full gap-4 flex-wrap">
+        <div className=" col-span-1  place-self-end">
+          <button onClick={handlePrint} className="button ">
+            <MdPrint />
+            Print
+          </button>
+        </div>
+        <div
+          className="flex w-full gap-4 flex-wrap col-span-6 bg-white px-2 py-5 rounded-xl shadow-xl"
+          ref={(ref) => setComponentRef(ref)}
+        >
           {data.map((qrcode, index) => (
             <div
               key={index}
-              className="border w-44 flex items-center justify-center flex-col"
+              className="border w-40 flex items-center justify-center flex-col py-3"
             >
-              <QRCode value={qrcode} size={128} fgColor="#000" bgColor="#fff" />
+              <QRCode value={qrcode} size={100} fgColor="#000" bgColor="#fff" />
               <p>{qrcode}</p>
             </div>
           ))}
         </div>
-        <div className=" self-start">
-          <button onClick={printBarcode} className="button print:hidden w-40">
-            Cetak Qrcode
-          </button>
-        </div>
-      </div>
-    </section>
+      </ContentLayout>
+    </MainLayout>
   );
 }
 

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Barcode from "react-barcode";
 import { AxiosInstance } from "../../apis/api";
 import { useNavigate } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
+import { MdArrowCircleLeft, MdPrint } from "react-icons/md";
+import { ContentLayout, MainLayout } from "../../components/templates";
 
 function BarcodePrinter() {
   const [data, setData] = useState([]);
@@ -14,6 +17,13 @@ function BarcodePrinter() {
     });
   }, [isLoading]);
 
+  const [componentRef, setComponentRef] = useState(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef,
+    documentTitle: "data-qr-code-items",
+    // onAfterPrint: () => alert("Berhasil print dokument"),
+  });
+
   const navigate = useNavigate();
   const backToMenu = () => {
     navigate(-1);
@@ -24,20 +34,27 @@ function BarcodePrinter() {
   };
 
   return (
-    <section className="w-full">
-      <div className="  m-10   flex flex-col gap-4 items-center">
-        <button
-          onClick={backToMenu}
-          className="button absolute left-10 print:hidden"
-        >
-          Back
-        </button>
-        <h1 className="text-align text-2xl uppercase font-bold ">
+    <MainLayout>
+      <ContentLayout>
+        <div className="col-span-1">
+          <MdArrowCircleLeft onClick={backToMenu} size={32} className=" " />
+        </div>
+        <h1 className="text-center rounded-md bg-white text-xl   uppercase font-bold col-span-4 ">
           Cetak Barcode
         </h1>
-        <div className="flex w-full gap-4 flex-wrap">
+        <div className=" col-span-1  place-self-end">
+          <button onClick={handlePrint} className="button ">
+            <MdPrint />
+            Print
+          </button>
+        </div>
+
+        <div
+          className="flex col-span-6 w-full gap-4 justify-between flex-wrap bg-white p-4 rounded-xl shadow-xl "
+          ref={(ref) => setComponentRef(ref)}
+        >
           {data.map((barcode, index) => (
-            <div key={index} className="border w-[268px]">
+            <div key={index} className="border w-[250px]  border-slate-500">
               <Barcode
                 value={barcode}
                 width={1}
@@ -48,13 +65,8 @@ function BarcodePrinter() {
             </div>
           ))}
         </div>
-        <div className=" self-start">
-          <button onClick={printBarcode} className="button print:hidden w-40">
-            Cetak Barcode
-          </button>
-        </div>
-      </div>
-    </section>
+      </ContentLayout>
+    </MainLayout>
   );
 }
 

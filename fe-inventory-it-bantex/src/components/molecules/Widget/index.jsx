@@ -1,6 +1,6 @@
 const Widget = ({ color, border, nameWidget, countWidget, icon }) => {
   return (
-    <section className="flex gap-2  hover:scale-105 w-full  justify-between flex-wrap col-span-4 sm:col-span-2   lg:col-span-1 ">
+    <section className="flex gap-2  hover:scale-105 w-full  col-span-3 sm:col-span-2   lg:col-span-1 ">
       <div
         className={`bg-white hover:scale-110 w-full sm:w-64 ${color}  ${border} border-l-4  min-h-[120px] rounded-lg flex items-center px-6 justify-between `}
       >

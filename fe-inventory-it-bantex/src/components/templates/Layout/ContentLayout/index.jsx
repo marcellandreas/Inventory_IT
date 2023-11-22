@@ -1,6 +1,6 @@
 const ContentLayout = ({ children }) => {
   return (
-    <section className="max-h-[95vh] md:max-h-[80vh] overflow-hidden grid grid-cols-6 gap-4 grid-flow-dense w-full p-5 overflow-y-auto ">
+    <section className="max-h-[95vh] text-slate-800 md:max-h-[80vh] overflow-hidden grid grid-cols-6 gap-4 grid-flow-dense w-full p-5 overflow-y-auto ">
       {children}
     </section>
   );

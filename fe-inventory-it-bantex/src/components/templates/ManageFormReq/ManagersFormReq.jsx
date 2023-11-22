@@ -113,7 +113,7 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
           />
           <div className="flex pl-2 gap-2 self-start order-2 items-center sm:order-3">
             <NavLink
-              to={`/printPage`}
+              to={`print`}
               className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
             >
               <MdLocalPrintshop />

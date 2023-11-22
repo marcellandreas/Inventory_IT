@@ -2,11 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import {
   Dashboard,
-  LoginPage,
   StockPage,
   ItemsPage,
   NotFoundAfter,
-  NotFoundBefore,
   ReportsPage,
   AccesPage,
   PcMasterPage,
@@ -20,23 +18,24 @@ import {
   DetailFormItemsReqPage,
   PrintPage,
   SetUpReqPage,
-  AddComponentsStocksPage,
-  EditDelComponentsStocksPage,
-  RegisterPage,
-  ProfilePage,
+  DetailStock,
+  AddStocksPage,
+  EditDelStocksPage,
+  Login,
+  Register,
+  Profile,
 } from "../pages";
 import { PrivateRoute, ProtectRoute } from "./Routing";
 import NewApplications from "../pages/Applications/NewApplications";
 import PersonalComputer from "../pages/PcMaster/PersonalComputer";
 import Stock2Page from "../pages/Stock2";
-import DetailStock2 from "../pages/Stock2/DetailStock2";
 const Routers = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectRoute />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
         {/* Private Route */}
         <Route element={<PrivateRoute />}>
@@ -48,21 +47,15 @@ const Routers = () => {
           {/* Menambahkan path Stocks */}
           <Route path="/stock">
             <Route index element={<StockPage />} />
-            <Route path="buat" element={<AddComponentsStocksPage />} />
-            <Route
-              path="ubah/:stock_no"
-              element={<EditDelComponentsStocksPage />}
-            />
-            <Route path="detail/:id" element={<DetailStock2 />} />
+            <Route path="buat" element={<AddStocksPage />} />
+            <Route path="ubah/:stock_no" element={<EditDelStocksPage />} />
+            <Route path="detail/:id" element={<DetailStock />} />
           </Route>
           <Route path="/stock-2">
             <Route index element={<Stock2Page />} />
-            <Route path="detail/:id" element={<DetailStock2 />} />
-            <Route path="buat" element={<AddComponentsStocksPage />} />
-            <Route
-              path="ubah/:stock_no"
-              element={<EditDelComponentsStocksPage />}
-            />
+            <Route path="detail/:id" element={<DetailStock />} />
+            <Route path="buat" element={<AddStocksPage />} />
+            <Route path="ubah/:stock_no" element={<EditDelStocksPage />} />
           </Route>
 
           {/* Menambahkan path items */}
@@ -70,7 +63,7 @@ const Routers = () => {
             <Route index element={<ItemsPage />}></Route>
           </Route>
           <Route path="/profile">
-            <Route index element={<ProfilePage />}></Route>
+            <Route index element={<Profile />}></Route>
           </Route>
 
           {/* Menambahkan path pc master */}
@@ -94,14 +87,13 @@ const Routers = () => {
               path="detail/:id_item_req"
               element={<DetailFormItemsReqPage />}
             />
+            <Route path="print" element={<PrintPage />} />
           </Route>
 
           <Route path="/employess">
             <Route index element={<AccesPage />}></Route>
           </Route>
-          <Route path="/printPage">
-            <Route index element={<PrintPage />}></Route>
-          </Route>
+
           <Route path="/barcode">
             <Route index element={<BarcodePrinterPage />}></Route>
           </Route>
