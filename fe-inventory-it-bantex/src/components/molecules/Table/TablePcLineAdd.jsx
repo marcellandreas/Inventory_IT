@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BsDatabaseFillAdd } from "../../../assets/icons/icons";
-import ShowModal from "../../organisms/ShowModal";
+import ShowModal from "../../organisms/Show/ShowModals";
 import FormAddModalItem from "../Form/Items/FormAddModalItem";
 import { NavLink } from "react-router-dom";
 import { columnTablePcLineAdd } from "../../../assets/data/ColumnTables";

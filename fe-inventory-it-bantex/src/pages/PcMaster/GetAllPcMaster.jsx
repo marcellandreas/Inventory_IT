@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { TablePcMasters } from "../../components/molecules";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { TableBody, TableHeader } from "../../components/organisms";
+import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
 import { SearchInput, TitleTable } from "../../components/atoms";
 import { useNavigate } from "react-router-dom";
 import { filterDataBySearch } from "../../helpers/filters";
@@ -41,7 +41,7 @@ const GetAllPcMaster = () => {
             <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
           </button>
         </section>
-        <section className="col-span-6 mx-auto  flex flex-col  bg-slate-200 backdrop-blur-md rounded-3xl  w-full">
+        <ShowTable gap={6}>
           <TableHeader>
             <SearchInput
               search={search}
@@ -55,7 +55,7 @@ const GetAllPcMaster = () => {
               <TablePcMasters data={filteredData} />
             )}
           </TableBody>
-        </section>
+        </ShowTable>
       </ContentLayout>
     </MainLayout>
   );

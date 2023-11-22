@@ -54,7 +54,7 @@ const EditDelCompontentsStocks = () => {
         unit: databyStockNo.unit,
         type: databyStockNo.type,
         note: databyStockNo.note,
-        post_user_id: idUser,
+        post_user_id: Number(idUser),
         post_username: username,
       });
     }
@@ -93,7 +93,7 @@ const EditDelCompontentsStocks = () => {
       const updatedInputList = [...inputList];
       dataDetailStockNo.forEach((detail, index) => {
         updatedInputList[index] = {
-          id_detail_stock: detail.id_detail_stock,
+          id_detail_stock: Number(detail.id_detail_stock),
           stock_detail_description: detail.stock_detail_description,
           qty: detail.qty,
           brand: detail.brand,

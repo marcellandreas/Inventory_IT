@@ -29,6 +29,8 @@ export { default as FormDetailStock } from "./Form/Stock/FormDetailStock";
 export { default as FormAddModalPcMaster } from "./Form/PC/FormAddModalPcMaster";
 export { default as FormEditModalPcMaster } from "./Form/PC/FormEditModalPcMaster";
 export { default as FormDeleteModalPcMaster } from "./Form/PC/FormDeleteModalPcMaster";
+export { default as FormAddCompPc2 } from "./Form/PC/FormAddModalComponentPc2";
+export { default as FormLostConnect } from "./Form/PC/FormLostConnection";
 
 // TABLE
 export { default as TableApplicationsForm } from "./Table/TableApplicationsForm";

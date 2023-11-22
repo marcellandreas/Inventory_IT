@@ -7,7 +7,12 @@ import {
   TableLoginHistory,
   TableUsers,
 } from "../../components/molecules";
-import { ShowModal, TableBody, TableHeader } from "../../components/organisms";
+import {
+  ShowModal,
+  ShowTable,
+  TableBody,
+  TableHeader,
+} from "../../components/organisms";
 import {
   MainLayout,
   ContentLayout,
@@ -22,6 +27,7 @@ import {
 } from "../../Redux/Feature/UserSlice";
 import TabBar from "@TabBar";
 import { MdAddCircleOutline } from "react-icons/md";
+import "./style.css";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
@@ -62,7 +68,7 @@ const AccesPage = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          <div className="self-start flex-wrap flex justify-between w-full col-span-6 row-span-2 ">
+          <div className="self-start flex-wrap flex justify-between w-full col-span-4 row-span-2 ">
             <TabBar
               tabs={tabs}
               setSearch={setSearch}
@@ -70,107 +76,103 @@ const AccesPage = () => {
               toggleState={toggleState}
             />
           </div>
-          <div className="col-span-6">
-            <section className="grid grid-cols-6 h-[75vh]  gap-4 grid-flow-dense ">
-              <div className=" bg-slate-200 rounded-xl min-h-[50px] row-span-4 col-span-6 ">
-                <TableHeader>
-                  <div className="order-1">
-                    <TitleTable>Data Pengguna</TitleTable>
-                  </div>
-                  <SearchInput
-                    search={search}
-                    handleSearchChange={handleSearchChange}
-                  />
-
-                  {tabs[4] === "Login History" ? (
-                    <button
-                      className="button flex gap-2 items-center order-2 sm:order-3"
-                      onClick={() => showModal("add")}
-                    >
-                      <MdAddCircleOutline />
-                      <span className="hidden md:block">Tambah User</span>
-                    </button>
-                  ) : (
-                    <p>a</p>
-                  )}
-                </TableHeader>
-                <TableBody>
-                  {toggleState === 1 ? (
-                    <>
-                      {filteredData.length == 0 ? (
-                        <div className="min-h-[60vh] flex justify-center items-center">
-                          <div>Users yang dicari tidak ditemukan</div>
-                        </div>
-                      ) : (
-                        <TableUsers
-                          data={filteredData}
-                          // setIsLoading={setIsLoading}
-                          setEditModal={() => showModal("edit")}
-                          setDeleteModal={() => showModal("delete")}
-                          setId={setId}
-                        />
-                      )}
-                    </>
-                  ) : toggleState === 2 ? (
-                    <>
-                      {generateDynamicContent(
-                        users,
-                        filteredDataUser,
-                        <TableUsers
-                          data={filteredDataUser}
-                          // setIsLoading={setIsLoading}
-                          setId={setId}
-                          setEditModal={() => showModal("edit")}
-                          setDeleteModal={() => showModal("delete")}
-                        />
-                      )}
-                    </>
-                  ) : toggleState === 3 ? (
-                    <>
-                      {generateDynamicContent(
-                        admins,
-                        filteredDataAdmin,
-                        <TableUsers
-                          data={filteredDataAdmin}
-                          // setIsLoading={setIsLoading}
-                          setId={setId}
-                          setEditModal={() => showModal("edit")}
-                          setDeleteModal={() => showModal("delete")}
-                        />
-                      )}
-                    </>
-                  ) : toggleState === 4 ? (
-                    <>
-                      {generateDynamicContent(
-                        managers,
-                        filteredDataManager,
-                        <TableUsers
-                          data={filteredDataManager}
-                          // setIsLoading={setIsLoading}
-                          setId={setId}
-                          setEditModal={() => showModal("edit")}
-                          setDeleteModal={() => showModal("delete")}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {generateDynamicContent(
-                        dataLoginHistory,
-                        filteredDataLoginHistory,
-                        <TableLoginHistory
-                          data={filteredDataLoginHistory}
-                          setId={setId}
-                          setEditModal={() => showModal("edit")}
-                          setDeleteModal={() => showModal("delete")}
-                        />
-                      )}
-                    </>
-                  )}
-                </TableBody>
+          <ShowTable gap={6}>
+            <TableHeader>
+              <div className="order-1">
+                <TitleTable>Data Pengguna</TitleTable>
               </div>
-            </section>
-          </div>
+              <SearchInput
+                search={search}
+                handleSearchChange={handleSearchChange}
+              />
+
+              {tabs[4] === "Login History" ? (
+                <button
+                  className="button flex gap-2 items-center order-2 sm:order-3"
+                  onClick={() => showModal("add")}
+                >
+                  <MdAddCircleOutline />
+                  <span className="hidden md:block">Tambah User</span>
+                </button>
+              ) : (
+                <p>a</p>
+              )}
+            </TableHeader>
+            <TableBody>
+              {toggleState === 1 ? (
+                <>
+                  {filteredData.length == 0 ? (
+                    <div className="min-h-[60vh] flex justify-center items-center">
+                      <div>Users yang dicari tidak ditemukan</div>
+                    </div>
+                  ) : (
+                    <TableUsers
+                      data={filteredData}
+                      // setIsLoading={setIsLoading}
+                      setEditModal={() => showModal("edit")}
+                      setDeleteModal={() => showModal("delete")}
+                      setId={setId}
+                    />
+                  )}
+                </>
+              ) : toggleState === 2 ? (
+                <>
+                  {generateDynamicContent(
+                    users,
+                    filteredDataUser,
+                    <TableUsers
+                      data={filteredDataUser}
+                      // setIsLoading={setIsLoading}
+                      setId={setId}
+                      setEditModal={() => showModal("edit")}
+                      setDeleteModal={() => showModal("delete")}
+                    />
+                  )}
+                </>
+              ) : toggleState === 3 ? (
+                <>
+                  {generateDynamicContent(
+                    admins,
+                    filteredDataAdmin,
+                    <TableUsers
+                      data={filteredDataAdmin}
+                      // setIsLoading={setIsLoading}
+                      setId={setId}
+                      setEditModal={() => showModal("edit")}
+                      setDeleteModal={() => showModal("delete")}
+                    />
+                  )}
+                </>
+              ) : toggleState === 4 ? (
+                <>
+                  {generateDynamicContent(
+                    managers,
+                    filteredDataManager,
+                    <TableUsers
+                      data={filteredDataManager}
+                      // setIsLoading={setIsLoading}
+                      setId={setId}
+                      setEditModal={() => showModal("edit")}
+                      setDeleteModal={() => showModal("delete")}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  {generateDynamicContent(
+                    dataLoginHistory,
+                    filteredDataLoginHistory,
+                    <TableLoginHistory
+                      data={filteredDataLoginHistory}
+                      setId={setId}
+                      setEditModal={() => showModal("edit")}
+                      setDeleteModal={() => showModal("delete")}
+                    />
+                  )}
+                </>
+              )}
+            </TableBody>
+          </ShowTable>
         </ContentLayout>
       </MainLayout>
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>

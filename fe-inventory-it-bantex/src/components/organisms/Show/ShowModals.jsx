@@ -7,7 +7,11 @@ const ShowModal = ({ isVisible, onClose, children }) => {
   if (!isVisible) return null;
 
   return (
-    <section className="modal-component" id="wrapper" onClick={handleClose}>
+    <section
+      className=" fixed inset-0 bg-slate-400 h-screen w-full bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+      id="wrapper"
+      onClick={handleClose}
+    >
       {children}
     </section>
   );

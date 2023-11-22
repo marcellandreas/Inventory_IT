@@ -2,7 +2,7 @@ import React from "react";
 
 const TabBar = ({ tabs, toggleState, setToggleState, setSearch }) => {
   return (
-    <section className="flex flex-wrap  w-full gap-2 p-2 bg-slate-200 mb-5 rounded-lg order-1 ">
+    <section className="flex flex-wrap  w-full gap-2 p-2 cards mb-5 rounded-lg order-1 ">
       {tabs.map((label, index) => (
         <button
           key={index}

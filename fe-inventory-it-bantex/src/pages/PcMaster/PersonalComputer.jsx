@@ -18,6 +18,7 @@ const PersonalComputer = () => {
   useEffect(() => {
     AxiosInstance.get(`/pcmaster/personal/${id}`).then((res) => {
       const { data } = res.data;
+      console.log(data);
       setDataPc(data);
       setDataItems(data.items);
     });
@@ -149,7 +150,7 @@ const PersonalComputer = () => {
           </section>
           {/* </div> */}
           <div className="w-full p-0 md:p-16 overflow-x-auto min-h-[20px]">
-            <div className="mt-[50vh] sm:mt-[40vh] md:mt-[20vh]     col-span-5 border border-y-black cards p-3 ">
+            <div className="mt-[50vh] sm:mt-[40vh] md:mt-[20vh]  col-span-5 border border-y-black cards p-3 ">
               <div className=" flex justify-between mb-3">
                 <Title>komponen Pc</Title>
                 <SearchInput

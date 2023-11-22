@@ -13,7 +13,12 @@ import {
 } from "../../components/molecules";
 import { BsDatabaseFillAdd } from "../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
-import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
+import {
+  TableBody,
+  TableHeader,
+  ShowModal,
+  ShowTable,
+} from "../../components/organisms";
 import { SearchInput } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import Modals from "../../helpers/modals";
@@ -38,8 +43,8 @@ const ItemsPage = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          <section className="col-span-6 w-full mx-auto flex gap-5 items-center  justify-between">
-            <div className=" flex gap-2">
+          <section className="col-span-5 cards p-2 w-full mx-auto flex gap-5 items-center  justify-between">
+            <div className="flex gap-2">
               <NavLink
                 to={`/barcode`}
                 className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
@@ -53,20 +58,20 @@ const ItemsPage = () => {
                 Cetak qrcode
               </NavLink>
             </div>
-            <div className="flex z-50 ">
-              {showDropdown && (
-                <DropdownPrintItems dataCsv={dataItems} dataPdf={dataItems} />
-              )}
-              <button
-                className="button"
-                onClick={() => setShowDropdown(!showDropdown)}
-              >
-                <MdLocalPrintshop />
-                Print
-              </button>
-            </div>
           </section>
-          <section className=" col-span-6 h-[75vh] w-full  gap-4 bg-slate-200 rounded-xl min-h-[50px]  ">
+          <div className="flex col-span-1  cards">
+            {showDropdown && (
+              <DropdownPrintItems dataCsv={dataItems} dataPdf={dataItems} />
+            )}
+            <button
+              className="button place-self-end p-2 ml-auto"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              <MdLocalPrintshop />
+              Print
+            </button>
+          </div>
+          <ShowTable gap={6}>
             <TableHeader>
               <SearchInput
                 search={search}
@@ -77,13 +82,19 @@ const ItemsPage = () => {
                   className="button flex gap-2 items-center order-2 sm:order-3"
                   onClick={() => showModal("add")}
                 >
-                  <BsDatabaseFillAdd /> <span>Tambah Barang</span>
+                  <BsDatabaseFillAdd />
+                  <p className="flex p-0">
+                    Tambah <span className="hidden md:block">Barang</span>
+                  </p>
                 </button>
                 <button
                   className="button flex gap-2 items-center order-2 sm:order-3"
                   onClick={() => showModal("take")}
                 >
-                  <BsDatabaseFillAdd /> <span>Ambil Barang</span>
+                  <BsDatabaseFillAdd />{" "}
+                  <p className="flex p-0">
+                    Ambil <span className="hidden  md:block">Barang</span>
+                  </p>
                 </button>
               </div>
             </TableHeader>
@@ -99,7 +110,7 @@ const ItemsPage = () => {
                 />
               )}
             </TableBody>
-          </section>
+          </ShowTable>
         </ContentLayout>
       </MainLayout>
       {/* Modals Popup */}

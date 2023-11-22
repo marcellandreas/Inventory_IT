@@ -7,7 +7,7 @@ import {
 import { SearchInput } from "../../atoms";
 import { NavLink } from "react-router-dom";
 import { MdLocalPrintshop } from "react-icons/md";
-import { TableBody, TableHeader } from "../../organisms";
+import { ShowTable, TableBody, TableHeader } from "../../organisms";
 import { TableApplicationsForm } from "../../molecules";
 import { useEffect, useState } from "react";
 import TabBar from "../../organisms/TabBar";
@@ -105,7 +105,7 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
           toggleState={toggleState}
         />
       </section>
-      <section className="col-span-6 bg-slate-200  h-[75vh]  rounded-xl min-h-[50px] ">
+      <ShowTable gap={6}>
         <TableHeader>
           <SearchInput
             search={search}
@@ -125,7 +125,7 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
           </div>
         </TableHeader>
         <TableBody>{renderTableData()}</TableBody>
-      </section>
+      </ShowTable>
     </>
   );
 };

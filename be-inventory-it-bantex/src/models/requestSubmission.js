@@ -25,7 +25,7 @@ class requestSubmission {
 
   getReqSubById(id, callback) {
     this.connection.query(
-      "SELECT * FROM request_submission WHERE id_item_req = ?",
+      "SELECT * FROM request_submission WHERE id_req_sub = ?",
       [id],
       (error, results) => {
         if (error) {
@@ -66,9 +66,9 @@ class requestSubmission {
   }
 
   // Metode untuk mengupdate form request
-  updateFormRequest(id_item_req, data, callback) {
+  updateFormRequest(id_req_sub, data, callback) {
     const query =
-      "UPDATE request_submission SET name_pt=?, name_division=?, item_req_date=?, applicant=?, approved_1=?, approved_2=?, status=?, post_username=?, post_user_id=?, post_created_at=? WHERE id_item_req=?";
+      "UPDATE request_submission SET name_pt=?, name_division=?, item_req_date=?, applicant=?, approved_1=?, approved_2=?, status=?, post_username=?, post_user_id=?, post_created_at=? WHERE id_req_sub=?";
     this.connection.query(
       query,
       [
@@ -82,7 +82,7 @@ class requestSubmission {
         data.post_username,
         data.post_user_id,
         data.post_created_at,
-        id_item_req,
+        id_req_sub,
       ],
       (error, results) => {
         callback(error, results);
@@ -91,9 +91,9 @@ class requestSubmission {
   }
 
   // Metode untuk menghapus form request berdasarkan ID
-  deleteFormRequest(id_item_req, callback) {
-    const query = "DELETE FROM request_submission WHERE id_item_req=?";
-    this.connection.query(query, [id_item_req], (error, results) => {
+  deleteFormRequest(id_req_sub, callback) {
+    const query = "DELETE FROM request_submission WHERE id_req_sub=?";
+    this.connection.query(query, [id_req_sub], (error, results) => {
       callback(error, results);
     });
   }
@@ -107,9 +107,9 @@ class requestSubmission {
   }
 
   // Metode untuk mengupdate status form request berdasarkan ID
-  updateStatus(id_item_req, status, callback) {
-    const query = "UPDATE request_submission SET status=? WHERE id_item_req=?";
-    this.connection.query(query, [status, id_item_req], (error, results) => {
+  updateStatus(id_req_sub, status, callback) {
+    const query = "UPDATE request_submission SET status=? WHERE id_req_sub=?";
+    this.connection.query(query, [status, id_req_sub], (error, results) => {
       callback(error, results);
     });
   }
@@ -181,7 +181,7 @@ class requestSubmission {
   // Membuat metode untuk mengubah status dan tanggal approved saat disetujui oleh approved_1
   approveFormRequest(idItemReq, status, tglApproved1, callback) {
     const query =
-      "UPDATE request_submission SET status = ?, date_approved_1 = ? WHERE id_item_req = ?";
+      "UPDATE request_submission SET status = ?, date_approved_1 = ? WHERE id_req_sub = ?";
     this.connection.query(
       query,
       [status, tglApproved1, idItemReq],
@@ -194,7 +194,7 @@ class requestSubmission {
   // Membuat metode untuk mengubah status dan tanggal approved saat disetujui oleh approved_2
   approveFormRequest2(idItemReq, status, tglApproved2, callback) {
     const query =
-      "UPDATE request_submission SET status = ?, date_approved_2 = ? WHERE id_item_req = ?";
+      "UPDATE request_submission SET status = ?, date_approved_2 = ? WHERE id_req_sub = ?";
     this.connection.query(
       query,
       [status, tglApproved2, idItemReq],
@@ -207,7 +207,7 @@ class requestSubmission {
   // Membuat metode untuk mengubah status dan tanggal approved saat disetujui oleh approved_1
   finishFormRequest(idItemReq, status, tglDone, callback) {
     const query =
-      "UPDATE request_submission SET status = ?, date_done = ? WHERE id_item_req = ?";
+      "UPDATE request_submission SET status = ?, date_done = ? WHERE id_req_sub = ?";
     this.connection.query(
       query,
       [status, tglDone, idItemReq],
@@ -220,7 +220,7 @@ class requestSubmission {
   // Membuat metode untuk menghapus tanggal approved saat ditolak
   rejectFormRequest(idItemReq, callback) {
     const query =
-      "UPDATE request_submission SET status = ?, date_approved_1 = NULL, date_approved_2 = NULL WHERE id_item_req = ?";
+      "UPDATE request_submission SET status = ?, date_approved_1 = NULL, date_approved_2 = NULL WHERE id_req_sub = ?";
     this.connection.query(query, ["Ditolak", idItemReq], (error, result) => {
       callback(error, result);
     });

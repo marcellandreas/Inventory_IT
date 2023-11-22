@@ -62,12 +62,6 @@ const FormEditModalUser = ({ onClose, setIsLoading, id }) => {
     });
   }, []);
 
-  // const roleLabels = {
-  //   1: "Admin",
-  //   2: "User",
-  //   3: "Manager",
-  // };
-
   const dispatch = useDispatch();
 
   const handleUpdateForm = (e) => {

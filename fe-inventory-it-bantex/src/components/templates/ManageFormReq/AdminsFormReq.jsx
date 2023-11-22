@@ -3,12 +3,15 @@ import { useSelector } from "react-redux";
 import { MdLocalPrintshop } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { SearchInput } from "../../atoms";
-import { TableHeader, TableBody } from "../../organisms";
+import { TableHeader, TableBody, ShowTable } from "../../organisms";
 import { TableApplicationsForm } from "../../molecules";
 import TabBar from "@TabBar";
+import { filterDataBySearch } from "../../../helpers/filters";
+import generateDynamicContent from "../GenerateDynamicContent";
 
-const AdminsFormReq = ({ setId, setDeleteModal }) => {
+const AdminsFormReq = ({ setId, id, setDeleteModal }) => {
   const [toggleState, setToggleState] = useState(1);
+  const [search, setSearch] = useState("");
 
   const allData = useSelector((state) => state.dataSliceItemReq.allData);
   const needApproved = useSelector(
@@ -16,56 +19,13 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
   );
   const allApproved = useSelector((state) => state.dataSliceItemReq.approved);
 
-  const [search, setSearch] = useState("");
-
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
-  const renderTableData = () => {
-    const filteredData = allData.filter((item) => {
-      const searchableField =
-        (item.name_pt || "") + (item.name_division || "") + (item.status || "");
-      return searchableField.toLowerCase().includes(search.toLowerCase());
-    });
-
-    if (toggleState === 3 && allApproved.length === 0) {
-      return (
-        <div className=" min-h-[60vh] flex justify-center items-center">
-          <div>Belum ada Pengajuan / Penerimaan Barang</div>
-        </div>
-      );
-    } else if (toggleState === 2 && needApproved.length === 0) {
-      return (
-        <div className=" min-h-[60vh] flex justify-center items-center">
-          <div>Belum ada Pengajuan / Penerimaan Barang</div>
-        </div>
-      );
-    } else if (toggleState === 1 && allData.length === 0) {
-      return (
-        <div className=" min-h-[60vh] flex justify-center items-center">
-          <div>Belum ada Pengajuan / Penerimaan Barang</div>
-        </div>
-      );
-    } else {
-      const tableData =
-        toggleState === 1
-          ? filteredData
-          : toggleState === 2
-          ? needApproved
-          : toggleState === 3
-          ? allApproved
-          : [];
-
-      return (
-        <TableApplicationsForm
-          data={tableData}
-          setId={setId}
-          setDeleteModal={setDeleteModal}
-        />
-      );
-    }
-  };
+  const filteredData = filterDataBySearch(allData, search);
+  const filteredAllApprov = filterDataBySearch(allApproved, search);
+  const filteredNeedApprov = filterDataBySearch(needApproved, search);
 
   const tabs = ["Semua", "Butuh Approved", "Approved"];
 
@@ -79,7 +39,7 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
           toggleState={toggleState}
         />
       </section>
-      <section className="col-span-6 bg-slate-200  h-[75vh]  rounded-xl min-h-[50px] ">
+      <ShowTable gap={6}>
         <TableHeader>
           <SearchInput
             search={search}
@@ -98,8 +58,39 @@ const AdminsFormReq = ({ setId, setDeleteModal }) => {
             </NavLink>
           </div>
         </TableHeader>
-        <TableBody>{renderTableData()}</TableBody>
-      </section>
+        <TableBody>
+          {toggleState === 1 &&
+            generateDynamicContent(
+              allData,
+              filteredData,
+              <TableApplicationsForm
+                data={allData}
+                setId={setId}
+                setDeleteModal={setDeleteModal}
+              />
+            )}
+          {toggleState === 2 &&
+            generateDynamicContent(
+              needApproved,
+              filteredNeedApprov,
+              <TableApplicationsForm
+                data={needApproved}
+                setId={setId}
+                setDeleteModal={setDeleteModal}
+              />
+            )}
+          {toggleState === 3 &&
+            generateDynamicContent(
+              allApproved,
+              filteredAllApprov,
+              <TableApplicationsForm
+                data={allApproved}
+                setId={setId}
+                setDeleteModal={setDeleteModal}
+              />
+            )}
+        </TableBody>
+      </ShowTable>
     </>
   );
 };

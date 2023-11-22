@@ -13,7 +13,7 @@ const getDataItemReqByUsername = (username) => {
 const getAllDataReqSubandStockRequest = () => {
   const SQLQuery = `
   SELECT 
-  rs.id_item_req,
+  rs.id_req_sub,
   rs.no_pengajuan, 
   rs.name_pt, 
   rs.name_division, 
@@ -41,7 +41,7 @@ GROUP BY rs.no_pengajuan;
   return pool.execute(SQLQuery);
 };
 
-const getAllDataReqSubandStockRequestById = (id_item_req) => {
+const getAllDataReqSubandStockRequestById = (id_req_sub) => {
   const SQLQuery = `SELECT 
   request_submission.no_pengajuan, 
   request_submission.name_pt, 
@@ -64,11 +64,11 @@ const getAllDataReqSubandStockRequestById = (id_item_req) => {
   GROUP_CONCAT(stock_request.id_detail_stock) AS id_detail_stock 
   FROM request_submission 
   LEFT JOIN stock_request ON request_submission.no_pengajuan = stock_request.no_pengajuan 
-  WHERE request_submission.id_item_req = ${id_item_req} 
+  WHERE request_submission.id_req_sub = ${id_req_sub} 
   GROUP BY request_submission.no_pengajuan;`;
   return pool.execute(SQLQuery);
 };
-const getAllDataReqSubandStockRequestByStatus = (id_item_req) => {
+const getAllDataReqSubandStockRequestByStatus = () => {
   const SQLQuery = `SELECT 
   request_submission.no_pengajuan, 
   request_submission.name_pt, 
@@ -100,7 +100,7 @@ AND request_submission.request_type = "REQUEST"
 const getAllDataReqSubandStockSubmission = () => {
   const SQLQuery = `
   SELECT
-  rs.id_item_req,
+  rs.id_req_sub,
   rs.no_pengajuan,
   rs.name_pt,
   rs.name_division,
@@ -151,12 +151,12 @@ const getAllDataReqSubandStockSubmissionById = (id_stock_sub) => {
   GROUP_CONCAT(stock_submission.id_detail_stock) AS id_detail_stock 
   FROM request_submission 
   LEFT JOIN stock_submission ON request_submission.no_pengajuan = stock_submission.no_pengajuan 
-  WHERE request_submission.id_item_req = ${id_stock_sub} 
+  WHERE request_submission.id_req_sub = ${id_stock_sub} 
   GROUP BY request_submission.no_pengajuan;`;
 
   return pool.execute(SQLQuery);
 };
-const getAllDataReqSubandStockSubmissionByStatus = (status) => {
+const getAllDataReqSubandStockSubmissionByStatus = () => {
   const SQLQuery = `SELECT 
   request_submission.no_pengajuan, 
   request_submission.name_pt, 
@@ -188,7 +188,7 @@ GROUP BY request_submission.no_pengajuan;
 };
 
 const createItemRequest = (body) => {
-  const SQLQuery = `INSERT INTO request_submission (id_item_req, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, post_date, no_pengajuan, request_type) VALUES (NULL, '${body.name_pt}', '${body.name_division}','${body.approved_1}', '${body.approved_2}', '${body.post_user_id}', '${body.post_username}', current_timestamp(), '${body.no_pengajuan}', '${body.request_type}');`;
+  const SQLQuery = `INSERT INTO request_submission (id_req_sub, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, post_date, no_pengajuan, request_type) VALUES (NULL, '${body.name_pt}', '${body.name_division}','${body.approved_1}', '${body.approved_2}', '${body.post_user_id}', '${body.post_username}', current_timestamp(), '${body.no_pengajuan}', '${body.request_type}');`;
   return pool.execute(SQLQuery);
 };
 

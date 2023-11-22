@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { SearchInput } from "../../components/atoms";
 import { TableStocks, Loading, FormDelStock } from "../../components/molecules";
-import { TableBody, TableHeader, ShowModal } from "../../components/organisms";
+import {
+  TableBody,
+  TableHeader,
+  ShowModal,
+  ShowTable,
+} from "../../components/organisms";
 import {
   ContentLayout,
   MainLayout,
@@ -36,7 +41,7 @@ const StockPage = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <section className=" col-span-6 bg-gray-200 rounded-xl min-h-[50px]">
+            <ShowTable gap={6}>
               <TableHeader>
                 <SearchInput
                   search={search}
@@ -67,7 +72,7 @@ const StockPage = () => {
                   />
                 )}
               </TableBody>
-            </section>
+            </ShowTable>
           )}
         </ContentLayout>
       </MainLayout>

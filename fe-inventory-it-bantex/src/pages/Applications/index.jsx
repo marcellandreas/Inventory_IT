@@ -32,11 +32,17 @@ const Applications = () => {
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [id, setId] = useState("");
-
+  console.log(id);
   const renderForm = () => {
     switch (role) {
       case "1":
-        return <AdminsFormReq setId={setId} setDeleteModal={setDeleteModal} />;
+        return (
+          <AdminsFormReq
+            setId={setId}
+            id={id}
+            setDeleteModal={setDeleteModal}
+          />
+        );
       case "2":
         return <UsersFormReq setId={setId} setDeleteModal={setDeleteModal} />;
       case "3":

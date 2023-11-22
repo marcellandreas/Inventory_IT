@@ -66,7 +66,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
               <button
                 onClick={() => {
                   setDeleteModal(true);
-                  setId(data.id_item_req);
+                  setId(data.id_req_sub);
                 }}
                 className="button_delete"
               >

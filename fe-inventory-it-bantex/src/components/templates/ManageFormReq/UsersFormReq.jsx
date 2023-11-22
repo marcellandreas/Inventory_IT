@@ -9,12 +9,8 @@ import {
   setDataPt,
   setLoadingDivPt,
 } from "../../../Redux/Feature/DataDivisionAndPT";
-import { NavLink } from "react-router-dom";
-import { AiFillFileAdd } from "react-icons/ai";
-import { TableBody, TableHeader } from "../../organisms";
-import image from "../../../assets/images/form-concept.jpg";
+import { ShowTable, TableBody, TableHeader } from "../../organisms";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
-import SearchNotFound from "../../../assets/images/search-not-found.jpg";
 import generateDynamicContent from "../GenerateDynamicContent";
 
 const UsersFormReq = ({ setId, setDeleteModal }) => {
@@ -68,7 +64,7 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
   });
 
   return (
-    <section className=" col-span-6 mx-auto w-[82vw] bg-slate-200 backdrop-blur-md">
+    <ShowTable gap={6}>
       <TableHeader>
         <div className="input-group">
           <input
@@ -90,7 +86,7 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
           />
         )}
       </TableBody>
-    </section>
+    </ShowTable>
   );
 };
 

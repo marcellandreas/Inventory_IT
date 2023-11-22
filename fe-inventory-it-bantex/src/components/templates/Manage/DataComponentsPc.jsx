@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { TablePcLine } from "../../molecules";
-import ShowModal from "../../organisms/ShowModal";
-// import FormAddModalComponentPc from "../../molecules/Form/PC/FormAddModalComponentPc";
-import FormAddModalComponentPc2 from "../../molecules/Form/PC/FormAddModalComponentPc2";
-import FormLostConnection from "../../molecules/Form/PC/FormLostConnection";
+import ShowModal from "../../organisms/Show/ShowModals";
+import { FormAddCompPc2, FormLostConnect } from "../../molecules";
 import {
   BiDetail,
   BsDatabaseFillAdd,
@@ -11,7 +9,7 @@ import {
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 import { TitleTable } from "../../atoms";
-import { TableBody, TableHeader } from "../../organisms";
+import { ShowTable, TableBody, TableHeader } from "../../organisms";
 
 const DataComponentsPc = ({
   dataPcComponent,
@@ -26,7 +24,7 @@ const DataComponentsPc = ({
   return (
     <>
       {dataPcComponent.length === 0 ? (
-        <section className="w-full min-h-[100px] bg-slate-400 backdrop-blur-md rounded-3xl flex justify-center items-center flex-col">
+        <section className="w-full cards backdrop-blur-md rounded-xl flex justify-center items-center flex-col">
           <TitleTable>Belum ada komponen</TitleTable>
           <div className="flex gap-2">
             <NavLink to={`add-components?pc_no=${pcno}`} className="button">
@@ -38,9 +36,9 @@ const DataComponentsPc = ({
           </div>
         </section>
       ) : (
-        <section className="w-full overflow-hidden min-h-[100px] bg-slate-300 backdrop-blur-md rounded-3xl">
+        <ShowTable gap={6}>
           <TableHeader>
-            <TitleTable>Komponen {formValues.pc_description}</TitleTable>
+            <TitleTable>Komponen </TitleTable>
             <div className="flex gap-2">
               <NavLink to={`unused`} className="button">
                 <BiDetail />
@@ -56,17 +54,17 @@ const DataComponentsPc = ({
           <TableBody>
             <TablePcLine data={dataPcComponent} />
           </TableBody>
-        </section>
+        </ShowTable>
       )}
       <ShowModal isVisible={addModal} onClose={() => setAddModal(false)}>
-        <FormAddModalComponentPc2
+        <FormAddCompPc2
           onClose={() => setAddModal(false)}
           setIsLoading={setIsLoading}
           pcInput={formValues.pc_no}
         />
       </ShowModal>
       <ShowModal isVisible={deleteModal} onClose={() => setDeleteModal(false)}>
-        <FormLostConnection
+        <FormLostConnect
           onClose={() => setDeleteModal(false)}
           setIsLoading={setIsLoading}
           pcInput={formValues.pc_no}

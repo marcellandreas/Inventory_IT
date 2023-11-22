@@ -66,50 +66,16 @@ const ProfilePage = () => {
             <div
               style={{ backgroundImage: `url(${profileImg})` }}
               className="flex col-span-6 bg-cover object-fill p-5 min-h-[50vh] rounded-3xl "
-            >
-              {/* <section className="absolute -bottom-10 sm:bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 col-span-3 bg-white p-5  rounded-xl flex flex-col gap-3">
-              <Title>Personal Info:</Title>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2 flex-wrap">
-                  <CustomInput label="Code" value={code_user} readOnly={true} />
-                  <CustomInput
-                    label="Username"
-                    value={username}
-                    readOnly={true}
-                  />
-                </div>
-                <div className="flex gap-2 flex-wrap">
-                  <CustomInput
-                    label="Nama Lengkap"
-                    value={userData.full_name}
-                    name="full_name"
-                    type="text"
-                    onChange={handleChangeValue}
-                  />
-                  <CustomInput
-                    label="Email"
-                    type="email"
-                    value={userData.email}
-                    onChange={handleChangeValue}
-                    name="email"
-                  />
-                </div>
-              </div>
-              <button onClick={handleUpdateProfile} className="button">
-                Update
-              </button>
-            </section> */}
-            </div>
-            <div className=" grid grid-flow-dense grid-cols-4 gap-4">
-              <section className=" col-span-2 shadow-2xl   mt-2 bg-white p-5  rounded-xl flex flex-col gap-3">
+            ></div>
+            <div className=" grid grid-flow-dense grid-cols-4 gap-4 w-full">
+              <section className=" md:col-span-2 shadow-2xl col-span-4  mt-2 bg-white p-5  rounded-xl flex flex-col gap-3">
                 <div className="flex justify-between">
                   <Title>Personal Info:</Title>
                   <button
                     onClick={() => {
                       setShowEdit(!showEdit);
                     }}
-                    className="flex gap-2  font-semibold items-center justify-center underline
- text-blue-700                    "
+                    className="flex gap-2  font-semibold items-center justify-center underline text-blue-700                    "
                   >
                     <MdEdit size={20} />
                     <span>Edit</span>
@@ -137,7 +103,7 @@ const ProfilePage = () => {
                 </div>
               </section>
               {showEdit ? (
-                <section className=" col-span-2 mt-2 bg-white p-5  rounded-xl flex flex-col gap-3 ">
+                <section className=" md:col-span-2  col-span-4 mt-2 bg-white p-5  rounded-xl flex flex-col gap-3 ">
                   <div className="flex gap-2 flex-wrap">
                     <CustomInput
                       label="Nama Lengkap"
@@ -158,7 +124,10 @@ const ProfilePage = () => {
                       onChange={handleChangeValue}
                     />
 
-                    <button onClick={handleUpdateProfile} className="button">
+                    <button
+                      onClick={handleUpdateProfile}
+                      className="button col-span-1 row-span-1 h-[5vh] place-self-end"
+                    >
                       Update
                     </button>
                   </div>

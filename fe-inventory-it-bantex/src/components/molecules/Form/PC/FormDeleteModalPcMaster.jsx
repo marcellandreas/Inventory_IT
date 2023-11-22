@@ -22,23 +22,23 @@ const FormDeleteModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
   };
   return (
     <form className="form_modal">
-      <h1 className="text-2xl text-center">Hapus Pc Master</h1>
+      <h1 className="text-2xl text-center">Hapus PC </h1>
       <hr className="border border-slate-800 w-2/5 m-auto" />
       <section className="flex flex-col items-center gap-2 w-full justify-center">
         <p>Anda yakin ingin menghapus Pc Master</p>
         <div className="delete_item_box">{pcno}</div>
       </section>
       <div className="flex flex-wrap gap-2 w-full">
-        <button onClick={handleDelete} className="button flex-1">
-          Ya, Hapus Sekarang
-        </button>
         <button
           onClick={() => {
             onClose();
           }}
           className="button_2 flex-1"
         >
-          Back
+          Kembali
+        </button>
+        <button onClick={handleDelete} className="button flex-1">
+          Ya, Hapus Sekarang
         </button>
       </div>
     </form>

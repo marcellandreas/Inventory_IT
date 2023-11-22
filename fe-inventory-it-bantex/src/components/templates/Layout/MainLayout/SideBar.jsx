@@ -36,7 +36,7 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
         <div
           className={`absolute ${
             open ? "left-[158px] rotate-180" : "left-8 rotate-0"
-          } text-slate-800 flex justify-center items-center transition-transform z-50 rounded-full border border-slate-800 bg-white h-8 w-8`}
+          } text-slate-800 flex justify-center items-center transition-transform  rounded-full border border-slate-800 bg-white h-8 w-8`}
         >
           <BsChevronDoubleRight
             size={24}
@@ -48,7 +48,7 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
       <div className="mt-4 flex flex-col gap-4 relative">
         {menuSidebar
           ?.filter((menu) => {
-            if (role == 1) {
+            if (role == 1 || role == 3) {
               // Jika peran adalah 1, tampilkan semua menu
               return true;
             } else if (role == 2) {

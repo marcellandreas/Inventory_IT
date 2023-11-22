@@ -6,7 +6,7 @@ import {
 } from "../../components/templates";
 import { TablePcLine } from "../../components/molecules";
 import { useNavigate } from "react-router-dom";
-import { TableBody, TableHeader } from "../../components/organisms";
+import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
 import { SearchInput } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import {
@@ -77,9 +77,7 @@ const GetUnusedItems = () => {
             toggleState={toggleState}
           />
         </section>
-        <section className="col-span-6 bg-slate-200 rounded-xl min-h-[50px] h-[75vh]">
-          {renderTableBody()}
-        </section>
+        <ShowTable gap={6}>{renderTableBody()}</ShowTable>
       </ContentLayout>
     </MainLayout>
   );

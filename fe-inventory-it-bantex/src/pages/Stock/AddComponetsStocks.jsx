@@ -23,7 +23,7 @@ const AddComponentsStocks = () => {
     unit: "",
     type: "",
     note: "",
-    post_user_id: idUser,
+    post_user_id: Number(idUser),
     post_username: username,
   });
 

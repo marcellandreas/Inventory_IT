@@ -34,10 +34,6 @@ td {
   @apply bg-white text-slate-800;
 }
 
-.modal-component {
-  @apply fixed inset-0 bg-slate-400 h-screen w-full bg-opacity-25 backdrop-blur-sm flex justify-center items-center;
-}
-
 label {
   @apply font-semibold;
 }

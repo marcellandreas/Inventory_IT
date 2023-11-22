@@ -6,7 +6,7 @@ import {
   FormEditModalPcMaster,
 } from "../../molecules";
 import { NavLink } from "react-router-dom";
-import ShowModal from "../../organisms/ShowModal";
+import ShowModal from "../../organisms/Show/ShowModals";
 import DataComponentsPc from "./DataComponentsPc";
 import {
   MdEditNote,
@@ -122,7 +122,7 @@ const DataPc = () => {
         <Loading />
       ) : (
         <section className="w-full col-span-6 flex-col flex gap-9  ">
-          <section className="bg-gray-200 rounded-3xl shadow-md">
+          <section className="cards rounded-3xl shadow-md">
             <TableHeader>
               <TitleTable>Data Master Komputer</TitleTable>
               <div className="flex gap-2">
