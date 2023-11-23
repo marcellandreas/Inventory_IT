@@ -23,7 +23,7 @@ router.put("/:stock_no", stocksController.updateStock);
 router.delete("/:id", stocksController.deleteStock);
 
 // Mendapatkan stock_qty berdasarkan stock_no
-router.get("/:stockNo/stock_qty", stocksController.getStockQty);
+// router.get("/:stockNo/stock_qty", stocksController.getStockQty);
 
 // Memperbarui stock_qty berdasarkan stock_no
 router.put("/:stockNo/stock_qty", stocksController.updateStockQty);

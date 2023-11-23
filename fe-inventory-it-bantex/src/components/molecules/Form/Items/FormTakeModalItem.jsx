@@ -58,6 +58,8 @@ const FormTakeModalItem = ({ onClose }) => {
     type: "",
     note: "",
   });
+
+  console.log(stockForm);
   useEffect(() => {
     if (formValues.stock_no) {
       const fetchData = async () => {
@@ -65,7 +67,7 @@ const FormTakeModalItem = ({ onClose }) => {
           const res = await AxiosInstance.get(
             `/stocks/stock/${formValues.stock_no}`
           );
-          const { category, unit, type, note } = res.data.stock;
+          const { category, unit, type, note } = res.data.data;
           setStockForm((prevFormValues) => ({
             ...prevFormValues,
             category,
@@ -123,6 +125,8 @@ const FormTakeModalItem = ({ onClose }) => {
     post_username: username,
   };
 
+  console.log(formValues);
+
   const handleCreateForm = async (e) => {
     e.preventDefault();
     const errors = validateFormTakeItem(formValues, data);
@@ -149,9 +153,8 @@ const FormTakeModalItem = ({ onClose }) => {
           updateMultipleDetails(dataDetailPost)
         );
         if (updateDetailsResult) {
-          const updateStockQtyResult1 = dispatch(
-            updateStockQty(formValues.stock_no)
-          );
+          const stockNo = formValues.stock_no;
+          const updateStockQtyResult1 = dispatch(updateStockQty(stockNo));
           if (updateStockQtyResult1) {
             onClose();
           }

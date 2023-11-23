@@ -29,6 +29,7 @@ import { PrivateRoute, ProtectRoute } from "./Routing";
 import NewApplications from "../pages/Applications/NewApplications";
 import PersonalComputer from "../pages/PcMaster/PersonalComputer";
 import Stock2Page from "../pages/Stock2";
+import AddItems from "../pages/Items/AddItems";
 const Routers = () => {
   return (
     <BrowserRouter>
@@ -61,6 +62,7 @@ const Routers = () => {
           {/* Menambahkan path items */}
           <Route path="/items">
             <Route index element={<ItemsPage />}></Route>
+            <Route path="buat" element={<AddItems />} />
           </Route>
           <Route path="/profile">
             <Route index element={<Profile />}></Route>

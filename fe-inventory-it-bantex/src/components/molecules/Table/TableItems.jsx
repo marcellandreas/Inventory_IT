@@ -1,15 +1,17 @@
 import { columnTableItems } from "../../../assets/data/ColumnTables";
 import { MdEditNote, MdDelete } from "../../../assets/icons/icons";
+import { showFormattedDate } from "../../../helpers/showFormattedDate";
 import { TableContent, Tbody, Thead } from "../../atoms";
 const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
   const tableHeaders = columnTableItems;
+  const styletd = "border px-4 py-2";
 
   return (
     <TableContent>
       <Thead>
         <tr>
           {tableHeaders.map((columnName, index) => (
-            <th key={index} className="px-4 py-2">
+            <th key={index} className={styletd}>
               {columnName}
             </th>
           ))}
@@ -18,11 +20,9 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
       <Tbody>
         {data.map((item, i) => (
           <tr key={i} className=" w-full">
-            <td className="border px-4 py-2">{i + 1}</td>
-            <td className="border px-4 py-2 whitespace-nowrap">
-              {item.item_no}
-            </td>
-            <td className="border px-4 py-2 whitespace-nowrap">
+            <td className={styletd}>{i + 1}</td>
+            <td className={`${styletd} whitespace-nowrap`}>{item.item_no}</td>
+            <td className={`${styletd} whitespace-nowrap`}>
               <p className=" font-semibold">{item.item_description}</p>
               <p>
                 brand: <span>{item.brand}</span>
@@ -34,7 +34,7 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                 Spesifikasi: <span>{item.item_specification}</span>
               </p>
             </td>
-            <td className="border px-4 py-2">{item.category}</td>
+            <td className={styletd}>{item.category}</td>
             <td className=" whitespace-nowrap">
               <div className=" flex  items-center gap-1">
                 <p>Status: </p>
@@ -42,7 +42,6 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                   {item.status}
                 </p>
               </div>
-
               <p>
                 Kondisi: <span>{item.kondisi}</span>
               </p>
@@ -50,19 +49,36 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                 Lokasi: <span>{item.item_location}</span>
               </p>
             </td>
-            <td className="border px-4 py-2">{item.note}</td>
-            <td className="border px-4 py-2 whitespace-nowrap">
-              <p>
-                Tgl Regis: <span>{item.date_registation}</span>
+            <td className={`${styletd} whitespace-wrap `}>{item.note}</td>
+            <td className={`${styletd} whitespace-nowrap`}>
+              <p className="flex flex-col font-semibold">
+                Tgl Regis:
+                <span className=" font-normal">
+                  {/* {showFormattedDate(item.date_registation)} */}
+                </span>
+                <span>
+                  {item.date_registation
+                    ? showFormattedDate(item.date_registation)
+                    : "-"}
+                </span>
               </p>
-              <p>
+              <p className="flex flex-col font-semibold">
                 Tgl exp:
-                <span>{item.date_expired ? item.date_expired : "-"}</span>
+                <span className=" font-normal">
+                  {item.date_expired ? item.date_expired : "-"}
+                </span>
               </p>
             </td>
             <td className=" whitespace-nowrap ">
-              <p className=" capitalize font-semibold">{item.post_username}</p>
-              <p>date: {item.post_date.slice(0, 10)}</p>
+              <p className=" capitalize font-semibold">
+                user: <span>{item.post_username}</span>
+              </p>
+              <p className=" flex flex-col">
+                date:
+                <span>
+                  {item.post_date ? showFormattedDate(item.post_date) : "-"}
+                </span>
+              </p>
             </td>
             <td className=" px-4 py-2 ">
               <div className=" flex gap-1 items-center">

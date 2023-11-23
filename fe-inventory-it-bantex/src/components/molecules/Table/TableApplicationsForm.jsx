@@ -6,6 +6,7 @@ import {
   MdEditNote,
   PiWarningOctagonLight,
 } from "../../../assets/icons/icons";
+import { showFormattedDate } from "../../../helpers/showFormattedDate";
 
 const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
   const tableHeaders = columnTableItemsReq;
@@ -40,7 +41,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
                 {data.name_pt}, {data.name_division}
               </p>
               <p>
-                Created: <span>{data.post_date.slice(0, 10)}</span>
+                Created: <span>{showFormattedDate(data.post_date)}</span>
               </p>
             </td>
 

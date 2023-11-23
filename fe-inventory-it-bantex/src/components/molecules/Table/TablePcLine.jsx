@@ -1,9 +1,10 @@
 import { columnTablePcLine } from "../../../assets/data/ColumnTables";
+import { showFormattedDate } from "../../../helpers/showFormattedDate";
 import { TableContent, Tbody, Thead } from "../../atoms";
 
 const TablePcLine = ({ data }) => {
   const tableHeaders = columnTablePcLine;
-
+  const styletd = "border px-4 py-2";
   return (
     <TableContent>
       <Thead>
@@ -17,10 +18,10 @@ const TablePcLine = ({ data }) => {
       </Thead>
       <Tbody>
         {data.map((pc, i) => (
-          <tr key={i} className="h-5 w-full">
-            <td className="border px-4 py-2">{i + 1}</td>
-            <td className="border px-4 py-2 whitespace-nowrap">{pc.item_no}</td>
-            <td className="border px-4 py-2 whitespace-nowrap">
+          <tr key={i} className="h-5 w-full capitalize">
+            <td className={styletd}>{i + 1}</td>
+            <td className={`${styletd} whitespace-nowrap`}>{pc.item_no}</td>
+            <td className={`${styletd} whitespace-nowrap`}>
               <p className=" font-semibold">{pc.item_description}</p>
               <p>
                 brand: <span>{pc.brand}</span>
@@ -33,24 +34,29 @@ const TablePcLine = ({ data }) => {
               </p>
             </td>
 
-            <td className="border px-4 py-2" style={{ maxWidth: "1000px" }}>
+            <td className={styletd} style={{ maxWidth: "1000px" }}>
               {pc.note}
             </td>
-            <td className="border px-4 py-2 whitespace-nowrap">
-              <p>
-                Tgl Regis: <span>{pc.date_registation.slice(0, 10)}</span>
+            <td className={`${styletd} whitespace-nowrap`}>
+              <p className=" flex flex-col font-semibold">
+                Tgl Regis:
+                <span className=" font-normal">
+                  {pc.date_registation
+                    ? showFormattedDate(pc.date_registation)
+                    : "-"}
+                </span>
               </p>
-              <p>
-                Tgl exp:{" "}
-                <span>
-                  {pc.date_expired ? pc.date_expired.slice(0, 10) : "-"}
+              <p className=" flex flex-col font-semibold">
+                Tgl exp:
+                <span className=" font-normal">
+                  {pc.date_expired ? showFormattedDate(pc.date_expired) : "-"}
                 </span>
               </p>
             </td>
-            <td className="border px-4 py-2 whitespace-nowrap">
-              <p>{pc.post_username}</p>
+            <td className={`${styletd} whitespace-nowrap`}>
+              <p>User: {pc.post_username}</p>
               <p>
-                date: <span>{pc.post_date.slice(0, 10)}</span>
+                Date: <span>{showFormattedDate(pc.post_date)}</span>
               </p>
             </td>
           </tr>

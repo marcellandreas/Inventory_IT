@@ -15,7 +15,7 @@ export const columnTablePcLine = [
   "deskripsi Barang",
   "catatan",
   "timeline",
-  "created ",
+  "last update",
 ];
 
 export const columnTableItems = [
@@ -26,7 +26,7 @@ export const columnTableItems = [
   "More Info",
   "catatan",
   "Timeline",
-  "Created",
+  "last update",
   "aksi",
 ];
 
@@ -53,7 +53,7 @@ export const columnTableStock = [
   "Satuan",
   "Tipe",
   "Catatan",
-  "Created",
+  "last update",
   "Aksi",
 ];
 
@@ -63,7 +63,7 @@ export const columnTableItemsReq = [
   "status",
   "Approved 1",
   "Approved 2",
-  "Created",
+  "last update",
   "Aksi",
 ];
 

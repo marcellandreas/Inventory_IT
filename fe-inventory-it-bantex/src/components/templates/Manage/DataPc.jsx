@@ -17,6 +17,7 @@ import Loading from "../../molecules/Loading";
 import { TitleTable } from "../../atoms";
 import { TableHeader } from "../../organisms";
 import Modals from "../../../helpers/modals";
+import { showFormattedDate } from "../../../helpers/showFormattedDate";
 
 const DataPc = () => {
   const [formValues, setFormValues] = useState({
@@ -237,7 +238,9 @@ const DataPc = () => {
                 <input
                   className=" bg-gray-100 border border-gray-300"
                   type="text"
-                  defaultValue={formValues.date_expired || "-"}
+                  value={`${
+                    showFormattedDate(formValues.date_expired) || "-"
+                  } `}
                   readOnly
                 />
               </div>
@@ -264,7 +267,7 @@ const DataPc = () => {
                   className=" bg-gray-100 border border-gray-300"
                   readOnly
                   type="text"
-                  defaultValue={formValues.post_date.slice(0, 10)}
+                  value={`${showFormattedDate(formValues.post_date)}`}
                 />
               </div>
               <div className="gap-2 flex flex-col w-60">

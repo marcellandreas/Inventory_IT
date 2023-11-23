@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { validateFormDataItems } from "../../../../config/ValidateForm";
 import { useDispatch } from "react-redux";
 import { createItem } from "../../../../Redux/Feature/ItemsSlice";
-import { CustomInput, CustomSelect } from "../../../atoms";
 import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 import { useFetchStocks } from "../../../../config/GetData";
 import { AxiosInstance } from "../../../../apis/api";

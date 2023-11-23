@@ -91,8 +91,6 @@ exports.deleteItem = (req, res) => {
   items.deleteItem(id, (error) => {
     if (error) {
       sendErrorRes(res, 500, "Gagal menghapus stok", error);
-    } else if (result.affectedRows === 0) {
-      sendSuccessRes(res, 404, "id tidak ditemukan untuk dihapus");
     } else {
       sendSuccessRes(res, 200, "Item berhasil dihapus", { id });
     }

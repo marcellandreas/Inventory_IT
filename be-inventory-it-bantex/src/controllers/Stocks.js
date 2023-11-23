@@ -105,26 +105,26 @@ exports.getStockByStockNo = (req, res) => {
 };
 
 // Mendapatkan stock_qty berdasarkan stock_no
-exports.getStockQty = (req, res) => {
-  const stockNo = req.params.stockNo;
-  stocks.calculateStockQty(stockNo, (error, stockQty) => {
-    if (error) {
-      res.status(500).json({
-        message: "Gagal mengambil qty stok berdasarkan nomor stok",
-        error: error.message,
-      });
-    } else if (!stockQty) {
-      res.status(404).json({
-        message: "Qty stok tidak ditemukan berdasarkan nomor stok",
-      });
-    } else {
-      res.status(200).json({
-        message: "Berhasil mengambil qty stok berdasarkan nomor stok",
-        stock_qty: stockQty,
-      });
-    }
-  });
-};
+// exports.updateStockQty = (req, res) => {
+//   const stockNo = req.params.stockNo;
+//   stocks.calculateStockQty(stockNo, (error, stockQty) => {
+//     if (error) {
+//       res.status(500).json({
+//         message: "Gagal mengambil qty stok berdasarkan nomor stok",
+//         error: error.message,
+//       });
+//     } else if (!stockQty) {
+//       res.status(404).json({
+//         message: "Qty stok tidak ditemukan berdasarkan nomor stok",
+//       });
+//     } else {
+//       res.status(200).json({
+//         message: "Berhasil mengambil qty stok berdasarkan nomor stok",
+//         stock_qty: stockQty,
+//       });
+//     }
+//   });
+// };
 
 // Memperbarui stock_qty berdasarkan stock_no
 exports.updateStockQty = (req, res) => {
