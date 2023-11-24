@@ -24,6 +24,7 @@ const StockPage = () => {
   const dataStock = useFetchStocks();
   const isLoading = useSelector((state) => state.stocks.isLoading);
   const [showDropdown, setShowDropdown] = useState(false);
+  console.log(id);
 
   // melakuan search
   const [search, setSearch] = useState("");

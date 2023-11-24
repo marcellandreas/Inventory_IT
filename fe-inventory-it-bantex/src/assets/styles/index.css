@@ -113,3 +113,27 @@ input[type="radio"] {
 .custom-radius {
   border-radius: 340px 120px 40px 120px;
 }
+
+.personal__computer::-webkit-scrollbar {
+  background: rgba(74, 144, 226, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  margin: 0;
+  height: 4px;
+  width: 4px;
+}
+
+.personal__computer::-webkit-scrollbar-corner {
+  background: #000;
+}
+.personal__computer::-webkit-scrollbar-thumb {
+  resize: both;
+  background: rgba(4, 13, 251, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}

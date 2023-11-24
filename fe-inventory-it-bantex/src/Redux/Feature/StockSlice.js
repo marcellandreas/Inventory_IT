@@ -63,7 +63,7 @@ export const fetchStockById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await AxiosInstance.get(`/stocks/id/${id}`);
-      return response.data.stock;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

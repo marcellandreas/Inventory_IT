@@ -1,12 +1,5 @@
-export { default as Title } from "./Text/Title";
-export { default as TitleTable } from "./Text/TitleTable";
-
-export * from "./Table/Tbody";
-export * from "./Table/Thead";
-export * from "./Table/TableContent";
-
-export * from "./FormConponents/CustomSelect";
-export * from "./FormConponents/CustomInput";
-export * from "./FormConponents/CustomTextArea";
+export * from "./Text";
+export * from "./Table";
+export * from "./FormComponents";
 
 export { default as SearchInput } from "./SearchInput";

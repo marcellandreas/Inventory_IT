@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
-import Title from "../../../atoms/Text/Title";
+import { Title, CustomInput2, CustomSelect2 } from "../../../atoms";
 import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
-import { CustomInput, CustomSelect } from "../../../atoms";
-import { CustomInput2 } from "../../../atoms/FormConponents/CustomInput2";
-import { CustomSelect2 } from "../../../atoms/FormConponents/CustomSelect2";
 
 const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");

@@ -59,7 +59,6 @@ const FormTakeModalItem = ({ onClose }) => {
     note: "",
   });
 
-  console.log(stockForm);
   useEffect(() => {
     if (formValues.stock_no) {
       const fetchData = async () => {

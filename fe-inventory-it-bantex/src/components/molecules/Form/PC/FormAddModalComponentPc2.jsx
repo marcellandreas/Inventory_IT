@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
-import Title from "../../../atoms/Text/Title";
+import { Title } from "../../../atoms";
 
 const FormAddModalComponentPc2 = ({ onClose, setIsLoading, pcInput }) => {
   const idUser = localStorage.getItem("id_user");

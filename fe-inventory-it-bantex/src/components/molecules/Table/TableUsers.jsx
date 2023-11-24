@@ -8,13 +8,11 @@ const TableUsers = ({ data, setId, setEditModal, setDeleteModal }) => {
   return (
     <TableContent>
       <Thead>
-        <tr>
-          {tableHeaders.map((columnName, index) => (
-            <th key={index} className="px-4 py-2">
-              {columnName}
-            </th>
-          ))}
-        </tr>
+        {tableHeaders.map((columnName, index) => (
+          <th key={index} className="px-4 py-2">
+            {columnName}
+          </th>
+        ))}
       </Thead>
       <Tbody>
         {data.map((user, i) => (

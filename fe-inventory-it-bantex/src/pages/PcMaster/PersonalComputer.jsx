@@ -10,6 +10,10 @@ import { SearchInput, Title } from "../../components/atoms";
 import { FaLaptopCode } from "react-icons/fa";
 import { filterDataBySearch } from "../../helpers/filters";
 import imgNotFound from "../../assets/images/data-not-found2.png";
+import {
+  showFormattedDate,
+  showFormattedDate2,
+} from "../../helpers/showFormattedDate";
 
 const PersonalComputer = () => {
   const [dataPc, setDataPc] = useState({});
@@ -115,7 +119,9 @@ const PersonalComputer = () => {
                       className=" bg-gray-100 border border-gray-300"
                       type="text"
                       readOnly
-                      defaultValue={dataPc?.date_registration || "-"}
+                      defaultValue={`${
+                        showFormattedDate(dataPc?.date_registation) || "-"
+                      }`}
                     />
                   </div>
                   <div className="gap-2 flex flex-col col-span-1">
@@ -123,7 +129,9 @@ const PersonalComputer = () => {
                     <input
                       className=" bg-gray-100 border border-gray-300"
                       type="text"
-                      defaultValue={dataPc?.date_expired || "-"}
+                      defaultValue={`${
+                        showFormattedDate(dataPc?.date_expired) || "-"
+                      }`}
                       readOnly
                     />
                   </div>
@@ -149,8 +157,8 @@ const PersonalComputer = () => {
             )}
           </section>
           {/* </div> */}
-          <div className="w-full p-0 md:p-16 overflow-x-auto min-h-[20px]">
-            <div className="mt-[50vh] sm:mt-[40vh] md:mt-[20vh]  col-span-5 border border-y-black cards p-3 ">
+          <div className="w-full p-0 md:p-16  min-h-[20px]">
+            <div className="mt-[50vh] sm:mt-[40vh] md:mt-[20vh] overflow-x-auto  col-span-5 border border-y-black cards p-3 ">
               <div className=" flex justify-between mb-3">
                 <Title>komponen Pc</Title>
                 <SearchInput
@@ -158,7 +166,7 @@ const PersonalComputer = () => {
                   handleSearchChange={handleSearchChange}
                 />
               </div>
-              <div className="w-full overflow-scroll overflow-x-auto">
+              <div className=" overflow-scroll overflow-x-auto personal__computer">
                 {generateDynamicContent(
                   dataItems,
                   filteredData,
@@ -166,13 +174,13 @@ const PersonalComputer = () => {
                     {filteredData.map((item, index) => (
                       <div
                         key={index}
-                        className="bg-white flex gap-3 mb-2 p-1 mt-1  rounded-md text-md overflow-x-auto "
+                        className="bg-white min-w-min flex gap-y-2 gap-x-2  p-1 mt-1  rounded-md text-md  "
                       >
-                        <div className="flex flex-col w-48 ">
+                        <div className="flex flex-col min-w-[192px]  ">
                           <div className="text-gray-500">kode</div>
                           <div className="text-slate-800">{item.item_no}</div>
                         </div>
-                        <div className=" flex flex-col w-72 ">
+                        <div className=" flex flex-col min-w-[288px] ">
                           <h2 className=" font-semibold text-gray-500">
                             Keterangan
                           </h2>
@@ -192,20 +200,21 @@ const PersonalComputer = () => {
                             </p>
                           </div>
                         </div>
-                        <div className="flex flex-col w-60">
+                        <div className="flex flex-col min-w-[240px]">
                           <div className="text-gray-500">Note</div>
                           <p className="text-slate-800">{item.note}</p>
                         </div>
-                        <div className="flex flex-col w-56">
+                        <div className="flex flex-col min-w-[224px]">
                           <div className="text-gray-500">Timeline</div>
                           <p className="text-slate-800">
-                            Tgl Registrasi : {item.date_registation}
+                            Tgl Registrasi :{" "}
+                            {showFormattedDate(item.date_registation)}
                           </p>
                           <p className="text-slate-800">
                             Tgl Exp : {item.date_expired}
                           </p>
                         </div>
-                        <div className="flex flex-col w-48">
+                        <div className="flex flex-col  min-w-[192px]">
                           <div className="text-gray-500">Spesifikasi</div>
                           <p className="text-slate-800">
                             {item.item_spesification}

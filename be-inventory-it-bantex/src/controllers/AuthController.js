@@ -25,7 +25,9 @@ exports.register = (req, res) => {
       { username, password: hash, full_name, email, role },
       (error, results) => {
         if (error) {
-          return res.status(500).json({ error: error.message });
+          return res
+            .status(500)
+            .json({ message: "User Gagal dibuat", error: error.message });
         }
         res.status(201).json({ message: "User registered successfully" });
       }

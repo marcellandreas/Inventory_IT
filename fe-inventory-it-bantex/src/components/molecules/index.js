@@ -1,9 +1,7 @@
 export { default as Widget } from "./Widget";
 
 // form / Access
-export { default as FormAddUser } from "./Form/Access/FormAddModalUser";
-export { default as FormDeleteUser } from "./Form/Access/FormDeleteModalUser";
-export { default as FormEditUser } from "./Form/Access/FormEditModalUser";
+export * from "./Form/Access";
 
 // form / Applications
 export { default as FormDeleteApplication } from "./Form/Applications/DeleteApplications";

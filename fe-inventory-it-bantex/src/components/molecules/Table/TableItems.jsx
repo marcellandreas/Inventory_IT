@@ -9,13 +9,11 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
   return (
     <TableContent>
       <Thead>
-        <tr>
-          {tableHeaders.map((columnName, index) => (
-            <th key={index} className={styletd}>
-              {columnName}
-            </th>
-          ))}
-        </tr>
+        {tableHeaders.map((columnName, index) => (
+          <th key={index} className={`${styletd} text-slate-700`}>
+            {columnName}
+          </th>
+        ))}
       </Thead>
       <Tbody>
         {data.map((item, i) => (

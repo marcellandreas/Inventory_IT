@@ -6,7 +6,6 @@ import { AxiosInstance } from "../../../../apis/api";
 const FormDeleteModalStock = ({ onClose, id }) => {
   const dataStockById = useSelector((state) => state.stocks.dataStockById);
   const dispatch = useDispatch();
-
   const [datas, setDatas] = useState("");
   useEffect(() => {
     dispatch(fetchStockById(id))

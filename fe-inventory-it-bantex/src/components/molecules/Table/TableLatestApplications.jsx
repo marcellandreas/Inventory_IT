@@ -8,13 +8,11 @@ const TableLatestApplications = ({ data }) => {
     <div className=" h-[40vh]">
       <TableContent>
         <Thead>
-          <tr>
-            {tableHeaders.map((columnName, index) => (
-              <th key={index} className="px-4 py-2 uppercase">
-                {columnName}
-              </th>
-            ))}
-          </tr>
+          {tableHeaders.map((columnName, index) => (
+            <th key={index} className="px-4 py-2 uppercase">
+              {columnName}
+            </th>
+          ))}
         </Thead>
         <Tbody>
           {data.map((data, i) => (

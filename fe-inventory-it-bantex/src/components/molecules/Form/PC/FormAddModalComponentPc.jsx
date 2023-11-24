@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
-import Title from "../../../atoms/Text/Title";
+import { Title } from "../../../atoms";
 
 const FormAddModalComponentPc = ({ onClose, setIsLoading, pcInput }) => {
   const idUser = localStorage.getItem("id_user");

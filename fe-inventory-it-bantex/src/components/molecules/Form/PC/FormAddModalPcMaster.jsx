@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
-import Title from "../../../atoms/Text/Title";
-import { CustomInput, CustomSelect } from "../../../atoms";
+import { CustomInput2, CustomSelect2, Title } from "../../../atoms";
 import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
-import { CustomInput2 } from "../../../atoms/FormConponents/CustomInput2";
-import { CustomSelect2 } from "../../../atoms/FormConponents/CustomSelect2";
 
 const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
   const idUser = localStorage.getItem("id_user");
@@ -70,7 +67,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
       <hr className="border border-slate-800  w-2/5 m-0" />
       <form
         onSubmit={handleCreateForm}
-        className="grid grid-flow-dense gap-3 grid-cols-2"
+        className="grid grid-flow-dense gap-3 grid-cols-1 sm:grid-cols-2"
       >
         <CustomInput2
           label="Deskripsi PC"

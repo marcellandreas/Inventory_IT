@@ -50,9 +50,7 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
   );
   return (
     <TableContent>
-      <Thead>
-        <tr>{tableHeaders}</tr>
-      </Thead>
+      <Thead>{tableHeaders}</Thead>
       <Tbody>
         {data?.map((stock, i) => (
           <>

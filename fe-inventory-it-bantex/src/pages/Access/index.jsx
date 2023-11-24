@@ -31,7 +31,6 @@ import "./style.css";
 
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
-
   const [id, setId] = useState("");
   const { modalState, showModal, closeModal } = Modals();
 
@@ -42,22 +41,14 @@ const AccesPage = () => {
   };
 
   const dispatch = useDispatch();
-  const {
-    admins,
-    users,
-    managers,
-    allData,
-    isLoading,
-    error,
-    dataLoginHistory,
-  } = useSelector((state) => state.users);
+  const { admins, users, managers, allData, isLoading, dataLoginHistory } =
+    useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(fetchUserData());
     dispatch(fetchLoginHistory());
   }, [dispatch]);
 
-  console.log(dataLoginHistory);
   const filteredData = filterDataBySearch(allData, search);
   const filteredDataAdmin = filterDataBySearch(admins, search);
   const filteredDataUser = filterDataBySearch(users, search);
@@ -176,16 +167,24 @@ const AccesPage = () => {
         </ContentLayout>
       </MainLayout>
       <ShowModal isVisible={modalState.add} onClose={() => closeModal("add")}>
-        <FormAddUser onClose={() => closeModal("add")} />
+        <FormAddUser onClose={() => closeModal("add")} isLoading={isLoading} />
       </ShowModal>
       <ShowModal isVisible={modalState.edit} onClose={() => closeModal("edit")}>
-        <FormEditUser onClose={() => closeModal("edit")} id={id} />
+        <FormEditUser
+          onClose={() => closeModal("edit")}
+          id={id}
+          isLoading={isLoading}
+        />
       </ShowModal>
       <ShowModal
         isVisible={modalState.delete}
         onClose={() => closeModal("delete")}
       >
-        <FormDeleteUser onClose={() => closeModal("delete")} id={id} />
+        <FormDeleteUser
+          onClose={() => closeModal("delete")}
+          id={id}
+          isLoading={isLoading}
+        />
       </ShowModal>
     </>
   );

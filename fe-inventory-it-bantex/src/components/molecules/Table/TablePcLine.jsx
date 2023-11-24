@@ -8,17 +8,15 @@ const TablePcLine = ({ data }) => {
   return (
     <TableContent>
       <Thead>
-        <tr>
-          {tableHeaders.map((columnName, index) => (
-            <th key={index} className="px-4 py-2">
-              {columnName}
-            </th>
-          ))}
-        </tr>
+        {tableHeaders.map((columnName, index) => (
+          <th key={index} className="px-4 py-2 text-slate-800">
+            {columnName}
+          </th>
+        ))}
       </Thead>
       <Tbody>
         {data.map((pc, i) => (
-          <tr key={i} className="h-5 w-full capitalize">
+          <tr key={i} className="h-5 w-full capitalize ">
             <td className={styletd}>{i + 1}</td>
             <td className={`${styletd} whitespace-nowrap`}>{pc.item_no}</td>
             <td className={`${styletd} whitespace-nowrap`}>
