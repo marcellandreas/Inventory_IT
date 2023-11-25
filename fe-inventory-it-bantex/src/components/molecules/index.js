@@ -2,6 +2,7 @@ export { default as Widget } from "./Widget";
 
 // form / Access
 export * from "./Form/Access";
+export * from "./PrintComponents";
 
 // form / Applications
 export { default as FormDeleteApplication } from "./Form/Applications/DeleteApplications";

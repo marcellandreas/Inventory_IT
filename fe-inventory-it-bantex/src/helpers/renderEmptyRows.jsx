@@ -1,4 +1,4 @@
-export function renderEmptyRows(submissionData) {
+const renderEmptyRows = (submissionData) => {
   const emptyRows = [];
 
   if (submissionData && submissionData.length < 5) {
@@ -17,4 +17,6 @@ export function renderEmptyRows(submissionData) {
   }
 
   return emptyRows;
-}
+};
+
+export { renderEmptyRows };

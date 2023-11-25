@@ -7,7 +7,6 @@ import {
   useFetchStocks,
   useFetchUsers,
 } from "../../config/GetData";
-import { useSelector } from "react-redux";
 import DashboardUser from "./DashboardUsers";
 import DashboardAdmin from "./DashboardAdmin";
 
@@ -31,27 +30,15 @@ const Dashboard = () => {
       setDataLatest(res.data.data);
     });
   }, []);
-  const data = {
-    labels: ["Red", "Green", "Blue"],
-    datasets: [
-      {
-        label: "My Pie Chart",
-        data: [30, 50, 20],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      },
-    ],
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const profile = await AxiosInstance.get("auth/profile", {
+        await AxiosInstance.get("auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(profile.data);
       } catch (error) {
         console.log(error);
       }

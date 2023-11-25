@@ -1,34 +1,44 @@
 import { useEffect, useState } from "react";
-import { AxiosInstance } from "../../../../apis/api";
 import { validateFormDataItems } from "../../../../config/ValidateForm";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchItemById,
-  updateItem,
-} from "../../../../Redux/Feature/ItemsSlice";
-import { CustomInput, CustomSelect } from "../../../atoms";
-import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
-import { useFetchItemById, useFetchStocks } from "../../../../config/GetData";
+import { useDispatch } from "react-redux";
+import { fetchItems, updateItem } from "../../../../Redux/Feature/ItemsSlice";
+import { CustomInput, CustomInput2 } from "../../../atoms";
+import { useFetchItemById } from "../../../../config/GetData";
 
-const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
+const FormEditModalItem = ({ onClose, id }) => {
   const idUser = localStorage.getItem("id_user");
   const username = localStorage.getItem("username");
   const dataItemById = useFetchItemById(id);
-  const dataStocks = useFetchStocks();
   const dispatch = useDispatch();
+  useEffect(() => {
+    setFormValues({
+      item_no: dataItemById.item_no,
+      item_description: dataItemById.item_description,
+      unit: dataItemById.unit,
+      category: dataItemById.category,
+      brand: dataItemById.brand,
+      status: dataItemById.status,
+      kondisi: dataItemById.kondisi,
+      item_location: dataItemById.item_location,
+      note: dataItemById.note,
+      date_registation: dataItemById.date_registation,
+      date_expired: dataItemById.date_expired,
+      item_specification: dataItemById.item_specification,
+    });
+  }, [id, dataItemById]);
   const [formValues, setFormValues] = useState({
-    item_no: dataItemById.item_no,
-    item_description: dataItemById.item_description,
-    unit: dataItemById.unit,
-    category: dataItemById.category,
-    brand: dataItemById.brand,
-    status: dataItemById.status,
-    kondisi: dataItemById.kondisi,
-    item_location: dataItemById.item_location,
-    note: dataItemById.note,
-    date_registation: dataItemById.date_registation,
-    date_expired: dataItemById.date_expired,
-    item_specification: dataItemById.item_specification,
+    item_no: "",
+    item_description: "",
+    unit: "",
+    category: "",
+    brand: "",
+    status: "",
+    kondisi: "",
+    item_location: "",
+    note: "",
+    date_registation: "",
+    date_expired: "",
+    item_specification: "",
   });
 
   const [validation, setValidation] = useState([]);
@@ -68,6 +78,7 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
       .unwrap()
       .then(() => {
         onClose();
+        dispatch(fetchItems());
         alert("berhasil Edit Data");
       });
   };
@@ -75,18 +86,16 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
   return (
     <form
       onSubmit={handleUpdateForm}
-      className="bg-amber-400 px-4 py-2 max-h-[600px] rounded-xl overflow-y-auto grid grid-cols-3 gap-4 grid-flow-dense"
+      className="bg-amber-400 px-4 py-2 max-h-[600px] rounded-xl overflow-y-auto"
     >
-      <h1 className="text-2xl font-semibold text-center row-span-1 col-span-3">
-        Edit Barang
-      </h1>
+      <h1 className="text-2xl font-semibold text-center">Edit Barang</h1>
       <hr className="border border-slate-800 w-full m-auto col-span-3" />
       <div className="col-span-3 flex flex-col gap-2">
         <h1>
           Default Value <span className=" text-red-700">*</span>
         </h1>
-        <div className="col-span-3 grid grid-flow-dense grid-cols-3 ">
-          <div className="gap-2 flex flex-col w-60">
+        <div className=" grid grid-flow-dense grid-cols-6 ">
+          <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
             <label>Items Nomer</label>
             <input
               className=" bg-slate-200 uppercase"
@@ -95,16 +104,16 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
             />
           </div>
 
-          <CustomInput
+          <CustomInput2
             label="Deskripsi Barang"
             readOnly={true}
-            className="col-span-3 md:col-span-1"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
             value={formValues.item_description}
           />
         </div>
       </div>
 
-      <div className="gap-2 flex flex-col w-60 col-span-3 md:col-span-1">
+      <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
         <label>Status Barang</label>
         <div className="flex flex-wrap gap-1">
           <input
@@ -133,7 +142,7 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
           <label className="ml-2">Reused</label>
         </div>
       </div>
-      <div className="gap-2 flex flex-col w-60 col-span-3 md:col-span-1">
+      <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
         <label>Kondisi Barang</label>
         <div className="flex flex-wrap gap-1">
           <input
@@ -169,12 +178,12 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         label="Lokasi Barang"
         type="text"
         name="item_location"
-        className="col-span-3 md:col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
         placeholder="Enter Your New Item Location"
         value={formValues.item_location}
         onChange={handleChangeValue}
       />
-      <div className="gap-2 flex flex-col w-60 row-span-2 col-span-3 md:col-span-1">
+      <div className="gap-2 flex flex-col  col-span-6 sm:col-span-3 md:col-span-2">
         <label>Catatan (jika ada)</label>
         <textarea
           className="bg-slate-200 h-[120px]"
@@ -191,7 +200,7 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         onChange={handleChangeValue}
         value={formValues.date_registation}
         type="date"
-        className="col-span-3 md:col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
       />
       <CustomInput
         label="Date Expired (jika tidak terpakai)"
@@ -199,14 +208,14 @@ const FormEditModalItem = ({ onClose, id, setIsLoading }) => {
         type="date"
         value={formValues.date_expired}
         placeholder="Enter Your New date "
-        className="col-span-3 md:col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
         onChange={handleChangeValue}
       />
       <CustomInput
         label="Item Spesifikasi"
         type="text"
         name="item_specification"
-        className="col-span-3 md:col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
         placeholder="Enter Your New item specification "
         value={formValues.item_specification}
         onChange={handleChangeValue}

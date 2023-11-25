@@ -11,6 +11,6 @@ export { default as ManagerReqSub } from "./RequestSubmission/ManagerReqSub";
 
 // folder layout
 export { default as MainLayout } from "./Layout/MainLayout/index";
-export { default as ContentLayout } from "./Layout/ContentLayout";
+export * from "./Layout/ContentLayout";
 
 export { default as generateDynamicContent } from "./GenerateDynamicContent";

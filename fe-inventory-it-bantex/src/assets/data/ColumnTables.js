@@ -3,8 +3,8 @@ export const columnTablePcLineAdd = [
   "id",
   "item_no",
   "item_description",
-  "unit",
-  "brand",
+  // "unit",
+  // "brand",
   "note",
   "Timeline",
 ];

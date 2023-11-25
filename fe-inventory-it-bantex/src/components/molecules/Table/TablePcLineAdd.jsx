@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { BsDatabaseFillAdd } from "../../../assets/icons/icons";
-import ShowModal from "../../organisms/Show/ShowModals";
+import { ShowModal } from "../../organisms";
 import FormAddModalItem from "../Form/Items/FormAddModalItem";
 import { NavLink } from "react-router-dom";
 import { columnTablePcLineAdd } from "../../../assets/data/ColumnTables";
 import { TableContent, Tbody, Thead } from "../../atoms";
+import { MdPlusOne } from "react-icons/md";
 
 const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
   const role = localStorage.getItem("role");
@@ -60,8 +61,8 @@ const TablePcLineAdd = ({ data, handleGetItemNo, clickedItems }) => {
                     Spesifikasi: <span>{pc.item_specification}</span>
                   </p>
                 </td>
-                <td className="border px-4 py-2">{pc.unit}</td>
-                <td className="border px-4 py-2">{pc.brand}</td>
+                {/* <td className="border px-4 py-2">{pc.unit}</td>
+                <td className="border px-4 py-2">{pc.brand}</td> */}
                 <td className="border px-4 py-2 ">{pc.note}</td>
                 <td className="border px-4 py-2 whitespace-nowrap">
                   <p>

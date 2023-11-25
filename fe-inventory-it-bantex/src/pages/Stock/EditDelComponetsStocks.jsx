@@ -4,7 +4,8 @@ import { MdDelete, MdEditNote } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   CustomInput,
-  CustomSelect,
+  CustomInput2,
+  CustomSelect2,
   CustomTextArea,
   Title,
 } from "../../components/atoms";
@@ -179,11 +180,6 @@ const EditDelCompontentsStocks = () => {
           });
         });
 
-        // &&
-        //   inputListPost.every((item) =>
-        //     Object.values(item).every((value) => value === "")
-        //   )
-
         if (!Object.values(inputListPost[0]).every((value) => value === "")) {
           const dataDetailPost = inputListPost.map((item) => ({
             stock_no: stockNo,
@@ -222,17 +218,17 @@ const EditDelCompontentsStocks = () => {
         </div>
         <hr className="border border-slate-800  w-full mb-5 col-span-6" />
 
-        <div className="grid col-span-6 grid-flow-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-5 bg-slate-300 px-3 py-4 rounded-xl">
-          <CustomInput
+        <div className="col-span-6 grid grid-flow-dense grid-cols-6 gap-2 bg-slate-300 px-3 py-4 rounded-xl">
+          <CustomInput2
             label="Nama Barang"
             type="text"
             name="stock_description"
             placeholder="Masukan Nama Barang"
             value={formValues.stock_description}
-            className=" col-span-1"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
             onChange={handleChangeValue}
           />
-          <CustomSelect
+          <CustomSelect2
             label="Kategory"
             options={[
               <option key="default" value="" disabled selected>
@@ -245,23 +241,22 @@ const EditDelCompontentsStocks = () => {
               )),
             ]}
             name="category"
-            className=" col-span-1"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
             onChange={handleChangeValue}
             value={formValues.category}
           />
-          <div className="gap-2 flex flex-col w-60 row-span-2">
+          <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2 row-span-2">
             <label>Catatan (Jika ada)</label>
             <textarea
-              className="bg-slate-200 h-[120px] col-span-1 row-span-2"
+              className="bg-slate-200 h-[120px]"
               placeholder=""
               name="note"
               onChange={handleChangeValue}
               value={formValues.note}
             />
           </div>
-          <div className=" row-span-2"></div>
 
-          <CustomSelect
+          <CustomSelect2
             label="Unit"
             options={[
               <option key="default" value="" disabled selected>
@@ -275,11 +270,11 @@ const EditDelCompontentsStocks = () => {
             ]}
             name="unit"
             value={formValues.unit}
-            className=" col-span-1"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
             onChange={handleChangeValue}
           />
 
-          <CustomSelect
+          <CustomSelect2
             label="Tipe Barang"
             options={[
               <option key="default" value="" disabled selected>
@@ -292,6 +287,7 @@ const EditDelCompontentsStocks = () => {
               )),
             ]}
             name="type"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
             value={formValues.type}
             onChange={handleChangeValue}
           />

@@ -22,11 +22,6 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
       {columnName}
     </th>
   ));
-  // const tableHeadersDetail = columnTableStockDetail.map((columnName, index) => (
-  //   <th key={index} className="px-4 py-2">
-  //     {columnName}
-  //   </th>
-  // ));
 
   const dataDetailStockNo = useSelector(
     (state) => state.detailStock.dataDetailStockNo
@@ -164,9 +159,6 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
                                 {data.note || "-"}
                               </span>
                             </div>
-                            {/* <div className="w-40 ">
-                          <p className=" text-gray-500 font-semibold">Aksi</p>
-                        </div> */}
                           </div>
                         );
                       })}

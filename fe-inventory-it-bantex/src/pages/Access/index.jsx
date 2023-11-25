@@ -4,10 +4,12 @@ import {
   FormAddUser,
   FormDeleteUser,
   FormEditUser,
+  Print,
   TableLoginHistory,
   TableUsers,
 } from "../../components/molecules";
 import {
+  ShowContent,
   ShowModal,
   ShowTable,
   TableBody,
@@ -18,8 +20,7 @@ import {
   ContentLayout,
   generateDynamicContent,
 } from "../../components/templates";
-import { filterDataBySearch } from "../../helpers/filters";
-import Modals from "../../helpers/modals";
+import { filterDataBySearch, Modals } from "../../helpers";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchLoginHistory,
@@ -59,14 +60,21 @@ const AccesPage = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          <div className="self-start flex-wrap flex justify-between w-full col-span-4 row-span-2 ">
+          <ShowContent col={4}>
             <TabBar
               tabs={tabs}
               setSearch={setSearch}
               setToggleState={setToggleState}
               toggleState={toggleState}
             />
-          </div>
+          </ShowContent>
+          <ShowContent col={2} placeSelf="end">
+            <Print
+              titleDocument="Items"
+              PrintPDF={<TableUsers data={allData} />}
+              PrintCSV={allData}
+            />
+          </ShowContent>
           <ShowTable gap={6}>
             <TableHeader>
               <div className="order-1">
@@ -85,9 +93,7 @@ const AccesPage = () => {
                   <MdAddCircleOutline />
                   <span className="hidden md:block">Tambah User</span>
                 </button>
-              ) : (
-                <p>a</p>
-              )}
+              ) : null}
             </TableHeader>
             <TableBody>
               {toggleState === 1 ? (

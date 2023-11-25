@@ -9,6 +9,7 @@ import {
   FormDeleteItem,
   FormEditItem,
   FormTakeItem,
+  Print,
   TableItems,
 } from "../../components/molecules";
 import { BsDatabaseFillAdd } from "../../assets/icons/icons";
@@ -20,11 +21,8 @@ import {
   ShowTable,
 } from "../../components/organisms";
 import { SearchInput } from "../../components/atoms";
-import { filterDataBySearch } from "../../helpers/filters";
-import Modals from "../../helpers/modals";
+import { filterDataBySearch, Modals } from "../../helpers";
 import { useFetchItems } from "../../config/GetData";
-import { MdLocalPrintshop } from "react-icons/md";
-import DropdownPrintItems from "../../components/molecules/Dropdown/DropdownPrintItems";
 
 const ItemsPage = () => {
   const [id, setId] = useState("");
@@ -37,40 +35,32 @@ const ItemsPage = () => {
   };
 
   const filteredData = filterDataBySearch(dataItems, search);
-  const [showDropdown, setShowDropdown] = useState(false);
 
   return (
     <>
       <MainLayout>
         <ContentLayout>
-          <section className="col-span-5 cards p-2 w-full mx-auto flex gap-5 items-center  justify-between">
-            <div className="flex gap-2">
-              <NavLink
-                to={`/barcode`}
-                className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
-              >
-                Cetak barcode
-              </NavLink>
-              <NavLink
-                to={`/qrcode`}
-                className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
-              >
-                Cetak qrcode
-              </NavLink>
-            </div>
-          </section>
-          <div className="flex col-span-1  cards">
-            {showDropdown && (
-              <DropdownPrintItems dataCsv={dataItems} dataPdf={dataItems} />
-            )}
-            <button
-              className="button place-self-end p-2 ml-auto"
-              onClick={() => setShowDropdown(!showDropdown)}
+          <section className="col-span-4 cards p-2  flex gap-2 place-self-start ">
+            <NavLink
+              to={`/barcode`}
+              className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
             >
-              <MdLocalPrintshop />
-              Print
-            </button>
-          </div>
+              Cetak barcode
+            </NavLink>
+            <NavLink
+              to={`/qrcode`}
+              className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
+            >
+              Cetak qrcode
+            </NavLink>
+          </section>
+          <section className="flex col-span-2 cards gap-2 p-2 place-self-end">
+            <Print
+              titleDocument="Items"
+              PrintPDF={<TableItems data={dataItems} />}
+              PrintCSV={dataItems}
+            />
+          </section>
           <ShowTable gap={6}>
             <TableHeader>
               <SearchInput

@@ -1,17 +1,22 @@
-import { CustomInput, CustomSelect } from "../../../atoms";
+import {
+  CustomInput,
+  CustomInput2,
+  CustomSelect,
+  CustomSelect2,
+} from "../../../atoms";
 
 const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
   return (
-    <div className="grid grid-flow-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 bg-slate-300 px-3 py-4 rounded-xl">
-      <CustomInput
+    <div className="grid grid-flow-dense grid-cols-6 gap-2 bg-slate-300 px-3 py-4 rounded-xl">
+      <CustomInput2
         label="Deskripsi Persedian"
         type="text"
         name="stock_description"
         placeholder="Masukan Deskripsi Barang"
-        className=" col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
         onChange={handleChangeValue}
       />
-      <CustomSelect
+      <CustomSelect2
         label="Kategori"
         options={[
           <option key="default" value="" disabled selected>
@@ -24,20 +29,19 @@ const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
           )),
         ]}
         name="category"
-        className=" col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
         onChange={handleChangeValue}
       />
-      <div className="gap-2 flex flex-col w-60 row-span-2">
+      <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2 row-span-2">
         <label>Catatan (jika ada)</label>
         <textarea
-          className="bg-slate-200 h-[120px] col-span-1 row-span-2"
+          className="bg-slate-200 h-[120px] "
           placeholder=""
           name="note"
           onChange={handleChangeValue}
         />
       </div>
-      <div className=" row-span-2"></div>
-      <CustomSelect
+      <CustomSelect2
         label="Satuan"
         options={[
           <option key="default" value="" disabled selected>
@@ -50,11 +54,11 @@ const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
           )),
         ]}
         name="unit"
-        className=" col-span-1"
+        className="col-span-6 sm:col-span-3 md:col-span-2"
         onChange={handleChangeValue}
       />
 
-      <CustomSelect
+      <CustomSelect2
         label="Tipe"
         options={[
           <option key="default" value="" disabled selected>
@@ -68,6 +72,7 @@ const FormStock = ({ handleChangeValue, categories, Unit, type }) => {
         ]}
         name="type"
         onChange={handleChangeValue}
+        className="col-span-6 sm:col-span-3 md:col-span-2"
       />
     </div>
   );

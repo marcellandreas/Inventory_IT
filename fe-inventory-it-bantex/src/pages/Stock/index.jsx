@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { SearchInput } from "../../components/atoms";
-import { TableStocks, Loading, FormDelStock } from "../../components/molecules";
+import {
+  TableStocks,
+  Loading,
+  FormDelStock,
+  Print,
+} from "../../components/molecules";
 import {
   TableBody,
   TableHeader,
@@ -13,10 +18,7 @@ import {
   generateDynamicContent,
 } from "../../components/templates";
 import { useSelector } from "react-redux";
-import { filterDataBySearch } from "../../helpers/filters";
-import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
-import Modals from "../../helpers/modals";
-import { MdLocalPrintshop } from "react-icons/md";
+import { filterDataBySearch, Modals } from "../../helpers";
 import { useFetchStocks } from "../../config/GetData";
 
 const StockPage = () => {
@@ -24,7 +26,6 @@ const StockPage = () => {
   const dataStock = useFetchStocks();
   const isLoading = useSelector((state) => state.stocks.isLoading);
   const [showDropdown, setShowDropdown] = useState(false);
-  console.log(id);
 
   // melakuan search
   const [search, setSearch] = useState("");
@@ -42,38 +43,34 @@ const StockPage = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <ShowTable gap={6}>
-              <TableHeader>
-                <SearchInput
-                  search={search}
-                  handleSearchChange={handleSearchChange}
+            <>
+              <section className="flex col-span-6 cards gap-2 p-2 place-self-end">
+                <Print
+                  titleDocument="Items"
+                  PrintPDF={<TableStocks data={dataStock} />}
+                  PrintCSV={dataStock}
                 />
-
-                <div className="flex  gap-4 col-span-6  justify-end order-2 sm:order-3">
-                  {showDropdown && (
-                    <DropdownPrint dataCsv={dataStock} dataPdf={dataStock} />
-                  )}
-                  <button
-                    className="button"
-                    onClick={() => setShowDropdown(!showDropdown)}
-                  >
-                    <MdLocalPrintshop />
-                    Print Stock
-                  </button>
-                </div>
-              </TableHeader>
-              <TableBody>
-                {generateDynamicContent(
-                  dataStock,
-                  filteredData,
-                  <TableStocks
-                    data={filteredData}
-                    setDeleteModal={() => showModal("delete")}
-                    setId={setId}
+              </section>
+              <ShowTable gap={6}>
+                <TableHeader>
+                  <SearchInput
+                    search={search}
+                    handleSearchChange={handleSearchChange}
                   />
-                )}
-              </TableBody>
-            </ShowTable>
+                </TableHeader>
+                <TableBody>
+                  {generateDynamicContent(
+                    dataStock,
+                    filteredData,
+                    <TableStocks
+                      data={filteredData}
+                      setDeleteModal={() => showModal("delete")}
+                      setId={setId}
+                    />
+                  )}
+                </TableBody>
+              </ShowTable>
+            </>
           )}
         </ContentLayout>
       </MainLayout>

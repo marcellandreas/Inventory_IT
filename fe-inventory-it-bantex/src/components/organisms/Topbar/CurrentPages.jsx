@@ -1,8 +1,7 @@
 import { MdAddCircleOutline } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-export default function getCurrentPage(pathname, id_item_req) {
-  console.log(id_item_req);
+export default function getCurrentPage(pathname, id_item_req, id) {
   switch (pathname) {
     case "/stock":
       return {
@@ -19,6 +18,8 @@ export default function getCurrentPage(pathname, id_item_req) {
       };
     case "/stock/buat":
       return { title: "Tambah Stok", text: "Tambahkan Stock" };
+    case `/stock/detail/${id}`:
+      return { title: "Detail Stok", text: "Tambahkan Stock" };
     case "/items":
       return {
         title: "Items List",

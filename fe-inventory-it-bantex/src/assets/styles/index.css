@@ -77,8 +77,8 @@ input[type="radio"] {
 
 .dropdown-print {
   position: absolute;
-  top: 12rem;
-  z-index: 900px;
+  top: -1rem;
+  z-index: 9999;
   right: 1.5rem;
   padding: 15px;
   width: 120px;

@@ -39,9 +39,9 @@ const PersonalComputer = () => {
     <MainLayout>
       <ContentLayout>
         <section className="col-span-6 h-screen   relative">
-          {/* <div className="relative "> */}
           <img
             src={imgPc}
+            style={{ backgroundAttachment: "fixed" }}
             className="w-full h-[50vh]   rounded-md  object-cover overflow-y-auto"
             alt=""
           />

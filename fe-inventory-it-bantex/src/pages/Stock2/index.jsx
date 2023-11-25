@@ -8,9 +8,7 @@ import {
   generateDynamicContent,
 } from "../../components/templates";
 import { useSelector } from "react-redux";
-import { filterDataBySearch } from "../../helpers/filters";
-import DropdownPrint from "../../components/molecules/Dropdown/DropdownPrint";
-import Modals from "../../helpers/modals";
+import { filterDataBySearch, Modals } from "../../helpers";
 import { MdLocalPrintshop } from "react-icons/md";
 import TableStocks2 from "../../components/molecules/Table/TableStocks2";
 import { useFetchStocks } from "../../config/GetData";

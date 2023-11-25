@@ -64,7 +64,10 @@ const ProfilePage = () => {
         ) : (
           <section className="col-span-6 min-h-screen ">
             <div
-              style={{ backgroundImage: `url(${profileImg})` }}
+              style={{
+                backgroundImage: `url(${profileImg})`,
+                backgroundAttachment: "fixed",
+              }}
               className="flex col-span-6 bg-cover object-fill p-5 min-h-[50vh] rounded-3xl "
             ></div>
             <div className=" grid grid-flow-dense grid-cols-4 gap-4 w-full">

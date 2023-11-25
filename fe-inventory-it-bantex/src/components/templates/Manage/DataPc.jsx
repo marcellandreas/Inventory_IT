@@ -6,7 +6,6 @@ import {
   FormEditModalPcMaster,
 } from "../../molecules";
 import { NavLink } from "react-router-dom";
-import ShowModal from "../../organisms/Show/ShowModals";
 import DataComponentsPc from "./DataComponentsPc";
 import {
   MdEditNote,
@@ -15,9 +14,8 @@ import {
 } from "../../../assets/icons/icons";
 import Loading from "../../molecules/Loading";
 import { TitleTable } from "../../atoms";
-import { TableHeader } from "../../organisms";
-import Modals from "../../../helpers/modals";
-import { showFormattedDate } from "../../../helpers/showFormattedDate";
+import { TableHeader, ShowModal } from "../../organisms";
+import { showFormattedDate, Modals } from "../../../helpers";
 
 const DataPc = () => {
   const [formValues, setFormValues] = useState({

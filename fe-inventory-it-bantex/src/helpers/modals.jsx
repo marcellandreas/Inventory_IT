@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Modals() {
+const Modals = () => {
   const [modalState, setModalState] = useState({
     add: false,
     edit: false,
@@ -17,6 +17,6 @@ function Modals() {
   };
 
   return { modalState, showModal, closeModal };
-}
+};
 
-export default Modals;
+export { Modals };

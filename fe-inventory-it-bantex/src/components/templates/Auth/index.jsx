@@ -1,7 +1,5 @@
-// AuthTemp.js
 import React from "react";
 import { MdWarehouse } from "react-icons/md";
-
 import image from "../../../assets/images/login.png";
 
 const AuthTemp = ({ children }) => {

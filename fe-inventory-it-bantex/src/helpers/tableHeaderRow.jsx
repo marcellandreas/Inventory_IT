@@ -1,4 +1,4 @@
-export function TableHeaderRow() {
+const TableHeaderRow = () => {
   return (
     <tr className="border py-0 m-0 pl-2">
       <th className="border py-0 m-0 border-black">No</th>
@@ -7,4 +7,6 @@ export function TableHeaderRow() {
       <th className="border py-0 m-0 border-black">Keterangan</th>
     </tr>
   );
-}
+};
+
+export { TableHeaderRow };

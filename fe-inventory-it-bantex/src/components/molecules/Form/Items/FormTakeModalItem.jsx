@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormTakeItem } from "../../../../config/ValidateForm";
-import { CustomInput, CustomSelect } from "../../../atoms";
-import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
+import { CustomInput2, CustomSelect2 } from "../../../atoms";
+import { useHelpersFormData } from "../../../../helpers";
 import { createItem } from "../../../../Redux/Feature/ItemsSlice";
 import { updateMultipleDetails } from "../../../../Redux/Feature/detailStockslice";
 import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
@@ -11,6 +11,7 @@ import {
   useFecthStockDetailsById,
   useFetchStockDetailsByStockNo,
 } from "../../../../config/GetData";
+import MoreInfo from "./MoreInfo";
 
 const FormTakeModalItem = ({ onClose }) => {
   const idUser = localStorage.getItem("id_user");
@@ -162,8 +163,7 @@ const FormTakeModalItem = ({ onClose }) => {
     }
   };
 
-  const { unitOptions, categories } = useHelpersFormData();
-
+  const styleParentInput = "col-span-6 sm:col-span-3 md:col-span-2";
   return (
     <form onSubmit={handleCreateForm} className="form_modal2">
       <div className="  flex flex-col col-span-3 gap-4">
@@ -175,9 +175,9 @@ const FormTakeModalItem = ({ onClose }) => {
           <h1>
             Pilih barang <span className=" text-red-700">*</span>
           </h1>
-          <div className=" grid grid-cols-3 gap-4 grid-flow-dense ">
-            <div>
-              <CustomSelect
+          <div className=" grid grid-cols-6 grid-flow-dense gap-4 ">
+            <div className={styleParentInput}>
+              <CustomSelect2
                 label="Nomor Stok"
                 options={[
                   <option key="default" value="" disabled selected>
@@ -197,8 +197,8 @@ const FormTakeModalItem = ({ onClose }) => {
               )}
             </div>
 
-            <div>
-              <CustomSelect
+            <div className={styleParentInput}>
+              <CustomSelect2
                 label="Nama Stock"
                 options={[
                   <option
@@ -223,8 +223,8 @@ const FormTakeModalItem = ({ onClose }) => {
                 </p>
               )}
             </div>
-            <div>
-              <CustomInput
+            <div className={styleParentInput}>
+              <CustomInput2
                 label="Lokasi Barang"
                 type="text"
                 name="item_location"
@@ -236,7 +236,9 @@ const FormTakeModalItem = ({ onClose }) => {
                 <p className="text-red-500">{validationErrors.item_location}</p>
               )}
             </div>
-            <div className="gap-1 flex flex-col w-60 row-span-2 col-span-3 md:col-span-1">
+            <div
+              className={`gap-1 flex flex-col ${styleParentInput} row-span-2 `}
+            >
               <label>Catatan (Jika ada)</label>
               <textarea
                 className="bg-slate-200 h-[120px]"
@@ -245,8 +247,8 @@ const FormTakeModalItem = ({ onClose }) => {
                 onChange={handleChangeValue}
               />
             </div>
-            <div>
-              <CustomInput
+            <div className={styleParentInput}>
+              <CustomInput2
                 label="Tanggal Registrasi"
                 name="date_registation"
                 placeholder="Enter Your date"
@@ -261,8 +263,8 @@ const FormTakeModalItem = ({ onClose }) => {
               )}
             </div>
 
-            <div>
-              <CustomInput
+            <div className={styleParentInput}>
+              <CustomInput2
                 label="Item Spesifikasi"
                 type="text"
                 name="item_specification"
@@ -276,131 +278,27 @@ const FormTakeModalItem = ({ onClose }) => {
                 </p>
               )}
             </div>
-            <CustomInput
-              label="Tanggal Kadaluarsa (opsional)"
-              name="date_expired"
-              type="date"
-              placeholder="Enter Your New date "
-              className="col-span-3 md:col-span-1"
-              onChange={handleChangeValue}
-            />
+            <div className={styleParentInput}>
+              <CustomInput2
+                label="Tanggal Kadaluarsa (opsional)"
+                name="date_expired"
+                type="date"
+                placeholder="Enter Your New date "
+                className="col-span-3 md:col-span-1"
+                onChange={handleChangeValue}
+              />
+            </div>
           </div>
         </div>
       </div>
       {formValues.stock_no && formValues.id_detail_stock ? (
-        <div className="flex flex-col  w-full col-span-3 gap-1">
-          <h1>
-            info lainnya (dari stock) <span className=" text-red-700">*</span>
-          </h1>
-          <div className="grid grid-cols-3 w-full  gap-4">
-            <CustomSelect
-              label="Unit"
-              options={[
-                <option key="default" value="" disabled selected>
-                  Pilih Unit Satuan
-                </option>,
-                ...unitOptions.map((unit, index) => (
-                  <option key={index} value={unit}>
-                    {unit}
-                  </option>
-                )),
-              ]}
-              className="col-span-3 md:col-span-1"
-              name="unit"
-              value={stockForm.unit}
-            />
-
-            <CustomSelect
-              label="Kategory"
-              options={[
-                <option key="default" value="" disabled selected>
-                  Pilih Category
-                </option>,
-                ...categories.map((unit, index) => (
-                  <option key={index} value={unit}>
-                    {unit}
-                  </option>
-                )),
-              ]}
-              className="col-span-3 md:col-span-1"
-              name="category"
-              value={stockForm.category}
-            />
-            <CustomInput
-              label="Merek Barang"
-              type="text"
-              name="brand"
-              className="col-span-3 md:col-span-1"
-              placeholder="Enter Your New Brand "
-              value={formDetStock.brand ? formDetStock.brand : "undifined"}
-              readOnly={true}
-            />
-            <div className="gap-2 flex flex-col w-60 col-span-3 md:col-span-1">
-              <label>Status Barang</label>
-              <div className="flex flex-wrap gap-1">
-                <input
-                  type="radio"
-                  name="status"
-                  value="used"
-                  className="border-2 border-slate-800 rounded-md p-2"
-                  onChange={handleChangeValue}
-                  checked={formValues.status === "used"}
-                />
-                <label className="ml-2">used</label>
-                <input
-                  type="radio"
-                  name="status"
-                  value="new"
-                  className="border-2 border-slate-800 rounded-md p-2"
-                  onChange={handleChangeValue}
-                  checked={formValues.status === "new"}
-                />
-                <label className="ml-2">Baru</label>
-                <input
-                  type="radio"
-                  name="status"
-                  value="reused"
-                  className="border-2 border-slate-800 rounded-md p-2"
-                  onChange={handleChangeValue}
-                  checked={formValues.status === "reused"}
-                />
-                <label className="ml-2">Reused</label>
-              </div>
-            </div>
-            <div className="gap-2 flex flex-col w-60 col-span-3 md:col-span-1">
-              <label>Kondisi Barang</label>
-              <div className="flex flex-wrap gap-1">
-                <input
-                  type="radio"
-                  name="kondisi"
-                  value="Good"
-                  className="border-2 border-slate-800 rounded-md p-2"
-                  onChange={handleChangeValue}
-                  checked={formValues.kondisi === "Good"}
-                />
-                <label className="ml-2">Good</label>
-                <input
-                  type="radio"
-                  name="kondisi"
-                  value="Normal"
-                  className="border-2 border-slate-800 rounded-md p-2"
-                  onChange={handleChangeValue}
-                  checked={formValues.kondisi === "Normal"}
-                />
-                <label className="ml-2">Normal</label>
-                <input
-                  type="radio"
-                  name="kondisi"
-                  value="Bad"
-                  className="border-2 border-slate-800 rounded-md p-2"
-                  onChange={handleChangeValue}
-                  checked={formValues.kondisi === "Bad"}
-                />
-                <label className="ml-2">Bad</label>
-              </div>
-            </div>
-          </div>
-        </div>
+        <MoreInfo
+          unit={stockForm.unit}
+          brand={formDetStock.brand}
+          category={stockForm.category}
+          kondisi={formValues.kondisi}
+          status={formValues.status}
+        />
       ) : null}
       <div className="md:col-span-1 col-span-3 hidden md:flex"></div>
 

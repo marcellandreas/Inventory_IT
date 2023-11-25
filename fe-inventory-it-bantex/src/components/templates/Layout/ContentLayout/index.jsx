@@ -5,5 +5,4 @@ const ContentLayout = ({ children }) => {
     </section>
   );
 };
-
-export default ContentLayout;
+export { ContentLayout };

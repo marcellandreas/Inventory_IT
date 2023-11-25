@@ -6,10 +6,11 @@ import TablePcLineAdd from "../../components/molecules/Table/TablePcLineAdd";
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { TableBody, TableHeader } from "../../components/organisms";
-import { SearchInput, TitleTable } from "../../components/atoms";
+import { SearchInput } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import { createPcLine } from "../../Redux/Feature/DataPcMaster";
 import { useFetchItemsUnusedForPcMaster } from "../../config/GetData";
+import { MdAddCircleOutline } from "react-icons/md";
 
 const AddComponentsPC = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,6 @@ const AddComponentsPC = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          {/* Header Kontent */}
           <section className="flex gap-2 justify-between col-span-6 ">
             <button className="" onClick={backToMenu}>
               <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
@@ -81,7 +81,7 @@ const AddComponentsPC = () => {
                   className="button disabled:bg-slate-300 disabled:text-black disabled:font-semibold"
                   disabled={clickedItems.length === 0}
                 >
-                  Tambah Komponen
+                  <MdAddCircleOutline /> Tambah Komponen
                 </button>
               </form>
             ) : null}
@@ -107,7 +107,7 @@ const AddComponentsPC = () => {
                 <span>
                   <BsDatabaseFillAdd />
                 </span>
-                jika ingin menambahkan
+                jika ingin menambahkan components
               </p>
             )}
           </section>

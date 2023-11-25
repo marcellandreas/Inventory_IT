@@ -3,10 +3,15 @@ import { useSelector } from "react-redux";
 import { MdLocalPrintshop } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { SearchInput } from "../../atoms";
-import { TableHeader, TableBody, ShowTable } from "../../organisms";
+import {
+  TableHeader,
+  TableBody,
+  ShowTable,
+  ShowContent,
+} from "../../organisms";
 import { TableApplicationsForm } from "../../molecules";
 import TabBar from "@TabBar";
-import { filterDataBySearch } from "../../../helpers/filters";
+import { filterDataBySearch } from "../../../helpers";
 import generateDynamicContent from "../GenerateDynamicContent";
 
 const AdminsFormReq = ({ setId, id, setDeleteModal }) => {
@@ -31,14 +36,14 @@ const AdminsFormReq = ({ setId, id, setDeleteModal }) => {
 
   return (
     <>
-      <section className="self-start flex-wrap flex justify-between w-full col-span-6 ">
+      <ShowContent>
         <TabBar
           tabs={tabs}
           setSearch={setSearch}
           setToggleState={setToggleState}
           toggleState={toggleState}
         />
-      </section>
+      </ShowContent>
       <ShowTable gap={6}>
         <TableHeader>
           <SearchInput

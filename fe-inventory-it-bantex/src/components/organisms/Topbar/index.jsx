@@ -6,12 +6,12 @@ const Topbar = ({ isOpen, toggle }) => {
   const [currentPage, setCurrentPage] = useState("");
   const location = useLocation();
   const username = localStorage.getItem("username");
-  const { id_item_req } = useParams();
+  const { id_item_req, id } = useParams();
 
   useEffect(() => {
-    const current = getCurrentPage(location.pathname, id_item_req);
+    const current = getCurrentPage(location.pathname, id_item_req, id);
     setCurrentPage(current);
-  }, [location.pathname, id_item_req]);
+  }, [location.pathname, id_item_req, id]);
 
   return (
     <section className=" w-full relative  px-5  ">

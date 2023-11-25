@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { TablePcLine } from "../../molecules";
-import ShowModal from "../../organisms/Show/ShowModals";
 import { FormAddCompPc2, FormLostConnect } from "../../molecules";
 import {
   BiDetail,
@@ -9,7 +8,7 @@ import {
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 import { TitleTable } from "../../atoms";
-import { ShowTable, TableBody, TableHeader } from "../../organisms";
+import { ShowTable, TableBody, TableHeader, ShowModal } from "../../organisms";
 
 const DataComponentsPc = ({
   dataPcComponent,

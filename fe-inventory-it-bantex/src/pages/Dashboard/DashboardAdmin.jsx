@@ -18,16 +18,16 @@ const DashboardAdmin = ({
   return (
     <section className=" col-span-6 min-h-screen ">
       <section
-        style={{ backgroundImage: `url(${profileImg})` }}
-        className=" h-[35vh] object-cover bg-cover w-full  relative custom-radius "
+        style={{
+          backgroundImage: `url(${profileImg})`,
+          backgroundAttachment: "fixed",
+        }}
+        className=" h-[35vh] object-cover bg-cover w-full   custom-radius "
       >
         <h1 className=" text-3xl text-white font-semibold flex justify-center items-center h-[25vh] ">
           <MdWarehouse className="mr-2" /> Inventory IT
         </h1>
-        <section
-          id="widget"
-          className="col-span-6 w-full grid grid-cols-4 gap-4 grid-flow-dense justify-between  "
-        >
+        <section className="col-span-6 w-full grid grid-cols-4 gap-4 grid-flow-dense justify-between  ">
           <Widget
             icon={<ImBooks />}
             nameWidget="Jumlah Items"
@@ -63,7 +63,7 @@ const DashboardAdmin = ({
         <div className=" bg-gray-200 rounded-xl row-span-1 md:row-span-4   col-span-4 md:col-span-3 ">
           <TableHeader>
             <div className="flex items-center px-5 justify-between h-[8vh] text-white w-full bg-slate-800 rounded-xl">
-              <h1 className="text-xl   font-bold   ">Latest</h1>
+              <h1 className="text-xl   font-bold ">Latest</h1>
               <Link
                 to={`/form-pengajuan`}
                 className=" underline hover:text-blue-500"

@@ -174,9 +174,9 @@ const FormAddModalItem = ({ onClose }) => {
       <hr className="border border-slate-800 w-full m-auto " />
       <form
         onSubmit={handleSubmitForm}
-        className=" grid grid-flow-dense gap-4  grid-cols-2 md:grid-cols-6  "
+        className=" grid grid-flow-dense gap-4 w-full grid-cols-6  "
       >
-        <div className=" col-span-1 md:col-span-2">
+        <div className=" col-span-6 md:col-span-2">
           <CustomInput2
             label="Deskripsi Barang"
             type="text"
@@ -190,7 +190,7 @@ const FormAddModalItem = ({ onClose }) => {
           )}
         </div>
 
-        <div className=" col-span-1 md:col-span-2">
+        <div className=" col-span-6 md:col-span-2">
           <CustomSelect2
             label="Unit"
             options={[
@@ -211,7 +211,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.unit}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className=" col-span-6 md:col-span-2">
           <CustomSelect2
             label="Kategory"
             options={[
@@ -232,12 +232,11 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.category}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className=" col-span-6 md:col-span-2">
           <CustomInput2
             label="Merek Barang"
             type="text"
             name="brand"
-            // className="col-span-3 md:col-span-1"
             placeholder="Enter Your New Brand "
             onChange={handleChangeValue}
           />
@@ -245,7 +244,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.brand}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
           <div className="gap-2 flex flex-col justify-center">
             <label>Status Barang</label>
             <div className=" flex gap-1">
@@ -285,8 +284,8 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.status}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2">
-          <div className="gap-1 flex flex-col ">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
+          <div className="gap-1 flex flex-col  ">
             <label>Kondisi Barang</label>
             <div className="flex gap-1">
               <div className="mr-1">
@@ -325,12 +324,11 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.kondisi}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
           <CustomInput2
             label="Lokasi Barang"
             type="text"
             name="item_location"
-            // className="col-span-3 md:col-span-1"
             placeholder="Enter Your New Item Location"
             onChange={handleChangeValue}
           />
@@ -338,7 +336,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.item_location}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2 row-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
           <div className="gap-2 flex flex-col ">
             <label>Catatan (Jika ada)</label>
             <textarea
@@ -349,7 +347,7 @@ const FormAddModalItem = ({ onClose }) => {
             />
           </div>
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
           <CustomInput2
             label="Tanggal Registrasi"
             name="date_registation"
@@ -362,7 +360,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.date_registation}</p>
           )}
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
           <CustomInput2
             label="Tanggal Kadaluarsa (Rusak)"
             name="date_expired"
@@ -372,7 +370,7 @@ const FormAddModalItem = ({ onClose }) => {
             onChange={handleChangeValue}
           />
         </div>
-        <div className=" col-span-1 md:col-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2">
           <CustomInput2
             label="Item Spesifikasi"
             type="text"
@@ -388,7 +386,7 @@ const FormAddModalItem = ({ onClose }) => {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2 w-full row-span-1 h-10 col-span-3 md:col-span-2 self-end">
+        <div className="flex flex-wrap gap-2 w-full row-span-1 h-10 col-span-6 sm:col-span-3 md:col-span-2 self-end">
           <button
             onClick={() => {
               onClose();
