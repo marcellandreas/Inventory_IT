@@ -37,7 +37,7 @@ const DataComponentsPc = ({
       ) : (
         <ShowTable gap={6}>
           <TableHeader>
-            <TitleTable>Komponen </TitleTable>
+            <TitleTable count={dataPcComponent.length}>Komponen </TitleTable>
             <div className="flex gap-2">
               <NavLink to={`unused`} className="button">
                 <BiDetail />

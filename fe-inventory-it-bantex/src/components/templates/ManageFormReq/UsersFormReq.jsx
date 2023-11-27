@@ -5,13 +5,15 @@ import {
   setDataItemsReq,
   setLoadingPengajuan,
 } from "../../../Redux/Feature/DataPengajuanBarang";
-import {
-  setDataPt,
-  setLoadingDivPt,
-} from "../../../Redux/Feature/DataDivisionAndPT";
+// import {
+//   setDataPt,
+//   setLoadingDivPt,
+// } from "../../../Redux/Feature/DataDivisionAndPT";
 import { ShowTable, TableBody, TableHeader } from "../../organisms";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
 import generateDynamicContent from "../GenerateDynamicContent";
+import { SearchInput } from "../../atoms";
+import { filterDataBySearch } from "../../../helpers";
 
 const UsersFormReq = ({ setId, setDeleteModal }) => {
   const username = localStorage.getItem("username");
@@ -51,29 +53,19 @@ const UsersFormReq = ({ setId, setDeleteModal }) => {
       setDataItemsReq,
       setLoadingPengajuan
     );
-    fetchData("/app", setDataPt, setLoadingDivPt);
+    // fetchData("/app", setDataPt, setLoadingDivPt);
   }, [dispatch, username]);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
 
-  const filteredData = dataReq.filter((item) => {
-    const searchableField = (item.name_pt || "") + (item.name_division || "");
-    return searchableField.toLowerCase().includes(search.toLowerCase());
-  });
+  const filteredData = filterDataBySearch(dataReq, search);
 
   return (
     <ShowTable gap={6}>
       <TableHeader>
-        <div className="input-group">
-          <input
-            type="search"
-            placeholder="Search Data..."
-            value={search}
-            onChange={handleSearchChange}
-          />
-        </div>
+        <SearchInput search={search} onChange={handleSearchChange} />
       </TableHeader>
       <TableBody>
         {generateDynamicContent(

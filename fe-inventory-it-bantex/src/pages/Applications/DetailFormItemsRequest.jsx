@@ -31,7 +31,7 @@ const DetailFormItemsRequest = () => {
     AxiosInstance.put(`form/${actionType}/${id_item_req}`)
       .then((res) => {
         setLoading(true);
-        dispatch(fetchDataDetailPengajuan(id_item_req)); // Mengambil data kembali setelah tindakan berhasil
+        dispatch(fetchDataDetailPengajuan(id_item_req));
         alert("Berhasil");
       })
       .catch((err) => console.log(err));
@@ -79,11 +79,9 @@ const DetailFormItemsRequest = () => {
   const handleQtyMinus = async () => {
     if (requestType === "REQUEST") {
       try {
-        // Melakukan update multiple pada dataDetailPost
         await AxiosInstance.put(`/det-stock/update-multiple`, dataDetailPost);
         alert("berhasil update qty");
 
-        // Menggunakan Promise.all untuk menjalankan perintah pada setiap stock_no
         const stockNoPromises = stockNos.map((stockNo) => {
           return AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
         });
@@ -105,11 +103,9 @@ const DetailFormItemsRequest = () => {
         await AxiosInstance.post("/det-stock", dataDetailPost);
         await Promise.all([request2]);
 
-        // Melakukan update multiple pada dataDetailPost
         await AxiosInstance.put(`/det-stock/update-plus`, dataDetailPost);
         alert("berhasil update qty");
 
-        // Menggunakan Promise.all untuk menjalankan perintah pada setiap stock_no
         const stockNoPromises = stockNosSub.map((stockNo) => {
           return AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
         });

@@ -5,7 +5,6 @@ import {
   StockPage,
   ItemsPage,
   NotFoundAfter,
-  ReportsPage,
   AccesPage,
   PcMasterPage,
   GetAllPcMasterPage,
@@ -17,7 +16,6 @@ import {
   MakeAGoodReqPage,
   DetailFormItemsReqPage,
   PrintPage,
-  SetUpReqPage,
   DetailStock,
   AddStocksPage,
   EditDelStocksPage,
@@ -30,6 +28,7 @@ import NewApplications from "../pages/Applications/NewApplications";
 import PersonalComputer from "../pages/PcMaster/PersonalComputer";
 import Stock2Page from "../pages/Stock2";
 import AddItems from "../pages/Items/AddItems";
+import SetUp from "../pages/Setup";
 const Routers = () => {
   return (
     <BrowserRouter>
@@ -84,7 +83,6 @@ const Routers = () => {
             <Route index element={<ApplicationsPage />} />
             <Route path="buat" element={<MakeAGoodReqPage />} />
             <Route path="new" element={<NewApplications />} />
-            <Route path="set-up" element={<SetUpReqPage />} />
             <Route
               path="detail/:id_item_req"
               element={<DetailFormItemsReqPage />}
@@ -96,14 +94,15 @@ const Routers = () => {
             <Route index element={<AccesPage />}></Route>
           </Route>
 
+          <Route path="/setup">
+            <Route index element={<SetUp />}></Route>
+          </Route>
+
           <Route path="/barcode">
             <Route index element={<BarcodePrinterPage />}></Route>
           </Route>
           <Route path="/qrcode">
             <Route index element={<QrcodePrinterPage />}></Route>
-          </Route>
-          <Route path="/reports">
-            <Route index element={<ReportsPage />}></Route>
           </Route>
         </Route>
       </Routes>

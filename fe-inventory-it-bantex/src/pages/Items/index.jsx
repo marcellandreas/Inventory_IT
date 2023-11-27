@@ -20,9 +20,10 @@ import {
   ShowModal,
   ShowTable,
 } from "../../components/organisms";
-import { SearchInput } from "../../components/atoms";
+import { SearchInput, TitleTable } from "../../components/atoms";
 import { filterDataBySearch, Modals } from "../../helpers";
 import { useFetchItems } from "../../config/GetData";
+import { MdLocalPrintshop } from "react-icons/md";
 
 const ItemsPage = () => {
   const [id, setId] = useState("");
@@ -40,21 +41,19 @@ const ItemsPage = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          <section className="col-span-4 cards p-2  flex gap-2 place-self-start ">
+          <section className="flex col-span-6 sm:col-span-6 items-center  cards gap-2 p-1 place-self-end">
             <NavLink
               to={`/barcode`}
-              className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
+              className="bg-slate-800 p-2 rounded-lg flex items-center gap-1 text-white hover:bg-slate-700"
             >
-              Cetak barcode
+              <MdLocalPrintshop /> <span>Barcode</span>
             </NavLink>
             <NavLink
               to={`/qrcode`}
-              className="bg-slate-800 p-2 rounded-lg text-white hover:bg-slate-700"
+              className="bg-slate-800 p-2 rounded-lg flex items-center gap-1 text-white hover:bg-slate-700"
             >
-              Cetak qrcode
+              <MdLocalPrintshop /> <span>Qrcode</span>
             </NavLink>
-          </section>
-          <section className="flex col-span-2 cards gap-2 p-2 place-self-end">
             <Print
               titleDocument="Items"
               PrintPDF={<TableItems data={dataItems} />}
@@ -63,10 +62,8 @@ const ItemsPage = () => {
           </section>
           <ShowTable gap={6}>
             <TableHeader>
-              <SearchInput
-                search={search}
-                handleSearchChange={handleSearchChange}
-              />
+              <TitleTable count={dataItems.length}>Data Items</TitleTable>
+              <SearchInput search={search} onChange={handleSearchChange} />
               <div className=" order-2 sm:order-3 flex gap-4">
                 <button
                   className="button flex gap-2 items-center order-2 sm:order-3"

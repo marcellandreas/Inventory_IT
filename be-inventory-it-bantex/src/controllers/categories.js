@@ -8,14 +8,25 @@ const dbConfig = {
 };
 
 const categoryModel = new CategoryModel(dbConfig);
+const sendErrorRes = (res, statusCode, message, error) => {
+  res
+    .status(statusCode)
+    .json({ success: false, message, error: error.message });
+};
 
-// Menampilkan semua kategori
+const sendSuccessRes = (res, statusCode, message, data) => {
+  res.status(statusCode).json({ message, data });
+};
+
 exports.getAllCategories = (req, res) => {
-  categoryModel.getAllCategories((error, results) => {
+  categoryModel.getAllCategories((error, data) => {
     if (error) {
-      return res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Categories", error);
+    } else if (!data) {
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
+    } else {
+      sendSuccessRes(res, 200, "Berhasil Mengambil Data Categories", data);
     }
-    res.status(200).json(results);
   });
 };
 
@@ -36,16 +47,17 @@ exports.createCategory = (req, res) => {
 
 // Mendapatkan kategori berdasarkan ID
 exports.getCategoryById = (req, res) => {
-  const categoryId = req.params.id;
-
-  categoryModel.getCategoryById(categoryId, (error, result) => {
+  const { id } = req.params;
+  categoryModel.getCategoryById(id, (error, data) => {
     if (error) {
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
+    } else if (!data) {
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
+    } else {
+      res
+        .status(200)
+        .json({ message: "Berhasil Mengambil Data Item Berdasarkan Id", data });
     }
-    if (!result) {
-      return res.status(404).json({ error: "Category not found" });
-    }
-    res.status(200).json(result);
   });
 };
 
@@ -59,6 +71,7 @@ exports.updateCategory = (req, res) => {
 
   categoryModel.updateCategory(categoryId, categoryData, (error, result) => {
     if (error) {
+      console.log(error);
       return res.status(500).json({ error: error.message });
     }
     if (result.affectedRows === 0) {

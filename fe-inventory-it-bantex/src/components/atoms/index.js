@@ -1,5 +1,5 @@
 export * from "./Text";
-export * from "./Table";
-export * from "./FormComponents";
+export * from "./TableAtoms";
+export * from "./FormAtoms";
 
 export { default as SearchInput } from "./SearchInput";

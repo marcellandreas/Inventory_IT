@@ -43,10 +43,8 @@ const GetAllPcMaster = () => {
         </section>
         <ShowTable gap={6}>
           <TableHeader>
-            <SearchInput
-              search={search}
-              handleSearchChange={handleSearchChange}
-            />
+            <TitleTable count={pcmasterData.length}>Data Pc Master</TitleTable>
+            <SearchInput search={search} onChange={handleSearchChange} />
           </TableHeader>
           <TableBody>
             {generateDynamicContent(

@@ -7,7 +7,6 @@ export { default as Profile } from "./Auth/ProfilePage";
 
 export { default as ItemsPage } from "./Items";
 export { default as AccesPage } from "./Access";
-export { default as ReportsPage } from "./Reports";
 export { default as BarcodePrinterPage } from "./PrintPage/Barcode";
 export { default as QrcodePrinterPage } from "./PrintPage/QrCode";
 export { default as PrintPage } from "./Applications/PrintPage";
@@ -16,7 +15,6 @@ export { default as PrintPage } from "./Applications/PrintPage";
 export { default as ApplicationsPage } from "./Applications";
 export { default as MakeAGoodReqPage } from "./Applications/MakeAGoodsRequest";
 export { default as DetailFormItemsReqPage } from "./Applications/DetailFormItemsRequest";
-export { default as SetUpReqPage } from "./Applications/SetUp";
 
 // Not Found Pages
 export { default as NotFoundAfter } from "./NotFound/NotFoundAfterLoginPage";

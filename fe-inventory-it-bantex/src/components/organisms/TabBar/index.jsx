@@ -12,8 +12,8 @@ const TabBar = ({ tabs, toggleState, setToggleState, setSearch }) => {
           className={`${
             toggleState === index + 1
               ? "bg-slate-500 hover:bg-slate-700"
-              : "bg-slate-300 hover:bg-slate-500 text-black font-semibold"
-          } rounded-md p-2 min-w-[100px]`}
+              : "bg-slate-300 hover:bg-slate-500 "
+          } rounded-md p-1  min-w-[100px] text-slate-900 font-semibold `}
         >
           {label}
         </button>

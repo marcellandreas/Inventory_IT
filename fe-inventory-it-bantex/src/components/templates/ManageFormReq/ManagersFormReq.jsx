@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AxiosInstance } from "../../../apis/api";
-import {
-  setDataPt,
-  setLoadingDivPt,
-} from "../../../Redux/Feature/DataDivisionAndPT";
+// import {
+//   setDataPt,
+//   setLoadingDivPt,
+// } from "../../../Redux/Feature/DataDivisionAndPT";
 import { SearchInput } from "../../atoms";
 import { NavLink } from "react-router-dom";
 import { MdLocalPrintshop } from "react-icons/md";
@@ -11,7 +11,7 @@ import { ShowTable, TableBody, TableHeader } from "../../organisms";
 import { TableApplicationsForm } from "../../molecules";
 import { useEffect, useState } from "react";
 import TabBar from "../../organisms/TabBar";
-import { useFetchNamePt } from "../../../config/GetData";
+import { useFetchPt } from "../../../config/GetData";
 
 const ManagersFormReq = ({ setId, setDeleteModal }) => {
   const [toggleState, setToggleState] = useState(1);
@@ -38,11 +38,11 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
       .catch(handleFetchError);
   };
 
-  useEffect(() => {
-    fetchData("/app", setDataPt, setLoadingDivPt);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   fetchData("/app", setDataPt, setLoadingDivPt);
+  // }, [dispatch]);
 
-  const namePt = useFetchNamePt();
+  const namePt = useFetchPt();
 
   const [search, setSearch] = useState("");
   const handleSearchChange = (e) => {
@@ -107,10 +107,7 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
       </section>
       <ShowTable gap={6}>
         <TableHeader>
-          <SearchInput
-            search={search}
-            handleSearchChange={handleSearchChange}
-          />
+          <SearchInput search={search} onChange={handleSearchChange} />
           <div className="flex pl-2 gap-2 self-start order-2 items-center sm:order-3">
             <NavLink
               to={`print`}

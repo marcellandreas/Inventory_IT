@@ -6,11 +6,12 @@ const Title = ({ children }) => {
   );
 };
 
-const TitleTable = ({ children }) => {
+const TitleTable = ({ children, count }) => {
   return (
-    <h3 className=" font-semibold  text-slate-800  text-lg   lg:text-xl">
-      {children}
-    </h3>
+    <div className=" font-semibold">
+      <h3 className="text-slate-800  text-lg   lg:text-xl">{children}</h3>
+      <p className=" text-gray-500 text-md">Total: {count}</p>
+    </div>
   );
 };
 

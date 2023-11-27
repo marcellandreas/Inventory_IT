@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdLocalPrintshop } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import { SearchInput } from "../../atoms";
+import { SearchInput, TitleTable } from "../../atoms";
 import {
   TableHeader,
   TableBody,
@@ -36,32 +36,40 @@ const AdminsFormReq = ({ setId, id, setDeleteModal }) => {
 
   return (
     <>
-      <ShowContent>
+      <section className=" col-span-6 flex overflow-x-auto gap-3 sm:col-span-4">
         <TabBar
           tabs={tabs}
           setSearch={setSearch}
           setToggleState={setToggleState}
           toggleState={toggleState}
         />
-      </ShowContent>
+      </section>
+      <section className=" col-span-6 sm:col-span-2 place-self-end flex gap-2">
+        <NavLink
+          to={`print`}
+          className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
+        >
+          <MdLocalPrintshop />
+          Print Pengajuan
+        </NavLink>
+      </section>
+
       <ShowTable gap={6}>
         <TableHeader>
-          <SearchInput
-            search={search}
-            handleSearchChange={handleSearchChange}
-          />
-          <div className="flex pl-2 gap-2 self-start order-2 items-center sm:order-3">
-            <NavLink
-              to={`print`}
-              className="bg-slate-800 p-2 flex justify-center items-center gap-2 rounded-lg text-white hover:bg-slate-700"
-            >
-              <MdLocalPrintshop />
-              Print Pengajuan
-            </NavLink>
-            <NavLink to={`set-up`} className="button">
-              Set Up
-            </NavLink>
-          </div>
+          <TitleTable
+            count={
+              toggleState === 1
+                ? allData.length
+                : toggleState === 2
+                ? needApproved.length
+                : toggleState === 3
+                ? allApproved.length
+                : null
+            }
+          >
+            Data Pengajuan
+          </TitleTable>
+          <SearchInput search={search} onChange={handleSearchChange} />
         </TableHeader>
         <TableBody>
           {toggleState === 1 &&

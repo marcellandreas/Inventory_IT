@@ -1,13 +1,13 @@
 import React from "react";
 
-const SearchInput = ({ search, handleSearchChange }) => {
+const SearchInput = ({ search, onChange }) => {
   return (
-    <div className="input-group order-3 md:order-2">
+    <div className="input-group order-3 md:order-2 w-full">
       <input
         type="search"
         placeholder="Search Data..."
         value={search}
-        onChange={handleSearchChange}
+        onChange={onChange}
       />
     </div>
   );

@@ -123,7 +123,9 @@ const DataPc = () => {
         <section className="w-full col-span-6 flex-col flex gap-9  ">
           <section className="cards rounded-3xl shadow-md">
             <TableHeader>
-              <TitleTable>Data Master Komputer</TitleTable>
+              <TitleTable count={dataPcMaster.length}>
+                Data Master Komputer
+              </TitleTable>
               <div className="flex gap-2">
                 <button className="button" onClick={() => showModal("add")}>
                   <BsDatabaseFillAdd />

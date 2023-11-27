@@ -60,30 +60,43 @@ const AccesPage = () => {
     <>
       <MainLayout>
         <ContentLayout>
-          <ShowContent col={4}>
+          <section className=" col-span-6 flex overflow-x-auto gap-3   sm:col-span-4">
             <TabBar
               tabs={tabs}
               setSearch={setSearch}
               setToggleState={setToggleState}
               toggleState={toggleState}
             />
-          </ShowContent>
-          <ShowContent col={2} placeSelf="end">
+          </section>
+          <section className=" col-span-6 sm:col-span-2 place-self-end flex gap-2">
             <Print
               titleDocument="Items"
               PrintPDF={<TableUsers data={allData} />}
               PrintCSV={allData}
             />
-          </ShowContent>
+          </section>
           <ShowTable gap={6}>
             <TableHeader>
               <div className="order-1">
-                <TitleTable>Data Pengguna</TitleTable>
+                <TitleTable
+                  count={
+                    toggleState === 1
+                      ? allData.length
+                      : toggleState === 2
+                      ? users.length
+                      : toggleState === 3
+                      ? admins.length
+                      : toggleState === 4
+                      ? managers.length
+                      : toggleState === 5
+                      ? dataLoginHistory.length
+                      : 0
+                  }
+                >
+                  Data Pengguna
+                </TitleTable>
               </div>
-              <SearchInput
-                search={search}
-                handleSearchChange={handleSearchChange}
-              />
+              <SearchInput search={search} onChange={handleSearchChange} />
 
               {tabs[4] === "Login History" ? (
                 <button

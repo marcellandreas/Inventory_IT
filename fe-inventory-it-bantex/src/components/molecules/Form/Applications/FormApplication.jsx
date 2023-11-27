@@ -52,6 +52,7 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (formValues.name_pt) {
+        console.log(formValues.name_pt);
         try {
           const res = await AxiosInstance.get(
             `/app/division/${formValues.name_pt}`
@@ -81,16 +82,15 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
         label="Nama PT"
         options={optionsPt}
         name="name_pt"
-        value={formValues.name_pt}
+        value={formValues?.name_pt}
         onChange={handleChangeValue}
       />
       <CustomSelect
         label="Nama Divisi / Bagian"
         options={optionsDiv}
         name="name_division"
-        value={formValues.name_division}
+        value={formValues?.name_division}
         onChange={handleChangeValue}
-        disabled={formValues.name_pt === ""}
       />
 
       <CustomSelect
@@ -106,7 +106,7 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
           )),
         ]}
         name="approved_1"
-        value={formValues.approved_1}
+        value={formValues?.approved_1}
         onChange={handleChangeValue}
       />
       <CustomSelect
@@ -122,7 +122,7 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
           )),
         ]}
         name="approved_2"
-        value={formValues.approved_2}
+        value={formValues?.approved_2}
         onChange={handleChangeValue}
       />
       <CustomSelect
@@ -138,7 +138,7 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
           )),
         ]}
         name="request_type"
-        value={formValues.request_type}
+        value={formValues?.request_type}
         onChange={handleChangeValue}
       />
     </div>

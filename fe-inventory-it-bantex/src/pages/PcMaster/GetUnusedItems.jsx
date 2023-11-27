@@ -7,7 +7,7 @@ import {
 import { TablePcLine } from "../../components/molecules";
 import { useNavigate } from "react-router-dom";
 import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
-import { SearchInput } from "../../components/atoms";
+import { SearchInput, TitleTable } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import {
   useFetchItemsUnusedForPcMaster,
@@ -49,10 +49,8 @@ const GetUnusedItems = () => {
     return (
       <>
         <TableHeader>
-          <SearchInput
-            search={search}
-            handleSearchChange={handleSearchChange}
-          />
+          <TitleTable count={dataPcLine.length}>Data Pc Components</TitleTable>
+          <SearchInput search={search} onChange={handleSearchChange} />
         </TableHeader>
         <TableBody>
           {generateDynamicContent(dataPcLine, tableData, tableComponent)}
@@ -64,7 +62,7 @@ const GetUnusedItems = () => {
   return (
     <MainLayout>
       <ContentLayout>
-        <section className=" col-span-6">
+        <section className="col-span-6">
           <button onClick={backToMenu} className="button h-12 w-12">
             Back
           </button>

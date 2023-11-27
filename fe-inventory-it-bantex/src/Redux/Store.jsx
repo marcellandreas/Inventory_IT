@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import dataState from "./Feature/DataState";
 import dataPc from "./Feature/DataPc";
-import dataDivisionAndPT from "./Feature/DataDivisionAndPT";
+import divPt from "./Feature/DivPtSlice";
 import dataPengajuanBarang from "./Feature/DataPengajuanBarang";
 import userReducer from "./Feature/UserSlice";
 import dataSliceItemReq from "./Feature/ItemsRequest";
@@ -10,18 +10,20 @@ import stockReducer from "./Feature/StockSlice";
 import stockDetailSlice from "./Feature/detailStockslice";
 import pcmasterReducer from "./Feature/DataPcMaster";
 import requestSubmissionSlice from "./Feature/requestSubmissionSlice";
-import moreSettingSlice from "./Feature/moreSettingSlice";
+// import moreSettingSlice from "./Feature/moreSettingSlice";
 import authReducer from "./Feature/AuthSlice";
+import categoriesSlice from "./Feature/categoriesSlice";
 
 export const store = configureStore({
   reducer: {
     reqSub: requestSubmissionSlice,
+    categories: categoriesSlice,
     auth: authReducer,
     dataInventory: dataState,
     dataPc: dataPc,
     pcmaster: pcmasterReducer,
-    dataDivisionAndPT: dataDivisionAndPT,
-    moreSetting: moreSettingSlice,
+    divPt: divPt,
+    // moreSetting: moreSettingSlice,
     dataPengajuanBarang: dataPengajuanBarang,
     users: userReducer,
     dataSliceItemReq: dataSliceItemReq,

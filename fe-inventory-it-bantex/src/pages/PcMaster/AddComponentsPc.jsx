@@ -6,7 +6,7 @@ import TablePcLineAdd from "../../components/molecules/Table/TablePcLineAdd";
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { TableBody, TableHeader } from "../../components/organisms";
-import { SearchInput } from "../../components/atoms";
+import { SearchInput, TitleTable } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import { createPcLine } from "../../Redux/Feature/DataPcMaster";
 import { useFetchItemsUnusedForPcMaster } from "../../config/GetData";
@@ -112,8 +112,11 @@ const AddComponentsPC = () => {
             )}
           </section>
 
-          <section className="w-[82vw] bg-slate-400 backdrop-blur-md rounded-3xl col-span-6">
+          <section className="w-full cards backdrop-blur-md rounded-3xl col-span-6">
             <TableHeader>
+              <TitleTable count={dataUnused.length}>
+                Tambah Component{" "}
+              </TitleTable>
               <SearchInput
                 search={search}
                 handleSearchChange={handleSearchChange}

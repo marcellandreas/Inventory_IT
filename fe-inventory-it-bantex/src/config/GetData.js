@@ -1,9 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCategories,
-  fetchStockByNo,
-  fetchStocks,
-} from "../Redux/Feature/StockSlice";
+import { fetchStockByNo, fetchStocks } from "../Redux/Feature/StockSlice";
 import { fetchItemById, fetchItems } from "../Redux/Feature/ItemsSlice";
 import { useEffect } from "react";
 import { fetchUserData } from "../Redux/Feature/UserSlice";
@@ -18,17 +14,17 @@ import {
   fechtPcLineData,
   fetchItemsUnusedForPcMaster,
 } from "../Redux/Feature/DataPcMaster";
-import { fetchNamePt } from "../Redux/Feature/moreSettingSlice";
-
-// categories
-export function useFetchCategories() {
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.stocks.categories);
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
-  return categories;
-}
+import {
+  fetchDivision,
+  fetchDivisionId,
+  fetchPt,
+  fetchPtId,
+} from "../Redux/Feature/DivPtSlice";
+import {
+  fetchCategories,
+  fetchCategoriesId,
+  fetchDataCategories,
+} from "../Redux/Feature/categoriesSlice";
 
 // Items
 export function useFetchItems() {
@@ -148,11 +144,71 @@ export function useFetchPcLineData() {
   return data;
 }
 
-export function useFetchNamePt() {
+export function useFetchPt() {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.moreSetting.data);
+  const data = useSelector((state) => state.divPt.dataPt);
   useEffect(() => {
-    dispatch(fetchNamePt());
+    dispatch(fetchPt());
   }, [dispatch]);
+  return data;
+}
+
+export function useFetchPtId(id) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.divPt.dataPtId);
+  useEffect(() => {
+    dispatch(fetchPtId(id));
+  }, [id]);
+  return data;
+}
+
+// ============================================================================ //
+
+export function useFetchDivision(namePt) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.divPt.dataDivision);
+  useEffect(() => {
+    dispatch(fetchDivision(namePt));
+  }, [namePt]);
+  return data;
+}
+
+export function useFetchDivisionId(id) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.divPt.dataDivisionId);
+  useEffect(() => {
+    dispatch(fetchDivisionId(id));
+  }, [id]);
+  return data;
+}
+
+// ============================================================================ //
+
+// categories
+export function useFetchCategories() {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories.categories);
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+  return categories;
+}
+
+export function useFetchDataCategories() {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.categories.data);
+  useEffect(() => {
+    dispatch(fetchDataCategories());
+  }, [dispatch]);
+  return data;
+}
+
+// categories id
+export function useFetchCategoriesId(id) {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.categories.categoriesId);
+  useEffect(() => {
+    dispatch(fetchCategoriesId(id));
+  }, [id]);
   return data;
 }

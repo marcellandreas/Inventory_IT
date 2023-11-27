@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCategories, fetchStocks } from "../Redux/Feature/StockSlice";
+import { fetchStocks } from "../Redux/Feature/StockSlice";
 import { useEffect } from "react";
+import { fetchCategories } from "../Redux/Feature/categoriesSlice";
 export function useHelpersFormData() {
-  const categories = useSelector((state) => state.stocks.categories);
+  const categories = useSelector((state) => state.categories.categories);
   const stockData = useSelector((state) => state.stocks.data);
   const dispatch = useDispatch();
 

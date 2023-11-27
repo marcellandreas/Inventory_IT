@@ -10,16 +10,7 @@ import {
 import React from "react";
 import { BsChevronDoubleRight } from "react-icons/bs";
 
-const Navbar = ({
-  handleLogout,
-  role,
-  isMobile,
-  setIsMobile,
-  isMobileOpen,
-  setIsMobileOpen,
-  openMob,
-  setOpenMob,
-}) => {
+const Navbar = ({ handleLogout, role, openMob, setOpenMob }) => {
   return (
     <section className=" min-h-screen">
       <div
@@ -51,10 +42,8 @@ const Navbar = ({
             {menuSidebar
               ?.filter((menu) => {
                 if (role == 1) {
-                  // Jika peran adalah 1, tampilkan semua menu
                   return true;
                 } else if (role == 2) {
-                  // Jika peran adalah 2, tampilkan hanya Dashboard dan Form Pengajuan
                   return (
                     menu.path === "/" ||
                     menu.path === "/form-pengajuan" ||

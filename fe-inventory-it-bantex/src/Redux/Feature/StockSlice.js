@@ -29,19 +29,6 @@ export const fetchStockByNo = createAsyncThunk(
   }
 );
 
-export const fetchCategories = createAsyncThunk(
-  "categories/fetchCategories",
-  async () => {
-    try {
-      const response = await AxiosInstance.get("/categories");
-      const categories = response.data.map((item) => item.category);
-      return categories;
-    } catch (error) {
-      throw error;
-    }
-  }
-);
-
 // Post Method
 export const createStock = createAsyncThunk(
   "stock/createStock",
@@ -106,7 +93,6 @@ const stockSlice = createSlice({
     data: [],
     dataGetStockNo: [],
     databyStockNo: {},
-    categories: [],
     dataStockById: {},
     isLoading: false,
     error: null,
@@ -155,19 +141,7 @@ const stockSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
       })
-      .addCase(fetchCategories.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.categories = action.payload;
-        state.error = null;
-      })
-      .addCase(fetchCategories.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
+
       // POST
       .addCase(createStock.pending, (state) => {
         state.isLoading = true;

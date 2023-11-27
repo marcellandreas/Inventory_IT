@@ -38,7 +38,7 @@ const PersonalComputer = () => {
   return (
     <MainLayout>
       <ContentLayout>
-        <section className="col-span-6 h-screen   relative">
+        <section className="col-span-6 h-screen  relative">
           <img
             src={imgPc}
             style={{ backgroundAttachment: "fixed" }}
@@ -161,10 +161,7 @@ const PersonalComputer = () => {
             <div className="mt-[50vh] sm:mt-[40vh] md:mt-[20vh] overflow-x-auto  col-span-5 border border-y-black cards p-3 ">
               <div className=" flex justify-between mb-3">
                 <Title>komponen Pc</Title>
-                <SearchInput
-                  search={search}
-                  handleSearchChange={handleSearchChange}
-                />
+                <SearchInput search={search} onChange={handleSearchChange} />
               </div>
               <div className=" overflow-scroll overflow-x-auto personal__computer">
                 {generateDynamicContent(

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SearchInput } from "../../components/atoms";
+import { SearchInput, TitleTable } from "../../components/atoms";
 import {
   TableStocks,
   Loading,
@@ -53,10 +53,8 @@ const StockPage = () => {
               </section>
               <ShowTable gap={6}>
                 <TableHeader>
-                  <SearchInput
-                    search={search}
-                    handleSearchChange={handleSearchChange}
-                  />
+                  <TitleTable count={dataStock.length}>Data Stocks</TitleTable>
+                  <SearchInput search={search} onChange={handleSearchChange} />
                 </TableHeader>
                 <TableBody>
                   {generateDynamicContent(

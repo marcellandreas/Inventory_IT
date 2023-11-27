@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CSVLink } from "react-csv";
+import { MdLocalPrintshop } from "react-icons/md";
 import { useReactToPrint } from "react-to-print";
 
 const Print = ({ titleDocument, PrintPDF, PrintCSV }) => {
@@ -20,10 +21,12 @@ const Print = ({ titleDocument, PrintPDF, PrintCSV }) => {
         {PrintPDF}
       </div>
       <button onClick={handlePrint} className="button">
-        Print PDF
+        <MdLocalPrintshop /> <span>PDF</span>
       </button>
       <button className="button ">
-        <CSVLink data={PrintCSV}>Print CSV</CSVLink>
+        <CSVLink data={PrintCSV} className=" flex items-center gap-1">
+          <MdLocalPrintshop /> <span>CSV</span>
+        </CSVLink>
       </button>
     </>
   );

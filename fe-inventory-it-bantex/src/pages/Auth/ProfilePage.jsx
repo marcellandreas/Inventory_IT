@@ -121,7 +121,6 @@ const ProfilePage = () => {
                       label="Email"
                       type="email"
                       name="email"
-                      // className="col-span-3 md:col-span-1"
                       placeholder="Enter Your New Email Location"
                       value={userData.email}
                       onChange={handleChangeValue}
