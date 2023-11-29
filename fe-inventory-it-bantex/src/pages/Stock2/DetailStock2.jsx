@@ -194,7 +194,7 @@ const DetailStock2 = () => {
                           {data.brand || "-"}
                         </span>
                       </div>
-                      <div className="w-40 ">
+                      <div className="w-60 ">
                         <p className=" text-gray-500 font-semibold">Info</p>
                         <span className=" font-semibold text-slate-800">
                           {data.additional_info || "-"}

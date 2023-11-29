@@ -34,7 +34,8 @@ exports.getAllDetailStock = (req, res) => {
 };
 
 exports.getDetailStockQtyAboveOne = (req, res) => {
-  detailStockModel.getDetailStockQtyAboveOne((error, results) => {
+  const { stockNo } = req.params;
+  detailStockModel.getDetailStockQtyAboveOne(stockNo, (error, results) => {
     if (error) {
       sendErrorRes(res, 500, "Server Error", error);
     } else {

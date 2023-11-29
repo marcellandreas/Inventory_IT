@@ -7,6 +7,7 @@ import {
   updateUserData,
 } from "../../../../Redux/Feature/UserSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const FormAddUser = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -247,15 +248,15 @@ const FormEditUser = ({ onClose, id }) => {
       return;
     }
 
-    dispatch(updateUserData({ id, data }))
+    dispatch(updateUserData({ id, data, dispatch }))
       .unwrap()
       .then((res) => {
         onClose();
-        alert(res.message);
-        dispatch(fetchUserData());
+        toast.success(`🦄 ${res.message} `);
       })
       .catch((err) => {
-        alert(err.message);
+        onClose();
+        toast.error(err.message);
       });
   };
 

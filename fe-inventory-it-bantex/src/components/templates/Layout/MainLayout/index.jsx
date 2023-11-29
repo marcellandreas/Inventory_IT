@@ -4,6 +4,7 @@ import Topbar from "../../../organisms/Topbar";
 import { signOut } from "../../../../config/Auth";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
+import Alert from "../../../organisms/Alert";
 
 const MainLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const MainLayout = ({ children }) => {
           </section>
         </section>
       ) : (
-        <section className="flex bg-slate-400 ">
+        <section className="flex bg-slate-400 max-h-screen ">
           <SideBar
             handleLogout={handleLogout}
             role={role}
@@ -64,6 +65,7 @@ const MainLayout = ({ children }) => {
           />
           <section className="flex flex-col w-full pt-5 bg-slate-400 ">
             <Topbar />
+            <Alert />
             <div className="min-h-[80vh]  overflow-hidden py-5 overflow-y-auto">
               {children}
             </div>

@@ -1,6 +1,9 @@
 // ==== === === === === === === === Dashboard Pages === === ==== === === === === === //
 export { default as Dashboard } from "./Dashboard";
 
+// ==== === === === === === === === Set Ups Pages === === ==== === === === === === //
+export { default as Setup } from "./Setup";
+
 // ==== === === === === === === === Auth Pages === === ==== === === === === === //
 export { default as Login } from "./Auth/LoginPage";
 export { default as Register } from "./Auth/RegisterPage";

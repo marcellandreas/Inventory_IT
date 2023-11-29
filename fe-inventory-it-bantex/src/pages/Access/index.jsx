@@ -29,7 +29,6 @@ import {
 import TabBar from "@TabBar";
 import { MdAddCircleOutline } from "react-icons/md";
 import "./style.css";
-
 const AccesPage = () => {
   const [toggleState, setToggleState] = useState(1);
   const [id, setId] = useState("");

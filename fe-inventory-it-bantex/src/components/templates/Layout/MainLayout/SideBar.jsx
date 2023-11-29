@@ -45,7 +45,7 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
           />
         </div>
       </div>
-      <div className="mt-4 flex flex-col gap-4 relative">
+      <div className="mt-4 flex flex-col gap-3 relative">
         {menuSidebar
           ?.filter((menu) => {
             if (role == 1 || role == 3) {

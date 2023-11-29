@@ -90,18 +90,18 @@ const Routers = () => {
           </Route>
 
           <Route path="/employess">
-            <Route index element={<AccesPage />}></Route>
+            <Route index element={<AccesPage />} />
           </Route>
 
           <Route path="/setup">
-            <Route index element={<SetUp />}></Route>
+            <Route index element={<SetUp />} />
           </Route>
 
           <Route path="/barcode">
-            <Route index element={<BarcodePrinterPage />}></Route>
+            <Route index element={<BarcodePrinterPage />} />
           </Route>
           <Route path="/qrcode">
-            <Route index element={<QrcodePrinterPage />}></Route>
+            <Route index element={<QrcodePrinterPage />} />
           </Route>
         </Route>
       </Routes>

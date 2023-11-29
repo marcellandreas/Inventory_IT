@@ -1,4 +1,4 @@
-import { MdDashboard, MdWarehouse, MdPeople } from "react-icons/md";
+import { MdDashboard, MdWarehouse, MdPeople, MdSettings } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
 import { HiDocument } from "react-icons/hi";
 import { ImBooks } from "react-icons/im";
@@ -42,6 +42,11 @@ export const menuSidebar = [
     path: "/employess",
     name_menu: "Employees",
     icon: MdPeople,
+  },
+  {
+    path: "/setup",
+    name_menu: "Set Up",
+    icon: MdSettings,
   },
   {
     path: "/profile",

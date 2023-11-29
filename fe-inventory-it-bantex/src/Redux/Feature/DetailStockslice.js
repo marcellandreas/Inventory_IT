@@ -4,6 +4,7 @@ import { AxiosInstance } from "../../apis/api";
 const initialState = {
   data: [],
   dataDetailStockNo: [],
+  dataDetailStockNoAbove1: [],
   dataDetailId: null,
   isLoading: false,
   error: null,
@@ -24,6 +25,19 @@ export const fetchStockDetails = createAsyncThunk(
   async (stockNo) => {
     try {
       const response = await AxiosInstance.get(`det-stock/no/${stockNo}`);
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// Get All Data Detail Stock by No stock
+export const fetchQtyStockAboveOne = createAsyncThunk(
+  "stock/fetchQtyStockAboveOne",
+  async (stockNo) => {
+    try {
+      const response = await AxiosInstance.get(`det-stock/qty/${stockNo}`);
       return response.data.data;
     } catch (error) {
       throw error;
@@ -132,6 +146,18 @@ const stockSlice = createSlice({
         state.dataDetailId = action.payload;
       })
       .addCase(fetchStockDetailsByid.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      // fecth Stock Detail Above 1
+      .addCase(fetchQtyStockAboveOne.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchQtyStockAboveOne.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.dataDetailStockNoAbove1 = action.payload;
+      })
+      .addCase(fetchQtyStockAboveOne.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       })

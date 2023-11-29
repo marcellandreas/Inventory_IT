@@ -17,6 +17,7 @@ import {
   CustomInput2,
   CustomRadioGroup,
   CustomTextArea2,
+  H5,
   TitleTable,
 } from "../../atoms";
 import { TableHeader, ShowModal } from "../../organisms";
@@ -144,91 +145,99 @@ const DataPc = () => {
               </div>
             </TableHeader>
             {/* Data */}
-            <section className="grid  grid-flow-dense gap-2  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-3 max-h-[216px] overflow-hidden overflow-y-auto">
-              <div className="gap-2 flex flex-col w-full">
-                <label className="min-w-[140px]">Kode Pc</label>
-                <div className="flex justify-end items-end gap-2">
-                  <select
-                    className="w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm h-8"
-                    onChange={handleChange}
-                    name="pc_no"
-                  >
-                    {options}
-                  </select>
-                  <NavLink
-                    to={`detail`}
-                    className="detail_all_pc_master"
-                    onClick={handleNavLinkClick}
-                  >
-                    ...
-                  </NavLink>
+            {dataPcMaster == 0 ? (
+              <section className=" min-h-[30vh] flex justify-center items-center font-normal">
+                <H5>Tidak ada Pc Master</H5>
+              </section>
+            ) : (
+              <section className="grid  grid-flow-dense gap-2  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-3 max-h-[216px] overflow-hidden overflow-y-auto">
+                <div className="gap-2 flex flex-col w-full">
+                  <label className="min-w-[140px]">Kode Pc</label>
+                  <div className="flex justify-end items-end gap-2">
+                    <select
+                      className="w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm h-8"
+                      onChange={handleChange}
+                      name="pc_no"
+                    >
+                      {options}
+                    </select>
+                    <NavLink
+                      to={`detail`}
+                      className="detail_all_pc_master"
+                      onClick={handleNavLinkClick}
+                    >
+                      ...
+                    </NavLink>
+                  </div>
                 </div>
-              </div>
-              <CustomInput2
-                label="Deskripsi"
-                value={formValues.pc_description}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Satuan"
-                value={formValues.unit}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Kategori"
-                value={formValues.category}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Lokasi Pc"
-                value={formValues.pc_location}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Lokasi Pc"
-                value={formValues.pc_location}
-                readOnly={true}
-              />
-              <CustomRadioGroup
-                label="status"
-                options={[
-                  { value: "used", label: "used" },
-                  { value: "new", label: "Baru" },
-                  { value: "reused", label: "Reused" },
-                ]}
-                value={formValues.status}
-              />
-              <CustomInput2
-                label="Tanggal Registrasi"
-                value={formValues.date_registration || "-"}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Tanggal Exp (Rusak)"
-                value={`${showFormattedDate(formValues.date_expired) || "-"} `}
-                readOnly={true}
-              />
-              <CustomTextArea2
-                label="Catatan (jika ada)"
-                value={formValues.note}
-                readOnly
-              />
-              <CustomInput2
-                label="Spesifikasi"
-                value={formValues.pc_spectification}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Created at:"
-                value={`${showFormattedDate(formValues.post_date)}`}
-                readOnly={true}
-              />
-              <CustomInput2
-                label="Created at:"
-                value={formValues.post_username}
-                readOnly={true}
-              />
-            </section>
+                <CustomInput2
+                  label="Deskripsi"
+                  value={formValues.pc_description}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Satuan"
+                  value={formValues.unit}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Kategori"
+                  value={formValues.category}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Lokasi Pc"
+                  value={formValues.pc_location}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Lokasi Pc"
+                  value={formValues.pc_location}
+                  readOnly={true}
+                />
+                <CustomRadioGroup
+                  label="status"
+                  options={[
+                    { value: "used", label: "used" },
+                    { value: "new", label: "Baru" },
+                    { value: "reused", label: "Reused" },
+                  ]}
+                  value={formValues.status}
+                />
+                <CustomInput2
+                  label="Tanggal Registrasi"
+                  value={formValues.date_registration || "-"}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Tanggal Exp (Rusak)"
+                  value={`${
+                    showFormattedDate(formValues.date_expired) || "-"
+                  } `}
+                  readOnly={true}
+                />
+                <CustomTextArea2
+                  label="Catatan (jika ada)"
+                  value={formValues.note}
+                  readOnly
+                />
+                <CustomInput2
+                  label="Spesifikasi"
+                  value={formValues.pc_spectification}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Created at:"
+                  value={`${showFormattedDate(formValues.post_date)}`}
+                  readOnly={true}
+                />
+                <CustomInput2
+                  label="Created at:"
+                  value={formValues.post_username}
+                  readOnly={true}
+                />
+              </section>
+            )}
           </section>
           <DataComponentsPc
             dataPcComponent={dataPcComponent}

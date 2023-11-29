@@ -2,6 +2,7 @@ import { MdAdd, MdArrowLeft, MdDelete, MdEdit } from "react-icons/md";
 import {
   CustomInput2,
   CustomSelect2,
+  SearchInput,
   TableContent,
   Tbody,
   Thead,
@@ -26,6 +27,8 @@ import {
   fetchPt,
 } from "../../Redux/Feature/DivPtSlice";
 import { fetchDataCategories } from "../../Redux/Feature/categoriesSlice";
+import { filterDataBySearch } from "../../helpers";
+import { toast } from "react-toastify";
 
 const SetUp = () => {
   const dispatch = useDispatch();
@@ -56,12 +59,13 @@ const SetUp = () => {
     }
   }, [dataPt]);
   const [idDivision, setIdDivision] = useState(null);
-  const division = useSelector((state) => state.divPt.dataDivision);
+
   const dataDivisionId = useSelector((state) => state.divPt.dataDivisionId);
   const [formValuesDiv, setFormValuesDiv] = useState({
     name_pt: "",
     name_division: "",
   });
+  console.log(formValuesDiv);
   useEffect(() => {
     const getDataDivision = async () => {
       if (initialCardState.showCardDivEdit === true || idDivision !== null) {
@@ -73,6 +77,8 @@ const SetUp = () => {
     };
     getDataDivision();
   }, [idDivision]);
+  const division = useSelector((state) => state.divPt.dataDivision);
+  console.log(division);
   useEffect(() => {
     setFormValuesDiv((prevFormValuesDiv) => ({
       ...prevFormValuesDiv,
@@ -102,6 +108,7 @@ const SetUp = () => {
       .then((res) => {
         alert("berhasil");
         dispatch(fetchDataCategories());
+        setCategory("");
       })
       .catch((err) => console.log(err));
   };
@@ -164,7 +171,7 @@ const SetUp = () => {
   const onSubmitDIv = () => {
     AxiosInstance.post("/app/division", formValuesDiv)
       .then((res) => {
-        alert("berhasil");
+        toast.success(res.data.message);
         dispatch(fetchDivision(dataChangePt));
       })
       .catch((err) => console.log(err));
@@ -185,6 +192,13 @@ const SetUp = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  const [search, setSearch] = useState("");
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredDataCategories = filterDataBySearch(dataCategories, search);
   console.log(formValuesDiv);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const isCardVisible =
@@ -207,7 +221,7 @@ const SetUp = () => {
           <section
             className={`col-span-12 sm:col-span-${isCardVisible ? "6" : "12"}`}
           >
-            <Title>Set up</Title>
+            <Title>Settings</Title>
           </section>
           {cardState.showCard && (
             <div className={styleShowCard}>
@@ -216,7 +230,7 @@ const SetUp = () => {
                 <CustomInput2
                   type="text"
                   placeholder="Masukan Nama Categories"
-                  className="flex-1"
+                  className="flex-1 capitalize"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 />
@@ -489,9 +503,11 @@ const SetUp = () => {
           )}
           <section className="col-span-12 max-h-[60vh] sm:max-h-[80vh] sm:col-span-4 cards p-2">
             <TableHeader>
-              <TitleTable>Categories</TitleTable>
+              <TitleTable count={dataCategories.length}>Categories</TitleTable>
+              <SearchInput search={search} onChange={handleSearchChange} />
+
               <button
-                className="button"
+                className="button order-2"
                 onClick={() =>
                   setCardState({
                     ...initialCardState,
@@ -509,7 +525,7 @@ const SetUp = () => {
                   <th>Name Categories</th>
                   <th>Actions</th>
                 </Thead>
-                {dataCategories.map((data, i) => {
+                {filteredDataCategories.map((data, i) => {
                   return (
                     <Tbody key={i}>
                       <tr>
@@ -649,43 +665,49 @@ const SetUp = () => {
                   <th>Name Division</th>
                   <th>Actions</th>
                 </Thead>
-                {division?.map((data, i) => {
-                  return (
-                    <Tbody key={i}>
-                      <tr>
-                        <td className="border">{`${i + 1}.`}</td>
-                        {/* <td className=" border ">{data.name_pt}</td> */}
-                        <td className=" border ">{data.name_division}</td>
-                        <td className="border  flex gap-1 place-content-center">
-                          <button
-                            className=" button_edit"
-                            onClick={() => {
-                              setIdDivision(data.id_division);
-                              setCardState({
-                                ...initialCardState,
-                                showCardDivEdit: !cardState.showCardDivEdit,
-                              });
-                            }}
-                          >
-                            <MdEdit />
-                          </button>
-                          <button
-                            className="button_delete"
-                            onClick={() => {
-                              setIdDivision(data.id_division);
-                              setCardState({
-                                ...initialCardState,
-                                showCardDivDel: !cardState.showCardDel,
-                              });
-                            }}
-                          >
-                            <MdDelete />
-                          </button>
-                        </td>
-                      </tr>
-                    </Tbody>
-                  );
-                })}
+                {division.length === 0 || division === null ? (
+                  <p>data kosong</p>
+                ) : (
+                  <>
+                    {division.map((data, i) => {
+                      return (
+                        <Tbody key={i}>
+                          <tr>
+                            <td className="border">{`${i + 1}.`}</td>
+                            {/* <td className=" border ">{data.name_pt}</td> */}
+                            <td className=" border ">{data.name_division}</td>
+                            <td className="border  flex gap-1 place-content-center">
+                              <button
+                                className=" button_edit"
+                                onClick={() => {
+                                  setIdDivision(data.id_division);
+                                  setCardState({
+                                    ...initialCardState,
+                                    showCardDivEdit: !cardState.showCardDivEdit,
+                                  });
+                                }}
+                              >
+                                <MdEdit />
+                              </button>
+                              <button
+                                className="button_delete"
+                                onClick={() => {
+                                  setIdDivision(data.id_division);
+                                  setCardState({
+                                    ...initialCardState,
+                                    showCardDivDel: !cardState.showCardDel,
+                                  });
+                                }}
+                              >
+                                <MdDelete />
+                              </button>
+                            </td>
+                          </tr>
+                        </Tbody>
+                      );
+                    })}
+                  </>
+                )}
               </TableContent>
             </TableBody>
           </section>

@@ -6,6 +6,7 @@ import { fetchUserData } from "../Redux/Feature/UserSlice";
 import { fetchAllData } from "../Redux/Feature/ItemsRequest";
 import {
   fetchDetailStock,
+  fetchQtyStockAboveOne,
   fetchStockDetails,
   fetchStockDetailsByid,
 } from "../Redux/Feature/detailStockslice";
@@ -90,6 +91,16 @@ export function useFecthStockDetailsById(idDetailStock) {
   useEffect(() => {
     dispatch(fetchStockDetailsByid(idDetailStock));
   }, [dispatch, idDetailStock]);
+  return data;
+}
+export function useFecthQtyStockAvobeOne(stockNo) {
+  const dispatch = useDispatch();
+  const data = useSelector(
+    (state) => state.detailStock.dataDetailStockNoAbove1
+  );
+  useEffect(() => {
+    dispatch(fetchQtyStockAboveOne(stockNo));
+  }, [dispatch, stockNo]);
   return data;
 }
 

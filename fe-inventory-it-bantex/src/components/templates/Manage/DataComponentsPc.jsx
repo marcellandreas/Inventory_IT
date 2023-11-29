@@ -7,7 +7,7 @@ import {
   MdDelete,
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
-import { TitleTable } from "../../atoms";
+import { H5, Title, TitleTable } from "../../atoms";
 import { ShowTable, TableBody, TableHeader, ShowModal } from "../../organisms";
 
 const DataComponentsPc = ({
@@ -23,8 +23,8 @@ const DataComponentsPc = ({
   return (
     <>
       {dataPcComponent.length === 0 ? (
-        <section className="w-full cards backdrop-blur-md rounded-xl flex justify-center items-center flex-col">
-          <TitleTable>Belum ada komponen</TitleTable>
+        <section className="w-full cards p-5 min-h-[30vh] backdrop-blur-md rounded-xl flex justify-center items-center flex-col">
+          <H5>Belum ada komponen</H5>
           <div className="flex gap-2">
             <NavLink to={`add-components?pc_no=${pcno}`} className="button">
               Tambah Komponen

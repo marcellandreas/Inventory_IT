@@ -5,10 +5,6 @@ import {
   setDataItemsReq,
   setLoadingPengajuan,
 } from "../../../Redux/Feature/DataPengajuanBarang";
-// import {
-//   setDataPt,
-//   setLoadingDivPt,
-// } from "../../../Redux/Feature/DataDivisionAndPT";
 import { ShowTable, TableBody, TableHeader } from "../../organisms";
 import TableApplicationsForm from "../../molecules/Table/TableApplicationsForm";
 import generateDynamicContent from "../GenerateDynamicContent";

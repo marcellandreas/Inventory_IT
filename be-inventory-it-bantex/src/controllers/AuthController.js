@@ -135,7 +135,7 @@ exports.editUser = async (req, res) => {
           return res.status(500).json({ error: error.message });
         } else {
           res.status(200).json({
-            message: "User updated successfully",
+            message: "User updated successfullya",
             data: {
               id_user,
               username,

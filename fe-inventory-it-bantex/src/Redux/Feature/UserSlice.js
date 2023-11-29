@@ -32,10 +32,10 @@ export const fetchLoginHistory = createAsyncThunk(
 
 export const updateUserData = createAsyncThunk(
   "user/updateUserData",
-  async ({ id, data }) => {
+  async ({ id, data, dispatch }) => {
     try {
       const response = await AxiosInstance.put(`/auth/user/${id}`, data);
-      console.log(response);
+      dispatch(fetchUserData());
       return response.data;
     } catch (error) {
       console.log(error);

@@ -58,9 +58,9 @@ class StocksModel {
   }
 
   //  metode mengambil data detail stock di atas qty 1
-  getDetailStockQtyAboveOne(callback) {
-    const query = `SELECT * FROM detail_stock WHERE qty >= 1;`;
-    this.connection.query(query, (error, results) => {
+  getDetailStockQtyAboveOne(stockNo, callback) {
+    const query = `SELECT * FROM detail_stock WHERE qty > 0 AND stock_no = ?;`;
+    this.connection.query(query, [stockNo], (error, results) => {
       callback(error, results);
     });
   }

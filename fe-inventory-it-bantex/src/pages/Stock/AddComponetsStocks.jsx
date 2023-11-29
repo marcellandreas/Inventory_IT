@@ -35,6 +35,8 @@ const AddComponentsStocks = () => {
     post_username: username,
   });
 
+  console.log(formValues);
+
   const navigate = useNavigate();
   const backToMenu = () => {
     navigate(-1);

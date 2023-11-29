@@ -4,6 +4,7 @@ import App from "./App.jsx";
 import "./assets/styles/index.css";
 import "./assets/styles/table.css";
 import "./assets/styles/modal.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import { store } from "./Redux/Store.jsx";
 

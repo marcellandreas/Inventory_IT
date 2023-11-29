@@ -8,6 +8,7 @@ import { createItem } from "../../../../Redux/Feature/ItemsSlice";
 import { updateMultipleDetails } from "../../../../Redux/Feature/detailStockslice";
 import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
 import {
+  useFecthQtyStockAvobeOne,
   useFecthStockDetailsById,
   useFetchStockDetailsByStockNo,
 } from "../../../../config/GetData";
@@ -43,7 +44,7 @@ const FormTakeModalItem = ({ onClose }) => {
 
   // Get detail Stock Data by No
   const [detStockData, setDetStockData] = useState([]);
-  const stockDetails = useFetchStockDetailsByStockNo(formValues.stock_no);
+  const stockDetails = useFecthQtyStockAvobeOne(formValues.stock_no);
   useEffect(() => {
     if (formValues.stock_no) {
       if (stockDetails) {

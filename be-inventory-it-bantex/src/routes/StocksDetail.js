@@ -7,7 +7,7 @@ router.use(verifyAccessToken);
 router.get("/", StocksDetail.getAllDetailStock);
 router.get("/id/:id", StocksDetail.getDetailStockById);
 router.get("/no/:stockNo", StocksDetail.getDetailStockByStockNo);
-router.get("/qty/", StocksDetail.getDetailStockQtyAboveOne);
+router.get("/qty/:stockNo", StocksDetail.getDetailStockQtyAboveOne);
 // create
 router.post("/", StocksDetail.createDetailStock);
 // edit by id
