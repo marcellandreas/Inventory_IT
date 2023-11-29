@@ -7,7 +7,7 @@ import {
 import { TablePcLine } from "../../components/molecules";
 import { useNavigate } from "react-router-dom";
 import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
-import { SearchInput, TitleTable } from "../../components/atoms";
+import { BackButton, SearchInput, TitleTable } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import {
   useFetchItemsUnusedForPcMaster,
@@ -63,9 +63,7 @@ const GetUnusedItems = () => {
     <MainLayout>
       <ContentLayout>
         <section className="col-span-6">
-          <button onClick={backToMenu} className="button h-12 w-12">
-            Back
-          </button>
+          <BackButton onClick={backToMenu} />
         </section>
         <section className="flex gap-3 col-span-6">
           <TabBar

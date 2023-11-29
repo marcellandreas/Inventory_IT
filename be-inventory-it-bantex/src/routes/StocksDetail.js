@@ -1,22 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const detailStockController = require("../controllers/Stocksdetail");
+const StocksDetail = require("../controllers/Stocksdetail");
 const { verifyAccessToken } = require("../middleware/Verify-jwt.js");
 
 router.use(verifyAccessToken);
-router.get("/", detailStockController.getAllDetailStock);
-router.get("/id/:id", detailStockController.getDetailStockById);
-router.get("/no/:stockNo", detailStockController.getDetailStockByStockNo);
-router.get("/qty/", detailStockController.getDetailStockQtyAboveOne);
+router.get("/", StocksDetail.getAllDetailStock);
+router.get("/id/:id", StocksDetail.getDetailStockById);
+router.get("/no/:stockNo", StocksDetail.getDetailStockByStockNo);
+router.get("/qty/", StocksDetail.getDetailStockQtyAboveOne);
 // create
-router.post("/", detailStockController.createDetailStock);
+router.post("/", StocksDetail.createDetailStock);
 // edit by id
-router.put("/id/:id", detailStockController.updateDetailStockById);
+router.put("/id/:id", StocksDetail.updateDetailStockById);
 // hapus
-router.delete("/:id", detailStockController.deleteDetailStock);
+router.delete("/:id", StocksDetail.deleteDetailStock);
 // pengurangan stock
-router.put("/update-multiple", detailStockController.updateMultipleDetailStock);
+router.put("/update-multiple", StocksDetail.updateMultipleDetailStock);
 // penambahan stock
-router.put("/update-plus", detailStockController.updatePlusDetailStock);
+router.put("/update-plus", StocksDetail.updatePlusDetailStock);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-// controllers/formRequestController.js
 const requestSubmissionModels = require("../models/requestSubmission");
 const dbConfig = {
   host: "localhost",
@@ -6,31 +5,31 @@ const dbConfig = {
   password: "",
   database: "inventory_it",
 };
-// Buat instance requestSubmissionModels
+
+const { sendErrorRes, sendSuccessRes } = require("../helpers/response");
+
 const requestSubmission = new requestSubmissionModels(dbConfig);
 
-// Mendapatkan semua data form request
 exports.getAllData = (req, res) => {
   requestSubmission.getAllData((error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pengajuan", error);
+    } else if (results && results.length > 0) {
+      sendSuccessRes(res, 200, "Berhasil Mengambil Data Pengajuan", results);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Form Request",
-        data: results,
-      });
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
     }
   });
 };
+
 exports.getDataPostDateNew = (req, res) => {
   requestSubmission.getDataPostDateNew((error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pengajuan", error);
+    } else if (results && results.length > 0) {
+      sendSuccessRes(res, 200, `Berhasil Mengambil Data Pengajuan`, results);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Terbaru ",
-        data: results,
-      });
+      sendSuccessRes(res, 404, "Tidak Menemukan Data");
     }
   });
 };
@@ -39,77 +38,13 @@ exports.getReqSubById = (req, res) => {
   const { id } = req.params;
   requestSubmission.getReqSubById(id, (error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pengajuan ID", error);
     } else if (!data) {
-      res.status(404).json({
-        message: `Pengajuan atau Penerimaan tidak ditemukan dengan id: ${id}`,
-      });
+      sendSuccessRes(res, 404, `Tidak Menemukan Data id :${id}`);
     } else {
       res.status(200).json({ data });
     }
   });
-};
-
-// Membuat form request baru
-// exports.createFormRequest = (req, res) => {
-//   const formData = req.body; // Ambil data dari permintaan HTTP
-//   requestSubmission.createFormRequest(formData, (error, results) => {
-//     if (error) {
-//       res.status(500).json({ message: "Server Error", serverMessage: error });
-//     } else {
-//       res
-//         .status(201)
-//         .json({ message: "Form Request berhasil dibuat", data: results });
-//     }
-//   });
-// };
-
-const getFormattedDate = (req, res) => {
-  const currentDate = new Date();
-  const month = currentDate.getMonth() + 1; // Membuat bulan dimulai dari 1
-  const year = currentDate.getFullYear();
-  return `${year}-${String(month).padStart(2, "0")}`;
-};
-
-let currentMonth = "";
-let currentCounter = 0;
-
-exports.createFormRequest = async (req, res) => {
-  const { body } = req;
-
-  try {
-    // Periksa apakah bulan saat ini berbeda dengan yang sebelumnya
-    const currentDate = getFormattedDate();
-    if (currentDate !== currentMonth) {
-      // Jika bulan berbeda, reset nomor urut ke 001
-      currentMonth = currentDate;
-      currentCounter = 1;
-    } else {
-      // Jika masih di bulan yang sama, tingkatkan nomor urut
-      currentCounter += 1;
-    }
-
-    // Format nomor urut dengan 3 digit (001, 002, dst.)
-    const formattedCounter = String(currentCounter).padStart(3, "0");
-    const noPengajuan = `IT-${currentDate}-${formattedCounter}`;
-
-    // Simpan nomor pengajuan ke dalam data pengajuan
-    body.no_pengajuan = noPengajuan;
-
-    await requestSubmission.createFormRequest(body);
-
-    res.json({
-      message: "Berhasil Membuat Data Barang Baru",
-      data: body,
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
 };
 
 // Mengupdate form request
@@ -121,7 +56,7 @@ exports.updateFormRequest = (req, res) => {
     formData,
     (error, results) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Gagal Update Data Pengajuan", error);
       } else {
         res
           .status(200)
@@ -133,29 +68,31 @@ exports.updateFormRequest = (req, res) => {
 
 // Menghapus form request
 exports.deleteFormRequest = (req, res) => {
-  const id_item_req = req.params.id_item_req;
+  const { id_item_req } = req.params;
   requestSubmission.deleteFormRequest(id_item_req, (error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Gagal Delete Data Pengajuan", error);
+    } else if (results.affectedRows > 0) {
+      sendSuccessRes(res, 200, `Berhasil Menghapus Data Pengajuan`, results);
     } else {
-      res
-        .status(200)
-        .json({ message: "Form Request berhasil dihapus", data: results });
+      sendSuccessRes(res, 404, `Tidak Menemukan Data id :${id_item_req}`);
     }
   });
 };
 
 // Mendapatkan data form request berdasarkan no_pengajuan
 exports.getByNoPengajuan = (req, res) => {
-  const no_pengajuan = req.params.no_pengajuan;
+  const { no_pengajuan } = req.params;
   requestSubmission.getByNoPengajuan(no_pengajuan, (error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
-    } else {
+      sendErrorRes(res, 500, "Server Error", error);
+    } else if (results && results.length > 0) {
       res.status(200).json({
         message: "Berhasil Mengambil Data Form Request",
         data: results,
       });
+    } else {
+      sendSuccessRes(res, 404, `Tidak Menemukan Data no :${no_pengajuan}`);
     }
   });
 };
@@ -166,7 +103,7 @@ exports.updateStatus = (req, res) => {
   const status = req.body.status;
   requestSubmission.updateStatus(id_item_req, status, (error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
       res.status(200).json({
         message: "Status Form Request berhasil diupdate",
@@ -185,12 +122,11 @@ exports.getByStatusAndUsername = (req, res) => {
     post_username,
     (error, results) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
+      } else if (results && results.length > 0) {
+        sendSuccessRes(res, 200, `Berhasil Mengamnil Data Pengajuan`, results);
       } else {
-        res.status(200).json({
-          message: "Berhasil Mengambil Data Form Request",
-          data: results,
-        });
+        sendSuccessRes(res, 404, "Tidak Menemukan Data");
       }
     }
   );
@@ -204,12 +140,11 @@ exports.getByStatusAndApproved1 = (req, res) => {
     approved_1,
     (error, results) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
+      } else if (results && results.length > 0) {
+        sendSuccessRes(res, 200, `Berhasil Mengamnil Data Pengajuan`, results);
       } else {
-        res.status(200).json({
-          message: "Berhasil Mengambil Data Form Request",
-          data: results,
-        });
+        sendSuccessRes(res, 404, "Tidak Menemukan Data");
       }
     }
   );
@@ -224,12 +159,15 @@ exports.getByStatusAndApproved2 = (req, res) => {
     approved_2,
     (error, results) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
+      } else if (results && results.length > 0) {
+        sendSuccessRes(res, 200, `Berhasil Mengamnil Data Pengajuan`, results);
       } else {
-        res.status(200).json({
-          message: "Berhasil Mengambil Data Form Request",
-          data: results,
-        });
+        sendSuccessRes(
+          res,
+          404,
+          `Tidak Menemukan Data Status ${status} dan Approved 2 ${approved_2}`
+        );
       }
     }
   );
@@ -240,12 +178,11 @@ exports.getDataByPostUsername = (req, res) => {
   const post_username = req.params.post_username;
   requestSubmission.getDatabyPostUsername(post_username, (error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
+    } else if (results && results.length > 0) {
+      sendSuccessRes(res, 200, `Berhasil Mengamnil Data Pengajuan`, results);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Form Request",
-        data: results,
-      });
+      sendSuccessRes(res, 404, `Tidak Menemukan Data ${post_username}`);
     }
   });
 };
@@ -260,12 +197,11 @@ exports.getDataByCriteria = (req, res) => {
     approved_2,
     (error, results) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
+      } else if (results && results.length > 0) {
+        sendSuccessRes(res, 200, `Berhasil Mengamnil Data Pengajuan`, results);
       } else {
-        res.status(200).json({
-          message: "Berhasil Mengambil Data Items Request",
-          data: results,
-        });
+        sendSuccessRes(res, 404, `Tidak Menemukan Data`);
       }
     }
   );
@@ -285,11 +221,13 @@ exports.approveFormRequest1 = (req, res) => {
     tglApproved1,
     (error, result) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
       } else {
-        res
-          .status(200)
-          .json({ message: "Status berhasil diubah", data: result });
+        if (result.affectedRows > 0) {
+          sendSuccessRes(res, 200, `Status Berhasil diubah`);
+        } else {
+          sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
+        }
       }
     }
   );
@@ -309,11 +247,13 @@ exports.approveFormRequest2 = (req, res) => {
     tglApproved2,
     (error, result) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
       } else {
-        res
-          .status(200)
-          .json({ message: "Status berhasil diubah", data: result });
+        if (result.affectedRows > 0) {
+          sendSuccessRes(res, 200, `Status Berhasil diubah`);
+        } else {
+          sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
+        }
       }
     }
   );
@@ -325,11 +265,13 @@ exports.rejectFormRequest = (req, res) => {
 
   requestSubmission.rejectFormRequest(idItemReq, (error, result) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res
-        .status(200)
-        .json({ message: "Tanggal approved dihapus", data: result });
+      if (result.affectedRows > 0) {
+        sendSuccessRes(res, 200, `Status Berhasil diubah`);
+      } else {
+        sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
+      }
     }
   });
 };
@@ -348,11 +290,13 @@ exports.finishFormRequest = (req, res) => {
     tglDone,
     (error, result) => {
       if (error) {
-        res.status(500).json({ message: "Server Error", serverMessage: error });
+        sendErrorRes(res, 500, "Server Error", error);
       } else {
-        res
-          .status(200)
-          .json({ message: "Status berhasil diubah", data: result });
+        if (result.affectedRows > 0) {
+          sendSuccessRes(res, 200, `Status Berhasil diubah`);
+        } else {
+          sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
+        }
       }
     }
   );

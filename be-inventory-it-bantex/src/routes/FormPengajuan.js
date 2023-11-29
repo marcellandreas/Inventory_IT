@@ -9,11 +9,9 @@ router.get("/", pengajuan.getAllDataItemReq);
 router.get("/req", pengajuan.getAllDataReqSubandStockRequest);
 router.get("/status-req", pengajuan.getAllDataReqSubandStockRequestByStatus);
 router.get("/req/:id_item_req", pengajuan.getAllDataReqSubandStockRequestById);
-router.post("/req", pengajuan.createItemRequest);
 router.get("/req/:username", pengajuan.getDataItemReqByUsername);
 
 // submission
-router.post("/sub", pengajuan.PostsubmissionItems);
 router.get("/sub", pengajuan.getAllDataReqSubandStockSubmission);
 router.get("/status-sub", pengajuan.getAllDataReqSubandStockSubmissionByStatus);
 router.get(

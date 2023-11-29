@@ -8,16 +8,13 @@ const dbConfig = {
 };
 
 const detailStockModel = new DetailStockModel(dbConfig);
+const { sendErrorRes, sendSuccessRes } = require("../helpers/response");
 
 // Mendapatkan semua data detail stok
 exports.getAllDetailStock = (req, res) => {
   detailStockModel.getAllDetailStock((error, results) => {
     if (error) {
-      res.status(500).json({
-        success: false,
-        message: "Gagal mengambil data detail stock",
-        error: error.message,
-      });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
       if (results.length === 0) {
         res.status(404).json({
@@ -25,11 +22,12 @@ exports.getAllDetailStock = (req, res) => {
           message: "Tidak ada data detail stock yang ditemukan",
         });
       } else {
-        res.status(200).json({
-          success: true,
-          message: "Berhasil mengambil data detail stock",
-          data: results,
-        });
+        sendSuccessRes(
+          res,
+          200,
+          `Berhasil Mengambil Data Detail Stock`,
+          results
+        );
       }
     }
   });
@@ -38,12 +36,14 @@ exports.getAllDetailStock = (req, res) => {
 exports.getDetailStockQtyAboveOne = (req, res) => {
   detailStockModel.getDetailStockQtyAboveOne((error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Detail Stock dengan QTY diatas 1",
-        data: results,
-      });
+      sendSuccessRes(
+        res,
+        200,
+        `Berhasil Mengambil Data Detail Stock qty diatas 1`,
+        results
+      );
     }
   });
 };
@@ -54,12 +54,12 @@ exports.getDetailStockById = (req, res) => {
 
   detailStockModel.getDetailStockById(detailStockId, (error, detailStock) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
       if (detailStock) {
         res.status(200).json({ message: "Berhasil", data: detailStock });
       } else {
-        res.status(404).json({ message: "ID tidak ditemukan" });
+        sendSuccessRes(res, 404, `Tidak Menemukan Data id :${id_item_req}`);
       }
     }
   });
@@ -80,10 +80,7 @@ exports.createDetailStock = (req, res) => {
   // Panggil model untuk membuat Detail Stock
   detailStockModel.createDetailStock(detailStockData, (error) => {
     if (error) {
-      res.status(500).json({
-        message: "Server Error",
-        serverMessage: error,
-      });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
       res.status(201).json({
         message: `Berhasil Menambahkan ${detailStockData.length} detail stok`,
@@ -98,12 +95,9 @@ exports.getDetailStockByStockNo = (req, res) => {
   const stockNo = req.params.stockNo;
   detailStockModel.getDetailStockByStockNo(stockNo, (error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Form Request",
-        data: results,
-      });
+      sendSuccessRes(res, 200, `Berhasil Mengambil Data Detail Stock`, results);
     }
   });
 };
@@ -113,12 +107,9 @@ exports.getByNoPengajuan = (req, res) => {
   const no_pengajuan = req.params.no_pengajuan;
   itemsRequest.getByNoPengajuan(no_pengajuan, (error, results) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengambil Data Form Request",
-        data: results,
-      });
+      sendSuccessRes(res, 200, `Berhasil Mengambil Data Detail Stock`, results);
     }
   });
 };
@@ -128,9 +119,9 @@ exports.updateDetailStockById = (req, res) => {
   const updatedData = req.body;
   detailStockModel.updateDetailStockById(id, updatedData, (error) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({ message: "Detail Stock updated successfully" });
+      sendSuccessRes(res, 200, `Berhasil Mengupdate Data Detail Stock `);
     }
   });
 };
@@ -140,9 +131,9 @@ exports.deleteDetailStock = (req, res) => {
   const detailStockId = req.params.id;
   detailStockModel.deleteDetailStock(detailStockId, (error) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({ message: "Detail Stock deleted successfully" });
+      sendSuccessRes(res, 200, `Berhasil Menghapus Data Detail Stock`);
     }
   });
 };
@@ -154,11 +145,9 @@ exports.updateMultipleDetailStock = (req, res) => {
 
   detailStockModel.updateMultipleDetailStock(data, (error) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengupdate Jumlah Stok Detail Secara Massal",
-      });
+      sendSuccessRes(res, 200, `Berhasil Mengurangi Data qty Detail Stock `);
     }
   });
 };
@@ -168,11 +157,9 @@ exports.updatePlusDetailStock = (req, res) => {
 
   detailStockModel.updatePlusDetailStock(data, (error) => {
     if (error) {
-      res.status(500).json({ message: "Server Error", serverMessage: error });
+      sendErrorRes(res, 500, "Server Error", error);
     } else {
-      res.status(200).json({
-        message: "Berhasil Mengupdate Jumlah Stok Detail Secara Massal",
-      });
+      sendSuccessRes(res, 200, `Berhasil Menambah Data qty Detail Stock `);
     }
   });
 };

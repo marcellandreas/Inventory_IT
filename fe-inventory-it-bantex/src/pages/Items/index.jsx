@@ -20,7 +20,7 @@ import {
   ShowModal,
   ShowTable,
 } from "../../components/organisms";
-import { SearchInput, TitleTable } from "../../components/atoms";
+import { SearchInput, TitleTable, CustomButton } from "../../components/atoms";
 import { filterDataBySearch, Modals } from "../../helpers";
 import { useFetchItems } from "../../config/GetData";
 import { MdLocalPrintshop } from "react-icons/md";
@@ -36,22 +36,17 @@ const ItemsPage = () => {
   };
 
   const filteredData = filterDataBySearch(dataItems, search);
-
+  const stylePrint =
+    "bg-slate-800 p-2 rounded-lg flex items-center gap-1 text-white hover:bg-slate-700";
   return (
     <>
       <MainLayout>
         <ContentLayout>
           <section className="flex col-span-6 sm:col-span-6 items-center  cards gap-2 p-1 place-self-end">
-            <NavLink
-              to={`/barcode`}
-              className="bg-slate-800 p-2 rounded-lg flex items-center gap-1 text-white hover:bg-slate-700"
-            >
+            <NavLink to={`/barcode`} className={stylePrint}>
               <MdLocalPrintshop /> <span>Barcode</span>
             </NavLink>
-            <NavLink
-              to={`/qrcode`}
-              className="bg-slate-800 p-2 rounded-lg flex items-center gap-1 text-white hover:bg-slate-700"
-            >
+            <NavLink to={`/qrcode`} className={stylePrint}>
               <MdLocalPrintshop /> <span>Qrcode</span>
             </NavLink>
             <Print
@@ -63,27 +58,21 @@ const ItemsPage = () => {
           <ShowTable gap={6}>
             <TableHeader>
               <TitleTable count={dataItems.length}>Data Items</TitleTable>
-              <SearchInput search={search} onChange={handleSearchChange} />
               <div className=" order-2 sm:order-3 flex gap-4">
-                <button
-                  className="button flex gap-2 items-center order-2 sm:order-3"
-                  onClick={() => showModal("add")}
-                >
+                <CustomButton style={1} onClick={() => showModal("add")}>
                   <BsDatabaseFillAdd />
-                  <p className="flex p-0">
-                    Tambah <span className="hidden md:block">Barang</span>
+                  <p className="flex">
+                    Tambah <span className="hidden sm:block">Barang</span>
                   </p>
-                </button>
-                <button
-                  className="button flex gap-2 items-center order-2 sm:order-3"
-                  onClick={() => showModal("take")}
-                >
-                  <BsDatabaseFillAdd />{" "}
-                  <p className="flex p-0">
-                    Ambil <span className="hidden  md:block">Barang</span>
+                </CustomButton>
+                <CustomButton style={1} onClick={() => showModal("take")}>
+                  <BsDatabaseFillAdd />
+                  <p className="flex">
+                    Ambil <span className="hidden sm:block">Barang</span>
                   </p>
-                </button>
+                </CustomButton>
               </div>
+              <SearchInput search={search} onChange={handleSearchChange} />
             </TableHeader>
             <TableBody>
               {generateDynamicContent(

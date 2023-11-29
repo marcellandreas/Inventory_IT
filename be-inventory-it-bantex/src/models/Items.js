@@ -16,17 +16,6 @@ class Items {
     });
   }
 
-  // getItemById(id, callback) {
-  //   const SQLQuery = "SELECT * FROM items WHERE id = ?";
-  //   this.connection.query(SQLQuery, [id], (error, results) => {
-  //     if (error) {
-  //       callback(error, null);
-  //     } else {
-  //       callback(null, results);
-  //     }
-  //   });
-  // }
-
   getItemById(id, callback) {
     const SQLQuery = "SELECT * FROM items WHERE id = ?";
 
@@ -53,34 +42,6 @@ class Items {
       }
     });
   }
-
-  // createNewItem(body, callback) {
-  //   const SQLQuery = `INSERT INTO items (item_no, item_description, unit, category, brand, status, kondisi, item_location, note, date_registation, date_expired, item_specification, post_user_id, post_username)
-  //     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-  //   const values = [
-  //     body.item_no,
-  //     body.item_description,
-  //     body.unit,
-  //     body.category,
-  //     body.brand,
-  //     body.status,
-  //     body.kondisi,
-  //     body.item_location,
-  //     body.note,
-  //     body.date_registation,
-  //     body.date_expired,
-  //     body.item_specification,
-  //     body.post_user_id,
-  //     body.post_username,
-  //   ];
-  //   this.connection.query(SQLQuery, values, (error, result) => {
-  //     if (error) {
-  //       callback(error, null);
-  //     } else {
-  //       callback(null, result);
-  //     }
-  //   });
-  // }
 
   createNewItem(body, callback) {
     this.generateItemsCode(body.category, (generateCodeError, code) => {
@@ -136,7 +97,6 @@ class Items {
 
         if (results[0].max_code) {
           const maxCode = results[0].max_code;
-          console.log(maxCode);
           const categoryLength = 4;
           const maxNumber = parseInt(maxCode.substr(-categoryLength), 10);
 
@@ -164,7 +124,22 @@ class Items {
   }
 
   updateItem(body, id, callback) {
-    const SQLQuery = `UPDATE items SET item_description = ?, unit = ?, category = ?, brand = ?, status = ?, kondisi = ?, item_location = ?, note = ?, date_registation = ?, date_expired = ?, item_specification = ?, post_user_id = ?, post_username = ? WHERE id = ?`;
+    const SQLQuery = `UPDATE items 
+    SET 
+    item_description = ?, 
+    unit = ?, 
+    category = ?, 
+    brand = ?, 
+    status = ?, 
+    kondisi = ?, 
+    item_location = ?, 
+    note = ?, 
+    date_registation = ?, 
+    date_expired = ?, 
+    item_specification = ?, 
+    post_user_id = ?, 
+    post_username = ? 
+    WHERE id = ?`;
     const values = [
       body.item_description,
       body.unit,

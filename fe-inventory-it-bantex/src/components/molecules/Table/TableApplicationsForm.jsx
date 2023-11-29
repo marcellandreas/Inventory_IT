@@ -1,16 +1,12 @@
 import { columnTableItemsReq } from "../../../assets/data/ColumnTables";
 import { NavLink } from "react-router-dom";
 import { TableContent, Tbody, Thead } from "../../atoms";
-import {
-  MdDelete,
-  MdEditNote,
-  PiWarningOctagonLight,
-} from "../../../assets/icons/icons";
-import { showFormattedDate } from "../../../helpers/showFormattedDate";
+import { MdDelete, PiWarningOctagonLight } from "../../../assets/icons/icons";
+import { showFormattedDate } from "../../../helpers";
 
 const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
   const tableHeaders = columnTableItemsReq;
-
+  const role = Number(localStorage.getItem("role"));
   return (
     <TableContent>
       <Thead>
@@ -25,7 +21,7 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
           <tr key={i}>
             <td className="border px-4 py-2 font-semibold text-xl">{i + 1}</td>
             <td className="border px-4 py-2">{data.no_pengajuan}</td>
-            <td className={`border    `}>
+            <td className={`border`}>
               <p className={` text-center p-2 rounded-lg ${data.status}`}>
                 {data.status}
               </p>
@@ -52,25 +48,17 @@ const TableApplicationsForm = ({ data, setDeleteModal, setId }) => {
                   <PiWarningOctagonLight />
                 </span>
               </NavLink>
-              <button
-                onClick={() => {
-                  // setEditModalItem(true);
-                  // setId(data.id);
-                  alert("Halaman Edit Tidak Tersedia");
-                }}
-                className="button_edit"
-              >
-                <MdEditNote />
-              </button>
-              <button
-                onClick={() => {
-                  setDeleteModal(true);
-                  setId(data.id_req_sub);
-                }}
-                className="button_delete"
-              >
-                <MdDelete />
-              </button>
+              {role === 1 || role === 3 ? (
+                <button
+                  onClick={() => {
+                    setDeleteModal(true);
+                    setId(data.id_req_sub);
+                  }}
+                  className="button_delete"
+                >
+                  <MdDelete />
+                </button>
+              ) : null}
             </td>
           </tr>
         ))}

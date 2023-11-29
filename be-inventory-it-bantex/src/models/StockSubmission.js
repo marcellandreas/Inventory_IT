@@ -32,19 +32,19 @@ class StockSubmission {
   }
 
   // Metode untuk mengambil data request items berdasarkan ID
-  getStockSubmissionById(id_request_items, callback) {
-    const query = "SELECT * FROM stock_submission WHERE id_request_items = ?";
-    this.connection.query(query, [id_request_items], (error, results) => {
-      callback(error, results[0]);
+  getStockSubmissionById(id_stock_sub, callback) {
+    const query = "SELECT * FROM stock_submission WHERE id_stock_sub = ?";
+    this.connection.query(query, [id_stock_sub], (error, results) => {
+      callback(error, results);
     });
   }
 
   // Metode untuk memperbarui data request items berdasarkan ID
-  updateStockSubmissionById(id_request_items, updatedData, callback) {
-    const query = "UPDATE stock_submission SET ? WHERE id_request_items = ?";
+  updateStockSubmissionById(id_stock_sub, updatedData, callback) {
+    const query = "UPDATE stock_submission SET ? WHERE id_stock_sub = ?";
     this.connection.query(
       query,
-      [updatedData, id_request_items],
+      [updatedData, id_stock_sub],
       (error, results) => {
         callback(error, results);
       }
@@ -52,9 +52,9 @@ class StockSubmission {
   }
 
   // Metode untuk menghapus data request items berdasarkan ID
-  deleteStockSubmissionById(id_request_items, callback) {
-    const query = "DELETE FROM stock_submission WHERE id_request_items = ?";
-    this.connection.query(query, [id_request_items], (error, results) => {
+  deleteStockSubmissionById(id_stock_sub, callback) {
+    const query = "DELETE FROM stock_submission WHERE id_stock_sub = ?";
+    this.connection.query(query, [id_stock_sub], (error, results) => {
       callback(error, results);
     });
   }

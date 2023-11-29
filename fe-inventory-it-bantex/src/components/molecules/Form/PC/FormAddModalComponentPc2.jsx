@@ -29,7 +29,7 @@ const FormAddModalComponentPc2 = ({ onClose, setIsLoading, pcInput }) => {
   const data = {
     pc_no: formValues.pc_no,
     item_no: formValues.item_no,
-    post_user_id: formValues.post_id_user,
+    post_user_id: Number(formValues.post_id_user),
     post_username: formValues.post_username,
   };
   // select option

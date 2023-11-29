@@ -40,31 +40,6 @@ class requestSubmission {
     );
   }
 
-  // Metode untuk membuat form request baru
-  // tidak kepakai
-  createFormRequest(data, callback) {
-    const query =
-      "INSERT INTO request_submission (no_pengajuan, name_pt, name_division, approved_1, approved_2, post_user_id, post_username, date_approved_1, date_approved_2, date_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    this.connection.query(
-      query,
-      [
-        data.no_pengajuan,
-        data.name_pt,
-        data.name_division,
-        data.approved_1,
-        data.approved_2,
-        data.post_user_id,
-        data.post_username,
-        null, // date_approved_1
-        null, // date_approved_2
-        null, // date_done
-      ],
-      (error, results) => {
-        callback(error, results);
-      }
-    );
-  }
-
   // Metode untuk mengupdate form request
   updateFormRequest(id_req_sub, data, callback) {
     const query =
@@ -220,7 +195,7 @@ class requestSubmission {
   // Membuat metode untuk menghapus tanggal approved saat ditolak
   rejectFormRequest(idItemReq, callback) {
     const query =
-      "UPDATE request_submission SET status = ?, date_approved_1 = NULL, date_approved_2 = NULL WHERE id_req_sub = ?";
+      "UPDATE request_submission SET status = ?, date_approved_1 = NULL, date_approved_2 = NULL, date_done = NULL WHERE id_req_sub = ?";
     this.connection.query(query, ["Ditolak", idItemReq], (error, result) => {
       callback(error, result);
     });

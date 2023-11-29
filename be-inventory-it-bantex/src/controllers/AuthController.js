@@ -86,9 +86,9 @@ exports.login = (req, res) => {
 };
 
 exports.deleteUser = (req, res) => {
-  const { username } = req.params;
+  const { id_user } = req.params;
 
-  user.deleteUser(username, (error, results) => {
+  user.deleteUser(id_user, (error, results) => {
     if (error) {
       return res.status(500).json({ error: error.message });
     }

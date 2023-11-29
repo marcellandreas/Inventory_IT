@@ -8,7 +8,7 @@ import { TablePcMasters } from "../../components/molecules";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
-import { SearchInput, TitleTable } from "../../components/atoms";
+import { BackButton, SearchInput, TitleTable } from "../../components/atoms";
 import { useNavigate } from "react-router-dom";
 import { filterDataBySearch } from "../../helpers/filters";
 import { fetchPcMasterData } from "../../Redux/Feature/DataPcMaster";
@@ -37,9 +37,7 @@ const GetAllPcMaster = () => {
     <MainLayout>
       <ContentLayout>
         <section className=" col-span-6">
-          <button onClick={backToMenu}>
-            <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-          </button>
+          <BackButton onClick={backToMenu} />
         </section>
         <ShowTable gap={6}>
           <TableHeader>

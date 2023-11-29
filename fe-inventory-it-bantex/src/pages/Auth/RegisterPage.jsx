@@ -47,7 +47,7 @@ const RegisterPage = () => {
         handleShow={handleShow}
         handleLogin={handleRegister}
         show={show}
-      ></FormRegister>
+      />
     </AuthTemp>
   );
 };

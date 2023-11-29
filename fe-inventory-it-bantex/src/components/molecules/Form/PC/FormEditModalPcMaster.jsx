@@ -19,7 +19,7 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
     date_registation: "",
     date_expired: "",
     pc_spectification: "",
-    post_user_id: "",
+    post_user_id: Number(),
     post_username: "",
   });
 
@@ -38,7 +38,7 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
         date_registation: item.date_registation,
         date_expired: item.date_expired,
         pc_spectification: item.pc_spectification,
-        post_user_id: item.post_user_id,
+        post_user_id: Number(item.post_user_id),
         post_username: item.post_username,
       }));
       setFormValues(mappedItemData[0]);

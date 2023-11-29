@@ -1,7 +1,7 @@
 import { MdAddCircleOutline } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-export default function getCurrentPage(pathname, id_item_req, id) {
+export default function getCurrentPage(pathname, id_item_req, stock_no, id) {
   switch (pathname) {
     case "/stock":
       return {
@@ -17,12 +17,22 @@ export default function getCurrentPage(pathname, id_item_req, id) {
         ),
       };
     case "/stock/buat":
-      return { title: "Tambah Stok", text: "Tambahkan Stock" };
+      return { title: "Tambah Stok" };
     case `/stock/detail/${id}`:
-      return { title: "Detail Stok", text: "Tambahkan Stock" };
+      return { title: "Detail Stok" };
+    case `/stock/ubah/${stock_no}`:
+      return { title: `Mengubah Stok ${stock_no}` };
     case "/items":
       return {
         title: "Items List",
+      };
+    case "/personal-computer":
+      return {
+        title: "Personal Computer User",
+      };
+    case "/profile":
+      return {
+        title: "Profile Account ",
       };
     case "/pc-master":
       return { title: "Pc List" };
@@ -55,8 +65,6 @@ export default function getCurrentPage(pathname, id_item_req, id) {
       };
     case "/pc-line":
       return { title: "Komponent PC" };
-    case "/reports":
-      return "Reports";
     default:
       return {
         title: "Dashboard",

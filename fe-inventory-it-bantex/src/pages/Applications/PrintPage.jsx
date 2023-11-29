@@ -5,6 +5,7 @@ import { MdPrint } from "react-icons/md";
 import QRCode from "qrcode.react";
 import { useReactToPrint } from "react-to-print";
 import { ContentLayout, MainLayout } from "../../components/templates";
+import { BackButton } from "../../components/atoms";
 
 function PrintPage() {
   const navigate = useNavigate();
@@ -95,12 +96,7 @@ function PrintPage() {
     <MainLayout>
       <ContentLayout>
         <div className="flex col-span-6 items-center gap-2 h-10  justify-center relative text-slate-800  ">
-          <button
-            onClick={backToMenu}
-            className="button self-start absolute top-0 left-0  "
-          >
-            Back
-          </button>
+          <BackButton onClick={backToMenu} className="absolute left-0" />
           <h1 className=" text-xl font-bold">Print Form Pengajuan</h1>
         </div>
         <section className=" col-span-6  flex gap-4 print:hidden w-full   items-center mb-10 justify-center ">

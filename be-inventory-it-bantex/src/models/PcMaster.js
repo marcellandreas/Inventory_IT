@@ -142,15 +142,11 @@ GROUP BY pc_master.post_username;
 
     this.connection.query(query, [userId], (error, results) => {
       if (error) {
-        console.error("Error executing SQL query:", error);
         callback(error, null);
       } else {
-        console.log("Query results:", results);
-
         if (results && results.length > 0) {
           callback(null, results);
         } else {
-          console.log("No data found for user ID:", userId);
           callback(null, []); // Return an empty array if no data is found
         }
       }

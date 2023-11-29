@@ -34,8 +34,13 @@ const CustomInput2 = ({
   onChange,
   className,
   readOnly,
+  width,
 }) => (
-  <div className={`gap-2 flex flex-col  ${className || ""}`}>
+  <div
+    className={`gap-2  flex flex-col w-${width ? width : "full"}  ${
+      className || ""
+    }`}
+  >
     <label>{label}</label>
     <input
       className="bg-slate-200"
@@ -120,10 +125,81 @@ const CustomTextArea = ({
   </div>
 );
 
+// TextAreaAtom.js
+const CustomTextArea2 = ({
+  label,
+  value,
+  readOnly,
+  placeholder,
+  name,
+  onChange,
+}) => {
+  return (
+    <div className="gap-2 flex flex-col w-full row-span-2">
+      <label>{label}</label>
+      <textarea
+        className="bg-gray-100 border border-gray-300 min-h-[120px]"
+        readOnly={readOnly}
+        value={value}
+        placeholder={placeholder}
+        name={name}
+        onChange={onChange}
+      />
+    </div>
+  );
+};
+
+const RadioButton = ({
+  name,
+  value,
+  label,
+  onChange,
+  checked,
+  defaultValue,
+}) => {
+  return (
+    <>
+      <input
+        type="radio"
+        name={name}
+        defaultValue={defaultValue}
+        value={value}
+        checked={checked}
+        onChange={onChange || (() => {})}
+        className="border-2 border-slate-800 rounded-md p-2"
+      />
+      <label className="ml-2">{label}</label>
+    </>
+  );
+};
+
+// CustomRadioGroupAtom.js
+const CustomRadioGroup = ({ label, options, value, onChange }) => {
+  return (
+    <div className="gap-2 flex flex-col justify-center">
+      <label>{label}</label>
+      <div className="flex gap-1">
+        {options.map((option, index) => (
+          <RadioButton
+            key={index}
+            name={option.name}
+            defaultValue={option.value}
+            label={option.label}
+            checked={value === option.value}
+            onChange={onChange}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export {
   CustomInput,
   CustomInput2,
   CustomSelect,
   CustomSelect2,
   CustomTextArea,
+  CustomTextArea2,
+  CustomRadioGroup,
 };

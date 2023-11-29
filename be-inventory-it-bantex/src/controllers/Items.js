@@ -9,15 +9,7 @@ const dbConfig = {
 
 const items = new ItemsModel(dbConfig);
 
-const sendErrorRes = (res, statusCode, message, error) => {
-  res
-    .status(statusCode)
-    .json({ success: false, message, error: error.message });
-};
-
-const sendSuccessRes = (res, statusCode, message, data) => {
-  res.status(statusCode).json({ message, data });
-};
+const { sendErrorRes, sendSuccessRes } = require("../helpers/response");
 
 exports.getAllItems = (req, res) => {
   items.getAllItems((error, data) => {
@@ -47,13 +39,11 @@ exports.getItemById = (req, res) => {
   const { id } = req.params;
   items.getItemById(id, (error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Unused", error);
     } else if (!data) {
       sendSuccessRes(res, 404, "Tidak Menemukan Data");
     } else {
-      res
-        .status(200)
-        .json({ message: "Berhasil Mengambil Data Item Berdasarkan Id", data });
+      sendSuccessRes(res, 200, `Berhasil Mengambil Data Items id ${id}`, data);
     }
   });
 };
@@ -62,7 +52,7 @@ exports.createNewItem = (req, res) => {
   const { body } = req;
   items.createNewItem(body, (error) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Unused", error);
     } else {
       res
         .status(201)

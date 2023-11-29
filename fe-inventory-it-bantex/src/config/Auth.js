@@ -25,7 +25,7 @@ const setAuthToken = (token) => {
 };
 
 const signOut = () => {
-  // Menghapus token autentikasi dan role dari cookie
+  // Menghapus token autentikasi dan role dari localStorage
   localStorage.removeItem("token");
   localStorage.removeItem("role");
   localStorage.removeItem("username");

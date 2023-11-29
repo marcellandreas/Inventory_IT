@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdDelete, MdEditNote } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  BackButton,
+  CustomButton,
   CustomInput,
   CustomInput2,
   CustomSelect2,
@@ -211,12 +213,10 @@ const EditDelCompontentsStocks = () => {
     <MainLayout>
       <ContentLayout>
         <div className="flex gap-4 col-span-6">
-          <button onClick={backToMenu}>
-            <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-          </button>
-          <Title>Perbarui Formulir Stok!</Title>
+          <BackButton onClick={backToMenu} />
+          <Title>Ubah formulir stok untuk kelengkapan!</Title>
         </div>
-        <hr className="border border-slate-800  w-full mb-5 col-span-6" />
+        <hr className="border border-slate-800  w-full  col-span-6" />
 
         <div className="col-span-6 grid grid-flow-dense grid-cols-6 gap-2 bg-slate-300 px-3 py-4 rounded-xl">
           <CustomInput2

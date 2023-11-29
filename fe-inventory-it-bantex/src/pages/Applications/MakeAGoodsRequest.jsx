@@ -2,20 +2,18 @@ import React, { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { Title } from "../../components/atoms";
+import { BackButton, Title } from "../../components/atoms";
 import { MainLayout, ContentLayout } from "../../components/templates";
 import FormApplication from "../../components/molecules/Form/Applications/FormApplication";
 import FormRequest from "../../components/molecules/Form/Applications/FormRequest";
-import { FormStock, HeaderBarangPengajuan } from "../../components/molecules";
+import { HeaderBarangPengajuan } from "../../components/molecules";
 import FormSubmission from "../../components/molecules/Form/Applications/FormSubmission";
 import { useHelpersFormData } from "../../helpers/useHelpersForm";
 
 function PageHeader({ title, onBackClick }) {
   return (
     <div className="flex gap-2">
-      <button onClick={onBackClick} className="button">
-        Back
-      </button>
+      <BackButton onClick={onBackClick} className="" />
       <Title>{title}</Title>
     </div>
   );
@@ -29,10 +27,12 @@ const MakeAGoodsRequest = React.memo(() => {
     name_division: "",
     approved_1: "",
     approved_2: "",
-    request_type: "",
-    post_user_id: idUser,
+    post_user_id: Number(idUser),
     post_username: username,
+    request_type: "",
   });
+
+  console.log(formValues);
 
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
@@ -49,7 +49,7 @@ const MakeAGoodsRequest = React.memo(() => {
       note: "",
       brand: "",
       additional_info: "",
-      post_user_id: idUser,
+      post_user_id: Number(idUser),
       post_username: username,
     },
   ]);
@@ -228,8 +228,11 @@ const MakeAGoodsRequest = React.memo(() => {
           return;
         }
       }
-
-      const response1 = await AxiosInstance.post("/pengajuan/req", formValues);
+      console.log(formValues);
+      const response1 = await AxiosInstance.post(
+        "/createPengajuan", // new baru di ganti ("/pengajuan/req")
+        formValues
+      );
       const { data } = response1.data;
       const no_pengajuan = data?.no_pengajuan;
 
@@ -265,7 +268,7 @@ const MakeAGoodsRequest = React.memo(() => {
           brand: item.brand,
           additional_info: item.additional_info,
           note: item.note,
-          post_user_id: idUser,
+          post_user_id: Number(idUser),
           post_username: username,
         }));
         console.log(dataDetailPost);

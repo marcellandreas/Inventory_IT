@@ -21,29 +21,6 @@ const ManagersFormReq = ({ setId, setDeleteModal }) => {
     (state) => state.dataSliceItemReq.needApproved2
   );
 
-  const dispatch = useDispatch();
-
-  const data = 0;
-  const handleFetchError = (err) => {
-    console.error("Terjadi kesalahan dalam memproses data:", err);
-    alert("Terjadi kesalahan dalam memproses data");
-  };
-
-  const fetchData = (url, successAction, loadingAction) => {
-    AxiosInstance.get(url)
-      .then((res) => {
-        dispatch(successAction(res.data.data));
-        dispatch(loadingAction(false));
-      })
-      .catch(handleFetchError);
-  };
-
-  // useEffect(() => {
-  //   fetchData("/app", setDataPt, setLoadingDivPt);
-  // }, [dispatch]);
-
-  const namePt = useFetchPt();
-
   const [search, setSearch] = useState("");
   const handleSearchChange = (e) => {
     setSearch(e.target.value);

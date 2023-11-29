@@ -104,9 +104,9 @@ class User {
     });
   }
 
-  deleteUser(username, callback) {
-    const query = "DELETE FROM user WHERE username = ?";
-    this.connection.query(query, [username], (error, results) => {
+  deleteUser(id_user, callback) {
+    const query = "DELETE FROM user WHERE id_user = ?";
+    this.connection.query(query, [id_user], (error, results) => {
       callback(error, results);
     });
   }
@@ -183,13 +183,6 @@ class User {
     });
   }
 
-  // getUserByRole1(callback) {
-  //   const query = "SELECT * FROM user WHERE role = 1";
-  //   this.connection.query(query, (error, results) => {
-  //     callback(error, results);
-  //   });
-  // }
-
   // Mengambil daftar peran pengguna tanpa duplikasi
   getUniqueRoles(callback) {
     const query = "SELECT DISTINCT role FROM user";
@@ -211,6 +204,7 @@ class User {
       callback(error, results[0]);
     });
   }
+
   // Metode untuk mengubah data profile pengguna
   updateUserProfile(id_user, full_name, email, callback) {
     const query = "UPDATE user SET full_name = ?, email = ? WHERE id_user = ?";

@@ -61,7 +61,7 @@ const FormEditModalItem = ({ onClose, id }) => {
     date_registation: formValues.date_registation,
     date_expired: formValues.date_expired,
     item_specification: formValues.item_specification,
-    post_user_id: idUser,
+    post_user_id: Number(idUser),
     post_username: username,
   };
 

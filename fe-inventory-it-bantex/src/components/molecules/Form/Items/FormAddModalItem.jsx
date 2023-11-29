@@ -29,9 +29,14 @@ const FormAddModalItem = ({ onClose }) => {
     date_registation: "",
     date_expired: "",
     item_specification: "",
-    post_user_id: idUser,
+    post_user_id: Number(idUser),
     post_username: username,
   });
+
+  const postLoginData = {
+    post_user_id: Number(idUser),
+    post_username: username,
+  };
 
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
@@ -176,12 +181,11 @@ const FormAddModalItem = ({ onClose }) => {
         onSubmit={handleSubmitForm}
         className=" grid grid-flow-dense gap-4 w-full grid-cols-6  "
       >
-        <div className=" col-span-6 md:col-span-2">
+        <div className=" col-span-6 sm:col-span-3 md:col-span-2">
           <CustomInput2
             label="Deskripsi Barang"
             type="text"
             name="item_description"
-            // className="col-span-3 md:col-span-1"
             placeholder="Enter Your New Item Description"
             onChange={handleChangeValue}
           />
@@ -190,7 +194,7 @@ const FormAddModalItem = ({ onClose }) => {
           )}
         </div>
 
-        <div className=" col-span-6 md:col-span-2">
+        <div className=" col-span-6 sm:col-span-3 md:col-span-2">
           <CustomSelect2
             label="Unit"
             options={[
@@ -203,7 +207,6 @@ const FormAddModalItem = ({ onClose }) => {
                 </option>
               )),
             ]}
-            // className="col-span-3 md:col-span-1"
             name="unit"
             onChange={handleChangeValue}
           />
@@ -211,7 +214,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.unit}</p>
           )}
         </div>
-        <div className=" col-span-6 md:col-span-2">
+        <div className=" col-span-6 sm:col-span-3 md:col-span-2">
           <CustomSelect2
             label="Kategory"
             options={[
@@ -224,7 +227,6 @@ const FormAddModalItem = ({ onClose }) => {
                 </option>
               )),
             ]}
-            // className="col-span-3 md:col-span-1"
             name="category"
             onChange={handleChangeValue}
           />
@@ -232,7 +234,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.category}</p>
           )}
         </div>
-        <div className=" col-span-6 md:col-span-2">
+        <div className=" col-span-6 sm:col-span-3  md:col-span-2">
           <CustomInput2
             label="Merek Barang"
             type="text"
@@ -336,7 +338,7 @@ const FormAddModalItem = ({ onClose }) => {
             <p className="text-red-500">{validationErrors.item_location}</p>
           )}
         </div>
-        <div className="col-span-6 sm:col-span-3 md:col-span-2">
+        <div className="col-span-6 sm:col-span-3 md:col-span-2 row-span-2">
           <div className="gap-2 flex flex-col ">
             <label>Catatan (Jika ada)</label>
             <textarea

@@ -46,9 +46,6 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  // const authData = useSelector((state) => state.auth);
-  // Sekarang Anda dapat mengakses properti dari objek authData
-  // const { token, role, codeUser, idUser, username, email, fullName } = authData;
   return (
     <MainLayout>
       <ContentLayout>

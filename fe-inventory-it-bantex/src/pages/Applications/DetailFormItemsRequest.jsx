@@ -7,6 +7,9 @@ import {
   ManagerReqSub,
 } from "../../components/templates";
 import { MainLayout, ContentLayout } from "../../components/templates";
+import { BackButton } from "../../components/atoms";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDataDetailPengajuan } from "../../Redux/Feature/ItemsRequest";
 
 const DetailFormItemsRequest = () => {
   const { id_item_req } = useParams();
@@ -14,18 +17,19 @@ const DetailFormItemsRequest = () => {
   const [loading, setLoading] = useState(true);
   // menampung data
   const [dataStockReq, setDataStockReq] = useState([]);
+  console.log(dataStockReq);
   const [dataStockSub, setDataStockSub] = useState([]);
   const [status, setStatus] = useState("");
   const [requestType, setRequestType] = useState("");
 
-  // const dispatch = useDispatch();
-  // const dataDetailPengajuan = useSelector(
-  //   (state) => state.dataSliceItemReq.dataDetailPengajuan
-  // );
+  const dispatch = useDispatch();
+  const dataDetailPengajuan = useSelector(
+    (state) => state.dataSliceItemReq.dataDetailPengajuan
+  );
 
-  // useEffect(() => {
-  //   dispatch(fetchDataDetailPengajuan(id_item_req));
-  // }, [dispatch, id_item_req]);
+  useEffect(() => {
+    dispatch(fetchDataDetailPengajuan(id_item_req));
+  }, [dispatch, id_item_req]);
 
   const handleAction = (actionType) => {
     AxiosInstance.put(`form/${actionType}/${id_item_req}`)
@@ -66,15 +70,15 @@ const DetailFormItemsRequest = () => {
     fetchData();
   }, [loading, id_item_req]);
 
-  const stockNos = dataStockReq[0]?.submissionData.map((item) => item.stock_no);
-  const stockNosSub = dataStockSub[0]?.submissionData.map(
-    (item) => item.stock_no
-  );
+  // const stockNos = dataStockReq[0]?.submissionData.map((item) => item.stock_no);
+  // const stockNosSub = dataStockSub[0]?.submissionData.map(
+  //   (item) => item.stock_no
+  // );
 
-  const dataDetailPost = dataStockReq[0]?.submissionData.map((item) => ({
-    id_detail_stock: item.id_detail_stock,
-    qty: item.qty,
-  }));
+  // const dataDetailPost = dataStockReq[0]?.submissionData.map((item) => ({
+  //   id_detail_stock: item.id_detail_stock,
+  //   qty: item.qty,
+  // }));
 
   const handleQtyMinus = async () => {
     if (requestType === "REQUEST") {
@@ -128,10 +132,7 @@ const DetailFormItemsRequest = () => {
         {role == 1 ? (
           <section className=" col-span-6 flex flex-col gap-4">
             <div className="flex justify-between">
-              <button onClick={backToMenu} className="button">
-                Back
-              </button>
-
+              <BackButton onClick={backToMenu} />
               <div className="flex gap-3">
                 <button
                   onClick={() => {
@@ -188,9 +189,7 @@ const DetailFormItemsRequest = () => {
         ) : role == 2 ? (
           <section className="col-span-6 flex flex-col gap-4">
             <div className="flex justify-between">
-              <button onClick={backToMenu} className="button">
-                Back
-              </button>
+              <BackButton onClick={backToMenu} />
 
               {status === "Disetujui2" || status === "Selesai" ? (
                 <div className="flex gap-3">
@@ -231,9 +230,7 @@ const DetailFormItemsRequest = () => {
         ) : role == 3 ? (
           <section className="col-span-6 flex flex-col gap-4">
             <div className="flex justify-between">
-              <button onClick={backToMenu} className="button">
-                Back
-              </button>
+              <BackButton onClick={backToMenu} />
 
               <div className="flex gap-3">
                 <button

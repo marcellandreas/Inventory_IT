@@ -316,106 +316,6 @@ const getAllDataReqSubandStockSubmissionByStatus = async (req, res) => {
   }
 };
 
-const getFormattedDate = () => {
-  const currentDate = new Date();
-  const month = currentDate.getMonth() + 1; // Membuat bulan dimulai dari 1
-  const year = currentDate.getFullYear();
-  return `${year}-${String(month).padStart(2, "0")}`;
-};
-
-let currentMonth = "";
-let currentCounter = 0;
-
-const createItemRequest = async (req, res) => {
-  const { body } = req;
-
-  try {
-    // Periksa apakah bulan saat ini berbeda dengan yang sebelumnya
-    const currentDate = getFormattedDate();
-    if (currentDate !== currentMonth) {
-      // Jika bulan berbeda, reset nomor urut ke 001
-      currentMonth = currentDate;
-      currentCounter = 1;
-    } else {
-      // Jika masih di bulan yang sama, tingkatkan nomor urut
-      currentCounter += 1;
-    }
-
-    // Format nomor urut dengan 3 digit (001, 002, dst.)
-    const formattedCounter = String(currentCounter).padStart(3, "0");
-    const noPengajuan = `IT-${currentDate}-${formattedCounter}`;
-
-    // Simpan nomor pengajuan ke dalam data pengajuan
-    body.no_pengajuan = noPengajuan;
-
-    await FormPengajuanModal.createItemRequest(body);
-
-    res.json({
-      message: "Berhasil Membuat Data Barang Baru",
-      data: body,
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
-};
-
-const getFormattedDateSub = () => {
-  const currentDateSub = new Date();
-  const month = currentDateSub.getMonth() + 1; // Membuat bulan dimulai dari 1
-  const year = currentDateSub.getFullYear();
-  return `${year}-${String(month).padStart(2, "0")}`;
-};
-
-let currentMonthSub = "";
-let currentCounterSub = 0;
-const createFormSubmission = async (req, res) => {
-  const { body } = req;
-
-  try {
-    // Periksa apakah bulan saat ini berbeda dengan yang sebelumnya
-    const currentDateSub = getFormattedDateSub();
-    if (currentDateSub !== currentMonthSub) {
-      // Jika bulan berbeda, reset nomor urut ke 001
-      currentMonthSub = currentDateSub;
-      currentCounterSub = 1;
-    } else {
-      // Jika masih di bulan yang sama, tingkatkan nomor urut
-      currentCounterSub += 1;
-    }
-
-    // Format nomor urut dengan 3 digit (001, 002, dst.)
-    const formattedCounter = String(currentCounterSub).padStart(3, "0");
-    const noSub = `IT-SUB-${currentDateSub}-${formattedCounter}`;
-
-    if (!Array.isArray(body)) {
-      return res.status(400).json({
-        message: "Bad Request",
-        serverMessage: "Body should be an array of objects",
-      });
-    }
-    // Simpan nomor pengajuan ke dalam data pengajuan
-    body.no_sub = noSub;
-
-    await FormPengajuanModal.PostsubmissionItems(body);
-
-    res.json({
-      message: "Berhasil Membuat Data Barang Baru",
-      data: body,
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
-};
 const PostsubmissionItems = async (req, res) => {
   const { body } = req;
   try {
@@ -443,11 +343,9 @@ const PostsubmissionItems = async (req, res) => {
 };
 
 module.exports = {
-  createItemRequest,
   getAllDataItemReq,
   PostsubmissionItems,
   getDataItemReqByUsername,
-  createFormSubmission,
   // stock request
   getAllDataReqSubandStockRequest,
   getAllDataReqSubandStockRequestById,

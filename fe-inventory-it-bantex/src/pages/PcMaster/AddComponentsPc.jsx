@@ -6,7 +6,7 @@ import TablePcLineAdd from "../../components/molecules/Table/TablePcLineAdd";
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { TableBody, TableHeader } from "../../components/organisms";
-import { SearchInput, TitleTable } from "../../components/atoms";
+import { BackButton, SearchInput, TitleTable } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import { createPcLine } from "../../Redux/Feature/DataPcMaster";
 import { useFetchItemsUnusedForPcMaster } from "../../config/GetData";
@@ -71,9 +71,8 @@ const AddComponentsPC = () => {
       <MainLayout>
         <ContentLayout>
           <section className="flex gap-2 justify-between col-span-6 ">
-            <button className="" onClick={backToMenu}>
-              <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-            </button>
+            <BackButton onClick={backToMenu} />
+
             {clickedItems.length >= 1 ? (
               <form onSubmit={handleCreateForm}>
                 <button

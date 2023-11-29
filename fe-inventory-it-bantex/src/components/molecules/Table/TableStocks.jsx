@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { columnTableStock } from "../../../assets/data/ColumnTables";
 import { TableContent, Tbody, Thead } from "../../atoms";
@@ -48,8 +49,8 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
       <Thead>{tableHeaders}</Thead>
       <Tbody>
         {data?.map((stock, i) => (
-          <>
-            <tr key={stock.id_stock} className=" relative">
+          <React.Fragment key={i}>
+            <tr className=" relative">
               <td className="border px-4 py-2">{i + 1}</td>
               <td className="border whitespace-nowrap p-1">
                 <div
@@ -167,7 +168,7 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
                 </td>
               </>
             )}
-          </>
+          </React.Fragment>
         ))}
       </Tbody>
     </TableContent>

@@ -51,9 +51,7 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
             <td className={`${styletd} whitespace-nowrap`}>
               <p className="flex flex-col font-semibold">
                 Tgl Regis:
-                <span className=" font-normal">
-                  {/* {showFormattedDate(item.date_registation)} */}
-                </span>
+                <span className=" font-normal"></span>
                 <span>
                   {item.date_registation
                     ? showFormattedDate(item.date_registation)

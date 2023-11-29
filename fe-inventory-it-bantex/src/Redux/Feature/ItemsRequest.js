@@ -56,13 +56,13 @@ export const fetchApproved2 = createAsyncThunk(
   }
 );
 
-// export const fetchDataDetailPengajuan = createAsyncThunk(
-//   "data/fetchDataDetailPengajuan",
-//   async (id_item_req) => {
-//     const response = await AxiosInstance.get(`pengajuan/form/${id_item_req}`);
-//     return response.data.data;
-//   }
-// );
+export const fetchDataDetailPengajuan = createAsyncThunk(
+  "data/fetchDataDetailPengajuan",
+  async (id_item_req) => {
+    const response = await AxiosInstance.get(`pengajuan/form/${id_item_req}`);
+    return response.data.data;
+  }
+);
 
 const dataSliceItemReq = createSlice({
   name: "dataSliceItemReq",
@@ -108,20 +108,20 @@ const dataSliceItemReq = createSlice({
       .addCase(fetchApproved2.fulfilled, (state, action) => {
         state.approved2 = action.payload;
         state.loading = false;
+      })
+      .addCase(fetchDataDetailPengajuan.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDataDetailPengajuan.fulfilled, (state, action) => {
+        state.dataDetailPengajuan = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(fetchDataDetailPengajuan.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
-    // .addCase(fetchDataDetailPengajuan.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // })
-    // .addCase(fetchDataDetailPengajuan.fulfilled, (state, action) => {
-    //   state.dataDetailPengajuan = action.payload;
-    //   state.loading = false;
-    //   state.error = null;
-    // })
-    // .addCase(fetchDataDetailPengajuan.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.error.message;
-    // });
   },
 });
 

@@ -38,7 +38,7 @@ const FormAddModalComponentPc = ({ onClose, setIsLoading, pcInput }) => {
     for (let i = 1; i <= selectedValues.length; i++) {
       formData.append("pc_no", pcInput);
       formData.append("item_no", selectedValues[i]);
-      formData.append("post_id_user", idUser);
+      formData.append("post_id_user", Number(idUser));
       formData.append("post_username", username);
     }
 

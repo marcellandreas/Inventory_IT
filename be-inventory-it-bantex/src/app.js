@@ -76,6 +76,9 @@ app.use("/app", DataDivisionAndPT);
 const DataFormPengajuan = require("./routes/FormPengajuan");
 app.use("/pengajuan", DataFormPengajuan);
 
+const createPengajuan = require("./routes/createPengajuan");
+app.use("/createPengajuan", createPengajuan);
+
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";
 

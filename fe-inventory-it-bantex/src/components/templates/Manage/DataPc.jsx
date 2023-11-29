@@ -13,7 +13,12 @@ import {
   MdDelete,
 } from "../../../assets/icons/icons";
 import Loading from "../../molecules/Loading";
-import { TitleTable } from "../../atoms";
+import {
+  CustomInput2,
+  CustomRadioGroup,
+  CustomTextArea2,
+  TitleTable,
+} from "../../atoms";
 import { TableHeader, ShowModal } from "../../organisms";
 import { showFormattedDate, Modals } from "../../../helpers";
 
@@ -105,7 +110,7 @@ const DataPc = () => {
   };
 
   const options = [
-    <option value={formValues.pc_no || null}>
+    <option key={formValues.id_pc_master} value={formValues.pc_no || null}>
       {formValues.pc_no || null}
     </option>,
     ...dataPcMaster.map((stock, i) => (
@@ -139,8 +144,8 @@ const DataPc = () => {
               </div>
             </TableHeader>
             {/* Data */}
-            <section className="gap-2 max-h-[216px] p-4 justify-between   flex  flex-wrap  overflow-hidden overflow-y-auto">
-              <div className="gap-2 flex flex-col w-60">
+            <section className="grid  grid-flow-dense gap-2  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-3 max-h-[216px] overflow-hidden overflow-y-auto">
+              <div className="gap-2 flex flex-col w-full">
                 <label className="min-w-[140px]">Kode Pc</label>
                 <div className="flex justify-end items-end gap-2">
                   <select
@@ -159,126 +164,70 @@ const DataPc = () => {
                   </NavLink>
                 </div>
               </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Deskripsi</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  defaultValue={formValues.pc_description}
-                  readOnly
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Satuan</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  defaultValue={formValues.unit}
-                  readOnly
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Kategori</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  readOnly
-                  value={formValues.category}
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Lokasi Pc</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  readOnly
-                  defaultValue={formValues.pc_location}
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Status </label>
-                <div
-                  className="flex flex-wrap gap-2 items-center rounded-md h-9"
-                  readOnly
-                >
-                  <input
-                    type="radio"
-                    defaultValue="used"
-                    checked={formValues.status === "used"}
-                    className="border-2 border-slate-800 rounded-md p-2"
-                  />
-                  <label className="ml-2">used</label>
-                  <input
-                    type="radio"
-                    defaultValue="new"
-                    checked={formValues.status === "new"}
-                    className="border-2 border-slate-800 rounded-md p-2"
-                  />
-                  <label className="ml-2">Baru</label>
-                  <input
-                    type="radio"
-                    defaultValue="reused"
-                    checked={formValues.status === "reused"}
-                    className="border-2 border-slate-800 rounded-md p-2"
-                  />
-                  <label className="ml-2">Reused</label>
-                </div>
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Tanggal Registrasi</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  readOnly
-                  defaultValue={formValues.date_registration || "-"}
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Tanggal Kadaluarsa (Rusak)</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  value={`${
-                    showFormattedDate(formValues.date_expired) || "-"
-                  } `}
-                  readOnly
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Catatan (jika ada)</label>
-                <textarea
-                  className="bg-gray-100 border border-gray-300 h-[120px]"
-                  readOnly
-                  defaultValue={formValues.note}
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Spesifikasi </label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  type="text"
-                  readOnly
-                  defaultValue={formValues.pc_spectification}
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Created at: </label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  readOnly
-                  type="text"
-                  value={`${showFormattedDate(formValues.post_date)}`}
-                />
-              </div>
-              <div className="gap-2 flex flex-col w-60">
-                <label>Username Upload</label>
-                <input
-                  className=" bg-gray-100 border border-gray-300"
-                  readOnly
-                  type="text"
-                  defaultValue={formValues.post_username}
-                />
-              </div>
+              <CustomInput2
+                label="Deskripsi"
+                value={formValues.pc_description}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Satuan"
+                value={formValues.unit}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Kategori"
+                value={formValues.category}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Lokasi Pc"
+                value={formValues.pc_location}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Lokasi Pc"
+                value={formValues.pc_location}
+                readOnly={true}
+              />
+              <CustomRadioGroup
+                label="status"
+                options={[
+                  { value: "used", label: "used" },
+                  { value: "new", label: "Baru" },
+                  { value: "reused", label: "Reused" },
+                ]}
+                value={formValues.status}
+              />
+              <CustomInput2
+                label="Tanggal Registrasi"
+                value={formValues.date_registration || "-"}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Tanggal Exp (Rusak)"
+                value={`${showFormattedDate(formValues.date_expired) || "-"} `}
+                readOnly={true}
+              />
+              <CustomTextArea2
+                label="Catatan (jika ada)"
+                value={formValues.note}
+                readOnly
+              />
+              <CustomInput2
+                label="Spesifikasi"
+                value={formValues.pc_spectification}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Created at:"
+                value={`${showFormattedDate(formValues.post_date)}`}
+                readOnly={true}
+              />
+              <CustomInput2
+                label="Created at:"
+                value={formValues.post_username}
+                readOnly={true}
+              />
             </section>
           </section>
           <DataComponentsPc

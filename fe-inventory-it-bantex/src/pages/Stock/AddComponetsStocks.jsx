@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { Title } from "../../components/atoms";
+import {
+  H3,
+  H4,
+  H6,
+  Span,
+  Title,
+  CustomButton,
+  BackButton,
+} from "../../components/atoms";
 import { ContentLayout, MainLayout } from "../../components/templates";
 import { AxiosInstance } from "../../apis/api";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
@@ -114,12 +122,10 @@ const AddComponentsStocks = () => {
     <MainLayout>
       <ContentLayout>
         <div className="flex gap-4 col-span-6">
-          <button onClick={backToMenu}>
-            <BsArrowLeftCircleFill className=" text-4xl text-slate-800" />
-          </button>
-          <Title>Tambahkan Formulir Stok!</Title>
+          <BackButton onClick={backToMenu} />
+          <Title>Lengkapi stok untuk kelengkapan!</Title>
         </div>
-        <hr className="border border-slate-800  w-full mb-5 col-span-6" />
+        <hr className="border border-slate-800  w-full  col-span-6" />
         <div className="flex flex-col gap-2 col-span-6">
           <HeaderBarangPengajuan label="Persediaan:" />
           <FormStock
@@ -130,10 +136,16 @@ const AddComponentsStocks = () => {
           />
         </div>
         <div className="flex flex-col gap-2 col-span-6">
-          <HeaderBarangPengajuan
-            handleaddclick={handleaddclick}
-            label="Detail Persediaan:"
-          />
+          <div className="flex justify-between items-end">
+            <H4 textStyle="font-bold">Detail Persedian</H4>
+            {handleaddclick && (
+              <button className="button" onClick={handleaddclick}>
+                <MdAddCircleOutline />
+                <Span textColor="text-white">Tambah Barang</Span>
+              </button>
+            )}
+          </div>
+          <hr />
           {inputList.map((x, i) => {
             return (
               <FormDetailStock
@@ -150,7 +162,7 @@ const AddComponentsStocks = () => {
         </div>
         <button
           onClick={handleSubmit}
-          className="button absolute right-12 bottom-2"
+          className="button absolute right-5 text-base bottom-2"
         >
           <MdAddCircleOutline /> <span>Tambah Persediaan</span>
         </button>

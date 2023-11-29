@@ -148,15 +148,16 @@ const FormDeleteUser = ({ onClose, id, setIsLoading }) => {
       setData(res.data.data.map((item) => item.username));
     });
   }, [id]);
-  const handleDelete = async () => {
-    AxiosInstance.delete(`/users/${id}`)
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    AxiosInstance.delete(`/auth/user/${id}`)
       .then((res) => {
-        alert("Berhasil di hapus");
-        setIsLoading(true);
+        alert(res.data.message);
         dispatch(fetchUserData());
         onClose();
       })
       .catch((err) => {
+        console.log(err);
         alert("gagal di hapus");
       });
   };
@@ -185,7 +186,7 @@ const FormDeleteUser = ({ onClose, id, setIsLoading }) => {
   );
 };
 
-const FormEditUser = ({ onClose, setIsLoading, id }) => {
+const FormEditUser = ({ onClose, id }) => {
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
@@ -199,7 +200,7 @@ const FormEditUser = ({ onClose, setIsLoading, id }) => {
     AxiosInstance.get("/auth/unique")
       .then((response) => {
         setRoles(response.data.data);
-        setIsLoading(false);
+        dispatch(fetchUserData());
       })
       .catch((error) => {
         console.error("Error:", error);

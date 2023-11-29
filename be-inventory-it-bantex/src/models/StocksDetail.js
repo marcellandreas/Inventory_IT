@@ -72,6 +72,13 @@ class StocksModel {
     });
   }
 
+  // getDetailStockByStockNo(stockNo, callback) {
+  //   const query = "SELECT * FROM detail_stock WHERE stock_no = ? AND qty > 0;";
+  //   this.connection.query(query, [stockNo], (error, results) => {
+  //     callback(error, results);
+  //   });
+  // }
+
   // // Metode untuk mengurangkan jumlah stok untuk beberapa detail berdasarkan id_detail_stock
   // updateMultipleDetailStocks(updatedData, callback) {
   //   const query =

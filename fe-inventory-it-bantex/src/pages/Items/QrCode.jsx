@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { ContentLayout, MainLayout } from "../../components/templates";
 import { MdArrowCircleLeft, MdArrowLeft, MdPrint } from "react-icons/md";
+import { BackButton } from "../../components/atoms";
 
 function QrcodePrinter() {
   const [data, setData] = useState([]);
@@ -37,9 +38,8 @@ function QrcodePrinter() {
   return (
     <MainLayout>
       <ContentLayout>
-        <div className="col-span-1">
-          <MdArrowCircleLeft onClick={backToMenu} size={32} className=" " />
-        </div>
+        <BackButton onClick={backToMenu} className=" col-span-1 w-28" />
+
         <h1 className="text-center rounded-md bg-white text-xl  uppercase font-bold col-span-4 ">
           Cetak Barcode
         </h1>

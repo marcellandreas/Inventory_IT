@@ -6,14 +6,11 @@ import {
 import imgPc from "../../assets/images/pc1.jpeg";
 import React, { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
-import { SearchInput, Title } from "../../components/atoms";
+import { CustomInput2, SearchInput, Title } from "../../components/atoms";
 import { FaLaptopCode } from "react-icons/fa";
 import { filterDataBySearch } from "../../helpers/filters";
 import imgNotFound from "../../assets/images/data-not-found2.png";
-import {
-  showFormattedDate,
-  showFormattedDate2,
-} from "../../helpers/showFormattedDate";
+import { showFormattedDate } from "../../helpers/showFormattedDate";
 
 const PersonalComputer = () => {
   const [dataPc, setDataPc] = useState({});
@@ -67,74 +64,51 @@ const PersonalComputer = () => {
                       readOnly
                     />
                   </div>
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Deskripsi</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      defaultValue={dataPc?.pc_description}
-                      readOnly
-                    />
-                  </div>
-                  <div className="gap-2 flex flex-col col-span-1 ">
-                    <label>Satuan</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      defaultValue={dataPc?.unit}
-                      readOnly
-                    />
-                  </div>
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Kategori</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      readOnly
-                      value={dataPc?.category}
-                    />
-                  </div>
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Lokasi Pc</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      readOnly
-                      defaultValue={dataPc?.pc_location}
-                    />
-                  </div>
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Status</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      readOnly
-                      defaultValue={dataPc?.status}
-                    />
-                  </div>
+                  <CustomInput2
+                    label="Deskripsi"
+                    className={`gap-2 flex flex-col col-span-1`}
+                    readOnly={true}
+                    value={dataPc?.pc_description}
+                  />
+                  <CustomInput2
+                    label="Satuan"
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={dataPc?.unit}
+                    readOnly={true}
+                  />
+                  <CustomInput2
+                    label="Kategori"
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={dataPc?.category}
+                    readOnly={true}
+                  />
+                  <CustomInput2
+                    label="Lokasi Pc"
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={dataPc?.pc_location}
+                    readOnly={true}
+                  />
+                  <CustomInput2
+                    label="Status"
+                    readOnly={true}
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={dataPc?.status}
+                  />
+                  <CustomInput2
+                    label="Tanggal Regis"
+                    readOnly={true}
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={`${
+                      showFormattedDate(dataPc?.date_registation) || "-"
+                    }`}
+                  />
+                  <CustomInput2
+                    label="Tanggal Ex (Rusak)"
+                    readOnly={true}
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={`${showFormattedDate(dataPc?.date_expired) || "-"}`}
+                  />
 
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Tanggal Registrasi</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      readOnly
-                      defaultValue={`${
-                        showFormattedDate(dataPc?.date_registation) || "-"
-                      }`}
-                    />
-                  </div>
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Tanggal Kadaluarsa (Rusak)</label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      defaultValue={`${
-                        showFormattedDate(dataPc?.date_expired) || "-"
-                      }`}
-                      readOnly
-                    />
-                  </div>
                   <div className="gap-2 flex flex-col col-span-1 row-span-2">
                     <label>Catatan (jika ada)</label>
                     <textarea
@@ -143,15 +117,13 @@ const PersonalComputer = () => {
                       defaultValue={dataPc?.note}
                     />
                   </div>
-                  <div className="gap-2 flex flex-col col-span-1">
-                    <label>Spesifikasi </label>
-                    <input
-                      className=" bg-gray-100 border border-gray-300"
-                      type="text"
-                      readOnly
-                      defaultValue={dataPc?.pc_spectification}
-                    />
-                  </div>
+
+                  <CustomInput2
+                    label="Spesifikasi"
+                    readOnly={true}
+                    className={`gap-2 flex flex-col col-span-1`}
+                    value={dataPc?.pc_spectification}
+                  />
                 </div>
               </div>
             )}
@@ -159,9 +131,11 @@ const PersonalComputer = () => {
           {/* </div> */}
           <div className="w-full p-0 md:p-16  min-h-[20px]">
             <div className="mt-[50vh] sm:mt-[40vh] md:mt-[20vh] overflow-x-auto  col-span-5 border border-y-black cards p-3 ">
-              <div className=" flex justify-between mb-3">
+              <div className=" flex justify-between w-full mb-3">
                 <Title>komponen Pc</Title>
-                <SearchInput search={search} onChange={handleSearchChange} />
+                <div>
+                  <SearchInput search={search} onChange={handleSearchChange} />
+                </div>
               </div>
               <div className=" overflow-scroll overflow-x-auto personal__computer">
                 {generateDynamicContent(
@@ -171,9 +145,9 @@ const PersonalComputer = () => {
                     {filteredData.map((item, index) => (
                       <div
                         key={index}
-                        className="bg-white min-w-min flex gap-y-2 gap-x-2  p-1 mt-1  rounded-md text-md  "
+                        className="bg-white border-slate-800 border-b-2 min-w-min flex gap-y-2 gap-x-2  p-1 mt-1  rounded-md text-md  "
                       >
-                        <div className="flex flex-col min-w-[192px]  ">
+                        <div className="flex flex-col min-w-[192px]">
                           <div className="text-gray-500">kode</div>
                           <div className="text-slate-800">{item.item_no}</div>
                         </div>

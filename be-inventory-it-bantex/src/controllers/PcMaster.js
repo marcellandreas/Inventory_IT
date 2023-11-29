@@ -8,15 +8,14 @@ const dbConfig = {
 };
 
 const pcMaster = new PcMasterModel(dbConfig);
+const { sendErrorRes, sendSuccessRes } = require("../helpers/response");
 
 exports.getAllPcMaster = (req, res) => {
   pcMaster.getAllPcMaster((error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pc Master", error);
     } else {
-      res
-        .status(200)
-        .json({ message: "Berhasil Mendapat Data PC Master", data });
+      sendSuccessRes(res, 200, "Berhasil Mengambil Data PC Master", data);
     }
   });
 };
@@ -84,15 +83,11 @@ exports.getPcMasterById = (req, res) => {
   const { id } = req.params;
   pcMaster.getPcMasterById(id, (error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pc Master", error);
     } else if (!data) {
-      res
-        .status(404)
-        .json({ message: "Data tidak ada, masukan id pc master yang benar" });
+      sendSuccessRes(res, 404, `Tidak Menemukan Pc master id: ${id}`);
     } else {
-      res
-        .status(200)
-        .json({ message: `Berhasil Mengambil Data Barang id ${id}`, data });
+      sendSuccessRes(res, 200, `Berhasil Mengambil Pc Master id ${id}`, data);
     }
   });
 };
@@ -101,15 +96,11 @@ exports.getPcMasterByPcNo = (req, res) => {
   const { pcno } = req.params;
   pcMaster.getPcMasterByPcMaster(pcno, (error, data) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pc Master", error);
     } else if (!data) {
-      res
-        .status(404)
-        .json({ message: "Data tidak ada, masukan PC Number yang benar" });
+      sendSuccessRes(res, 404, `Tidak Menemukan Pc master no: ${pcno}`);
     } else {
-      res
-        .status(200)
-        .json({ message: `Berhasil Mengambil Data Barang pcno ${pcno}`, data });
+      sendSuccessRes(res, 200, `Berhasil Mengambil Pc Master no:${pcno}`, data);
     }
   });
 };
@@ -118,11 +109,9 @@ exports.createPcMaster = (req, res) => {
   const { body } = req;
   pcMaster.createPcMaster(body, (error, code) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pc Master", error);
     } else {
-      res
-        .status(201)
-        .json({ message: "Berhasil Menambah PC Master", data: body });
+      sendSuccessRes(res, 201, `Berhasil Menambah Pc Master`, body);
     }
   });
 };
@@ -132,11 +121,9 @@ exports.UpdatePcMaster = (req, res) => {
   const { body } = req;
   pcMaster.updatePcMaster(body, id, (error) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pc Master", error);
     } else {
-      res
-        .status(200)
-        .json({ message: "Data PC Master berhasil diubah", data: body });
+      sendSuccessRes(res, 200, `Berhasil Mengubah Pc Master id: ${id}`, body);
     }
   });
 };
@@ -145,11 +132,9 @@ exports.deletePcMaster = (req, res) => {
   const { id } = req.params;
   pcMaster.deletePcMaster(id, (error) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      sendErrorRes(res, 500, "Gagal Mengambil Data Pc Master", error);
     } else {
-      res
-        .status(204)
-        .json({ message: "Data PC Master berhasil dihapus", data: null });
+      sendSuccessRes(res, 204, `Berhasil Menghapus Pc Master id: ${id}`);
     }
   });
 };

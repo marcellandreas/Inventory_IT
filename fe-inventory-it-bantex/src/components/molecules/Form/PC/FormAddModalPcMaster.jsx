@@ -33,7 +33,7 @@ const FormAddModalPcMaster = ({ onClose, setIsLoading }) => {
     date_registation: formValues.date_registation,
     date_expired: formValues.date_expired,
     pc_spectification: formValues.pc_spectification,
-    post_user_id: idUser,
+    post_user_id: Number(idUser),
     post_username: username,
   };
 
