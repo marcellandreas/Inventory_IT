@@ -94,9 +94,6 @@ export const validateFormDataPcMaster = (formValues) => {
   if (formValues.pc_location === "") {
     errors.push("Pc Location harus diisi");
   }
-  if (formValues.note === "") {
-    errors.push("Note harus diisi");
-  }
   if (formValues.date_registation === "") {
     errors.push("Date Registation harus diisi");
   }

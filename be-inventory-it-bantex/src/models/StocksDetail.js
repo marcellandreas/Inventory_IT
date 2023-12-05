@@ -12,20 +12,14 @@ class StocksModel {
       data.stock_no,
       data.stock_detail_description,
       data.qty,
-      data.category,
-      data.unit,
       data.brand,
       data.additional_info,
       data.note,
-      data.post_user_id,
-      data.post_username,
     ]);
 
     // Buat placeholders
-    const placeholders = values
-      .map(() => "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-      .join(", ");
-    const SQLQuery = `INSERT INTO detail_stock (stock_no, stock_detail_description, qty, category, unit, brand, additional_info, note, post_user_id, post_username) VALUES ${placeholders};`;
+    const placeholders = values.map(() => "(?, ?, ?, ?, ?, ?,)").join(", ");
+    const SQLQuery = `INSERT INTO detail_stock (stock_no, stock_detail_description, qty, brand, additional_info, note, ) VALUES ${placeholders};`;
 
     // Flatten values
     const flattenedValues = values.reduce(
@@ -156,12 +150,10 @@ class StocksModel {
   // Mengupdate data detail stock berdasarkan id_detail_stock
   updateDetailStockById(id, updatedData, callback) {
     const query =
-      "UPDATE detail_stock SET stock_detail_description = ?, qty = ?, category = ?, unit = ?, brand = ?, additional_info = ?, note = ?, stock_no = ? WHERE id_detail_stock = ?";
+      "UPDATE detail_stock SET stock_detail_description = ?, qty = ?, brand = ?, additional_info = ?, note = ?, stock_no = ? WHERE id_detail_stock = ?";
     const {
       stock_detail_description,
       qty,
-      category,
-      unit,
       brand,
       additional_info,
       note,

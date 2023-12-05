@@ -6,6 +6,7 @@ import { fetchProfile } from "../../Redux/Feature/UserSlice";
 import { AxiosInstance } from "../../apis/api";
 import profileImg from "../../assets/images/bg.jpeg";
 import { MdEdit } from "react-icons/md";
+import { FaUserCog } from "react-icons/fa";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const ProfilePage = () => {
     setLoading(false);
   }, [dispatch, loading]);
 
-  const [isTyping, setIsTyping] = useState(false); // State untuk melacak apakah pengguna sedang mengetik
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleTyping = () => {
     setIsTyping(true);
@@ -73,7 +74,12 @@ const ProfilePage = () => {
             <div className=" grid grid-flow-dense grid-cols-4 gap-4 w-full">
               <section className=" md:col-span-2 shadow-2xl col-span-4  mt-2 bg-white p-5  rounded-xl flex flex-col gap-3">
                 <div className="flex justify-between">
-                  <Title>Personal Info:</Title>
+                  <Title>
+                    <div className="flex gap-2">
+                      <FaUserCog />
+                      Personal Info:
+                    </div>
+                  </Title>
                   <button
                     onClick={() => {
                       setShowEdit(!showEdit);
@@ -111,8 +117,7 @@ const ProfilePage = () => {
                     <CustomInput
                       label="Nama Lengkap"
                       type="text"
-                      name="full-name"
-                      // className="col-span-3 md:col-span-1"
+                      name="full_name"
                       placeholder="Enter Your New Item Location"
                       value={userData.full_name}
                       onChange={handleChangeValue}

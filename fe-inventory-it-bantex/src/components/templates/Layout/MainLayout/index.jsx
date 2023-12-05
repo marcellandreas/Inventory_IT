@@ -5,6 +5,7 @@ import { signOut } from "../../../../config/Auth";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
 import Alert from "../../../organisms/Alert";
+import Timer from "../../../atoms/Timer/index";
 
 const MainLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -36,6 +37,9 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
+      <div className="hidden">
+        <Timer />
+      </div>
       {isMobile ? (
         <section className="flex md:hidden relative min-h-screen">
           <Navbar

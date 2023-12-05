@@ -52,7 +52,7 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
           <React.Fragment key={i}>
             <tr className=" relative">
               <td className="border px-4 py-2">{i + 1}</td>
-              <td className="border whitespace-nowrap p-1">
+              <td className="border whitespace-nowrap p-1 cursor-pointer">
                 <div
                   className="flex gap-2 justify-center items-center"
                   onClick={() => handleStockNoClick(stock.stock_no)}
@@ -92,7 +92,6 @@ const TableStocks = ({ setDeleteModal, data, setId }) => {
                 <button
                   onClick={() => {
                     setDeleteModal(true);
-
                     setId(stock.id_stock);
                   }}
                   className="button_delete"

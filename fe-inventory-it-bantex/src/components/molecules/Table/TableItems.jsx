@@ -4,13 +4,13 @@ import { showFormattedDate } from "../../../helpers/showFormattedDate";
 import { TableContent, Tbody, Thead } from "../../atoms";
 const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
   const tableHeaders = columnTableItems;
-  const styletd = "border px-4 py-2";
+  const tableCellStyle = "border px-4 py-2";
 
   return (
     <TableContent>
       <Thead>
         {tableHeaders.map((columnName, index) => (
-          <th key={index} className={`${styletd} text-slate-700`}>
+          <th key={index} className={`${tableCellStyle} text-slate-700`}>
             {columnName}
           </th>
         ))}
@@ -18,9 +18,11 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
       <Tbody>
         {data.map((item, i) => (
           <tr key={i} className=" w-full">
-            <td className={styletd}>{i + 1}</td>
-            <td className={`${styletd} whitespace-nowrap`}>{item.item_no}</td>
-            <td className={`${styletd} whitespace-nowrap`}>
+            <td className={tableCellStyle}>{i + 1}</td>
+            <td className={`${tableCellStyle} whitespace-nowrap`}>
+              {item.item_no}
+            </td>
+            <td className={`${tableCellStyle} whitespace-nowrap`}>
               <p className=" font-semibold">{item.item_description}</p>
               <p>
                 brand: <span>{item.brand}</span>
@@ -32,7 +34,7 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                 Spesifikasi: <span>{item.item_specification}</span>
               </p>
             </td>
-            <td className={styletd}>{item.category}</td>
+            <td className={tableCellStyle}>{item.category}</td>
             <td className=" whitespace-nowrap">
               <div className=" flex  items-center gap-1">
                 <p>Status: </p>
@@ -47,8 +49,10 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                 Lokasi: <span>{item.item_location}</span>
               </p>
             </td>
-            <td className={`${styletd} whitespace-wrap `}>{item.note}</td>
-            <td className={`${styletd} whitespace-nowrap`}>
+            <td className={`${tableCellStyle} whitespace-wrap `}>
+              {item.note}
+            </td>
+            <td className={`${tableCellStyle} whitespace-nowrap`}>
               <p className="flex flex-col font-semibold">
                 Tgl Regis:
                 <span className=" font-normal"></span>

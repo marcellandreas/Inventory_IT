@@ -11,6 +11,7 @@ import {
 import { SearchInput, Title } from "../../components/atoms";
 import { filterDataBySearch } from "../../helpers/filters";
 import { useState } from "react";
+import { showFormattedDate } from "../../helpers";
 
 const DetailStock2 = () => {
   const { id } = useParams();
@@ -51,14 +52,13 @@ const DetailStock2 = () => {
         <section className="col-span-5 bg-white rounded-xl p-3 shadow-lg ">
           <div className="pb-2 flex justify-between">
             <Title>Stock</Title>
-            <hr className=" border-slate-950 border" />
+            <hr className=" border-slate-950 border-b" />
           </div>
           <div className=" grid grid-flow-dense grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div className="gap-2 flex flex-col ">
               <label>Nomor</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.stock_no}
                 readOnly
               />
@@ -67,7 +67,6 @@ const DetailStock2 = () => {
               <label>Deskripsi</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.stock_description}
                 readOnly
               />
@@ -76,7 +75,6 @@ const DetailStock2 = () => {
               <label>QTY</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.stock_qty}
                 readOnly
               />
@@ -93,7 +91,6 @@ const DetailStock2 = () => {
               <label>Kategori</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.category}
                 readOnly
               />
@@ -102,7 +99,6 @@ const DetailStock2 = () => {
               <label>Post Username</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.post_username}
                 readOnly
               />
@@ -111,7 +107,6 @@ const DetailStock2 = () => {
               <label>Tipe</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.type}
                 readOnly
               />
@@ -120,7 +115,6 @@ const DetailStock2 = () => {
               <label>Unit</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
                 defaultValue={dataStockNo.unit}
                 readOnly
               />
@@ -129,17 +123,7 @@ const DetailStock2 = () => {
               <label>Post Date</label>
               <input
                 className=" bg-gray-100 border border-gray-400"
-                type="text"
-                defaultValue={dataStockNo.post_date}
-                readOnly
-              />
-            </div>
-            <div className="gap-2 flex flex-col ">
-              <label>Deskripsi</label>
-              <input
-                className=" bg-gray-100 border border-gray-400"
-                type="text"
-                defaultValue={dataStockNo.stock_description}
+                value={showFormattedDate(dataStockNo.post_date)}
                 readOnly
               />
             </div>
@@ -151,10 +135,7 @@ const DetailStock2 = () => {
           <div className=" flex justify-between flex-wrap">
             <Title>Details Stock {dataStockNo.stock_no}</Title>
             {/* <div className=" border border-black"> */}
-            <SearchInput
-              search={search}
-              handleSearchChange={handleSearchChange}
-            />
+            <SearchInput search={search} onChange={handleSearchChange} />
             {/* </div> */}
           </div>
           <div className=" overflow-x-auto overflow-scroll">

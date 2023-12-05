@@ -6,6 +6,7 @@ import { TableLatestApplications, Widget } from "../../components/molecules";
 import { TableBody, TableHeader } from "../../components/organisms";
 import profileImg from "../../assets/images/bg.jpeg";
 import "./style.css";
+import Timer from "../../components/atoms/Timer";
 
 const DashboardAdmin = ({
   dataLogin,
