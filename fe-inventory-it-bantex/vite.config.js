@@ -9,4 +9,7 @@ export default defineConfig({
       "@TabBar": "/src/components/organisms/TabBar",
     },
   },
+  optimizeDeps: {
+    exclude: ["jest", "@testing-library/react", "@testing-library/jest-dom"],
+  },
 });

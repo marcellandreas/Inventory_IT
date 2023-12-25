@@ -1,15 +1,19 @@
+import React from "react";
 import { BsChevronDoubleRight } from "react-icons/bs";
-import { MdWarehouse } from "react-icons/md";
 import {
   LogoutMenu,
-  // menuPengajuan,
   menuSidebar,
 } from "./MenuSidebar";
-import React, { useState } from "react";
 import DataMenu from "./DataMenu";
 import logo from "../../../../assets/images/logo.png";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const SideBar = ({ handleLogout, role, open, setOpen }) => {
+  const isLoggedIn = localStorage.getItem("token");
+
+  if (!isLoggedIn) {
+    return null;
+  }
   return (
     <div
       className={`bg-slate-800 min-h-screen font-bold ${
@@ -22,7 +26,7 @@ const SideBar = ({ handleLogout, role, open, setOpen }) => {
         }}
         className="py-2 flex gap-2 mt-1 relative"
       >
-        <img src={logo} alt="" />
+        <LazyLoadImage src={logo} alt="logo" width={"auto"} height={"auto"} />
         {/* <div>
           <MdWarehouse size={25} />
         </div>

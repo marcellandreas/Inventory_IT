@@ -1,7 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
-import { FiUser } from "react-icons/fi";
-import { AiOutlineMail } from "react-icons/ai";
+
+import {
+  FaRegEye,
+  FaRegEyeSlash,
+  FiUser,
+  AiOutlineMail,
+} from "../../../../assets/icons/icons";
 
 const FormRegister = ({ handleLogin, handleChangeValue, handleShow, show }) => {
   return (
@@ -9,9 +13,9 @@ const FormRegister = ({ handleLogin, handleChangeValue, handleShow, show }) => {
       onSubmit={handleLogin}
       className="w-full flex flex-col gap-4 justify-center items-center"
     >
-      <div className=" text-center text-base font-semibold text-slate-500">
-        <span>Register into your account</span>
-      </div>
+      <span className=" text-center text-base font-semibold text-slate-600">
+        Register into your account
+      </span>
       <div className="grid grid-flow-dense grid-cols-4 w-full gap-2">
         <div className="flex relative col-span-4 sm:col-span-2 ">
           <div className="flex  gap-2 flex-col w-full">

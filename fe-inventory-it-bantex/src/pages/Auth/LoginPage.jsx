@@ -42,7 +42,7 @@ const LoginPage = () => {
       localStorage.setItem("id_user", id_user);
       localStorage.setItem("username", username_);
       // Refresh Token
-      if (token && role) {
+      if (token) {
         window.location.href = "/";
       }
     } catch (error) {

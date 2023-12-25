@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AxiosInstance } from "../../../../apis/api";
 import { validateFormTakeItem } from "../../../../config/ValidateForm";
-import { CustomInput2, CustomSelect2 } from "../../../atoms";
+import { CustomInput2, CustomSelect2, TitleForm } from "../../../atoms";
 import { useHelpersFormData } from "../../../../helpers";
 import { createItem } from "../../../../Redux/Feature/ItemsSlice";
 import { updateMultipleDetails } from "../../../../Redux/Feature/detailStockslice";
@@ -168,9 +168,9 @@ const FormTakeModalItem = ({ onClose }) => {
   return (
     <form onSubmit={handleCreateForm} className="form_modal2">
       <div className="  flex flex-col col-span-3 gap-4">
-        <h1 className="text-2xl font-semibold text-center row-span-1 col-span-3">
-          Ambil Barang
-        </h1>
+        <div className="row-span-1 col-span-3">
+          <TitleForm>Ambil Barang</TitleForm>
+        </div>
         <hr className="border border-slate-800 w-full m-auto col-span-3" />
         <div className="flex gap-1 flex-col">
           <h1>

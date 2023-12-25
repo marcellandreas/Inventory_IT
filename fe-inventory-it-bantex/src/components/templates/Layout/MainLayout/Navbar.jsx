@@ -1,14 +1,9 @@
-import { MdWarehouse } from "react-icons/md";
+import React from "react";
 import DataMenu from "./DataMenu";
 import logo from "../../../../assets/images/logo.png";
-
-import {
-  LogoutMenu,
-  // menuPengajuan,
-  menuSidebar,
-} from "./MenuSidebar";
-import React from "react";
+import { LogoutMenu, menuSidebar } from "./MenuSidebar";
 import { BsChevronDoubleRight } from "react-icons/bs";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Navbar = ({ handleLogout, role, openMob, setOpenMob }) => {
   return (
@@ -36,7 +31,12 @@ const Navbar = ({ handleLogout, role, openMob, setOpenMob }) => {
             }}
             className="py-3 flex gap-2  mt-4 relative cursor-pointer h-[20vh] "
           >
-            <img src={logo} alt="" />
+            <LazyLoadImage
+              src={logo}
+              alt="logo"
+              width={"auto"}
+              height={"auto"}
+            />
           </div>
           <div className="mt-4 flex flex-col gap-4 relative">
             {menuSidebar

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStockById } from "../../../../Redux/Feature/StockSlice";
 import { AxiosInstance } from "../../../../apis/api";
+import { TitleForm } from "../../../atoms";
 
 const FormDeleteModalStock = ({ onClose, id }) => {
   const dataStockById = useSelector((state) => state.stocks.dataStockById);
@@ -35,7 +36,7 @@ const FormDeleteModalStock = ({ onClose, id }) => {
   };
   return (
     <form className="w-[450px] bg-amber-500 p-4 rounded-xl flex flex-col gap-3">
-      <h1 className="text-2xl text-center">Hapus Stock</h1>
+      <TitleForm>Hapus Stock</TitleForm>
       <hr className="border border-slate-800 w-2/5 m-auto" />
       <section className="flex text-md flex-col items-center gap-2 w-full justify-center">
         <p>Anda yakin ingin menghapus Barang ini:</p>

@@ -14,7 +14,7 @@ const FormLogin = ({
       onSubmit={handleLogin}
       className="w-full flex flex-col gap-4 justify-center items-center"
     >
-      <div className=" text-center text-base font-semibold text-slate-500">
+      <div className=" text-center text-base font-semibold text-slate-600">
         <span>Login into your account</span>
       </div>
       <div className="flex relative w-full ">

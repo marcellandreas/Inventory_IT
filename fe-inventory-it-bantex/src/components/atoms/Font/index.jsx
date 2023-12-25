@@ -92,4 +92,8 @@ const Span = ({
   </span>
 );
 
-export { H1, H2, H3, H4, H5, H6, Paragraf, Span };
+const TitleForm = ({ children }) => (
+  <h1 className="text-2xl font-semibold text-center">{children}</h1>
+);
+
+export { H1, H2, H3, H4, H5, H6, Paragraf, Span, TitleForm };

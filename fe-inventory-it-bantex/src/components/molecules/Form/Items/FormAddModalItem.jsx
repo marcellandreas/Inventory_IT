@@ -6,7 +6,7 @@ import { useHelpersFormData } from "../../../../helpers/useHelpersForm";
 import { useFetchStocks } from "../../../../config/GetData";
 import { AxiosInstance } from "../../../../apis/api";
 import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
-import { CustomInput2, CustomSelect2 } from "../../../atoms";
+import { CustomInput2, CustomSelect2, TitleForm } from "../../../atoms";
 
 const FormAddModalItem = ({ onClose }) => {
   // get id and username
@@ -175,7 +175,7 @@ const FormAddModalItem = ({ onClose }) => {
 
   return (
     <section className="w-auto z-[999px] max-w-[650px] bg-amber-300 p-4 rounded-xl flex flex-col gap-3  max-h-[600px]  overflow-y-auto">
-      <h1 className="text-2xl font-semibold text-center ">Tambah Barang</h1>
+      <TitleForm>Tambah Barang</TitleForm>
       <hr className="border border-slate-800 w-full m-auto " />
       <form
         onSubmit={handleSubmitForm}

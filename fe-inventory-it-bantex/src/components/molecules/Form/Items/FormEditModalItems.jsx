@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { validateFormDataItems } from "../../../../config/ValidateForm";
 import { useDispatch } from "react-redux";
 import { fetchItems, updateItem } from "../../../../Redux/Feature/ItemsSlice";
-import { CustomInput, CustomInput2 } from "../../../atoms";
+import { CustomInput, CustomInput2, TitleForm } from "../../../atoms";
 import { useFetchItemById } from "../../../../config/GetData";
 
 const FormEditModalItem = ({ onClose, id }) => {
@@ -88,7 +88,7 @@ const FormEditModalItem = ({ onClose, id }) => {
       onSubmit={handleUpdateForm}
       className="bg-amber-400 px-4 py-2 max-h-[600px] rounded-xl overflow-y-auto"
     >
-      <h1 className="text-2xl font-semibold text-center">Edit Barang</h1>
+      <TitleForm>Edit Barang</TitleForm>
       <hr className="border border-slate-800 w-full m-auto col-span-3" />
       <div className="col-span-3 flex flex-col gap-2">
         <h1>

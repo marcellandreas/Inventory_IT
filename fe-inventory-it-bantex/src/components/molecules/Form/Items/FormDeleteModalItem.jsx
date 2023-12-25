@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { updatePlusQtyDetails } from "../../../../Redux/Feature/detailStockslice";
 import { updateStockQty } from "../../../../Redux/Feature/StockSlice";
+import { TitleForm } from "../../../atoms";
 
 const FormDeleteModalItem = ({ onClose, id }) => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const FormDeleteModalItem = ({ onClose, id }) => {
   return (
     <form className="form_modal">
       <div className=" ">
-        <h1 className="text-xl font-bold text-center">Hapus Barang</h1>
+        <TitleForm>Hapus Barang</TitleForm>
         <hr className="border border-slate-800 w-2/5 m-auto" />
       </div>
       <section className="flex text-md flex-col items-center gap-2 w-full justify-center">
