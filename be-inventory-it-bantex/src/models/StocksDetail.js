@@ -18,8 +18,8 @@ class StocksModel {
     ]);
 
     // Buat placeholders
-    const placeholders = values.map(() => "(?, ?, ?, ?, ?, ?,)").join(", ");
-    const SQLQuery = `INSERT INTO detail_stock (stock_no, stock_detail_description, qty, brand, additional_info, note, ) VALUES ${placeholders};`;
+    const placeholders = values.map(() => "(?, ?, ?, ?, ?, ?)").join(", ");
+    const SQLQuery = `INSERT INTO detail_stock (stock_no, stock_detail_description, qty, brand, additional_info, note) VALUES ${placeholders};`;
 
     // Flatten values
     const flattenedValues = values.reduce(
@@ -164,8 +164,6 @@ class StocksModel {
       [
         stock_detail_description,
         qty,
-        category,
-        unit,
         brand,
         additional_info,
         note,
@@ -180,11 +178,10 @@ class StocksModel {
   // Metode untuk mengupdate data detail stok
   // updateAllDetailStock(detailStockData, callback) {
   //   const query =
-  //     "UPDATE detail_stock SET stock_detail_description = ?, qty = ?, category = ?, unit = ?, brand = ? WHERE id_detail_stock = ?";
+  //     "UPDATE detail_stock SET stock_detail_description = ?, qty = ?, unit = ?, brand = ? WHERE id_detail_stock = ?";
   //   const values = detailStockData.map((detail) => [
   //     detail.stock_detail_description,
   //     detail.qty,
-  //     detail.category,
   //     detail.unit,
   //     detail.brand,
   //     detail.id_detail_stock,
