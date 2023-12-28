@@ -39,7 +39,6 @@ function PrintPage() {
             // Gabungkan data dari kedua panggilan API
             const combinedData = [...res1.data.data, ...res2.data.data];
             setDataDetailPengajuan(combinedData);
-            console.log(combinedData);
           })
           .catch((error) => {
             alert(error.message);

@@ -66,6 +66,33 @@ class User {
     });
   }
 
+  getUserByUsername2(username) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM user WHERE username = ?";
+      this.connection.query(query, [username], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
+  getAdminByEmail(username) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM user WHERE username = ? AND role = 1;";
+      this.connection.query(query, [username], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          // Mengembalikan data admin jika ditemukan
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
   // Metode untuk mengedit data pengguna berdasarkan id_user
   // editUser(id_user, userData, callback) {
   //   const { username, role, full_name, email } = userData;
@@ -130,7 +157,6 @@ class User {
     });
   }
 
-  // Metode untuk mendapatkan siapa yang terakhir kali login
   getLastLogin(username, callback) {
     const query =
       "SELECT username, MAX(login_time) as last_login FROM login_history WHERE username = ? GROUP BY username";
@@ -138,7 +164,6 @@ class User {
       callback(error, results[0]);
     });
   }
-  // Metode untuk mendapatkan data semua pengguna yang pernah login
   getAllLogins(callback) {
     const query =
       "SELECT username, MAX(login_time) as last_login FROM login_history GROUP BY username";
@@ -162,7 +187,6 @@ class User {
     });
   }
 
-  // Metode untuk mengambil pengguna berdasarkan ID
   getUserByID(id_user, callback) {
     const query =
       "SELECT id_user, username, password, role FROM user WHERE id_user = ?";
@@ -175,7 +199,6 @@ class User {
     });
   }
 
-  // Metode untuk mengambil data pengguna berdasarkan role
   getUserByRole(role, callback) {
     const query = "SELECT * FROM user WHERE role = ?";
     this.connection.query(query, [role], (error, results) => {
@@ -183,7 +206,6 @@ class User {
     });
   }
 
-  // Mengambil daftar peran pengguna tanpa duplikasi
   getUniqueRoles(callback) {
     const query = "SELECT DISTINCT role FROM user";
     this.connection.query(query, (error, results) => {
@@ -196,12 +218,24 @@ class User {
     });
   }
 
-  // Metode untuk mendapatkan data profile pengguna berdasarkan username
   getUserProfile(username, callback) {
     const query =
       "SELECT id_user, code_user, username, full_name, email, role FROM user WHERE username = ?";
     this.connection.query(query, [username], (error, results) => {
       callback(error, results[0]);
+    });
+  }
+
+  getUserById(userId) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM user WHERE id_user = ?";
+      this.connection.query(query, [userId], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      });
     });
   }
 

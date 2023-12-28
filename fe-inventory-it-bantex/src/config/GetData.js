@@ -10,7 +10,10 @@ import {
   fetchStockDetails,
   fetchStockDetailsByid,
 } from "../Redux/Feature/detailStockslice";
-import { fetchFormDataReqSubById } from "../Redux/Feature/requestSubmissionSlice";
+import {
+  fetchFormDataReqSubById,
+  fetchReqSub,
+} from "../Redux/Feature/requestSubmissionSlice";
 import {
   fechtPcLineData,
   fetchItemsUnusedForPcMaster,
@@ -121,9 +124,9 @@ export function useFetchUsers() {
 // Pengajuan
 export function useFetchRequestSubmission() {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.dataSliceItemReq.allData);
+  const data = useSelector((state) => state.reqSub.data);
   useEffect(() => {
-    dispatch(fetchAllData());
+    dispatch(fetchReqSub());
   }, [dispatch]);
   return data;
 }

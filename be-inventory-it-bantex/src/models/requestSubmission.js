@@ -40,6 +40,20 @@ class requestSubmission {
     );
   }
 
+  getReqSubById2(idItemReq) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM request_submission WHERE id_req_sub = ?";
+      this.connection.query(query, [idItemReq], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          // Mengembalikan data pengajuan jika ditemukan
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
   // Metode untuk mengupdate form request
   updateFormRequest(id_req_sub, data, callback) {
     const query =

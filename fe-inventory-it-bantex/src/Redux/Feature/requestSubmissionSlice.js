@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const fetchReqSub = createAsyncThunk("form/fetchReqSub", async () => {
-  const response = await AxiosInstance.get("/items");
+  const response = await AxiosInstance.get("/form");
   return response.data.data;
 });
 

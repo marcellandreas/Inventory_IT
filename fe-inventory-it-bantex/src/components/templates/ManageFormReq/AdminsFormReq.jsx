@@ -13,12 +13,12 @@ import { TableApplicationsForm } from "../../molecules";
 import TabBar from "@TabBar";
 import { filterDataBySearch } from "../../../helpers";
 import generateDynamicContent from "../GenerateDynamicContent";
+import { useFetchRequestSubmission } from "../../../config/GetData";
 
 const AdminsFormReq = ({ setId, id, setDeleteModal }) => {
   const [toggleState, setToggleState] = useState(1);
   const [search, setSearch] = useState("");
-
-  const allData = useSelector((state) => state.dataSliceItemReq.allData);
+  const allData = useFetchRequestSubmission();
   const needApproved = useSelector(
     (state) => state.dataSliceItemReq.needApproved
   );

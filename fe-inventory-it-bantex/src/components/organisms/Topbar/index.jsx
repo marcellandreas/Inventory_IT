@@ -20,8 +20,8 @@ const Topbar = ({ isOpen, toggle }) => {
   }, [location.pathname, id_item_req, stock_no, id]);
 
   return (
-    <section className=" w-full relative ">
-      <div className="h-[8vh] md:h-[10vh]   rounded-xl bg-slate-300 w-full border-b-2 flex flex-row  justify-between border-l-4 border-slate-700  text-slate-700  items-center">
+    <section className=" w-full relative px-4 ">
+      <div className="h-[8vh] md:h-[10vh] px-3   rounded-xl bg-slate-300 w-full border-b-2 flex flex-row  justify-between border-l-4 border-slate-700  text-slate-700  items-center">
         <div>
           <p className="text-lg capitalize font-bold">{currentPage.title}</p>
           <p className="text-md">Hi {username}, Welcome to InventoryIT</p>

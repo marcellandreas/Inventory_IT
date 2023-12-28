@@ -9,7 +9,6 @@ import {
 } from "../../config/GetData";
 import DashboardUser from "./DashboardUsers";
 import DashboardAdmin from "./DashboardAdmin";
-import Timer from "../../components/atoms/Timer";
 
 const Dashboard = () => {
   const [dataLogin, setDataLogin] = useState([]);

@@ -16,6 +16,7 @@ import {
 } from "../../Redux/Feature/ItemsRequest";
 import { ShowModal } from "../../components/organisms";
 import DeleteApplications from "../../components/molecules/Form/Applications/DeleteApplications";
+import { fetchReqSub } from "../../Redux/Feature/requestSubmissionSlice";
 
 const Applications = () => {
   const role = localStorage.getItem("role");
@@ -24,6 +25,7 @@ const Applications = () => {
 
   useEffect(() => {
     dispatch(fetchAllData());
+    dispatch(fetchReqSub());
     dispatch(fetchNeedApproved(username));
     dispatch(fetchNeedApproved2(username));
     dispatch(fetchApproved(username));

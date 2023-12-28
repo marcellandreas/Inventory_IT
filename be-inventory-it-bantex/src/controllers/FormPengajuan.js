@@ -180,7 +180,6 @@ const getAllDataReqSubandStockSubmission = async (req, res) => {
     const [data] =
       await FormPengajuanModal.getAllDataReqSubandStockSubmission();
     // Map the data and process GROUP_CONCAT results into arrays of objects
-    console.log(data);
     const transformedData = data.map((item) => ({
       no_pengajuan: item.no_pengajuan,
       name_pt: item.name_pt,

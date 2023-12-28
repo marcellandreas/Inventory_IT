@@ -1,22 +1,39 @@
 import { useDispatch } from "react-redux";
 import { useFetchFormDataReqSubById } from "../../../../config/GetData";
-import { deleteDataReqSub } from "../../../../Redux/Feature/requestSubmissionSlice";
+import {
+  deleteDataReqSub,
+  fetchReqSub,
+} from "../../../../Redux/Feature/requestSubmissionSlice";
 
 const DeleteApplications = ({ onClose, id }) => {
   const dispatch = useDispatch();
   const dataReqSubById = useFetchFormDataReqSubById(id);
 
+  // Fungsi untuk menangani penghapusan data pengajuan
   const handleDelete = async (e) => {
     e.preventDefault();
+
+    // Memeriksa status data pengajuan sebelum menghapus
     if (
       dataReqSubById.status === "Diajukan" ||
       dataReqSubById.status === "Ditolak"
     ) {
-      dispatch(deleteDataReqSub(id));
-      alert("Berhasil Menghapus stok");
-      onClose();
+      try {
+        // Menggunakan fungsi deleteDataReqSub dari Redux untuk menghapus data
+        await dispatch(deleteDataReqSub(id));
+
+        // Setelah penghapusan, memuat ulang data pengajuan
+        dispatch(fetchReqSub());
+
+        // Menutup modal setelah penghapusan berhasil
+        onClose();
+      } catch (error) {
+        // Menangkap dan menampilkan pesan kesalahan jika terjadi masalah saat penghapusan
+        alert("Gagal menghapus data");
+      }
     } else {
-      alert("Data Tidak bisa dihapus");
+      // Menampilkan pesan jika data tidak dapat dihapus karena sudah ada persetujuan
+      alert("Data tidak bisa dihapus karena sudah ada persetujuan");
     }
   };
 

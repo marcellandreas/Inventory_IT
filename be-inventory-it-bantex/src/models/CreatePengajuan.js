@@ -75,6 +75,44 @@ class CreatePengajuan {
       callback(null, pengajuanCode);
     });
   }
+  // Tambahkan fungsi ini di model CreatePengajuan
+  ambilAlamatEmail(idPengguna, callback) {
+    const query = "SELECT email FROM user WHERE id = ?";
+
+    this.connection.query(query, [idPengguna], (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results[0].email);
+      }
+    });
+  }
+
+  getDataBarangByTypeRequest(typeRequest, noPengajuan) {
+    console.log("typeRequest:", typeRequest);
+    console.log("noPengajuan:", noPengajuan);
+    return new Promise((resolve, reject) => {
+      let tableName;
+      if (typeRequest === "REQUEST") {
+        tableName = "stock_request";
+      } else if (typeRequest === "SUBMISSION") {
+        tableName = "stock_submission";
+      } else {
+        reject(new Error("Invalid type_request"));
+        return;
+      }
+
+      const query = `SELECT * FROM ${tableName} WHERE no_pengajuan = ?`;
+      this.connection.query(query, [noPengajuan], (error, results) => {
+        console.log("Query results:", results);
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+  }
 }
 
 module.exports = CreatePengajuan;

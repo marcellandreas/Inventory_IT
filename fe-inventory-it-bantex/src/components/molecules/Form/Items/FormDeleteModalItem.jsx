@@ -62,7 +62,7 @@ const FormDeleteModalItem = ({ onClose, id }) => {
           updatePlusQtyDetails(dataDetailPost)
         );
         if (updateDetailsResult) {
-          console.log("berjalana tidak");
+          alert("data tidak dapat dihapus ketika masih terhubung kekomputer");
           dispatch(updateStockQty(matchingStocks[0]));
         }
       } else {

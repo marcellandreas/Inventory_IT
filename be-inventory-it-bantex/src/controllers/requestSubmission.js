@@ -1,14 +1,23 @@
 const requestSubmissionModels = require("../models/requestSubmission");
+const userModels = require("../models/requestSubmission");
+const AuthModels = require("../models/AuthModel");
+const CreateModel = require("../models/CreatePengajuan");
+const { showFormattedDate } = require("../helpers/formatData");
+
 const dbConfig = {
   host: "localhost",
   user: "root",
   password: "",
   database: "inventory_it",
 };
+const nodemailer = require("nodemailer");
 
 const { sendErrorRes, sendSuccessRes } = require("../helpers/response");
 
 const requestSubmission = new requestSubmissionModels(dbConfig);
+const userFix = new userModels(dbConfig);
+const authFix = new AuthModels(dbConfig);
+const createFix = new CreateModel(dbConfig);
 
 exports.getAllData = (req, res) => {
   requestSubmission.getAllData((error, results) => {
@@ -207,30 +216,272 @@ exports.getDataByCriteria = (req, res) => {
   );
 };
 
-// Mengubah status dan tanggal approved saat disetujui oleh approved_1
-exports.approveFormRequest1 = (req, res) => {
-  const { idItemReq } = req.params;
-
-  // Set status dan tanggal yang sesuai
-  const status = "Disetujui1";
-  const tglApproved1 = new Date();
-
-  requestSubmission.approveFormRequest(
-    idItemReq,
-    status,
-    tglApproved1,
-    (error, result) => {
-      if (error) {
-        sendErrorRes(res, 500, "Server Error", error);
-      } else {
-        if (result.affectedRows > 0) {
-          sendSuccessRes(res, 200, `Status Berhasil diubah`);
-        } else {
-          sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
-        }
-      }
+const sendEmail = async (idItemReq, templateType) => {
+  try {
+    const dataPengajuan = await userFix.getReqSubById2(idItemReq);
+    if (!dataPengajuan) {
+      console.error("Pengajuan not found for idItemReq:", idItemReq);
+      return;
     }
-  );
+
+    const { request_type, no_pengajuan } = dataPengajuan;
+    const dataBarang = await createFix.getDataBarangByTypeRequest(
+      request_type,
+      no_pengajuan
+    );
+    console.log("Data Barang:", dataBarang);
+
+    console.log("Sending email to user:", dataPengajuan);
+
+    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
+    const admin = await authFix.getUserByUsername2(dataPengajuan.approved_1);
+    const user = await authFix.getUserByUsername2(dataPengajuan.post_username);
+    const managerEmail = manager ? manager.email : null;
+    const managerName = manager ? manager.name_full : null;
+    const userEmail = user ? user.email : null;
+    const userName = user ? user.full_name : null;
+    const adminEmail = admin ? admin.email : null;
+    const adminName = admin ? admin.full_name : null;
+
+    if (!userEmail) {
+      console.error(
+        "User email not found for username:",
+        dataPengajuan.post_username
+      );
+      return;
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const { stock_no, stock_description, qty, additional_info, note } =
+      dataBarang[0];
+
+    let subject;
+    let text;
+
+    switch (templateType) {
+      case "admin_approval":
+        subject = `Pengajuan Barang IT Bantex Indonesia - Disetujui oleh Admin: ${adminName}`;
+        text = `Dear mr/mrs ${userName}
+
+        Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} pada divisi ${
+          dataPengajuan.name_division
+        } atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+          dataPengajuan.post_date
+        )} telah disetujui oleh Bagian IT ${adminName},
+        
+        Detail Pengajuan:
+        - Nomor: ${no_pengajuan}
+        - Stock No: ${stock_no}
+        - Nama PT: ${dataPengajuan.name_pt}
+        - Nama Division: ${dataPengajuan.name_division}
+        - Deskripsi Barang: ${stock_description}
+        - Jumlah: ${qty}
+        ${note ? `- Note: ${note}` : ""}
+        ${additional_info ? `- Tambahan: ${additional_info}` : ""}
+
+        Terima kasih telah menggunakan layanan kami.
+        Best Regards 
+        System Administrator
+        `;
+        break;
+      case "managers_approval":
+        subject = `Pengajuan Barang IT Bantex Indonesia - Disetujui oleh Manager ${managerName}`;
+        text = `
+        Dear mr/mrs ${userName}
+
+        Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+          dataPengajuan.post_date
+        )} telah disetujui oleh manager ${managerName},
+        
+        Detail Pengajuan:
+        Nomor Pengajuan: ${no_pengajuan}
+        Dibuat oleh: ${userEmail}
+        Detail Pengajuan:
+        - Nomor: ${no_pengajuan}
+        - Stock No: ${stock_no}
+        - Nama PT: ${dataPengajuan.name_pt}
+        - Nama Division: ${dataPengajuan.name_division}
+        - Deskripsi Barang: ${stock_description}
+        - Jumlah: ${qty}
+        ${note ? `- Note: ${note}` : ""}
+        ${additional_info ? `- Tambahan: ${additional_info}` : ""}
+        
+        Pengajuan sudah selesai harap menunggu barang, "ketika barang tiba segera klik Selesai"
+
+        Terima kasih telah menggunakan layanan kami.
+        Best Regards 
+        System Administrator
+        `;
+        break;
+      case "rejection":
+        subject = "Pengajuan Barang IT Bantex Indonesia - Ditolak";
+        text = `
+        Dear mr/mrs ${userName}
+
+      Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+          dataPengajuan.post_date
+        )} telah ditolak oleh Bagian IT ${adminName} / manager ${managerName},
+
+        Detail Pengajuan:
+        - Nomor: ${no_pengajuan}
+        - Stock No: ${stock_no}
+        - Nama PT: ${dataPengajuan.name_pt}
+        - Nama Division: ${dataPengajuan.name_division}
+        - Deskripsi Barang: ${stock_description}
+        - Jumlah: ${qty}
+        ${note ? `- Note: ${note}` : ""}
+        ${additional_info ? `- Tambahan: ${additional_info}` : ""}
+        
+        Terima kasih telah menggunakan layanan kami.
+        Best Regards 
+        System Administrator
+        `;
+        break;
+      default:
+        console.error("Invalid template type:", templateType);
+        return;
+    }
+
+    const mailOptions = {
+      from: "marcellandreasduha@gmail.com",
+      to: userEmail,
+      subject,
+      text,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email to user sent:", info.response);
+  } catch (error) {
+    console.error("Error sending email to user:", error);
+  }
+};
+
+const sendEmailToManagers = async (idItemReq) => {
+  try {
+    const dataPengajuan = await userFix.getReqSubById2(idItemReq);
+
+    console.log("data pengajuan mana", dataPengajuan);
+    if (!dataPengajuan) {
+      console.error("Pengajuan not found for idItemReq:", idItemReq);
+      return;
+    }
+
+    const dataBarang = await createFix.getDataBarangByTypeRequest(
+      dataPengajuan.request_type,
+      dataPengajuan.no_pengajuan
+    );
+
+    console.log("data barang", dataBarang);
+
+    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
+    const admin = await authFix.getUserByUsername2(dataPengajuan.approved_1);
+    const user = await authFix.getUserByUsername2(dataPengajuan.post_username);
+    const managerEmail = manager ? manager.email : null;
+    const managerName = manager ? manager.name_full : null;
+    const userEmail = user ? user.email : null;
+    const userName = user ? user.full_name : null;
+    const adminEmail = admin ? admin.email : null;
+    const adminName = admin ? admin.full_name : null;
+
+    if (!managerEmail) {
+      console.error(
+        "Manager email not found for username:",
+        dataPengajuan.approved_2
+      );
+      return;
+    }
+
+    const no_pengajuan = dataPengajuan.no_pengajuan;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+    console.log("data barang ", dataBarang);
+    const { stock_no, stock_description, qty, additional_info, note } =
+      dataBarang[0];
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: managerEmail,
+      cc: adminEmail,
+      subject: `Pengajuan Barang IT - ${userName} `,
+      text: `
+      Dear mr/mrs ${managerName}
+
+
+      Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+        dataPengajuan.post_approved_1
+      )} telah disetujui oleh Bagian IT,
+      
+      Detail Pengajuan: 
+      No: ${dataPengajuan.no_pengajuan},
+      Stock No: ${stock_no}, 
+      nama pt: ${dataPengajuan.name_pt}, 
+      nama division: ${dataPengajuan.name_division}, 
+      Deskripsi Barang : ${stock_description} 
+      jumlah: ${qty} 
+      ${note ? ` note: ${note}` : ""}
+      ${additional_info ? ` Tambahan: ${additional_info}` : ""}
+  
+      Terima kasih telah menggunakan layanan kami.
+      Best Regards 
+      System Administrator
+      `,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email to manager sent:", info.response);
+  } catch (error) {
+    console.error("Error sending email to manager:", error);
+  }
+};
+
+exports.approveFormRequest1 = async (req, res) => {
+  try {
+    const { idItemReq } = req.params;
+
+    const status = "Disetujui1";
+    const tglApproved1 = new Date();
+
+    const result = await new Promise((resolve, reject) => {
+      requestSubmission.approveFormRequest(
+        idItemReq,
+        status,
+        tglApproved1,
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+
+    if (result.affectedRows > 0) {
+      sendSuccessRes(res, 200, `Status Berhasil diubah`);
+      const emailResult = sendEmail(idItemReq, "admin_approval");
+      if (emailResult) {
+        await sendEmailToManagers(idItemReq);
+      } else {
+      }
+    } else {
+      sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
+    }
+  } catch (error) {
+    sendErrorRes(res, 500, "Server Error", error);
+  }
 };
 
 // Mengubah status dan tanggal approved saat disetujui oleh approved_2
@@ -251,6 +502,8 @@ exports.approveFormRequest2 = (req, res) => {
       } else {
         if (result.affectedRows > 0) {
           sendSuccessRes(res, 200, `Status Berhasil diubah`);
+
+          sendEmail(idItemReq, "managers_approval");
         } else {
           sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
         }
@@ -269,6 +522,7 @@ exports.rejectFormRequest = (req, res) => {
     } else {
       if (result.affectedRows > 0) {
         sendSuccessRes(res, 200, `Status Berhasil diubah`);
+        sendEmail(idItemReq, "rejection");
       } else {
         sendSuccessRes(res, 404, `Tidak Menemukan Id ${idItemReq}`);
       }

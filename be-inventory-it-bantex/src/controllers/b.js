@@ -1,6 +1,6 @@
 const CreatePengajuanModel = require("../models/CreatePengajuan");
-const UserModel = require("../models/AuthModel");
-
+const UserModel = require("../models/AuthModel"); // Gantilah dengan model User yang sesuai
+const pool = require("../config/database");
 const nodemailer = require("nodemailer");
 
 const dbConfig = {
@@ -11,7 +11,7 @@ const dbConfig = {
 };
 
 const pengajuan = new CreatePengajuanModel(dbConfig);
-const userModel = new UserModel(dbConfig);
+const userModel = new UserModel(dbConfig); // Sesuaikan dengan model User yang sesuai
 
 const sendErrorRes = (res, statusCode, message, error) => {
   res
@@ -29,12 +29,12 @@ const sendEmail = async (no_pengajuan, body) => {
   console.log(body);
   console.log(user);
 
-  // const dataBarang = await pengajuan.getDataBarangByTypeRequest(
-  //   body.request_type,
-  //   no_pengajuan
-  // );
+  const dataBarang = await pengajuan.getDataBarangByTypeRequest(
+    body.request_type,
+    no_pengajuan
+  );
 
-  // console.log("aaa", dataBarang);
+  console.log("");
 
   if (!user) {
     console.error("User not found");
@@ -42,7 +42,6 @@ const sendEmail = async (no_pengajuan, body) => {
   }
 
   const userEmail = user.email;
-  const userName = user.full_name;
 
   const appPassword = "ojlc htjm mkyo bzge";
 
@@ -55,8 +54,6 @@ const sendEmail = async (no_pengajuan, body) => {
     },
   });
 
-  // console.log(dataBarang);
-
   const {
     name_pt,
     name_division,
@@ -65,20 +62,26 @@ const sendEmail = async (no_pengajuan, body) => {
     post_username,
     request_type,
   } = body;
-  // const { stock_no, stock_description, qty, note } = dataBarang[0];
+  const { stock_no, stock_description, qty, additional_info, note } =
+    dataBarang;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: userEmail,
-    subject: "Pengajuan Barang IT ",
-    text: `Hai ${userName},\n\nPengajuan Barang IT dengan nomor ${no_pengajuan} telah berhasil dibuat.\n\n
-   
+    subject: "Pengajuan Barang IT",
+    text: `Hai ${userEmail},\n\nPengajuan Barang IT dengan nomor ${no_pengajuan} telah berhasil dibuat.\n\n
+    Detail Pengajuan:\n
+    No: ${no_pengajuan}, 
+    Stock No: ${stock_no},
+    nama pt: ${name_pt},
+    nama division: ${name_division}, 
+    Deskripsi Barang : ${stock_description}
+    jumlah: ${qty}
+    ${note ? ` note: ${note}` : null}
+    ${additional_info ? ` Tambahan: ${additional_info}` : null}
     Pengajuan akan di tujuan kepada Bagian IT ${approved_1} dan Manager ${approved_2}
     Mohon di tunggu
-    
-    Terima kasih telah menggunakan layanan kami.
-    Best Regards 
-    System Administrator`,
+    \n\nTerima kasih telah menggunakan layanan kami.\n\nSalam,\nTim Pengajuan Barang IT`,
   };
 
   try {
@@ -89,13 +92,15 @@ const sendEmail = async (no_pengajuan, body) => {
   }
 };
 
-const sendEmailToAdmin = async (no_pengajuan, body, adminEmail, adminName) => {
+const sendEmailToAdmin = async (no_pengajuan, body, adminEmail) => {
   try {
     // Mendapatkan data barang
     const dataBarang = await pengajuan.getDataBarangByTypeRequest(
       body.request_type,
       no_pengajuan
     );
+
+    // Memeriksa apakah dataBarang tidak undefined
 
     // Email setup
     const transporter = nodemailer.createTransport({
@@ -107,34 +112,26 @@ const sendEmailToAdmin = async (no_pengajuan, body, adminEmail, adminName) => {
     });
 
     // Extracting properties from body and dataBarang
-    const { post_username, name_pt, name_division, request_type, post_date } =
-      body;
-    const { stock_no, stock_description, qty, note } = dataBarang[0];
+    const { post_username, name_pt, name_division, request_type } = body;
+    const { stock_no, stock_description, qty, additional_info, note } =
+      dataBarang[0];
 
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: adminEmail,
       subject: `Pengajuan Barang IT Bantex Indonesia, pengaju ${post_username}`,
-      text: `Dear mr/mrs ${adminName}
-
-      Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${post_username} pada divisi ${name_division} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
-        post_date
-      )} 
-      
-      Detail Pengajuan:
-      - Nomor: ${no_pengajuan}
-      - Stock No: ${stock_no}
-      - Nama PT: ${name_pt}
-      - Nama Division: ${name_division}
-      - Deskripsi Barang: ${stock_description}
-      - Jumlah: ${qty}
-      ${note ? `- Note: ${note}` : ""}
-
-      Terima kasih telah menggunakan layanan kami.
-      Best Regards 
-      System Administrator
-      `,
+      text: `Pengajuan dengan nomor ${no_pengajuan} telah berhasil dibuat oleh username ${post_username} dengan email: ${adminEmail}. 
+          Detail Pengajuan: 
+          No: ${no_pengajuan},\n 
+          Stock No: ${stock_no}, \n
+          Nama PT: ${name_pt}, \n
+          Nama Division: ${name_division}, \n 
+          Deskripsi Barang: ${stock_description} \n
+          Jumlah: ${qty} \n
+          ${note ? `Note: ${note} \n` : ""}
+          ${additional_info ? `Tambahan: ${additional_info} \n` : ""}
+      \n\n\nDiharapkan Bagian IT dapat segera melakukan approved terkait pengajuan yang diajukan oleh ${post_username}, Terima Kasih`,
     };
 
     // Mengirim email
@@ -144,6 +141,9 @@ const sendEmailToAdmin = async (no_pengajuan, body, adminEmail, adminName) => {
     console.error("Error sending email to admin:", error);
   }
 };
+
+// Panggil fungsi sendEmailToAdmin dengan parameter yang sesuai
+// sendEmailToAdmin(no_pengajuan_value, body_value, adminEmail_value);
 
 exports.createPengajuan = async (req, res) => {
   const { body } = req;
@@ -164,12 +164,7 @@ exports.createPengajuan = async (req, res) => {
         try {
           const admin = await userModel.getAdminByEmail(adminUsername);
           if (admin) {
-            await sendEmailToAdmin(
-              no_pengajuan,
-              body,
-              admin.email,
-              admin.full_name
-            );
+            await sendEmailToAdmin(no_pengajuan, body, admin.email);
           } else {
             console.log("Admin not found");
           }

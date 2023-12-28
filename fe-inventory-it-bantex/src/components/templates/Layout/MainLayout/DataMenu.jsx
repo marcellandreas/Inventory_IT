@@ -10,7 +10,7 @@ const DataMenu = ({ menu, i, isOpen }) => {
       activeClassName="active"
       className={`group flex items-center text-sm gap-2 font-medium p-2 hover:bg-white hover:text-slate-800 rounded-md`}
     >
-     y <div>{React.createElement(icon, { size: "20" })}</div>
+      <div>{React.createElement(icon, { size: "20" })}</div>
       <h2
         style={{
           transitionDelay: `${i + 3}00ms`,
