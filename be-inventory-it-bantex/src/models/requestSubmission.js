@@ -8,11 +8,12 @@ class requestSubmission {
 
   // Metode untuk mengambil semua data form request
   getAllData(callback) {
-    const query = "SELECT * FROM request_submission";
+    const query = "SELECT * FROM request_submission ORDER BY post_date DESC";
     this.connection.query(query, (error, results) => {
       callback(error, results);
     });
   }
+
   getDataPostDateNew(callback) {
     const query = `SELECT * FROM request_submission
     ORDER BY post_date DESC

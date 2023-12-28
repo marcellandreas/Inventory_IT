@@ -103,6 +103,7 @@ class StocksModel {
     const query =
       "UPDATE detail_stock SET qty = qty - ? WHERE id_detail_stock = ?";
     const updatePromises = data.map(({ id_detail_stock, qty }) => {
+      console.log(id_detail_stock, qty);
       return new Promise((resolve, reject) => {
         this.connection.query(query, [qty, id_detail_stock], (error) => {
           if (error) {

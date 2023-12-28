@@ -5,7 +5,6 @@ import {
 } from "../../components/templates";
 import { useEffect, useState } from "react";
 import { TablePcMasters } from "../../components/molecules";
-import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
 import { BackButton, SearchInput, TitleTable } from "../../components/atoms";

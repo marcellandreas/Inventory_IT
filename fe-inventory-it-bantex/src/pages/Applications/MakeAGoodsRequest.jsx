@@ -32,8 +32,6 @@ const MakeAGoodsRequest = React.memo(() => {
     request_type: "",
   });
 
-  console.log(formValues);
-
   const handleChangeValue = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -93,8 +91,6 @@ const MakeAGoodsRequest = React.memo(() => {
     setinputList(newInputList);
   }, [formValues.request_type]);
 
-  console.log(inputList);
-
   const [detStockData, setDetStockData] = useState([]);
 
   useEffect(() => {
@@ -130,7 +126,6 @@ const MakeAGoodsRequest = React.memo(() => {
 
   const [detStockQtyData, setDetStockQtyData] = useState([]);
 
-  console.log(inputList);
   useEffect(() => {
     const fetchDataForQtyStock = async (idDetStock, index) => {
       try {
@@ -167,7 +162,6 @@ const MakeAGoodsRequest = React.memo(() => {
     fetchQtyForStockDetails();
   }, [...inputList.map((item, index) => item.id_det_stock)]);
 
-  const { categories, unitOptions, typeOptions } = useHelpersFormData();
   const handleinputchange = (e, index) => {
     const { name, value } = e.target;
     const updatedInputList = [...inputList];
@@ -217,8 +211,6 @@ const MakeAGoodsRequest = React.memo(() => {
     navigate(-1);
   };
 
-  console.log(inputList);
-
   const handleSubmit = async () => {
     try {
       if (formValues.request_type === "REQUEST") {
@@ -228,7 +220,6 @@ const MakeAGoodsRequest = React.memo(() => {
           return;
         }
       }
-      console.log(formValues);
       const response1 = await AxiosInstance.post(
         "/createPengajuan", // new baru di ganti ("/pengajuan/req")
         formValues
@@ -252,7 +243,11 @@ const MakeAGoodsRequest = React.memo(() => {
           note: item.note,
         };
         return formValues.request_type === "REQUEST"
-          ? { ...commonFields, stock_no: item.stock_no }
+          ? {
+              ...commonFields,
+              stock_no: item.stock_no,
+              id_detail_stock: item.id_det_stock,
+            }
           : commonFields;
       });
 
@@ -281,6 +276,8 @@ const MakeAGoodsRequest = React.memo(() => {
       console.error("Terjadi kesalahan saat mengirim permintaan:", error);
     }
   };
+
+  console.log("input LIST", inputList);
 
   return (
     <MainLayout>

@@ -66,11 +66,11 @@ const FormDeleteModalItem = ({ onClose, id }) => {
           dispatch(updateStockQty(matchingStocks[0]));
         }
       } else {
-        console.log("item descption does not match");
+        alert("item descption does not match");
       }
       onClose();
     } else {
-      console.log("Category does not match");
+      alert("Category does not match");
     }
   };
   return (

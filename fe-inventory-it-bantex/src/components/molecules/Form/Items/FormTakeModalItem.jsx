@@ -126,8 +126,6 @@ const FormTakeModalItem = ({ onClose }) => {
     post_username: username,
   };
 
-  console.log(formValues);
-
   const handleCreateForm = async (e) => {
     e.preventDefault();
     const errors = validateFormTakeItem(formValues, data);

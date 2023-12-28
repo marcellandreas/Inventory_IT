@@ -36,7 +36,6 @@ const DetailFormItemsRequest = () => {
       .then((res) => {
         setLoading(true);
         dispatch(fetchDataDetailPengajuan(id_item_req));
-        alert("Berhasil");
       })
       .catch((err) => console.log(err));
   };
@@ -75,10 +74,24 @@ const DetailFormItemsRequest = () => {
   //   (item) => item.stock_no
   // );
 
+  // console.log("req", dataStockReq);
   // const dataDetailPost = dataStockReq[0]?.submissionData.map((item) => ({
-  //   id_detail_stock: item.id_detail_stock,
-  //   qty: item.qty,
+  //   id_detail_stock: item.Id_submission_items || null,
+  //   qty: item.qty || null,
   // }));
+
+  const stockNos = dataStockReq[0]?.submissionData.map((item) => item.stock_no);
+  const stockNosSub = dataStockSub[0]?.submissionData.map(
+    (item) => item.stock_no
+  );
+
+  const dataDetailPost = dataStockReq[0]?.submissionData.map((item) => ({
+    id_detail_stock: item.id_detail_stock, // kenapa bisa null
+    qty: item.qty,
+  }));
+
+  console.log(dataDetailPost, "data detail ");
+  console.log(stockNos, "data stock");
 
   const handleQtyMinus = async () => {
     if (requestType === "REQUEST") {
@@ -86,9 +99,15 @@ const DetailFormItemsRequest = () => {
         await AxiosInstance.put(`/det-stock/update-multiple`, dataDetailPost);
         alert("berhasil update qty");
 
+        console.log(dataDetailPost);
+
         const stockNoPromises = stockNos.map((stockNo) => {
           return AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
         });
+
+        const itemsPost = Axios;
+
+        console.log(stockNos);
 
         await Promise.all(stockNoPromises);
       } catch (error) {

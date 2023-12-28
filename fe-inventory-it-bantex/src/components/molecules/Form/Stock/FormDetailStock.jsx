@@ -1,5 +1,5 @@
 import { MdDelete } from "react-icons/md";
-import { CustomInput, CustomInput2, CustomTextArea } from "../../../atoms";
+import { CustomInput2 } from "../../../atoms";
 
 const FormDetailStock = ({
   handleinputchange,

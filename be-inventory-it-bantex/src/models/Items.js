@@ -139,6 +139,7 @@ class Items {
     item_specification = ?, 
     post_user_id = ?, 
     post_username = ? 
+    post_date = CURRENT_TIMESTAMP() 
     WHERE id = ?`;
     const values = [
       body.item_description,

@@ -8,7 +8,6 @@ const FormLostConnection = ({ onClose, setIsLoading, pcInput }) => {
   const [selectedValues, setSelectedValues] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
-  console.log(selectedValues);
   useEffect(() => {
     AxiosInstance.get(`pcline/${pcInput}`).then((res) => {
       setDataPcComponent(res.data.data);
@@ -56,7 +55,6 @@ const FormLostConnection = ({ onClose, setIsLoading, pcInput }) => {
       const response = await AxiosInstance.delete("/pcline/delete", {
         data: { item_nos: selectedValues },
       });
-      console.log("Respon dari server:", response.data);
       dispatch(setLoadingPc(true));
       setIsLoading(true);
       setSelectedValues([]);

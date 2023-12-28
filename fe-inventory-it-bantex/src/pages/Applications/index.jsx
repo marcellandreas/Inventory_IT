@@ -34,7 +34,6 @@ const Applications = () => {
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [id, setId] = useState("");
-  console.log(id);
   const renderForm = () => {
     switch (role) {
       case "1":

@@ -4,7 +4,7 @@ import { AxiosInstance } from "../../apis/api";
 import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { ContentLayout, MainLayout } from "../../components/templates";
-import { MdArrowCircleLeft, MdArrowLeft, MdPrint } from "react-icons/md";
+import { MdPrint } from "react-icons/md";
 import { BackButton } from "../../components/atoms";
 
 function QrcodePrinter() {

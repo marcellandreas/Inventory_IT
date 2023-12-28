@@ -42,6 +42,8 @@ const getAllDataReqSubandStockRequest = async (req, res) => {
   try {
     const [data] = await FormPengajuanModal.getAllDataReqSubandStockRequest();
     // Map the data and process GROUP_CONCAT results into arrays of objects
+    console.log(data);
+    console.log(data, "aakjhvgcfghijhvjgkoj");
     const transformedData = data.map((item) => ({
       id_item_req: item.id_item_req,
       no_pengajuan: item.no_pengajuan,
@@ -65,6 +67,8 @@ const getAllDataReqSubandStockRequest = async (req, res) => {
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
+          id_detail_stock:
+            item.id_detail_stock && item.id_detail_stock.split(",")[index],
         })),
     }));
 

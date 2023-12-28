@@ -23,9 +23,6 @@ const FormAddModalComponentPc2 = ({ onClose, setIsLoading, pcInput }) => {
     });
   }, []);
 
-  console.log(formValues, "data masuk");
-
-  console.table(formValues);
   const data = {
     pc_no: formValues.pc_no,
     item_no: formValues.item_no,
@@ -53,7 +50,6 @@ const FormAddModalComponentPc2 = ({ onClose, setIsLoading, pcInput }) => {
   const handleCreateForm = (e) => {
     e.preventDefault();
 
-    console.log(data);
     AxiosInstance.post("/pcline", data)
       .then((res) => {
         console.log(res);

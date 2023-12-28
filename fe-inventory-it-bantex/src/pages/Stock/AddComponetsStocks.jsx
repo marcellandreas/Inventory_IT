@@ -35,8 +35,6 @@ const AddComponentsStocks = () => {
     post_username: username,
   });
 
-  console.log(formValues);
-
   const navigate = useNavigate();
   const backToMenu = () => {
     navigate(-1);
@@ -90,8 +88,6 @@ const AddComponentsStocks = () => {
       if (response1.data.data) {
         // Dapatkan nomor_pengajuan dari respons pertama
         const stockNo = response1.data.data.stock_no;
-
-        console.log(response1.data.data.stock_no);
 
         // Lakukan operasi POST ke tabel submission
         const dataDetailPost = inputList.map((item) => ({

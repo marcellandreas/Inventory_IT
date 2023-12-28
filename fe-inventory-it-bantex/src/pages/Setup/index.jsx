@@ -78,7 +78,6 @@ const SetUp = () => {
     getDataDivision();
   }, [idDivision]);
   const division = useSelector((state) => state.divPt.dataDivision);
-  console.log(division);
   useEffect(() => {
     setFormValuesDiv((prevFormValuesDiv) => ({
       ...prevFormValuesDiv,
@@ -199,8 +198,6 @@ const SetUp = () => {
   };
 
   const filteredDataCategories = filterDataBySearch(dataCategories, search);
-  console.log(formValuesDiv);
-  const [editingCategoryId, setEditingCategoryId] = useState(null);
   const isCardVisible =
     cardState.showCard ||
     cardState.showCard ||

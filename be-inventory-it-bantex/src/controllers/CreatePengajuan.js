@@ -26,8 +26,6 @@ const sendSuccessRes = (res, statusCode, message, data) => {
 const sendEmail = async (no_pengajuan, body) => {
   const userId = body.post_user_id;
   const user = await userModel.getUserById(userId);
-  console.log(body);
-  console.log(user);
 
   // const dataBarang = await pengajuan.getDataBarangByTypeRequest(
   //   body.request_type,
@@ -54,8 +52,6 @@ const sendEmail = async (no_pengajuan, body) => {
       pass: process.env.EMAIL_PASSWORD,
     },
   });
-
-  // console.log(dataBarang);
 
   const {
     name_pt,
@@ -152,7 +148,6 @@ exports.createPengajuan = async (req, res) => {
     ...Object.values(body),
     async (error, no_pengajuan) => {
       if (error) {
-        console.log(error);
         sendErrorRes(res, 500, "pengajuan gagal dibuat", error);
       } else {
         const data = { no_pengajuan, ...body };

@@ -31,11 +31,7 @@ const LoginPage = () => {
           username: username_,
         });
       }
-      // if (response.data.data.username) {
-      //   const profile = await AxiosInstance.get("auth/profile");
-      //   console.log(profile);
-      // }
-      // Set token autentikasi
+
       setAuthToken(token);
 
       localStorage.setItem("role", role);

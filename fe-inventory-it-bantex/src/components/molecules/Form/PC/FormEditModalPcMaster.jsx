@@ -26,7 +26,6 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
   useEffect(() => {
     AxiosInstance.get(`pcmaster/${pcno}`).then((res) => {
       const itemData = res.data.data;
-      console.log(itemData);
       const mappedItemData = itemData.map((item) => ({
         pc_no: item.pc_no,
         pc_description: item.pc_description,
@@ -62,7 +61,6 @@ const FormEditModalPcMaster = ({ onClose, id, pcno, setIsLoading }) => {
     AxiosInstance.patch(`/pcmaster/${id}`, formValues)
       .then((res) => {
         alert(res.data.message);
-        console.log(formValues);
         setIsLoading(true);
         onClose();
       })

@@ -49,8 +49,6 @@ function PrintPage() {
       });
   }, []);
 
-  console.log(dataDetailPengajuan);
-
   function filterDataByDateRange(dataDetailPengajuan, startDate, endDate) {
     if (!startDate || !endDate) {
       return dataDetailPengajuan; // Return semua data jika salah satu tanggal kosong
@@ -70,8 +68,6 @@ function PrintPage() {
     startDate,
     endDate
   );
-
-  console.log(filteredData);
 
   const backToMenu = () => {
     navigate(-1);

@@ -7,7 +7,7 @@ import {
   MdDelete,
 } from "../../../assets/icons/icons";
 import { NavLink } from "react-router-dom";
-import { H5, Title, TitleTable } from "../../atoms";
+import { H5, TitleTable } from "../../atoms";
 import { ShowTable, TableBody, TableHeader, ShowModal } from "../../organisms";
 
 const DataComponentsPc = ({

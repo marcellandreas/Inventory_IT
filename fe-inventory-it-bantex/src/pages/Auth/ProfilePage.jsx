@@ -45,7 +45,6 @@ const ProfilePage = () => {
       alert("Profile Berhasil di updated");
       setLoading(true);
       setShowEdit(false);
-      console.log("Profile updated successfully:", response.data);
     } catch (error) {
       alert("Profile Gagal di updated");
 

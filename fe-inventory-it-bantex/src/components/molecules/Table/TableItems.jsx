@@ -1,7 +1,9 @@
+import React from "react";
 import { columnTableItems } from "../../../assets/data/ColumnTables";
 import { MdEditNote, MdDelete } from "../../../assets/icons/icons";
 import { showFormattedDate } from "../../../helpers/showFormattedDate";
 import { TableContent, Tbody, Thead } from "../../atoms";
+
 const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
   const tableHeaders = columnTableItems;
   const tableCellStyle = "border px-4 py-2";
@@ -17,13 +19,13 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
       </Thead>
       <Tbody>
         {data.map((item, i) => (
-          <tr key={i} className=" w-full">
+          <tr key={i} className="w-full">
             <td className={tableCellStyle}>{i + 1}</td>
             <td className={`${tableCellStyle} whitespace-nowrap`}>
               {item.item_no}
             </td>
             <td className={`${tableCellStyle} whitespace-nowrap`}>
-              <p className=" font-semibold">{item.item_description}</p>
+              <p className="font-semibold">{item.item_description}</p>
               <p>
                 brand: <span>{item.brand}</span>
               </p>
@@ -35,10 +37,10 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
               </p>
             </td>
             <td className={tableCellStyle}>{item.category}</td>
-            <td className=" whitespace-nowrap">
-              <div className=" flex  items-center gap-1">
+            <td className="whitespace-nowrap">
+              <div className="flex items-center gap-1">
                 <p>Status: </p>
-                <p className={` text-center p-2 rounded-lg ${item.status}`}>
+                <p className={`text-center p-2 rounded-lg ${item.status}`}>
                   {item.status}
                 </p>
               </div>
@@ -49,14 +51,11 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
                 Lokasi: <span>{item.item_location}</span>
               </p>
             </td>
-            <td className={`${tableCellStyle} whitespace-wrap `}>
-              {item.note}
-            </td>
+            <td className={`${tableCellStyle} whitespace-wrap`}>{item.note}</td>
             <td className={`${tableCellStyle} whitespace-nowrap`}>
               <p className="flex flex-col font-semibold">
                 Tgl Regis:
-                <span className=" font-normal"></span>
-                <span>
+                <span className="font-normal">
                   {item.date_registation
                     ? showFormattedDate(item.date_registation)
                     : "-"}
@@ -64,24 +63,24 @@ const TableItems = ({ setEditModal, setDeleteModal, data, setId }) => {
               </p>
               <p className="flex flex-col font-semibold">
                 Tgl exp:
-                <span className=" font-normal">
+                <span className="font-normal">
                   {item.date_expired ? item.date_expired : "-"}
                 </span>
               </p>
             </td>
-            <td className=" whitespace-nowrap ">
-              <p className=" capitalize font-semibold">
+            <td className="whitespace-nowrap">
+              <p className="capitalize font-semibold">
                 user: <span>{item.post_username}</span>
               </p>
-              <p className=" flex flex-col">
+              <p className="flex flex-col">
                 date:
                 <span>
                   {item.post_date ? showFormattedDate(item.post_date) : "-"}
                 </span>
               </p>
             </td>
-            <td className=" px-4 py-2 ">
-              <div className=" flex gap-1 items-center">
+            <td className="px-4 py-2">
+              <div className="flex gap-1 items-center">
                 <button
                   onClick={() => {
                     setEditModal(true);

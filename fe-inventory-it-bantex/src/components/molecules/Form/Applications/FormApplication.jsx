@@ -52,7 +52,6 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (formValues.name_pt) {
-        console.log(formValues.name_pt);
         try {
           const res = await AxiosInstance.get(
             `/app/division/${formValues.name_pt}`

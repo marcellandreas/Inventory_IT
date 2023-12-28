@@ -65,7 +65,6 @@ const AddComponentsPC = () => {
   };
 
   const filteredData = filterDataBySearch(dataUnused, search);
-  console.log(clickedItems);
   return (
     <>
       <MainLayout>

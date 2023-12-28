@@ -28,7 +28,6 @@ import { PrivateRoute, ProtectRoute } from "./Routing";
 import NewApplications from "../pages/Applications/NewApplications";
 import PersonalComputer from "../pages/PcMaster/PersonalComputer";
 import Stock2Page from "../pages/Stock2";
-import AddItems from "../pages/Items/AddItems";
 import SetUp from "../pages/Setup";
 
 const Routers = () => {
@@ -80,7 +79,6 @@ const Routers = () => {
 
           <Route path="/items">
             <Route index element={<ItemsPage />}></Route>
-            <Route path="buat" element={<AddItems />} />
           </Route>
 
           <Route path="/pc-master">

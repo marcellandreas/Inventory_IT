@@ -291,23 +291,6 @@ const FormEditUser = ({ onClose, id }) => {
         value={formValues.email}
       />
 
-      {/* <CustomSelect
-         label="Peran Role"
-         options={[
-           <option key="default" value="" disabled selected>
-             Pilih Peran Role
-           </option>,
-           ...roles.map((role, index) => (
-             <option key={index} value={role}>
-               {roleLabels[role]}
-             </option>
-           )),
-         ]}
-         value={formValues.role}
-         name="role"
-         onChange={handleChangeValue}
-       /> */}
-
       {validation.length > 0 && (
         <div>
           {validation.map((error) => (

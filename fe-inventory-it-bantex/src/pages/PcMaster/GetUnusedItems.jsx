@@ -5,9 +5,9 @@ import {
   generateDynamicContent,
 } from "../../components/templates";
 import { TablePcLine } from "../../components/molecules";
-import { useNavigate } from "react-router-dom";
 import { ShowTable, TableBody, TableHeader } from "../../components/organisms";
 import { BackButton, SearchInput, TitleTable } from "../../components/atoms";
+import { useNavigate } from "react-router-dom";
 import { filterDataBySearch } from "../../helpers/filters";
 import {
   useFetchItemsUnusedForPcMaster,
@@ -21,7 +21,6 @@ const GetUnusedItems = () => {
   const dataPcLine = useFetchPcLineData();
 
   const navigate = useNavigate();
-
   const backToMenu = () => {
     navigate(-1);
   };

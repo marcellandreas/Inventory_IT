@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../../../apis/api";
-import { validateFormDataPcMaster } from "../../../../config/ValidateForm";
 import { Title } from "../../../atoms";
 
 const FormAddModalComponentPc = ({ onClose, setIsLoading, pcInput }) => {
@@ -42,17 +41,13 @@ const FormAddModalComponentPc = ({ onClose, setIsLoading, pcInput }) => {
       formData.append("post_username", username);
     }
 
-    console.log(formData);
-
     await AxiosInstance.post("/pcline", formData)
       .then((res) => {
-        console.log(res);
         onClose();
         setIsLoading(true);
         alert("Berhasil Menambah");
       })
       .catch((err) => {
-        console.log(err);
         alert("Gagal Menambah Komponents");
       });
   };

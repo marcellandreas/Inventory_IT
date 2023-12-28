@@ -1,3 +1,5 @@
+import React from "react";
+
 import { MdDashboard, MdWarehouse, MdPeople, MdSettings } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
 import { HiDocument } from "react-icons/hi";

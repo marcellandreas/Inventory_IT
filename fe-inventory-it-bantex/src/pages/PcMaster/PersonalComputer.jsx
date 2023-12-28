@@ -19,7 +19,6 @@ const PersonalComputer = () => {
   useEffect(() => {
     AxiosInstance.get(`/pcmaster/personal/${id}`).then((res) => {
       const { data } = res.data;
-      console.log(data);
       setDataPc(data);
       setDataItems(data.items);
     });

@@ -25,7 +25,6 @@ const StockPage = () => {
   const [id, setId] = useState("");
   const dataStock = useFetchStocks();
   const isLoading = useSelector((state) => state.stocks.isLoading);
-  const [showDropdown, setShowDropdown] = useState(false);
 
   // melakuan search
   const [search, setSearch] = useState("");
@@ -44,13 +43,13 @@ const StockPage = () => {
             <Loading />
           ) : (
             <>
-              <section className="flex col-span-6 cards gap-2 p-2 place-self-end">
+              {/* <section className="flex col-span-6 cards gap-2 p-2 place-self-end">
                 <Print
                   titleDocument="Items"
                   PrintPDF={<TableStocks data={dataStock} />}
                   PrintCSV={dataStock}
                 />
-              </section>
+              </section> */}
               <ShowTable gap={6}>
                 <TableHeader>
                   <TitleTable count={dataStock.length}>Data Stocks</TitleTable>
