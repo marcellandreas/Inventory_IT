@@ -56,7 +56,7 @@ const FormRequest = ({
           placeholder={`Max: ${detStockQtyData[i]?.maxQty}`}
           name="qty"
           onChange={(e) => handleinputchange(e, i)}
-          type="text"
+          type="number"
           min={1}
           max={detStockQtyData[i]?.maxQty}
         />

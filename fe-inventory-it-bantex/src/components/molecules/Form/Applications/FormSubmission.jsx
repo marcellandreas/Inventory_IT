@@ -62,7 +62,7 @@ const FormSubmission = ({
           placeholder={`Masukan Qty`}
           name="qty"
           onChange={(e) => handleinputchange(e, i)}
-          type="text"
+          type="number"
         />
       </div>
       <CustomTextArea
