@@ -60,7 +60,7 @@ const MainLayout = ({ children }) => {
           </section>
         </section>
       ) : (
-        <section className="flex bg-slate-400 max-h-screen ">
+        <section className="flex bg-slate-400 min-h-screen  ">
           <SideBar
             handleLogout={handleLogout}
             role={role}

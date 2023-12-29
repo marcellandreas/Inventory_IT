@@ -26,11 +26,11 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
   const type = [
     {
       value: "SUBMISSION",
-      name: "Pengajuan - sub",
+      name: "Pengajuan - with out stock",
     },
     {
       value: "REQUEST",
-      name: "Permintaan - req",
+      name: "Permintaan - with stock",
     },
   ];
 
