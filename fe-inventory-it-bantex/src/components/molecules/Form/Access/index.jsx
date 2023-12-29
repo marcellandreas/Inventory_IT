@@ -162,6 +162,8 @@ const FormDeleteUser = ({ onClose, id, setIsLoading }) => {
         alert("gagal di hapus");
       });
   };
+
+  console.log(formValues);
   return (
     <form className="form_modal">
       <h1 className=" text-lg font-bold text-center">Hapus Akun Admin</h1>
@@ -252,7 +254,7 @@ const FormEditUser = ({ onClose, id }) => {
       .unwrap()
       .then((res) => {
         onClose();
-        toast.success(`🦄 ${res.message} `);
+        alert(`🦄 ${res.message} `);
       })
       .catch((err) => {
         onClose();
@@ -260,12 +262,18 @@ const FormEditUser = ({ onClose, id }) => {
       });
   };
 
+  const dataRole = [
+    { name: "Admin", role: 1 },
+    { name: "User", role: 2 },
+    { name: "Managers", role: 3 },
+  ];
+
   return (
     <form
       onSubmit={handleUpdateForm}
       className="md:w-auto mx-5 bg-amber-300 p-4 rounded-xl flex flex-col gap-2 items-center max-h-[600px] overflow-y-auto"
     >
-      <h1 className="text-lg font-bold text-center">Edit Data Pengguna </h1>
+      <h1 className="text-lg font-bold text-center">Edit Data Pengguna</h1>
       <hr className="border border-slate-800 w-full m-auto" />
       <CustomInput
         label="Username"
@@ -289,6 +297,22 @@ const FormEditUser = ({ onClose, id }) => {
         name="email"
         onChange={handleChangeValue}
         value={formValues.email}
+      />
+      <CustomSelect
+        label="Hak Akses "
+        options={[
+          <option key="default" value="" disabled selected>
+            Pilih Hak akses
+          </option>,
+          ...dataRole.map((unit, index) => (
+            <option key={index} value={unit.role}>
+              {`${unit.name}`}
+            </option>
+          )),
+        ]}
+        name="role"
+        value={formValues.role}
+        onChange={handleChangeValue}
       />
 
       {validation.length > 0 && (
