@@ -43,13 +43,13 @@ const StockPage = () => {
             <Loading />
           ) : (
             <>
-              {/* <section className="flex col-span-6 cards gap-2 p-2 place-self-end">
+              <section className="flex col-span-6 cards gap-2 p-2 place-self-end">
                 <Print
                   titleDocument="Items"
                   PrintPDF={<TableStocks data={dataStock} />}
                   PrintCSV={dataStock}
                 />
-              </section> */}
+              </section>
               <ShowTable gap={6}>
                 <TableHeader>
                   <TitleTable count={dataStock.length}>Data Stocks</TitleTable>
