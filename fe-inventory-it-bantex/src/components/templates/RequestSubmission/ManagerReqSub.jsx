@@ -7,7 +7,7 @@ const ManagerReqSub = ({ data, status, id }) => {
   return (
     <section className="flex bg-white gap-3 flex-col border max-h-[500px] w-full  border-black p-2 overflow-x-auto ">
       <div className=" font-semibold text-center">
-        <h3 className=" text-xl">Form Pengajuan Barang IT {id}</h3>
+        <h3 className=" text-xl">Form Pengajuan Barang IT </h3>
         <p className=" font-normal">Atas beban PT {data.name_pt} </p>
       </div>
       <div className=" font-semibold ">
