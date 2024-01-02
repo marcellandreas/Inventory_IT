@@ -1,6 +1,7 @@
 const CreatePengajuanModel = require("../models/CreatePengajuan");
 const UserModel = require("../models/AuthModel");
-
+const { showFormattedDate } = require("../helpers/formatData");
+const StockModel = require("../models/Stocks");
 const nodemailer = require("nodemailer");
 
 const dbConfig = {
@@ -12,6 +13,7 @@ const dbConfig = {
 
 const pengajuan = new CreatePengajuanModel(dbConfig);
 const userModel = new UserModel(dbConfig);
+const stockModel = new StockModel(dbConfig);
 
 const sendErrorRes = (res, statusCode, message, error) => {
   res
@@ -93,49 +95,66 @@ const sendEmailToAdmin = async (no_pengajuan, body, adminEmail, adminName) => {
       no_pengajuan
     );
 
-    // Email setup
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
+    // Pastikan dataBarang tidak kosong sebelum melanjutkan
+    if (dataBarang.length > 0) {
+      // Mendapatkan dataStock setelah berhasil mendapatkan dataBarang
+      const dataStock = await stockModel.getStockByStockNoEmail(
+        dataBarang[0].stock_no
+      );
 
-    // Extracting properties from body and dataBarang
-    const { post_username, name_pt, name_division, request_type, post_date } =
-      body;
-    const { stock_no, stock_description, qty, note } = dataBarang[0];
+      console.log(dataStock);
 
-    // Email content
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: adminEmail,
-      subject: `Pengajuan Barang IT Bantex Indonesia, pengaju ${post_username}`,
-      text: `Dear mr/mrs ${adminName}
+      // Email setup
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
 
-      Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${post_username} pada divisi ${name_division} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
-        post_date
-      )} 
-      
-      Detail Pengajuan:
-      - Nomor: ${no_pengajuan}
-      - Stock No: ${stock_no}
-      - Nama PT: ${name_pt}
-      - Nama Division: ${name_division}
-      - Deskripsi Barang: ${stock_description}
-      - Jumlah: ${qty}
-      ${note ? `- Note: ${note}` : ""}
+      // Extracting properties from body and dataBarang
+      const { post_username, name_pt, name_division, request_type, post_date } =
+        body;
+      const { stock_no, stock_description, qty, note } = dataBarang[0];
 
-      Terima kasih telah menggunakan layanan kami.
-      Best Regards 
-      System Administrator
-      `,
-    };
+      // Email content
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: adminEmail,
+        subject: `Pengajuan Barang IT Bantex Indonesia, pengaju ${post_username}`,
+        text: `Dear mr/mrs ${adminName}
 
-    // Mengirim email
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email to admin sent:", info.response);
+        Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${post_username} pada divisi ${name_division} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+          post_date
+        )} 
+        
+        Detail Pengajuan:
+        - Nomor: ${no_pengajuan}
+        - Stock No: ${stock_no}
+        - Nama PT: ${name_pt}
+        - Nama Division: ${name_division}
+        - Deskripsi Barang: ${
+          dataStock?.stock_description
+        }, ${stock_description}
+        - Jumlah: ${qty}
+        ${note ? `- Note: ${note}` : ""}
+
+        Terima kasih telah menggunakan layanan kami.
+        Best Regards 
+        System Administrator
+        `,
+      };
+
+      // Mengirim email
+      const info = await transporter.sendMail(mailOptions);
+      console.log("Email to admin sent:", info.response);
+    } else {
+      console.error(
+        "Data barang tidak ditemukan untuk nomor pengajuan:",
+        no_pengajuan
+      );
+    }
   } catch (error) {
     console.error("Error sending email to admin:", error);
   }

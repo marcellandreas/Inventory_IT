@@ -170,10 +170,12 @@ const MakeAGoodsRequest = React.memo(() => {
     if (name === "qty") {
       const qtyValue = parseInt(value, 10);
 
-      if (!isNaN(qtyValue) && qtyValue > maxQty) {
-        alert("Qty melebihi jumlah yang tersedia.");
-      } else {
+      if (!isNaN(qtyValue) && qtyValue >= 1 && qtyValue <= maxQty) {
+        // Jika nilai qty valid (tidak NaN, lebih besar atau sama dengan 1, dan tidak melebihi maxQty)
         updatedInputList[index][name] = qtyValue;
+      } else {
+        // Jika nilai qty tidak valid
+        alert("Qty harus berada di antara 1 dan jumlah yang tersedia.");
       }
     } else {
       updatedInputList[index][name] = value;

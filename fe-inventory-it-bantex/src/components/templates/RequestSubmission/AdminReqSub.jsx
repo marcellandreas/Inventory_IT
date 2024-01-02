@@ -52,6 +52,7 @@ const BottomPengajuan = ({ data, status }) => {
 };
 
 const AdminReqSub = ({ data, status, id }) => {
+  console.log(data);
   return (
     <section className="flex bg-white gap-3 flex-col border max-h-[500px] w-full  border-black p-2 overflow-x-auto rounded-md ">
       <div className=" font-semibold text-center">

@@ -158,6 +158,19 @@ class Stock {
     );
   }
 
+  getStockByStockNoEmail(stock_no) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM stocks WHERE stock_no = ?";
+      this.connection.query(query, [stock_no], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
   // Metode untuk menghitung total qty dari detail stok berdasarkan stock_no
   calculateStockQty(stockNo, callback) {
     const query =

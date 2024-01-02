@@ -17,6 +17,8 @@ const UserReqSub = ({ data, id, status }) => {
     </div>
   );
 
+  const qrcode = "h-32 flex flex-col items-center justify-between";
+
   return (
     <section className="flex bg-white gap-3 flex-col border max-h-[500px] w-full border-black p-2 overflow-x-auto">
       <div className="font-semibold text-center">
@@ -36,24 +38,44 @@ const UserReqSub = ({ data, id, status }) => {
         </table>
 
         <div className="flex justify-around justify-self-end">
-          {renderUserInfo(
-            "Pemohon",
-            data.post_username,
-            `${data.post_username} - ${data.no_pengajuan}`,
-            50
-          )}
-          {renderUserInfo(
-            "Diketahui",
-            data.approved_1,
-            `${data.approved_1} - ${data.date_approved_1}`,
-            50
-          )}
-          {renderUserInfo(
-            "DiSetujui",
-            data.approved_2,
-            `${data.approved_2} - ${data.date_approved_2}`,
-            50
-          )}
+          <div className={`h-32 flex flex-col items-center justify-between`}>
+            <p>Diketahui</p>
+            {status !== "Ditolak" ? (
+              <QRCode
+                value={`${data.post_username} - ${data.no_pengajuan}`}
+                size={50}
+                fgColor="#000"
+                bgColor="#fff"
+              />
+            ) : null}
+            <p className=" font-semibold">{data.approved_1}</p>
+          </div>
+          <div className={`${qrcode}`}>
+            <p>Diketahui</p>
+            {status === "Disetujui1" ||
+            status === "Disetujui2" ||
+            status === "Selesai" ? (
+              <QRCode
+                value={`${data.approved_1} - ${data.date_approved_1}`}
+                size={50}
+                fgColor="#000"
+                bgColor="#fff"
+              />
+            ) : null}
+            <p className=" font-semibold">{data.approved_1}</p>
+          </div>
+          <div className={`${qrcode}`}>
+            <p>DiSetujui</p>
+            {status === "Disetujui2" || status === "Selesai" ? (
+              <QRCode
+                value={`${data.approved_2} - ${data.date_approved_2}`}
+                size={50}
+                fgColor="#000"
+                bgColor="#fff"
+              />
+            ) : null}
+            <p className=" font-semibold">{data.approved_2}</p>
+          </div>
         </div>
       </div>
     </section>

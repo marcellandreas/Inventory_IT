@@ -93,25 +93,50 @@ const DetailFormItemsRequest = () => {
   console.log(dataDetailPost, "data detail ");
   console.log(stockNos, "data stock");
 
+  const [MAX_QTY, SET_MAX_QTY] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (dataDetailPost.length > 0) {
+        try {
+          const res = await AxiosInstance.get(
+            `/det-stock/id/${dataDetailPost[0]?.id_detail_stock}`
+          );
+          SET_MAX_QTY(res.data.data.qty);
+          console.log(res.data.data.qty);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [dataDetailPost]);
+
   const handleQtyMinus = async () => {
+    const qtyUser = dataDetailPost[0]?.qty <= MAX_QTY;
     if (requestType === "REQUEST") {
-      try {
-        await AxiosInstance.put(`/det-stock/update-multiple`, dataDetailPost);
-        alert("berhasil update qty");
+      if (qtyUser) {
+        // const intialValue = dataDetailPost[0]?.qty < MAX_QTY;
+        // console.log(intialValue);
+        try {
+          await AxiosInstance.put(`/det-stock/update-multiple`, dataDetailPost);
+          alert("berhasil approved");
 
-        console.log(dataDetailPost);
+          console.log(dataDetailPost);
+          handleAction("approve1");
 
-        const stockNoPromises = stockNos.map((stockNo) => {
-          return AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
-        });
+          const stockNoPromises = stockNos.map((stockNo) => {
+            return AxiosInstance.put(`/stocks/${stockNo}/stock_qty`);
+          });
 
-        const itemsPost = Axios;
-
-        console.log(stockNos);
-
-        await Promise.all(stockNoPromises);
-      } catch (error) {
-        console.error(error);
+          await Promise.all(stockNoPromises);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        alert(
+          `maaf, jumlah qty tidak menyukupi untuk melakukan approved. sisa barang: ${MAX_QTY}`
+        );
       }
     } else if (requestType === "SUBMISSION") {
       try {
@@ -134,6 +159,7 @@ const DetailFormItemsRequest = () => {
         });
 
         await Promise.all(stockNoPromises);
+        handleAction("approve1");
       } catch (error) {
         console.error(error);
       }
@@ -156,7 +182,6 @@ const DetailFormItemsRequest = () => {
                 <button
                   onClick={() => {
                     handleQtyMinus();
-                    handleAction("approve1");
                   }}
                   disabled={
                     status === "Disetujui1" ||
