@@ -94,7 +94,7 @@ const FormEditModalItem = ({ onClose, id }) => {
         <h1>
           Default Value <span className=" text-red-700">*</span>
         </h1>
-        <div className=" grid grid-flow-dense grid-cols-6 ">
+        <div className=" grid grid-flow-dense grid-cols-6 gap-6  ">
           <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
             <label>Items Nomer</label>
             <input
@@ -110,118 +110,118 @@ const FormEditModalItem = ({ onClose, id }) => {
             className="col-span-6 sm:col-span-3 md:col-span-2"
             value={formValues.item_description}
           />
+
+          <div className="gap-2  flex flex-col w-120 col-span-6 sm:col-span-3 md:col-span-2">
+            <label>Status Barang</label>
+            <div className="flex flex-wrap gap-1">
+              <input
+                type="radio"
+                name="status"
+                value="used"
+                checked={formValues.status === "used"}
+                onChange={handleChangeValue}
+              />
+              <label className="ml-2">used</label>
+              <input
+                type="radio"
+                name="status"
+                value="new"
+                checked={formValues.status === "new"}
+                onChange={handleChangeValue}
+              />
+              <label className="ml-2">Baru</label>
+              <input
+                type="radio"
+                name="status"
+                value="reused"
+                checked={formValues.status === "reused"}
+                onChange={handleChangeValue}
+              />
+              <label className="ml-2">Reused</label>
+            </div>
+          </div>
+          <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
+            <label>Kondisi Barang</label>
+            <div className="flex flex-wrap gap-1">
+              <input
+                type="radio"
+                name="kondisi"
+                value="Good"
+                checked={formValues.kondisi === "Good"}
+                className="border-2 border-slate-800 rounded-md p-2"
+                onChange={handleChangeValue}
+              />
+              <label className="ml-2">Good</label>
+              <input
+                type="radio"
+                name="kondisi"
+                value="Normal"
+                checked={formValues.kondisi === "Normal"}
+                className="border-2 border-slate-800 rounded-md p-2"
+                onChange={handleChangeValue}
+              />
+              <label className="ml-2">Normal</label>
+              <input
+                type="radio"
+                name="kondisi"
+                value="Bad"
+                checked={formValues.kondisi === "Bad"}
+                className="border-2 border-slate-800 rounded-md p-2"
+                onChange={handleChangeValue}
+              />
+              <label className="ml-2">Bad</label>
+            </div>
+          </div>
+          <CustomInput
+            label="Lokasi Barang"
+            type="text"
+            name="item_location"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
+            placeholder="Enter Your New Item Location"
+            value={formValues.item_location}
+            onChange={handleChangeValue}
+          />
+          <div className="gap-2 flex flex-col row-span-2  col-span-6 sm:col-span-3 md:col-span-2">
+            <label>Catatan (jika ada)</label>
+            <textarea
+              className="bg-slate-200 h-[120px]"
+              placeholder=""
+              value={formValues.note}
+              name="note"
+              onChange={handleChangeValue}
+            />
+          </div>
+          <CustomInput
+            label="Tanggal Registrasi"
+            name="date_registation"
+            placeholder="Enter Your date"
+            onChange={handleChangeValue}
+            value={formValues.date_registation}
+            type="date"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
+          />
+          <CustomInput
+            label="Date Expired (rusak)"
+            name="date_expired"
+            type="date"
+            value={formValues.date_expired}
+            placeholder="Enter Your New date "
+            className="col-span-6 sm:col-span-3 md:col-span-2"
+            onChange={handleChangeValue}
+          />
+          <CustomInput
+            label="Item Spesifikasi"
+            type="text"
+            name="item_specification"
+            className="col-span-6 sm:col-span-3 md:col-span-2"
+            placeholder="Enter Your New item specification "
+            value={formValues.item_specification}
+            onChange={handleChangeValue}
+          />
         </div>
       </div>
 
-      <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
-        <label>Status Barang</label>
-        <div className="flex flex-wrap gap-1">
-          <input
-            type="radio"
-            name="status"
-            value="used"
-            checked={formValues.status === "used"}
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">used</label>
-          <input
-            type="radio"
-            name="status"
-            value="new"
-            checked={formValues.status === "new"}
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Baru</label>
-          <input
-            type="radio"
-            name="status"
-            value="reused"
-            checked={formValues.status === "reused"}
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Reused</label>
-        </div>
-      </div>
-      <div className="gap-2 flex flex-col col-span-6 sm:col-span-3 md:col-span-2">
-        <label>Kondisi Barang</label>
-        <div className="flex flex-wrap gap-1">
-          <input
-            type="radio"
-            name="kondisi"
-            value="Good"
-            checked={formValues.kondisi === "Good"}
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Good</label>
-          <input
-            type="radio"
-            name="kondisi"
-            value="Normal"
-            checked={formValues.kondisi === "Normal"}
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Normal</label>
-          <input
-            type="radio"
-            name="kondisi"
-            value="Bad"
-            checked={formValues.kondisi === "Bad"}
-            className="border-2 border-slate-800 rounded-md p-2"
-            onChange={handleChangeValue}
-          />
-          <label className="ml-2">Bad</label>
-        </div>
-      </div>
-      <CustomInput
-        label="Lokasi Barang"
-        type="text"
-        name="item_location"
-        className="col-span-6 sm:col-span-3 md:col-span-2"
-        placeholder="Enter Your New Item Location"
-        value={formValues.item_location}
-        onChange={handleChangeValue}
-      />
-      <div className="gap-2 flex flex-col  col-span-6 sm:col-span-3 md:col-span-2">
-        <label>Catatan (jika ada)</label>
-        <textarea
-          className="bg-slate-200 h-[120px]"
-          placeholder=""
-          value={formValues.note}
-          name="note"
-          onChange={handleChangeValue}
-        />
-      </div>
-      <CustomInput
-        label="Tanggal Registrasi"
-        name="date_registation"
-        placeholder="Enter Your date"
-        onChange={handleChangeValue}
-        value={formValues.date_registation}
-        type="date"
-        className="col-span-6 sm:col-span-3 md:col-span-2"
-      />
-      <CustomInput
-        label="Date Expired (jika tidak terpakai)"
-        name="date_expired"
-        type="date"
-        value={formValues.date_expired}
-        placeholder="Enter Your New date "
-        className="col-span-6 sm:col-span-3 md:col-span-2"
-        onChange={handleChangeValue}
-      />
-      <CustomInput
-        label="Item Spesifikasi"
-        type="text"
-        name="item_specification"
-        className="col-span-6 sm:col-span-3 md:col-span-2"
-        placeholder="Enter Your New item specification "
-        value={formValues.item_specification}
-        onChange={handleChangeValue}
-      />
-
-      <div className="col-span-3 flex flex-col gap-2">
+      <div className="col-span-3 flex flex-col gap-2 my-4">
         <h1>
           info lainnya (dari stock) <span className=" text-red-700">*</span>
         </h1>

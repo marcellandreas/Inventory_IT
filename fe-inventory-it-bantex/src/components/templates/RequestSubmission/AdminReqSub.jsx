@@ -3,7 +3,7 @@ import { generateTableRows } from "../../../helpers/generateTableRows";
 import { renderEmptyRows } from "../../../helpers/renderEmptyRows";
 import { TableHeaderRow } from "../../../helpers/tableHeaderRow";
 
-const BottomPengajuan = ({ data, status }) => {
+const BottomPengajuan = ({ userData, data, status }) => {
   const qrcode = "h-32 flex flex-col items-center justify-between";
 
   return (
@@ -18,7 +18,7 @@ const BottomPengajuan = ({ data, status }) => {
             bgColor="#fff"
           />
         ) : null}
-        <p className=" font-semibold">{data.post_username}</p>
+        <p className=" font-semibold">{userData.userFullName}</p>
       </div>
       <div className={`${qrcode}`}>
         <p>Diketahui</p>
@@ -32,7 +32,7 @@ const BottomPengajuan = ({ data, status }) => {
             bgColor="#fff"
           />
         ) : null}
-        <p className=" font-semibold">{data.approved_1}</p>
+        <p className=" font-semibold">{userData.adminFullName}</p>
       </div>
 
       <div className={`${qrcode}`}>
@@ -45,13 +45,13 @@ const BottomPengajuan = ({ data, status }) => {
             bgColor="#fff"
           />
         ) : null}
-        <p className=" font-semibold">{data.approved_2}</p>
+        <p className=" font-semibold">{userData.managerFullName}</p>
       </div>
     </div>
   );
 };
 
-const AdminReqSub = ({ data, status, id }) => {
+const AdminReqSub = ({ userData, data, status, id }) => {
   console.log(data);
   return (
     <section className="flex bg-white gap-3 flex-col border max-h-[500px] w-full  border-black p-2 overflow-x-auto rounded-md ">
@@ -70,7 +70,7 @@ const AdminReqSub = ({ data, status, id }) => {
           {generateTableRows(data.submissionData)}
           {renderEmptyRows(data.submissionData)}
         </table>
-        <BottomPengajuan data={data} status={status} />
+        <BottomPengajuan data={data} status={status} userData={userData} />
       </div>
     </section>
   );

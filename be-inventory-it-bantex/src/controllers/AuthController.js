@@ -321,6 +321,21 @@ exports.getUserByID = (req, res) => {
   });
 };
 
+exports.getUserByUsername = (req, res) => {
+  const { username } = req.params;
+  user.getUserByUsername(username, (error, userByID) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (userByID) {
+      res.status(200).json(userByID);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  });
+};
+
 // Mendapatkan data pengguna dengan role 1 dan menampilkan kata sandi tanpa bcrypt
 // exports.getUserByRole1 = (req, res) => {
 //   user.getUserByRole1((error, results) => {

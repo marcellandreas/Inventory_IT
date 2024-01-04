@@ -10,6 +10,7 @@ router.post("/login", authController.login);
 router.post("/recordlogin", authController.recordLogin);
 
 router.delete("/user/:id_user", token, authController.deleteUser);
+router.get("/datausername/:username", token, authController.getUserByUsername);
 
 router.get("/lastlogin/:username", token, authController.getLastLogin);
 router.get("/alllogins", token, authController.getAllLogins);

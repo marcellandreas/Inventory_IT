@@ -40,10 +40,16 @@ const DetailFormItemsRequest = () => {
       .catch((err) => console.log(err));
   };
 
+  const [user, setUser] = useState("");
+  const [adminUsername, setAdminUserName] = useState("");
+  const [managerUsername, setManagerUsername] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.get(`/form/id/${id_item_req}`);
+        setUser(response.data.data.post_username);
+        setAdminUserName(response.data.data.approved_1);
+        setManagerUsername(response.data.data.approved_2);
         setStatus(response.data.data.status);
         setRequestType(response.data.data.request_type);
 
@@ -69,6 +75,46 @@ const DetailFormItemsRequest = () => {
     fetchData();
   }, [loading, id_item_req]);
 
+  console.log(user, adminUsername, managerUsername);
+
+  const [userData, setUserData] = useState({
+    userFullName: "",
+    adminFullName: "",
+    managerFullName: "",
+  });
+
+  const fetchData = async (username, setFullName) => {
+    if (username) {
+      try {
+        const response = await AxiosInstance.get(
+          `/auth/datausername/${username}`
+        );
+        console.log(username, "-------- ", response);
+        setFullName(response.data.full_name);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData(adminUsername, (fullName) =>
+      setUserData((prevData) => ({ ...prevData, adminFullName: fullName }))
+    );
+    fetchData(user, (fullName) =>
+      setUserData((prevData) => ({ ...prevData, userFullName: fullName }))
+    );
+    fetchData(managerUsername, (fullName) =>
+      setUserData((prevData) => ({ ...prevData, managerFullName: fullName }))
+    );
+  }, [adminUsername, user, managerUsername]);
+
+  console.log(
+    "full name selesai",
+    userData.userFullName,
+    userData.managerFullName,
+    userData.adminFullName
+  );
   // const stockNos = dataStockReq[0]?.submissionData.map((item) => item.stock_no);
   // const stockNosSub = dataStockSub[0]?.submissionData.map(
   //   (item) => item.stock_no
@@ -214,6 +260,7 @@ const DetailFormItemsRequest = () => {
                     data={data}
                     status={status}
                     id={id_item_req}
+                    userData={userData}
                   />
                 ))}
               </>
@@ -279,7 +326,6 @@ const DetailFormItemsRequest = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => {
-                    handleQtyMinus();
                     handleAction("approve2");
                   }}
                   disabled={

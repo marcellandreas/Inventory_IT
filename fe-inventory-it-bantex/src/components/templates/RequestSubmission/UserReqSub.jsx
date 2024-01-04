@@ -48,7 +48,7 @@ const UserReqSub = ({ data, id, status }) => {
                 bgColor="#fff"
               />
             ) : null}
-            <p className=" font-semibold">{data.approved_1}</p>
+            <p className=" font-semibold">{data.post_username}</p>
           </div>
           <div className={`${qrcode}`}>
             <p>Diketahui</p>

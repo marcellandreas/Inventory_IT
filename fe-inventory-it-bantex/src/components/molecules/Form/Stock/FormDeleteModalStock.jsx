@@ -6,6 +6,7 @@ import { TitleForm } from "../../../atoms";
 
 const FormDeleteModalStock = ({ onClose, id }) => {
   const dataStockById = useSelector((state) => state.stocks.dataStockById);
+  console.log(dataStockById);
   const dispatch = useDispatch();
   const [datas, setDatas] = useState("");
   useEffect(() => {

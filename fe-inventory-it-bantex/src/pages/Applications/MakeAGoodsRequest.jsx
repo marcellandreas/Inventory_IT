@@ -170,18 +170,22 @@ const MakeAGoodsRequest = React.memo(() => {
     if (name === "qty") {
       const qtyValue = parseInt(value, 10);
 
-      if (!isNaN(qtyValue) && qtyValue >= 1 && qtyValue <= maxQty) {
-        // Jika nilai qty valid (tidak NaN, lebih besar atau sama dengan 1, dan tidak melebihi maxQty)
-        updatedInputList[index][name] = qtyValue;
+      if (!isNaN(qtyValue) && qtyValue > maxQty) {
+        updatedInputList[index]["qty"] = "";
       } else {
-        // Jika nilai qty tidak valid
-        alert("Qty harus berada di antara 1 dan jumlah yang tersedia.");
+        updatedInputList[index]["qty"] = qtyValue;
       }
     } else {
       updatedInputList[index][name] = value;
     }
 
     setinputList(updatedInputList);
+
+    // Update tampilan website
+    const qtyElement = document.querySelector(
+      `input[name="qty"][data-index="${index}"]`
+    );
+    qtyElement.value = "";
   };
 
   const handleremove = (index) => {
@@ -216,7 +220,9 @@ const MakeAGoodsRequest = React.memo(() => {
   const handleSubmit = async () => {
     try {
       if (formValues.request_type === "REQUEST") {
-        const isQtyValid = inputList.every((item) => item.qty <= item.maxQty);
+        const isQtyValid = inputList.every(
+          (item) => item.qty <= item.maxQty && item.qty <= 1
+        );
         if (!isQtyValid) {
           alert("Qty melebihi jumlah yang tersedia.");
           return;

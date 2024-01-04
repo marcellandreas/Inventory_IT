@@ -100,7 +100,7 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
           </option>,
           ...approved1.map((approved1, index) => (
             <option key={index} value={approved1.username}>
-              {approved1.username}
+              {approved1.full_name}
             </option>
           )),
         ]}
@@ -116,7 +116,7 @@ const FormApplication = ({ handleChangeValue, formValues }) => {
           </option>,
           ...approved2.map((approved1, index) => (
             <option key={index} value={approved1.username}>
-              {approved1.username}
+              {approved1.full_name}
             </option>
           )),
         ]}
