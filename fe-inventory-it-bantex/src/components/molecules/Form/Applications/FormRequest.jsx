@@ -55,6 +55,7 @@ const FormRequest = ({
           className="bg-slate-200"
           placeholder={`Max: ${detStockQtyData[i]?.maxQty}`}
           name="qty"
+          value={x.qty}
           onChange={(e) => handleinputchange(e, i)}
           type="number"
           min={1}

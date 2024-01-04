@@ -170,22 +170,26 @@ const MakeAGoodsRequest = React.memo(() => {
     if (name === "qty") {
       const qtyValue = parseInt(value, 10);
 
-      if (!isNaN(qtyValue) && qtyValue > maxQty) {
-        updatedInputList[index]["qty"] = "";
+      if (isNaN(qtyValue) || qtyValue < 1 || qtyValue > maxQty) {
+        if (isNaN(qtyValue)) {
+          alert("Qty harus berupa angka.");
+        } else if (qtyValue < 1) {
+          alert("Qty tidak boleh kurang dari 1.");
+        } else {
+          alert(
+            `Sisa stok hanya ${maxQty}. Tidak dapat membuat pengajuan. tidak boleh  ${qtyValue}`
+          );
+        }
+
+        updatedInputList[index][name] = "";
       } else {
-        updatedInputList[index]["qty"] = qtyValue;
+        updatedInputList[index][name] = qtyValue;
       }
     } else {
       updatedInputList[index][name] = value;
     }
 
     setinputList(updatedInputList);
-
-    // Update tampilan website
-    const qtyElement = document.querySelector(
-      `input[name="qty"][data-index="${index}"]`
-    );
-    qtyElement.value = "";
   };
 
   const handleremove = (index) => {
