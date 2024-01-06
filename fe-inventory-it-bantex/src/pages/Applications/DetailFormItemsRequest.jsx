@@ -10,6 +10,7 @@ import { MainLayout, ContentLayout } from "../../components/templates";
 import { BackButton } from "../../components/atoms";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDataDetailPengajuan } from "../../Redux/Feature/ItemsRequest";
+import FormPengajuan from "../../components/templates/RequestSubmission";
 
 const DetailFormItemsRequest = () => {
   const { id_item_req } = useParams();
@@ -21,7 +22,6 @@ const DetailFormItemsRequest = () => {
   const [dataStockSub, setDataStockSub] = useState([]);
   const [status, setStatus] = useState("");
   const [requestType, setRequestType] = useState("");
-
   const dispatch = useDispatch();
   const dataDetailPengajuan = useSelector(
     (state) => state.dataSliceItemReq.dataDetailPengajuan
@@ -40,14 +40,14 @@ const DetailFormItemsRequest = () => {
       .catch((err) => console.log(err));
   };
 
-  const [user, setUser] = useState("");
+  const [usernamePengguna, setUsernamePengguna] = useState("");
   const [adminUsername, setAdminUserName] = useState("");
   const [managerUsername, setManagerUsername] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.get(`/form/id/${id_item_req}`);
-        setUser(response.data.data.post_username);
+        setUsernamePengguna(response.data.data.post_username);
         setAdminUserName(response.data.data.approved_1);
         setManagerUsername(response.data.data.approved_2);
         setStatus(response.data.data.status);
@@ -75,46 +75,34 @@ const DetailFormItemsRequest = () => {
     fetchData();
   }, [loading, id_item_req]);
 
-  console.log(user, adminUsername, managerUsername);
+  // KODE UNTUK MENDAPATKAN NAMA LENGKAP BERDASARKAN USERNAME NYA
 
-  const [userData, setUserData] = useState({
-    userFullName: "",
-    adminFullName: "",
-    managerFullName: "",
-  });
-
-  const fetchData = async (username, setFullName) => {
-    if (username) {
-      try {
-        const response = await AxiosInstance.get(
-          `/auth/datausername/${username}`
-        );
-        console.log(username, "-------- ", response);
-        setFullName(response.data.full_name);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  const [userFullName, setUserFullName] = useState("");
+  const [AdminFullName, setAdminFullName] = useState("");
+  const [managerFullName, setManagerFullName] = useState("");
 
   useEffect(() => {
-    fetchData(adminUsername, (fullName) =>
-      setUserData((prevData) => ({ ...prevData, adminFullName: fullName }))
-    );
-    fetchData(user, (fullName) =>
-      setUserData((prevData) => ({ ...prevData, userFullName: fullName }))
-    );
-    fetchData(managerUsername, (fullName) =>
-      setUserData((prevData) => ({ ...prevData, managerFullName: fullName }))
-    );
-  }, [adminUsername, user, managerUsername]);
+    const fetchDataByUsername = async (username, setFullName) => {
+      if (username) {
+        try {
+          const response = await AxiosInstance.get(
+            `/auth/datausername/${username}`
+          );
+          setFullName(response.data.full_name);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
 
-  console.log(
-    "full name selesai",
-    userData.userFullName,
-    userData.managerFullName,
-    userData.adminFullName
-  );
+    fetchDataByUsername(adminUsername, setAdminFullName);
+    fetchDataByUsername(usernamePengguna, setUserFullName);
+    fetchDataByUsername(managerUsername, setManagerFullName);
+  }, [adminUsername, usernamePengguna, managerUsername]);
+
+  // =======================================================================
+  console.log(userFullName);
+
   // const stockNos = dataStockReq[0]?.submissionData.map((item) => item.stock_no);
   // const stockNosSub = dataStockSub[0]?.submissionData.map(
   //   (item) => item.stock_no
@@ -162,8 +150,6 @@ const DetailFormItemsRequest = () => {
     const qtyUser = dataDetailPost[0]?.qty <= MAX_QTY;
     if (requestType === "REQUEST") {
       if (qtyUser) {
-        // const intialValue = dataDetailPost[0]?.qty < MAX_QTY;
-        // console.log(intialValue);
         try {
           await AxiosInstance.put(`/det-stock/update-multiple`, dataDetailPost);
           alert("berhasil approved");
@@ -255,23 +241,28 @@ const DetailFormItemsRequest = () => {
             {dataStockReq.length !== 0 ? (
               <>
                 {dataStockReq?.map((data, i) => (
-                  <AdminReqSub
+                  <FormPengajuan
                     key={i}
                     data={data}
                     status={status}
                     id={id_item_req}
-                    userData={userData}
+                    userFullName={userFullName}
+                    adminFullName={AdminFullName}
+                    managerFullName={managerFullName}
                   />
                 ))}
               </>
             ) : dataStockSub.length !== 0 ? (
               <>
                 {dataStockSub?.map((data, i) => (
-                  <AdminReqSub
+                  <FormPengajuan
                     key={i}
                     data={data}
                     status={status}
                     id={id_item_req}
+                    userFullName={userFullName}
+                    adminFullName={AdminFullName}
+                    managerFullName={managerFullName}
                   />
                 ))}
               </>
@@ -297,22 +288,28 @@ const DetailFormItemsRequest = () => {
             {dataStockReq.length !== 0 ? (
               <>
                 {dataStockReq?.map((data, i) => (
-                  <UserReqSub
+                  <FormPengajuan
                     key={i}
                     data={data}
                     status={status}
                     id={id_item_req}
+                    userFullName={userFullName}
+                    adminFullName={AdminFullName}
+                    managerFullName={managerFullName}
                   />
                 ))}
               </>
             ) : dataStockSub.length !== 0 ? (
               <>
                 {dataStockSub?.map((data, i) => (
-                  <UserReqSub
+                  <FormPengajuan
                     key={i}
                     data={data}
                     status={status}
                     id={id_item_req}
+                    userFullName={userFullName}
+                    adminFullName={AdminFullName}
+                    managerFullName={managerFullName}
                   />
                 ))}
               </>
@@ -353,22 +350,28 @@ const DetailFormItemsRequest = () => {
             {dataStockReq.length !== 0 ? (
               <>
                 {dataStockReq?.map((data, i) => (
-                  <ManagerReqSub
+                  <FormPengajuan
                     key={i}
                     data={data}
                     status={status}
                     id={id_item_req}
+                    userFullName={userFullName}
+                    adminFullName={AdminFullName}
+                    managerFullName={managerFullName}
                   />
                 ))}
               </>
             ) : dataStockSub.length !== 0 ? (
               <>
                 {dataStockSub?.map((data, i) => (
-                  <ManagerReqSub
+                  <FormPengajuan
                     key={i}
                     data={data}
                     status={status}
                     id={id_item_req}
+                    userFullName={userFullName}
+                    adminFullName={AdminFullName}
+                    managerFullName={managerFullName}
                   />
                 ))}
               </>

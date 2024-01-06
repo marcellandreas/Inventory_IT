@@ -5,9 +5,7 @@ export { default as AdminsFormReq } from "./ManageFormReq/AdminsFormReq";
 export { default as ManagersFormReq } from "./ManageFormReq/ManagersFormReq";
 
 // import Request Submission
-export { default as AdminReqSub } from "./RequestSubmission/AdminReqSub";
-export { default as UserReqSub } from "./RequestSubmission/UserReqSub";
-export { default as ManagerReqSub } from "./RequestSubmission/ManagerReqSub";
+export { default as FormPengajuan } from "./RequestSubmission/index";
 
 // folder layout
 export { default as MainLayout } from "./Layout/MainLayout/index";

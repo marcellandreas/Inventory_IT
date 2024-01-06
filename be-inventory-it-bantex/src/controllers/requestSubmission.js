@@ -2,6 +2,7 @@ const requestSubmissionModels = require("../models/requestSubmission");
 const userModels = require("../models/requestSubmission");
 const AuthModels = require("../models/AuthModel");
 const CreateModel = require("../models/CreatePengajuan");
+const STOCK_MODEL = require("../models/Stocks");
 const { showFormattedDate } = require("../helpers/formatData");
 
 const dbConfig = {
@@ -18,6 +19,7 @@ const requestSubmission = new requestSubmissionModels(dbConfig);
 const userFix = new userModels(dbConfig);
 const authFix = new AuthModels(dbConfig);
 const createFix = new CreateModel(dbConfig);
+const stockFix = new STOCK_MODEL(dbConfig);
 
 exports.getAllData = (req, res) => {
   requestSubmission.getAllData((error, results) => {
@@ -367,7 +369,6 @@ const sendEmailToManagers = async (idItemReq) => {
   try {
     const dataPengajuan = await userFix.getReqSubById2(idItemReq);
 
-    console.log("data pengajuan mana", dataPengajuan);
     if (!dataPengajuan) {
       console.error("Pengajuan not found for idItemReq:", idItemReq);
       return;
@@ -378,18 +379,21 @@ const sendEmailToManagers = async (idItemReq) => {
       dataPengajuan.no_pengajuan
     );
 
-    console.log("data barang", dataBarang);
-
-    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
+    const stocks = await stockFix.getStockByStockNo2(dataBarang[0].stock_no);
+    const stockDescription = console.log("mendapatkan stocks nya ", stocks);
     const admin = await authFix.getUserByUsername2(dataPengajuan.approved_1);
+    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
     const user = await authFix.getUserByUsername2(dataPengajuan.post_username);
     const managerEmail = manager ? manager.email : null;
-    const managerName = manager ? manager.name_full : null;
+    console.log("manager", manager);
+    const managerName = manager ? manager.full_name : null;
     const userEmail = user ? user.email : null;
     const userName = user ? user.full_name : null;
     const adminEmail = admin ? admin.email : null;
     const adminName = admin ? admin.full_name : null;
 
+    console.log("admin full name", adminName);
+    console.log("manager name", managerName);
     if (!managerEmail) {
       console.error(
         "Manager email not found for username:",
@@ -415,7 +419,7 @@ const sendEmailToManagers = async (idItemReq) => {
       from: process.env.EMAIL_USER,
       to: managerEmail,
       cc: adminEmail,
-      subject: `Pengajuan Barang IT - ${userName} `,
+      subject: `Pengajuan Barang IT - pengaju ${userName} `,
       text: `
       Dear mr/mrs ${managerName}
 
@@ -429,7 +433,7 @@ const sendEmailToManagers = async (idItemReq) => {
       Stock No: ${stock_no}, 
       nama pt: ${dataPengajuan.name_pt}, 
       nama division: ${dataPengajuan.name_division}, 
-      Deskripsi Barang : ${stock_description} 
+      Deskripsi Barang :${stocks.stock_description} - ${stock_description} 
       jumlah: ${qty} 
       ${note ? ` note: ${note}` : ""}
       ${additional_info ? ` Tambahan: ${additional_info}` : ""}

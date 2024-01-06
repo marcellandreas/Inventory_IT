@@ -1,5 +1,5 @@
 const generateTableRows = (submissionData) => {
-  return (submissionData || Array(5).fill(null)).map((sub, index) => (
+  return (submissionData || Array(10).fill(null)).map((sub, index) => (
     <tr key={index} className="border">
       <td className="border py-0 m-0 border-black">
         {sub ? index + 1 : <p className="text-white">null</p>}

@@ -145,6 +145,8 @@ const getAllDataReqSubandStockRequestById = async (req, res) => {
       post_user_id: item.post_user_id,
       post_username: item.post_username,
       post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
       submissionData:
         item.Id_submission_item &&
         item.Id_submission_item.split(",").map((idSub, index) => ({
@@ -242,6 +244,8 @@ const getAllDataReqSubandStockSubmissionById = async (req, res) => {
       post_user_id: item.post_user_id,
       post_username: item.post_username,
       post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
       submissionData:
         item.id_stock_sub &&
         item.id_stock_sub.split(",").map((idSub, index) => ({

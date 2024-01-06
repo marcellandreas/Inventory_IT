@@ -158,6 +158,20 @@ class Stock {
     );
   }
 
+  getStockByStockNo2(stock_no) {
+    console.log("models stock 2", stock_no);
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM stocks WHERE stock_no = ?";
+      this.connection.query(query, [stock_no], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results[0]);
+        }
+      });
+    });
+  }
+
   getStockByStockNoEmail(stock_no) {
     return new Promise((resolve, reject) => {
       const query = "SELECT * FROM stocks WHERE stock_no = ?";

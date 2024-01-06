@@ -44,8 +44,6 @@ const sendEmail = async (no_pengajuan, body) => {
   const userEmail = user.email;
   const userName = user.full_name;
 
-  const appPassword = "ojlc htjm mkyo bzge";
-
   // Konfigurasi transporter
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -87,7 +85,13 @@ const sendEmail = async (no_pengajuan, body) => {
   }
 };
 
-const sendEmailToAdmin = async (no_pengajuan, body, adminEmail, adminName) => {
+const sendEmailToAdmin = async (
+  no_pengajuan,
+  body,
+  adminEmail,
+  adminName,
+  userFullName
+) => {
   try {
     // Mendapatkan data barang
     const dataBarang = await pengajuan.getDataBarangByTypeRequest(
@@ -122,10 +126,10 @@ const sendEmailToAdmin = async (no_pengajuan, body, adminEmail, adminName) => {
       const mailOptions = {
         from: process.env.EMAIL_USER,
         to: adminEmail,
-        subject: `Pengajuan Barang IT Bantex Indonesia, pengaju ${post_username}`,
+        subject: `Pengajuan Barang IT Bantex Indonesia, pengaju ${userFullName}`,
         text: `Dear mr/mrs ${adminName}
 
-        Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${post_username} pada divisi ${name_division} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+        Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userFullName} pada divisi ${name_division} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
           post_date
         )} 
         
@@ -175,14 +179,17 @@ exports.createPengajuan = async (req, res) => {
         await sendEmail(no_pengajuan, body);
 
         const adminUsername = body.approved_1;
+        const penggunaUserName = body.post_username;
         try {
           const admin = await userModel.getAdminByEmail(adminUsername);
-          if (admin) {
+          const USER = await userModel.getAdminByEmail(penggunaUserName);
+          if (admin && USER) {
             await sendEmailToAdmin(
               no_pengajuan,
               body,
               admin.email,
-              admin.full_name
+              admin.full_name,
+              USER.full_name
             );
           } else {
             console.log("Admin not found");
