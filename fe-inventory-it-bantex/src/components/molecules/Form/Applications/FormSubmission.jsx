@@ -14,6 +14,7 @@ const FormSubmission = ({
 
   return (
     <div className="flex flex-wrap gap-2 bg-slate-300 px-3 py-4 rounded-xl">
+      <p>{`${i + 1}.`}</p>
       <CustomSelect
         label="Nomor Stok"
         options={[

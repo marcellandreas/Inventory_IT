@@ -16,6 +16,7 @@ const FormPengajuan = ({
   managerFullName,
   userFullName,
 }) => {
+  console.log("data form pengajuan index", data.submissionData);
   return (
     <section className="flex bg-white gap-3 flex-col border max-h-[500px] w-full border-black p-2 overflow-x-auto">
       <div className="font-semibold text-center">

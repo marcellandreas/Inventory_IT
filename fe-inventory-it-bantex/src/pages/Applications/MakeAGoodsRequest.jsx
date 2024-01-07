@@ -167,6 +167,14 @@ const MakeAGoodsRequest = React.memo(() => {
     const updatedInputList = [...inputList];
     const maxQty = updatedInputList[index].maxQty;
 
+    // Validasi tambahan untuk memastikan x.id_det_stock tidak sama
+    if (name === "id_det_stock") {
+      if (updatedInputList.some((item) => item.id_det_stock === value)) {
+        alert("Detail stock sudah ada, silakan pilih yang lain");
+        return; // Menghentikan eksekusi jika nilai sudah ada
+      }
+    }
+
     if (name === "qty") {
       const qtyValue = parseInt(value, 10);
 
@@ -325,7 +333,7 @@ const MakeAGoodsRequest = React.memo(() => {
                       label="Barang pengajuan:"
                     />
                   )}
-                  {inputList.map((x, i) => {
+                  {inputList.slice(0, 10).map((x, i) => {
                     return formValues.request_type === "REQUEST" ? (
                       <FormRequest
                         key={i}

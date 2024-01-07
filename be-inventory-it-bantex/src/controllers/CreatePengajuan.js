@@ -3,6 +3,8 @@ const UserModel = require("../models/AuthModel");
 const { showFormattedDate } = require("../helpers/formatData");
 const StockModel = require("../models/Stocks");
 const nodemailer = require("nodemailer");
+const FormPengajuan = require("../models/FormPengajuan");
+const AuthModels = require("../models/AuthModel");
 
 const dbConfig = {
   host: "localhost",
@@ -10,6 +12,8 @@ const dbConfig = {
   password: "",
   database: "inventory_it",
 };
+
+const authFix = new AuthModels(dbConfig);
 
 const pengajuan = new CreatePengajuanModel(dbConfig);
 const userModel = new UserModel(dbConfig);
@@ -28,18 +32,72 @@ const sendSuccessRes = (res, statusCode, message, data) => {
 const sendEmail = async (no_pengajuan, body) => {
   const userId = body.post_user_id;
   const user = await userModel.getUserById(userId);
-
-  // const dataBarang = await pengajuan.getDataBarangByTypeRequest(
-  //   body.request_type,
-  //   no_pengajuan
-  // );
-
-  // console.log("aaa", dataBarang);
-
+  const manager = await authFix.getUserByUsername2(body.approved_2);
+  const admin = await authFix.getUserByUsername2(body.approved_1);
+  const managerName = manager ? manager.full_name : null;
+  const adminName = admin ? admin.full_name : null;
   if (!user) {
     console.error("User not found");
     return;
   }
+
+  let dataBuatEmail;
+
+  if (body.request_type === "REQUEST") {
+    dataBuatEmail =
+      await FormPengajuan.getAllDataReqSubandStockRequestBynoPengajuan(
+        no_pengajuan
+      );
+  } else if (body.request_type === "SUBMISSION") {
+    dataBuatEmail =
+      await FormPengajuan.getAllDataReqSubandStockSubmissionBynoPengajuan(
+        no_pengajuan
+      );
+  }
+
+  const transformedData = dataBuatEmail[0].map((item) => ({
+    no_pengajuan: item.no_pengajuan,
+    name_pt: item.name_pt,
+    name_division: item.name_division,
+    status: item.status,
+    approved_1: item.approved_1,
+    approved_2: item.approved_2,
+    post_user_id: item.post_user_id,
+    post_username: item.post_username,
+    post_date: item.post_date,
+    date_approved_1: item.date_approved_1,
+    date_approved_2: item.date_approved_2,
+    date_done: item.date_done,
+    request_type: item.request_type,
+    submissionData:
+      item.request_type === "REQUEST"
+        ? (item.Id_submission_item || "").split(",").map((idSub, index) => ({
+            Id_submission_item: idSub,
+            stock_description: (item.stock_description || "").split(",")[index],
+            qty: (item.qty || "").split(",")[index],
+            note: (item.note || "").split(",")[index],
+            stock_no: (item.stock_no || "").split(",")[index],
+            id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+            stocks: {
+              stock_name: (item.stock_name || "").split(",")[index],
+              stock_qty: (item.stock_qty || "").split(",")[index],
+              category: (item.category || "").split(",")[index],
+            },
+          }))
+        : (item.id_stock_sub || "").split(",").map((idSub, index) => ({
+            Id_submission_item: idSub,
+            stock_description: (item.stock_description || "").split(",")[index],
+            qty: (item.qty || "").split(",")[index],
+            note: (item.note || "").split(",")[index],
+            stock_no: (item.stock_no || "").split(",")[index],
+            id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+            stocks: {
+              stock_name: (item.stock_name || "").split(",")[index],
+              stock_qty: (item.stock_qty || "").split(",")[index],
+              category: (item.category || "").split(",")[index],
+            },
+          })),
+  }));
 
   const userEmail = user.email;
   const userName = user.full_name;
@@ -53,23 +111,33 @@ const sendEmail = async (no_pengajuan, body) => {
     },
   });
 
-  const {
-    name_pt,
-    name_division,
-    approved_1,
-    approved_2,
-    post_username,
-    request_type,
-  } = body;
-  // const { stock_no, stock_description, qty, note } = dataBarang[0];
+  const { name_pt, name_division } = body;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: userEmail,
     subject: "Pengajuan Barang IT ",
     text: `Hai ${userName},\n\nPengajuan Barang IT dengan nomor ${no_pengajuan} telah berhasil dibuat.\n\n
+
+    Detail Pengajuan:
+    No: ${no_pengajuan},
+    Nama PT: ${name_pt},
+    Nama Division: ${name_division},
+    
+    Barang-barang yang diajukan:
+    ${transformedData[0].submissionData
+      .map((item, index) => {
+        const { stock_description, qty, note, stock_no } = item;
+        return `
+      - Stock No: ${stock_no},
+        Deskripsi Barang: ${item.stocks.stock_name},  ${stock_description},
+        Jumlah: ${qty},
+        ${note ? `Note: ${note}` : ""}
+      `;
+      })
+      .join("\n")}
    
-    Pengajuan akan di tujuan kepada Bagian IT ${approved_1} dan Manager ${approved_2}
+    Pengajuan akan di tujuan kepada Bagian IT ${adminName} dan Manager ${managerName}
     Mohon di tunggu
     
     Terima kasih telah menggunakan layanan kami.
@@ -93,22 +161,78 @@ const sendEmailToAdmin = async (
   userFullName
 ) => {
   try {
-    // Mendapatkan data barang
     const dataBarang = await pengajuan.getDataBarangByTypeRequest(
       body.request_type,
       no_pengajuan
     );
 
-    // Pastikan dataBarang tidak kosong sebelum melanjutkan
     if (dataBarang.length > 0) {
-      // Mendapatkan dataStock setelah berhasil mendapatkan dataBarang
-      const dataStock = await stockModel.getStockByStockNoEmail(
-        dataBarang[0].stock_no
-      );
+      let dataBuatEmail;
 
-      console.log(dataStock);
+      if (body.request_type === "REQUEST") {
+        dataBuatEmail =
+          await FormPengajuan.getAllDataReqSubandStockRequestBynoPengajuan(
+            no_pengajuan
+          );
+      } else if (body.request_type === "SUBMISSION") {
+        dataBuatEmail =
+          await FormPengajuan.getAllDataReqSubandStockSubmissionBynoPengajuan(
+            no_pengajuan
+          );
+      }
 
-      // Email setup
+      const transformedData = dataBuatEmail[0].map((item) => ({
+        no_pengajuan: item.no_pengajuan,
+        name_pt: item.name_pt,
+        name_division: item.name_division,
+        status: item.status,
+        approved_1: item.approved_1,
+        approved_2: item.approved_2,
+        post_user_id: item.post_user_id,
+        post_username: item.post_username,
+        post_date: item.post_date,
+        date_approved_1: item.date_approved_1,
+        date_approved_2: item.date_approved_2,
+        date_done: item.date_done,
+        request_type: item.request_type,
+        submissionData:
+          item.request_type === "REQUEST"
+            ? (item.Id_submission_item || "")
+                .split(",")
+                .map((idSub, index) => ({
+                  Id_submission_item: idSub,
+                  stock_description: (item.stock_description || "").split(",")[
+                    index
+                  ],
+                  qty: (item.qty || "").split(",")[index],
+                  note: (item.note || "").split(",")[index],
+                  stock_no: (item.stock_no || "").split(",")[index],
+                  id_detail_stock: (item.id_detail_stock || "").split(",")[
+                    index
+                  ],
+                  stocks: {
+                    stock_name: (item.stock_name || "").split(",")[index],
+                    stock_qty: (item.stock_qty || "").split(",")[index],
+                    category: (item.category || "").split(",")[index],
+                  },
+                }))
+            : (item.id_stock_sub || "").split(",").map((idSub, index) => ({
+                Id_submission_item: idSub,
+                stock_description: (item.stock_description || "").split(",")[
+                  index
+                ],
+                qty: (item.qty || "").split(",")[index],
+                note: (item.note || "").split(",")[index],
+                stock_no: (item.stock_no || "").split(",")[index],
+                id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+                stocks: {
+                  stock_name: (item.stock_name || "").split(",")[index],
+                  stock_qty: (item.stock_qty || "").split(",")[index],
+                  category: (item.category || "").split(",")[index],
+                },
+              })),
+      }));
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -117,32 +241,35 @@ const sendEmailToAdmin = async (
         },
       });
 
-      // Extracting properties from body and dataBarang
-      const { post_username, name_pt, name_division, request_type, post_date } =
-        body;
-      const { stock_no, stock_description, qty, note } = dataBarang[0];
+      const { name_pt, name_division, post_date } = body;
 
-      // Email content
       const mailOptions = {
         from: process.env.EMAIL_USER,
         to: adminEmail,
         subject: `Pengajuan Barang IT Bantex Indonesia, pengaju ${userFullName}`,
         text: `Dear mr/mrs ${adminName}
 
-        Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userFullName} pada divisi ${name_division} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+        Kamu mempunyai Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userFullName} pada divisi ${name_division} pada tanggal ${showFormattedDate(
           post_date
         )} 
         
         Detail Pengajuan:
-        - Nomor: ${no_pengajuan}
-        - Stock No: ${stock_no}
-        - Nama PT: ${name_pt}
-        - Nama Division: ${name_division}
-        - Deskripsi Barang: ${
-          dataStock?.stock_description
-        }, ${stock_description}
-        - Jumlah: ${qty}
-        ${note ? `- Note: ${note}` : ""}
+        No: ${no_pengajuan},
+        Nama PT: ${name_pt},
+        Nama Division: ${name_division},
+        
+        Barang-barang yang diajukan:
+        ${transformedData[0].submissionData
+          .map((item, index) => {
+            const { stock_description, qty, note, stock_no } = item;
+            return `
+          - Stock No: ${stock_no},
+            Deskripsi Barang: ${item.stocks.stock_name},  ${stock_description},
+            Jumlah: ${qty},
+            ${note ? `Note: ${note}` : ""}
+          `;
+          })
+          .join("\n")}
 
         Terima kasih telah menggunakan layanan kami.
         Best Regards 
@@ -176,7 +303,11 @@ exports.createPengajuan = async (req, res) => {
         const data = { no_pengajuan, ...body };
         sendSuccessRes(res, 201, "pengajuan berhasil dibuat", data);
 
-        await sendEmail(no_pengajuan, body);
+        try {
+          await sendEmail(no_pengajuan, body);
+        } catch (emailError) {
+          console.error("Error sending email:", emailError);
+        }
 
         const adminUsername = body.approved_1;
         const penggunaUserName = body.post_username;

@@ -79,40 +79,6 @@ const getAllDataReqSubandStockRequestById = (id_req_sub) => {
   return pool.execute(SQLQuery, [id_req_sub]);
 };
 
-const getAllDataReqSubandStockRequestBynoPengajuan = (no_pengajuan) => {
-  const SQLQuery = `
-    SELECT 
-      request_submission.no_pengajuan, 
-      request_submission.name_pt, 
-      request_submission.name_division, 
-      request_submission.status, 
-      request_submission.approved_1, 
-      request_submission.approved_2, 
-      request_submission.post_user_id, 
-      request_submission.post_username, 
-      request_submission.post_date, 
-      request_submission.date_approved_1,
-      request_submission.date_approved_2,
-      request_submission.date_done,
-      request_submission.request_type,
-      GROUP_CONCAT(stock_request.Id_submission_item) AS Id_submission_item, 
-      GROUP_CONCAT(stock_request.stock_description) AS stock_description, 
-      GROUP_CONCAT(stock_request.qty) AS qty, 
-      GROUP_CONCAT(stock_request.note) AS note, 
-      GROUP_CONCAT(stock_request.stock_no) AS stock_no,
-      GROUP_CONCAT(stock_request.id_detail_stock) AS id_detail_stock,
-      GROUP_CONCAT(stocks.stock_description) AS stock_name,
-      GROUP_CONCAT(stocks.stock_qty) AS stock_qty,
-      GROUP_CONCAT(stocks.category) AS category
-    FROM request_submission 
-    LEFT JOIN stock_request ON request_submission.no_pengajuan = stock_request.no_pengajuan 
-    LEFT JOIN stocks ON stock_request.stock_no = stocks.stock_no
-    WHERE request_submission.no_pengajuan = ?
-    GROUP BY request_submission.no_pengajuan;`;
-
-  return pool.execute(SQLQuery, [no_pengajuan]);
-};
-
 const getAllDataReqSubandStockRequestByStatus = () => {
   const SQLQuery = `SELECT 
   request_submission.no_pengajuan, 
@@ -211,40 +177,6 @@ const getAllDataReqSubandStockSubmissionById = (id_stock_sub) => {
 
   return pool.execute(SQLQuery, [id_stock_sub]);
 };
-
-const getAllDataReqSubandStockSubmissionBynoPengajuan = (no_pengajuan) => {
-  const SQLQuery = `SELECT 
-  request_submission.no_pengajuan, 
-  request_submission.name_pt, 
-  request_submission.name_division, 
-  request_submission.status, 
-  request_submission.approved_1, 
-  request_submission.approved_2, 
-  request_submission.post_user_id, 
-  request_submission.post_username, 
-  request_submission.post_date, 
-  request_submission.date_approved_1,
-  request_submission.date_approved_2,
-  request_submission.date_done,
-  request_submission.request_type,
-  GROUP_CONCAT(stock_submission.id_stock_sub) AS id_stock_sub, 
-  GROUP_CONCAT(stock_submission.stock_description) AS stock_description, 
-  GROUP_CONCAT(stock_submission.qty) AS qty, 
-  GROUP_CONCAT(stock_submission.note) AS note,
-  GROUP_CONCAT(stock_submission.stock_no) AS stock_no, 
-  GROUP_CONCAT(stock_submission.id_detail_stock) AS id_detail_stock,
-  GROUP_CONCAT(stocks.stock_description) AS stock_name,
-  GROUP_CONCAT(stocks.stock_qty) AS stock_qty,
-  GROUP_CONCAT(stocks.category) AS category
-  FROM request_submission 
-  LEFT JOIN stock_submission ON request_submission.no_pengajuan = stock_submission.no_pengajuan
-  LEFT JOIN stocks ON stock_submission.stock_no = stocks.stock_no
-  WHERE request_submission.no_pengajuan = ? 
-  GROUP BY request_submission.no_pengajuan;`;
-
-  return pool.execute(SQLQuery, [no_pengajuan]);
-};
-
 const getAllDataReqSubandStockSubmissionByStatus = () => {
   const SQLQuery = `SELECT 
   request_submission.no_pengajuan, 
@@ -314,10 +246,8 @@ module.exports = {
   getAllDataReqSubandStockRequest,
   getAllDataReqSubandStockRequestById,
   getAllDataReqSubandStockRequestByStatus,
-  getAllDataReqSubandStockRequestBynoPengajuan,
   // submission stock
   getAllDataReqSubandStockSubmission,
-  getAllDataReqSubandStockSubmissionBynoPengajuan,
   getAllDataReqSubandStockSubmissionById,
   getAllDataReqSubandStockSubmissionByStatus,
 };

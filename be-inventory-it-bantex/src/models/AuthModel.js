@@ -81,7 +81,7 @@ class User {
 
   getAdminByEmail(username) {
     return new Promise((resolve, reject) => {
-      const query = "SELECT * FROM user WHERE username = ? AND role = 1;";
+      const query = "SELECT * FROM user WHERE username = ?";
       this.connection.query(query, [username], (error, results) => {
         if (error) {
           reject(error);

@@ -175,3 +175,97 @@ exports.createPengajuan = async (req, res) => {
     }
   );
 };
+
+const sendEmailToManagers = async (idItemReq) => {
+  try {
+    const dataPengajuan = await userFix.getReqSubById2(idItemReq);
+
+    if (!dataPengajuan) {
+      console.error("Pengajuan not found for idItemReq:", idItemReq);
+      return;
+    }
+
+    const dataBarang = await createFix.getDataBarangByTypeRequest(
+      dataPengajuan.request_type,
+      dataPengajuan.no_pengajuan
+    );
+
+    const stocks = await stockFix.getStockByStockNo2(dataBarang[0].stock_no);
+    const stockDescription = console.log("mendapatkan stocks nya ", stocks);
+    const admin = await authFix.getUserByUsername2(dataPengajuan.approved_1);
+    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
+    const user = await authFix.getUserByUsername2(dataPengajuan.post_username);
+    const managerEmail = manager ? manager.email : null;
+    console.log("manager", manager);
+    const managerName = manager ? manager.full_name : null;
+    const userEmail = user ? user.email : null;
+    const userName = user ? user.full_name : null;
+    const adminEmail = admin ? admin.email : null;
+    const adminName = admin ? admin.full_name : null;
+
+    console.log("admin full name", adminName);
+    console.log("manager name", managerName);
+    if (!managerEmail) {
+      console.error(
+        "Manager email not found for username:",
+        dataPengajuan.approved_2
+      );
+      return;
+    }
+
+    const no_pengajuan = dataPengajuan.no_pengajuan;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+    console.log("data barang ", dataBarang);
+    const { stock_no, stock_description, qty, additional_info, note } =
+      dataBarang[0];
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: managerEmail,
+      cc: adminEmail,
+      subject: `Pengajuan Barang IT - pengaju ${userName} `,
+      text: `
+Dear Mr/Mrs ${managerName},
+
+Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+        dataPengajuan.post_approved_1
+      )} telah disetujui oleh Bagian IT.
+
+Detail Pengajuan:
+No: ${dataPengajuan.no_pengajuan},
+Nama PT: ${dataPengajuan.name_pt},
+Nama Division: ${dataPengajuan.name_division},
+
+Barang-barang yang diajukan:
+${dataBarang
+  .map((item, index) => {
+    const { stock_no, stock_description, qty, additional_info, note } = item;
+    return `
+    - Stock No: ${stock_no},
+      Deskripsi Barang:  ${stock_description},
+      Jumlah: ${qty},
+      ${note ? `Note: ${note}` : ""}
+      ${additional_info ? `Tambahan: ${additional_info}` : ""}
+    `;
+  })
+  .join("\n")}
+
+Terima kasih telah menggunakan layanan kami.
+Best Regards,
+System Administrator
+`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email to manager sent:", info.response);
+  } catch (error) {
+    console.error("Error sending email to manager:", error);
+  }
+};

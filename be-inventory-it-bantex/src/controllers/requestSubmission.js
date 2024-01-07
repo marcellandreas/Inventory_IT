@@ -3,6 +3,7 @@ const userModels = require("../models/requestSubmission");
 const AuthModels = require("../models/AuthModel");
 const CreateModel = require("../models/CreatePengajuan");
 const STOCK_MODEL = require("../models/Stocks");
+const FormPengajuan = require("../models/FormPengajuan");
 const { showFormattedDate } = require("../helpers/formatData");
 
 const dbConfig = {
@@ -17,6 +18,7 @@ const { sendErrorRes, sendSuccessRes } = require("../helpers/response");
 
 const requestSubmission = new requestSubmissionModels(dbConfig);
 const userFix = new userModels(dbConfig);
+
 const authFix = new AuthModels(dbConfig);
 const createFix = new CreateModel(dbConfig);
 const stockFix = new STOCK_MODEL(dbConfig);
@@ -226,18 +228,83 @@ const sendEmail = async (idItemReq, templateType) => {
       return;
     }
 
-    const { request_type, no_pengajuan } = dataPengajuan;
-    const dataBarang = await createFix.getDataBarangByTypeRequest(
+    let dataBuatEmail;
+
+    if (dataPengajuan.request_type === "REQUEST") {
+      dataBuatEmail = await FormPengajuan.getAllDataReqSubandStockRequestById(
+        idItemReq
+      );
+    } else if (dataPengajuan.request_type === "SUBMISSION") {
+      dataBuatEmail =
+        await FormPengajuan.getAllDataReqSubandStockSubmissionById(idItemReq);
+    }
+
+    const transformedData = dataBuatEmail[0].map((item) => ({
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      status: item.status,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
+      date_done: item.date_done,
+      request_type: item.request_type,
+      submissionData:
+        item.request_type === "REQUEST"
+          ? (item.Id_submission_item || "").split(",").map((idSub, index) => ({
+              Id_submission_item: idSub,
+              stock_description: (item.stock_description || "").split(",")[
+                index
+              ],
+              qty: (item.qty || "").split(",")[index],
+              note: (item.note || "").split(",")[index],
+              stock_no: (item.stock_no || "").split(",")[index],
+              id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+              stocks: {
+                stock_name: (item.stock_name || "").split(",")[index],
+                stock_qty: (item.stock_qty || "").split(",")[index],
+                category: (item.category || "").split(",")[index],
+              },
+            }))
+          : (item.id_stock_sub || "").split(",").map((idSub, index) => ({
+              Id_submission_item: idSub,
+              stock_description: (item.stock_description || "").split(",")[
+                index
+              ],
+              qty: (item.qty || "").split(",")[index],
+              note: (item.note || "").split(",")[index],
+              stock_no: (item.stock_no || "").split(",")[index],
+              id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+              stocks: {
+                stock_name: (item.stock_name || "").split(",")[index],
+                stock_qty: (item.stock_qty || "").split(",")[index],
+                category: (item.category || "").split(",")[index],
+              },
+            })),
+    }));
+
+    const {
+      no_pengajuan,
+      name_pt,
+      name_division,
+      status,
+      approved_1,
+      approved_2,
+      post_user_id,
+      post_username,
+      post_date,
+      date_approved_1,
+      date_approved_2,
       request_type,
-      no_pengajuan
-    );
-    console.log("Data Barang:", dataBarang);
+    } = transformedData[0];
 
-    console.log("Sending email to user:", dataPengajuan);
-
-    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
-    const admin = await authFix.getUserByUsername2(dataPengajuan.approved_1);
-    const user = await authFix.getUserByUsername2(dataPengajuan.post_username);
+    const manager = await authFix.getUserByUsername2(approved_2);
+    const admin = await authFix.getUserByUsername2(approved_1);
+    const user = await authFix.getUserByUsername2(post_username);
     const managerEmail = manager ? manager.email : null;
     const managerName = manager ? manager.name_full : null;
     const userEmail = user ? user.email : null;
@@ -261,9 +328,6 @@ const sendEmail = async (idItemReq, templateType) => {
       },
     });
 
-    const { stock_no, stock_description, qty, additional_info, note } =
-      dataBarang[0];
-
     let subject;
     let text;
 
@@ -272,21 +336,27 @@ const sendEmail = async (idItemReq, templateType) => {
         subject = `Pengajuan Barang IT Bantex Indonesia - Disetujui oleh Admin: ${adminName}`;
         text = `Dear mr/mrs ${userName}
 
-        Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} pada divisi ${
-          dataPengajuan.name_division
-        } atas barang  ${stock_description} pada tanggal ${showFormattedDate(
-          dataPengajuan.post_date
+        Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} pada divisi ${name_division} pada tanggal ${showFormattedDate(
+          post_date
         )} telah disetujui oleh Bagian IT ${adminName},
         
         Detail Pengajuan:
-        - Nomor: ${no_pengajuan}
-        - Stock No: ${stock_no}
-        - Nama PT: ${dataPengajuan.name_pt}
-        - Nama Division: ${dataPengajuan.name_division}
-        - Deskripsi Barang: ${stock_description}
-        - Jumlah: ${qty}
-        ${note ? `- Note: ${note}` : ""}
-        ${additional_info ? `- Tambahan: ${additional_info}` : ""}
+        No: ${no_pengajuan},
+        Nama PT: ${name_pt},
+        Nama Division: ${name_division},
+        
+        Barang-barang yang diajukan:
+        ${transformedData[0].submissionData
+          .map((item, index) => {
+            const { stock_description, qty, note, stock_no } = item;
+            return `
+          - Stock No: ${stock_no},
+            Deskripsi Barang: ${item.stocks.stock_name},  ${stock_description},
+            Jumlah: ${qty},
+            ${note ? `Note: ${note}` : ""}
+          `;
+          })
+          .join("\n")}
 
         Terima kasih telah menggunakan layanan kami.
         Best Regards 
@@ -298,22 +368,27 @@ const sendEmail = async (idItemReq, templateType) => {
         text = `
         Dear mr/mrs ${userName}
 
-        Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
+        Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName}.  pada tanggal ${showFormattedDate(
           dataPengajuan.post_date
         )} telah disetujui oleh manager ${managerName},
         
         Detail Pengajuan:
-        Nomor Pengajuan: ${no_pengajuan}
-        Dibuat oleh: ${userEmail}
-        Detail Pengajuan:
-        - Nomor: ${no_pengajuan}
-        - Stock No: ${stock_no}
-        - Nama PT: ${dataPengajuan.name_pt}
-        - Nama Division: ${dataPengajuan.name_division}
-        - Deskripsi Barang: ${stock_description}
-        - Jumlah: ${qty}
-        ${note ? `- Note: ${note}` : ""}
-        ${additional_info ? `- Tambahan: ${additional_info}` : ""}
+  No: ${no_pengajuan},
+  Nama PT: ${name_pt},
+  Nama Division: ${name_division},
+  
+  Barang-barang yang diajukan:
+  ${transformedData[0].submissionData
+    .map((item, index) => {
+      const { stock_description, qty, note, stock_no } = item;
+      return `
+    - Stock No: ${stock_no},
+      Deskripsi Barang: ${item.stocks.stock_name},  ${stock_description},
+      Jumlah: ${qty},
+      ${note ? `Note: ${note}` : ""}
+    `;
+    })
+    .join("\n")}
         
         Pengajuan sudah selesai harap menunggu barang, "ketika barang tiba segera klik Selesai"
 
@@ -327,19 +402,27 @@ const sendEmail = async (idItemReq, templateType) => {
         text = `
         Dear mr/mrs ${userName}
 
-      Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
-          dataPengajuan.post_date
+      Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName}  pada tanggal ${showFormattedDate(
+          post_date
         )} telah ditolak oleh Bagian IT ${adminName} / manager ${managerName},
 
         Detail Pengajuan:
-        - Nomor: ${no_pengajuan}
-        - Stock No: ${stock_no}
-        - Nama PT: ${dataPengajuan.name_pt}
-        - Nama Division: ${dataPengajuan.name_division}
-        - Deskripsi Barang: ${stock_description}
-        - Jumlah: ${qty}
-        ${note ? `- Note: ${note}` : ""}
-        ${additional_info ? `- Tambahan: ${additional_info}` : ""}
+        No: ${no_pengajuan},
+        Nama PT: ${name_pt},
+        Nama Division: ${name_division},
+        
+        Barang-barang yang diajukan:
+        ${transformedData[0].submissionData
+          .map((item, index) => {
+            const { stock_description, qty, note, stock_no } = item;
+            return `
+          - Stock No: ${stock_no},
+            Deskripsi Barang: ${item.stocks.stock_name},  ${stock_description},
+            Jumlah: ${qty},
+            ${note ? `Note: ${note}` : ""}
+          `;
+          })
+          .join("\n")}
         
         Terima kasih telah menggunakan layanan kami.
         Best Regards 
@@ -373,27 +456,90 @@ const sendEmailToManagers = async (idItemReq) => {
       console.error("Pengajuan not found for idItemReq:", idItemReq);
       return;
     }
+    let dataBuatEmail;
 
-    const dataBarang = await createFix.getDataBarangByTypeRequest(
-      dataPengajuan.request_type,
-      dataPengajuan.no_pengajuan
-    );
+    if (dataPengajuan.request_type === "REQUEST") {
+      dataBuatEmail = await FormPengajuan.getAllDataReqSubandStockRequestById(
+        idItemReq
+      );
+    } else if (dataPengajuan.request_type === "SUBMISSION") {
+      dataBuatEmail =
+        await FormPengajuan.getAllDataReqSubandStockSubmissionById(idItemReq);
+    }
 
-    const stocks = await stockFix.getStockByStockNo2(dataBarang[0].stock_no);
-    const stockDescription = console.log("mendapatkan stocks nya ", stocks);
-    const admin = await authFix.getUserByUsername2(dataPengajuan.approved_1);
-    const manager = await authFix.getUserByUsername2(dataPengajuan.approved_2);
-    const user = await authFix.getUserByUsername2(dataPengajuan.post_username);
+    const transformedData = dataBuatEmail[0].map((item) => ({
+      no_pengajuan: item.no_pengajuan,
+      name_pt: item.name_pt,
+      name_division: item.name_division,
+      status: item.status,
+      approved_1: item.approved_1,
+      approved_2: item.approved_2,
+      post_user_id: item.post_user_id,
+      post_username: item.post_username,
+      post_date: item.post_date,
+      date_approved_1: item.date_approved_1,
+      date_approved_2: item.date_approved_2,
+      date_done: item.date_done,
+      request_type: item.request_type,
+      submissionData:
+        item.request_type === "REQUEST"
+          ? (item.Id_submission_item || "").split(",").map((idSub, index) => ({
+              Id_submission_item: idSub,
+              stock_description: (item.stock_description || "").split(",")[
+                index
+              ],
+              qty: (item.qty || "").split(",")[index],
+              note: (item.note || "").split(",")[index],
+              stock_no: (item.stock_no || "").split(",")[index],
+              id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+              stocks: {
+                stock_name: (item.stock_name || "").split(",")[index],
+                stock_qty: (item.stock_qty || "").split(",")[index],
+                category: (item.category || "").split(",")[index],
+              },
+            }))
+          : (item.id_stock_sub || "").split(",").map((idSub, index) => ({
+              Id_submission_item: idSub,
+              stock_description: (item.stock_description || "").split(",")[
+                index
+              ],
+              qty: (item.qty || "").split(",")[index],
+              note: (item.note || "").split(",")[index],
+              stock_no: (item.stock_no || "").split(",")[index],
+              id_detail_stock: (item.id_detail_stock || "").split(",")[index],
+              stocks: {
+                stock_name: (item.stock_name || "").split(",")[index],
+                stock_qty: (item.stock_qty || "").split(",")[index],
+                category: (item.category || "").split(",")[index],
+              },
+            })),
+    }));
+
+    const {
+      no_pengajuan,
+      name_pt,
+      name_division,
+      status,
+      approved_1,
+      approved_2,
+      post_user_id,
+      post_username,
+      post_date,
+      date_approved_1,
+      date_approved_2,
+      request_type,
+    } = transformedData[0];
+
+    const admin = await authFix.getUserByUsername2(approved_1);
+    const manager = await authFix.getUserByUsername2(approved_2);
+    const user = await authFix.getUserByUsername2(post_username);
     const managerEmail = manager ? manager.email : null;
-    console.log("manager", manager);
     const managerName = manager ? manager.full_name : null;
     const userEmail = user ? user.email : null;
     const userName = user ? user.full_name : null;
     const adminEmail = admin ? admin.email : null;
     const adminName = admin ? admin.full_name : null;
 
-    console.log("admin full name", adminName);
-    console.log("manager name", managerName);
     if (!managerEmail) {
       console.error(
         "Manager email not found for username:",
@@ -402,8 +548,6 @@ const sendEmailToManagers = async (idItemReq) => {
       return;
     }
 
-    const no_pengajuan = dataPengajuan.no_pengajuan;
-
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -411,9 +555,6 @@ const sendEmailToManagers = async (idItemReq) => {
         pass: process.env.EMAIL_PASSWORD,
       },
     });
-    console.log("data barang ", dataBarang);
-    const { stock_no, stock_description, qty, additional_info, note } =
-      dataBarang[0];
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -421,27 +562,41 @@ const sendEmailToManagers = async (idItemReq) => {
       cc: adminEmail,
       subject: `Pengajuan Barang IT - pengaju ${userName} `,
       text: `
-      Dear mr/mrs ${managerName}
+  Dear Mr/Mrs ${managerName},
 
+  Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName}. pada tanggal ${showFormattedDate(
+        date_approved_1
+      )} telah disetujui oleh Bagian IT.
 
-      Permintaan persetujuan dengan nomor seri ${no_pengajuan} diajukan oleh user: ${userName} atas barang  ${stock_description} pada tanggal ${showFormattedDate(
-        dataPengajuan.post_approved_1
-      )} telah disetujui oleh Bagian IT,
-      
-      Detail Pengajuan: 
-      No: ${dataPengajuan.no_pengajuan},
-      Stock No: ${stock_no}, 
-      nama pt: ${dataPengajuan.name_pt}, 
-      nama division: ${dataPengajuan.name_division}, 
-      Deskripsi Barang :${stocks.stock_description} - ${stock_description} 
-      jumlah: ${qty} 
-      ${note ? ` note: ${note}` : ""}
-      ${additional_info ? ` Tambahan: ${additional_info}` : ""}
+  Detail Pengajuan:
+  No: ${no_pengajuan},
+  Nama PT: ${name_pt},
+  Nama Division: ${name_division},
   
-      Terima kasih telah menggunakan layanan kami.
-      Best Regards 
-      System Administrator
-      `,
+  Barang-barang yang diajukan:
+  ${transformedData[0].submissionData
+    .map((item, index) => {
+      const {
+        Id_submission_item,
+        stock_description,
+        qty,
+        note,
+        stock_no,
+        id_detail_stock,
+      } = item;
+      return `
+    - Stock No: ${stock_no},
+      Deskripsi Barang: ${item.stocks.stock_name},  ${stock_description},
+      Jumlah: ${qty},
+      ${note ? `Note: ${note}` : ""}
+    `;
+    })
+    .join("\n")}
+
+  Terima kasih telah menggunakan layanan kami.
+  Best Regards 
+  System Administrator
+`,
     };
 
     const info = await transporter.sendMail(mailOptions);

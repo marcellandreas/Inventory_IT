@@ -1,11 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AxiosInstance } from "../../apis/api";
-import {
-  AdminReqSub,
-  UserReqSub,
-  ManagerReqSub,
-} from "../../components/templates";
+
 import { MainLayout, ContentLayout } from "../../components/templates";
 import { BackButton } from "../../components/atoms";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,13 +19,6 @@ const DetailFormItemsRequest = () => {
   const [status, setStatus] = useState("");
   const [requestType, setRequestType] = useState("");
   const dispatch = useDispatch();
-  const dataDetailPengajuan = useSelector(
-    (state) => state.dataSliceItemReq.dataDetailPengajuan
-  );
-
-  useEffect(() => {
-    dispatch(fetchDataDetailPengajuan(id_item_req));
-  }, [dispatch, id_item_req]);
 
   const handleAction = (actionType) => {
     AxiosInstance.put(`form/${actionType}/${id_item_req}`)
@@ -57,6 +46,8 @@ const DetailFormItemsRequest = () => {
           const response2 = await AxiosInstance.get(
             `pengajuan/req/${id_item_req}`
           );
+
+          console.log("req", response);
 
           setDataStockReq(response2.data.data);
         } else if (response.data.data.request_type === "SUBMISSION") {
@@ -136,7 +127,6 @@ const DetailFormItemsRequest = () => {
             `/det-stock/id/${dataDetailPost[0]?.id_detail_stock}`
           );
           SET_MAX_QTY(res.data.data.qty);
-          console.log(res.data.data.qty);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -147,8 +137,8 @@ const DetailFormItemsRequest = () => {
   }, [dataDetailPost]);
 
   const handleQtyMinus = async () => {
-    const qtyUser = dataDetailPost[0]?.qty <= MAX_QTY;
     if (requestType === "REQUEST") {
+      const qtyUser = dataDetailPost[0]?.qty <= MAX_QTY;
       if (qtyUser) {
         try {
           await AxiosInstance.put(`/det-stock/update-multiple`, dataDetailPost);
@@ -175,13 +165,12 @@ const DetailFormItemsRequest = () => {
         const dataDetailPost = dataStockSub[0]?.submissionData.map((item) => ({
           stock_no: item.stock_no,
           stock_detail_description: item.stock_description,
-          qty: item.qty,
+          qty: 0,
           brand: item.brand,
           additional_info: item.additional_info || null,
           note: item.note,
         }));
         await AxiosInstance.post("/det-stock", dataDetailPost);
-        await Promise.all([request2]);
 
         await AxiosInstance.put(`/det-stock/update-plus`, dataDetailPost);
         alert("berhasil update qty");

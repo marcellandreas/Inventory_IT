@@ -5,7 +5,7 @@ const generateTableRows = (submissionData) => {
         {sub ? index + 1 : <p className="text-white">null</p>}
       </td>
       <td className="border py-0 m-0 border-black">
-        {sub ? sub.stock_description : ""}
+        {sub ? `${sub.stocks?.stock_name}, ${sub.stock_description}` : ""}
       </td>
       <td className="border py-0 m-0 border-black">{sub ? sub.qty : ""}</td>
       <td className="border py-0 m-0 border-black">{sub ? sub.note : ""}</td>

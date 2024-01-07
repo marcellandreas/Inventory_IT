@@ -69,6 +69,11 @@ const getAllDataReqSubandStockRequest = async (req, res) => {
           note: item.note && item.note.split(",")[index],
           id_detail_stock:
             item.id_detail_stock && item.id_detail_stock.split(",")[index],
+          stocks: {
+            stock_name: item.stock_name && item.stock_name.split(",")[index],
+            stock_qty: item.stock_qty && item.stock_qty.split(",")[index],
+            category: item.category && item.category.split(",")[index],
+          },
         })),
     }));
 
@@ -112,6 +117,11 @@ const getAllDataReqSubandStockRequestByStatus = async (req, res) => {
             item.stock_description && item.stock_description.split(",")[index],
           qty: item.qty && item.qty.split(",")[index],
           note: item.note && item.note.split(",")[index],
+          stocks: {
+            stock_name: item.stock_name && item.stock_name.split(",")[index],
+            stock_qty: item.stock_qty && item.stock_qty.split(",")[index],
+            category: item.category && item.category.split(",")[index],
+          },
         })),
     }));
 
@@ -147,34 +157,40 @@ const getAllDataReqSubandStockRequestById = async (req, res) => {
       post_date: item.post_date,
       date_approved_1: item.date_approved_1,
       date_approved_2: item.date_approved_2,
-      submissionData:
-        item.Id_submission_item &&
-        item.Id_submission_item.split(",").map((idSub, index) => ({
-          Id_submission_items: idSub,
-          stock_description:
-            item.stock_description && item.stock_description.split(",")[index],
-          qty: item.qty && item.qty.split(",")[index],
-          note: item.note && item.note.split(",")[index],
-          stock_no: item.stock_no && item.stock_no.split(",")[index],
-          id_detail_stock:
-            item.id_detail_stock && item.id_detail_stock.split(",")[index],
-        })),
+      submissionData: item.Id_submission_item
+        ? item.Id_submission_item.split(",").map((idSub, index) => ({
+            Id_submission_items: idSub,
+            stock_description:
+              item.stock_description &&
+              item.stock_description.split(",")[index],
+            qty: item.qty && item.qty.split(",")[index],
+            note: item.note && item.note.split(",")[index],
+            stock_no: item.stock_no && item.stock_no.split(",")[index],
+            id_detail_stock:
+              item.id_detail_stock && item.id_detail_stock.split(",")[index],
+            stocks: {
+              stock_name: item.stock_name && item.stock_name.split(",")[index],
+              stock_qty: item.stock_qty && item.stock_qty.split(",")[index],
+              category: item.category && item.category.split(",")[index],
+            },
+          }))
+        : [],
     }));
     isFound = true;
     res.json({
-      message: `berhasil mengambil data pengajuan barang dari id ${id_item_req} `,
+      message: `Berhasil mengambil data pengajuan barang dari id ${id_item_req}`,
       data: transformedData,
     });
   } catch (error) {
     if (!isFound) {
       res.status(404).json({
-        message: "Data tidak ada",
+        message: `Data dengan id ${id_item_req} tidak ditemukan`,
       });
       return;
     }
     res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
 };
@@ -185,6 +201,7 @@ const getAllDataReqSubandStockSubmission = async (req, res) => {
   try {
     const [data] =
       await FormPengajuanModal.getAllDataReqSubandStockSubmission();
+    console.log(data);
     // Map the data and process GROUP_CONCAT results into arrays of objects
     const transformedData = data.map((item) => ({
       no_pengajuan: item.no_pengajuan,
@@ -210,6 +227,11 @@ const getAllDataReqSubandStockSubmission = async (req, res) => {
           note: item.note && item.note.split(",")[index],
           id_detail_stock:
             item.id_detail_stock && item.id_detail_stock.split(",")[index],
+          stocks: {
+            stock_name: item.stock_name && item.stock_name.split(",")[index],
+            stock_qty: item.stock_qty && item.stock_qty.split(",")[index],
+            category: item.category && item.category.split(",")[index],
+          },
         })),
     }));
 
@@ -257,6 +279,11 @@ const getAllDataReqSubandStockSubmissionById = async (req, res) => {
           stock_no: item.stock_no && item.stock_no.split(",")[index],
           id_detail_stock:
             item.id_detail_stock && item.id_detail_stock.split(",")[index],
+          stocks: {
+            stock_name: item.stock_name && item.stock_name.split(",")[index],
+            stock_qty: item.stock_qty && item.stock_qty.split(",")[index],
+            category: item.category && item.category.split(",")[index],
+          },
         })),
     }));
     isFound = true;
@@ -308,6 +335,11 @@ const getAllDataReqSubandStockSubmissionByStatus = async (req, res) => {
           note: item.note && item.note.split(",")[index],
           id_detail_stock:
             item.id_detail_stock && item.id_detail_stock.split(",")[index],
+          stocks: {
+            stock_name: item.stock_name && item.stock_name.split(",")[index],
+            stock_qty: item.stock_qty && item.stock_qty.split(",")[index],
+            category: item.category && item.category.split(",")[index],
+          },
         })),
     }));
 
