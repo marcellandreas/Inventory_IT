@@ -6,6 +6,15 @@ Just finished a slick IT project – a user-friendly storage system with roles f
 
 ![Deskripsi Gambar](</web-pic/Screenshot%20(709).png>)
 
+## :memo: Fitur
+
+- Register user for employees
+- Login Authentication
+- item submission / request
+- Email Delivery to User, Admin, and Manager
+- QR Code for Items
+- Management of Stocks, Item, Master PC, User
+
 ## :video_game: Instalations
 
 The best way to start with this template is using [Vite Plugins](https://vitejs.dev/guide/).
@@ -93,7 +102,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [Node JS](https://nodejs.org/)
 - [MYSql](https://www.mysql.com/)
 
-## :rocket: Dependencies
+## Backend Dependencies
 
 - [@hapi/joi](https://www.npmjs.com/package/@hapi/joi) - Object schema validation.
 - [bcrypt](https://www.npmjs.com/package/bcrypt) - Password hashing library.
