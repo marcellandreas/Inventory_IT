@@ -35,7 +35,7 @@ git clone https://github.com/marcellandreas/Inventory_IT.git
 installation node modules
 
 ```bash
-npm install or yarn dev
+npm install or yarn install
 ```
 
 Access the project folder.
